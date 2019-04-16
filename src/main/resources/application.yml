@@ -1,0 +1,95 @@
+spring:
+#数据源基本配置
+  datasource:
+    username: root
+    password: 1MhJK1tH9n60g1&L9Lqm
+    url: jdbc:mysql://45.40.206.174:3306/mpmalluser?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    driver-class-name:
+# 指定自定义的数据库连接池替换默认的
+    type: com.alibaba.druid.pool.DruidDataSource
+    # druid数据源其他的配置
+    initialSize: 1
+    minIdle: 5
+    maxActive: 100
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+#   配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,log4j
+    maxPoolPreparedStatementPerConnectionSize: 20
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+  # redis
+  ## Redis数据库索引（默认为0）
+  redis:
+    database: 0
+## Redis服务器地址
+    host: 45.40.206.174
+## Redis服务器连接端口
+    port: 6379
+## Redis服务器连接密码（默认为空）
+    password: 39icRSqI0ccYWwxRfXmd3BZjLN6i6Sp0
+## 连接超时时间（毫秒）
+    timeout: 10000ms
+  ## 连接池最大连接数（使用负值表示没有限制）
+    lettuce:
+        pool:
+          max-active: 100
+    ## 连接池最大阻塞等待时间（使用负值表示没有限制）
+          max-wait: 10000ms
+    ## 连接池中的最大空闲连接
+          max-idle: 10
+    ## 连接池中的最小空闲连接
+          min-idle: 1
+  output:
+    ansi:
+      enabled: always
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+# mybatis配置
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:mappers/*.xml
+  type-aliases-package: com.chouchongkeji.dial.pojo
+yichen:
+  security:
+##验证码的有效时间
+    smscode:
+      length: 7
+      expire: 180
+      urls:
+        - {url: /noauth/user/bindPhone, type: 1}
+##配置客户端信息
+    oauth2:
+      client:
+        - {clientId: giftcircler-dl,clientSecret: qMEjFl8w63EtAX17cRX83L0iMkK2U4mg,accessTokenValidityTime: 6592000}
+# 配置接口签名
+    sign:
+      needSign: false
+      urls:
+        - /druid/**
+        - /noauth/file/**
+  # 图片地址拼接
+    image:
+      needSplice: true
+      host: https://io.shanren.group/image/
+  service:
+    productDetail: https://43.241.223.169:800/static/product.html?id=
+    articleDetail: https://43.241.223.169:800/static/article.html?id=
+    avatar: /upload/image/180628/45cd175d-2515-4401-88f2-a38dfebb031e.jpg
+
+logging:
+  level:
+    com:
+      chouchong:
+        dao: debug
+#server:
+#  port: 80
+

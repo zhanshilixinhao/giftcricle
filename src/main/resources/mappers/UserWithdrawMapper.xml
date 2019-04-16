@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.iwant.withdraw.UserWithdrawMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.iwant.withdraw.UserWithdraw">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="amount" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="user_bankcard_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="describe" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, amount, user_bankcard_id, status, `describe`, created, updated
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_withdraw
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_withdraw
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchong.entity.iwant.withdraw.UserWithdraw">
+    insert into user_withdraw (id, user_id, amount, 
+      user_bankcard_id, status, describe, 
+      created, updated)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{amount,jdbcType=DECIMAL}, 
+      #{userBankcardId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{describe,jdbcType=VARCHAR}, 
+      #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.iwant.withdraw.UserWithdraw">
+    insert into user_withdraw
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="userBankcardId != null">
+        user_bankcard_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="describe != null">
+        describe,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="userBankcardId != null">
+        #{userBankcardId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="describe != null">
+        #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.iwant.withdraw.UserWithdraw">
+    update user_withdraw
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="userBankcardId != null">
+        user_bankcard_id = #{userBankcardId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="describe != null">
+        `describe` = #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.iwant.withdraw.UserWithdraw">
+    update user_withdraw
+    set user_id = #{userId,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=DECIMAL},
+      user_bankcard_id = #{userBankcardId,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
+      `describe` = #{describe,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--根据搜索条件查询用户提现列表-->
+  <select id="selectBySearch" parameterType="java.util.Map" resultType="com.chouchong.service.iwant.vo.UserWithdrawVo">
+    SELECT
+    a.id as id, a.amount as amount, a.created as created, a.updated as updated, a.`describe` as describes, d.nickname as nickname,
+    d.phone as phone, c.bank_name as bankName, b.card_no as cardNo, b.deposit_bank as depositBank, b.card_holder as cardHolder,
+    a.status as status
+    FROM
+    user_withdraw a
+    LEFT JOIN user_bankcard b ON a.user_bankcard_id = b.id
+    LEFT JOIN bank_dict c ON b.bank_id = c.id
+    LEFT JOIN app_user d ON a.user_id = d.id
+    WHERE
+    1 = 1
+    <if test="nickname != null and nickname != ''">
+      AND d.nickname LIKE CONCAT(CONCAT('%', #{nickname}), '%')
+    </if>
+    <if test="phone != null and phone != ''">
+      AND d.phone LIKE CONCAT(CONCAT('%', #{phone}), '%')
+    </if>
+    <if test="cardHolder != null and cardHolder != ''">
+      AND b.card_holder LIKE CONCAT(CONCAT('%', #{cardHolder}), '%')
+    </if>
+    <if test="cardNo != null and cardNo != ''">
+      AND b.card_no LIKE CONCAT(CONCAT('%', #{cardNo}), '%')
+    </if>
+    <if test="status != null">
+      AND a.status = #{status}
+    </if>
+    <if test="bank != null">
+      AND c.id = #{bank}
+    </if>
+    ORDER BY a.created DESC
+  </select>
+</mapper>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.home.memo.MemoAffairMapper">
+    <resultMap id="BaseResultMap" type="com.chouchong.entity.home.memo.MemoAffair">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="target_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="detail" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="users" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="count" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, user_id, target_time, title, detail, users, created, updated, `count`, is_circulation ,event_type_id
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from memo_affair
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from memo_affair
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+    <insert id="insert" parameterType="com.chouchong.entity.home.memo.MemoAffair">
+    insert into memo_affair (id, user_id, target_time,
+      title, detail, users,
+      created, updated, `count`, is_circulation, event_type_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{targetTime,jdbcType=TIMESTAMP},
+      #{title,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, #{users,jdbcType=VARCHAR},
+      now(), now(), #{count,jdbcType=INTEGER},#{isCirculation,jdbcType=TINYINT},#{eventTypeId,jdbcType=INTEGER}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.chouchong.entity.home.memo.MemoAffair">
+        insert into memo_affair
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="targetTime != null">
+                target_time,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="detail != null">
+                detail,
+            </if>
+            <if test="users != null">
+                users,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+            <if test="updated != null">
+                updated,
+            </if>
+            <if test="count != null">
+                count,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="targetTime != null">
+                #{targetTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="detail != null">
+                #{detail,jdbcType=VARCHAR},
+            </if>
+            <if test="users != null">
+                #{users,jdbcType=VARCHAR},
+            </if>
+            <if test="created != null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updated != null">
+                #{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="count != null">
+                #{count,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.home.memo.MemoAffair">
+        update memo_affair
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="targetTime != null">
+                target_time = #{targetTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="detail != null">
+                detail = #{detail,jdbcType=VARCHAR},
+            </if>
+            <if test="users != null">
+                users = #{users,jdbcType=VARCHAR},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updated != null">
+                updated = #{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="count != null">
+                count = #{count,jdbcType=INTEGER},
+            </if>
+            <if test="isCirculation != null">
+                is_circulation = #{isCirculation,jdbcType=TINYINT},
+            </if>
+            <if test="eventTypeId != null">
+                event_type_id = #{eventTypeId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.home.memo.MemoAffair">
+    update memo_affair
+    set user_id = #{userId,jdbcType=INTEGER},
+      target_time = #{targetTime,jdbcType=TIMESTAMP},
+      title = #{title,jdbcType=VARCHAR},
+      detail = #{detail,jdbcType=VARCHAR},
+      users = #{users,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      count = #{count,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

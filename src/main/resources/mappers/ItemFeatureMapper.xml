@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.gift.item.ItemFeatureMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.gift.item.ItemFeature">
+    <!--<constructor>-->
+      <!--<idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+      <!--<arg column="name" javaType="java.lang.String" jdbcType="VARCHAR" />-->
+      <!--<arg column="sort" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+      <!--<arg column="values" javaType="java.lang.String" jdbcType="VARCHAR" />-->
+      <!--<arg column="is_select" javaType="java.lang.Byte" jdbcType="TINYINT" />-->
+      <!--<arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />-->
+      <!--<arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />-->
+      <!--<arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />-->
+    <!--</constructor>-->
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, `name`, sort, `values`, is_select, status, created, updated, admin_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from item_feature
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from item_feature
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchong.entity.gift.item.ItemFeature">
+    insert into item_feature (id, `name`, sort,
+      `values`, is_select, status,
+      created, updated,admin_id)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER},
+      #{values,jdbcType=VARCHAR}, #{isSelect,jdbcType=TINYINT}, #{status,jdbcType=TINYINT},
+      #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP},#{adminId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.gift.item.ItemFeature">
+    insert into item_feature
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="values != null">
+        values,
+      </if>
+      <if test="isSelect != null">
+        is_select,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="values != null">
+        #{values,jdbcType=VARCHAR},
+      </if>
+      <if test="isSelect != null">
+        #{isSelect,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.gift.item.ItemFeature">
+    update item_feature
+    <set>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="values != null">
+        `values` = #{values,jdbcType=VARCHAR},
+      </if>
+      <if test="isSelect != null">
+        is_select = #{isSelect,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.gift.item.ItemFeature">
+    update item_feature
+    set `name` = #{name,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      `values` = #{values,jdbcType=VARCHAR},
+      is_select = #{isSelect,jdbcType=TINYINT},
+      status = #{status,jdbcType=TINYINT},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--获得商品属性列表-->
+  <select id="selectByName" resultType="com.chouchong.service.gift.item.vo.FeatureVo">
+    SELECT a.*,
+    b.username
+    FROM item_feature a
+    left join sys_admin b on a.admin_id = b.id
+    WHERE a.status != 2
+    <if test="name != null">
+      AND  a.`name` LIKE CONCAT(CONCAT('%', #{name}), '%')
+    </if>
+    <if test="adminId != null">
+      and a.admin_id = #{adminId}
+    </if>
+    ORDER BY
+    a.sort DESC, a.created DESC
+  </select>
+
+  <!--删除商品属性-->
+  <update id="deleteByItemFeatureId">
+    UPDATE
+    item_feature
+    SET
+    status = 2
+    WHERE
+    id = #{id}
+  </update>
+
+  <!--获取全部的商品属性-->
+  <select id="getAllItemFeature" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    FROM
+    item_feature
+    WHERE
+    status = 1
+  </select>
+
+</mapper>

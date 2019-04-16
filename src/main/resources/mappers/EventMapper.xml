@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.iwant.appUser.EventMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.iwant.appUser.Event">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <idArg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="event_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id,user_id, event_name, created, updated
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from event
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <!--通过事件名称查找送礼事件列表-->
+  <select id="selectByName" resultType="com.chouchong.service.iwant.vo.EventVo">
+    SELECT
+    a.*,
+    b.nickname
+    FROM
+    event a
+    left join app_user b on a.user_id = b.id
+    WHERE
+    1 = 1
+    <if test="name != null">
+      AND a.event_name LIKE CONCAT(CONCAT('%', #{name}), '%')
+    </if>
+    ORDER BY a.created DESC
+  </select>
+  <!--<select id="selectAll" resultMap="BaseResultMap">-->
+<!--SELECT-->
+	<!--<include refid="Base_Column_List"/>-->
+<!--FROM-->
+	<!--`event`-->
+	<!--WHERE user_id = 0-->
+	<!--or user_id = #{userId}-->
+    <!--</select>-->
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from event
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchong.entity.iwant.appUser.Event">
+    insert into event (id,user_id, event_name, created,
+      updated)
+    values (#{id,jdbcType=INTEGER},#{userId,jdbcType=INTEGER}, #{eventName,jdbcType=VARCHAR},now(),
+      now())
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.iwant.appUser.Event">
+    insert into event
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="eventName != null">
+        event_name,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="eventName != null">
+        #{eventName,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.iwant.appUser.Event">
+    update event
+    <set>
+      <if test="eventName != null">
+        event_name = #{eventName,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.iwant.appUser.Event">
+    update event
+    set event_name = #{eventName,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+
+</mapper>

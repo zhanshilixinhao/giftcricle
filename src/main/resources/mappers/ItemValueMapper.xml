@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.gift.item.ItemValueMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.gift.item.ItemValue">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="item_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="feature_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="value" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="sort" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, item_id, feature_id, value, sort, created, updated
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from item_value
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from item_value
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByItemId">
+    delete from item_value
+    where item_id = #{itemId}
+  </delete>
+  <insert id="insert" parameterType="com.chouchong.entity.gift.item.ItemValue" useGeneratedKeys="true" keyProperty="id">
+    insert into item_value (id, item_id, feature_id,
+      value, sort, created,
+      updated)
+    values (#{id,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, #{featureId,jdbcType=INTEGER},
+      #{value,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP},
+      #{updated,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.gift.item.ItemValue">
+    insert into item_value
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="itemId != null">
+        item_id,
+      </if>
+      <if test="featureId != null">
+        feature_id,
+      </if>
+      <if test="value != null">
+        value,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null">
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="featureId != null">
+        #{featureId,jdbcType=INTEGER},
+      </if>
+      <if test="value != null">
+        #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.gift.item.ItemValue">
+    update item_value
+    <set>
+      <if test="itemId != null">
+        item_id = #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="featureId != null">
+        feature_id = #{featureId,jdbcType=INTEGER},
+      </if>
+      <if test="value != null">
+        value = #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.gift.item.ItemValue">
+    update item_value
+    set item_id = #{itemId,jdbcType=INTEGER},
+      feature_id = #{featureId,jdbcType=INTEGER},
+      value = #{value,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <resultMap id="skuValue" type="com.chouchong.service.gift.item.vo.FeatureValue">
+    <result column="name" property="name"/>
+
+    <collection property="itemValueVos" ofType="com.chouchong.service.gift.item.vo.ItemValueVo">
+      <result column="id" property="id"/>
+      <result column="value" property="value"/>
+    </collection>
+  </resultMap>
+
+  <!--获得指定商品的商品属性值-->
+  <select id="selectByItemId" resultMap="skuValue">
+    SELECT
+    b.`name`, a.id, a.`value`
+    FROM
+    item_value a LEFT JOIN item_feature b ON a.feature_id = b.id
+    WHERE
+    a.item_id = #{id}
+  </select>
+</mapper>

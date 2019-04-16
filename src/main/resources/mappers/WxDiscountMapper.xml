@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.home.WxDiscountMapper">
+    <resultMap id="BaseResultMap" type="com.chouchong.entity.home.WxDiscount">
+        <constructor>
+            <arg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="bank_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="bp_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="card_no" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="type" javaType="java.lang.Byte" jdbcType="TINYINT"/>
+            <arg column="deposit_bank" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="card_holder" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="phone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT"/>
+            <arg column="amount" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+            <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+        </constructor>
+    </resultMap>
+    <insert id="insert" parameterType="com.chouchong.entity.home.WxDiscount">
+    insert into wx_discount (id, bank_id, user_id,
+      bp_id, card_no, type,
+      deposit_bank, card_holder, phone,
+      created, updated, status,
+      amount, price)
+    values (#{id,jdbcType=INTEGER}, #{bankId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
+      #{bpId,jdbcType=BIGINT}, #{cardNo,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT},
+      #{depositBank,jdbcType=VARCHAR}, #{cardHolder,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+      #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT},
+      #{amount,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL})
+  </insert>
+    <insert id="insertSelective" parameterType="com.chouchong.entity.home.WxDiscount">
+        insert into wx_discount
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="bankId != null">
+                bank_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="bpId != null">
+                bp_id,
+            </if>
+            <if test="cardNo != null">
+                card_no,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="depositBank != null">
+                deposit_bank,
+            </if>
+            <if test="cardHolder != null">
+                card_holder,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+            <if test="updated != null">
+                updated,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="amount != null">
+                amount,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="bankId != null">
+                #{bankId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="bpId != null">
+                #{bpId,jdbcType=BIGINT},
+            </if>
+            <if test="cardNo != null">
+                #{cardNo,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=TINYINT},
+            </if>
+            <if test="depositBank != null">
+                #{depositBank,jdbcType=VARCHAR},
+            </if>
+            <if test="cardHolder != null">
+                #{cardHolder,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="created != null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updated != null">
+                #{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="amount != null">
+                #{amount,jdbcType=DECIMAL},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.home.WxDiscount">
+        update wx_discount
+        <set>
+            <if test="bankId != null">
+                bank_id = #{bankId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="bpId != null">
+                bp_id = #{bpId,jdbcType=BIGINT},
+            </if>
+            <if test="cardNo != null">
+                card_no = #{cardNo,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=TINYINT},
+            </if>
+            <if test="depositBank != null">
+                deposit_bank = #{depositBank,jdbcType=VARCHAR},
+            </if>
+            <if test="cardHolder != null">
+                card_holder = #{cardHolder,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updated != null">
+                updated = #{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="amount != null">
+                amount = #{amount,jdbcType=DECIMAL},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+    <select id="selectAllBySearch" resultType="com.chouchong.service.gift.discount.vo.WxDiscountVo">
+        select
+        a.id,
+        a.bank_id,
+        a.user_id,
+        a.bp_id,
+        a.card_no,
+        a.type,
+        a.deposit_bank,
+        a.card_holder,
+        a.created,
+        a.status,
+        a.amount,
+        a.price,
+        b.nickname,
+        b.phone,
+        c.bank_name,
+        d.title
+        from wx_discount a
+        left join app_user b on a.user_id = b.id
+        left join bank_dict c on a.bank_id = c.id
+        left join v_bp d on a.bp_id = d.id
+        <where>
+            <trim prefixOverrides="and">
+                and a.status &gt;-1
+                <if test="cardHolder!=null and cardHolder!= ''">
+                    and a.card_holder like concat('%',#{cardHolder},'%')
+                </if>
+                <if test="status!=null">
+                    and a.status = #{status}
+                </if>
+                <if test="type!=null">
+                    and a.type = #{type}
+                </if>
+            </trim>
+        </where>
+        order by a.created DESC
+    </select>
+    <select id="selectById" resultType="com.chouchong.entity.home.WxDiscount">
+        select
+        *
+        from wx_discount
+        where id = #{id}
+    </select>
+</mapper>

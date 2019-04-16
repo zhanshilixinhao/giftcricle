@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.iwant.merchant.MerchantMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.iwant.merchant.Merchant">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="address" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="registration_no" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="legal_person" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="phone" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="license_pic" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="other_pics" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, `name`, user_id, admin_id, address, registration_no, legal_person, phone, license_pic,
+    other_pics, status, created, updated
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from merchant
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from merchant
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchong.entity.iwant.merchant.Merchant">
+    insert into merchant (id, name, user_id, 
+      admin_id, address, registration_no, 
+      legal_person, phone, license_pic, 
+      other_pics, status, created, 
+      updated)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{adminId,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{registrationNo,jdbcType=VARCHAR}, 
+      #{legalPerson,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{licensePic,jdbcType=VARCHAR}, 
+      #{otherPics,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP}, 
+      #{updated,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.iwant.merchant.Merchant">
+    insert into merchant
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="adminId != null">
+        admin_id,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="registrationNo != null">
+        registration_no,
+      </if>
+      <if test="legalPerson != null">
+        legal_person,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="licensePic != null">
+        license_pic,
+      </if>
+      <if test="otherPics != null">
+        other_pics,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="adminId != null">
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationNo != null">
+        #{registrationNo,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPerson != null">
+        #{legalPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="licensePic != null">
+        #{licensePic,jdbcType=VARCHAR},
+      </if>
+      <if test="otherPics != null">
+        #{otherPics,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.iwant.merchant.Merchant">
+    update merchant
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="adminId != null">
+        admin_id = #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationNo != null">
+        registration_no = #{registrationNo,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPerson != null">
+        legal_person = #{legalPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="licensePic != null">
+        license_pic = #{licensePic,jdbcType=VARCHAR},
+      </if>
+      <if test="otherPics != null">
+        other_pics = #{otherPics,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.iwant.merchant.Merchant">
+    update merchant
+    set name = #{name,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR},
+      registration_no = #{registrationNo,jdbcType=VARCHAR},
+      legal_person = #{legalPerson,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      license_pic = #{licensePic,jdbcType=VARCHAR},
+      other_pics = #{otherPics,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--根据搜索条件查询商家列表-->
+  <select id="selectBySearch" parameterType="java.util.Map" resultType="com.chouchong.service.iwant.vo.MerchantVo">
+    SELECT
+    a.id as id , a.`name` as name, a.user_id as userId, a.admin_id as adminId, a.address as address, a.registration_no as registrationNo,
+    a.legal_person as legalPerson, a.phone as phone, a.license_pic as licensePic, a.other_pics as otherPics, a.status as status,
+    a.created as created, a.updated as updated, c.phone as userPhone, c.nickname as userNickName, b.username as adminName
+    FROM
+    merchant a LEFT JOIN sys_admin b ON a.admin_id = b.id
+    LEFT JOIN app_user c ON a.user_id = c.id
+    WHERE
+    a.status != 5
+    <if test="name != null and name != ''">
+      AND a.name LIKE CONCAT(CONCAT('%', #{name}), '%')
+    </if>
+    <if test="address != null and address != ''">
+      AND a.address LIKE CONCAT(CONCAT('%', #{address}), '%')
+    </if>
+    <if test="person != null and person != ''">
+      AND a.legal_person LIKE CONCAT(CONCAT('%', #{person}), '%')
+    </if>
+    <if test="phone != null and phone != ''">
+      AND a.phone LIKE CONCAT(CONCAT('%', #{phone}), '%')
+    </if>
+    <if test="status != null">
+      AND a.status = #{status}
+    </if>
+      ORDER BY a.created DESC
+  </select>
+
+  <!--通过管理员id查找店铺-->
+  <select id="selectByAdminId" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    FROM
+    merchant
+    WHERE
+    admin_id = #{adminId}
+  </select>
+</mapper>

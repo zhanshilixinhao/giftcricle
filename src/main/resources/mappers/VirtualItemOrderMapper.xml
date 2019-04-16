@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.order.VirtualItemOrderMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.webUser.VirtualItemOrder">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="virtual_item_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="quantity" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="cover" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="summary" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="total_price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, order_no, user_id, virtual_item_id, quantity, name, cover, summary, price, total_price, 
+    status, created, updated
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from virtual_item_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultType="java.util.Map">
+SELECT
+	a.order_no as orderNo,
+	a.id,
+	a.user_id as userId,
+	a.quantity,
+	a.`name`,
+	a.cover,
+	a.summary,
+	a.price,
+	a.total_price as totalPrice,
+	a.`status`,
+	a.created,
+	a.updated,
+	b.nickname,
+	b.phone,
+	c.pay_platform as payWay
+FROM
+	`virtual_item_order` a
+	LEFT JOIN app_user b on a.user_id = b.id
+	LEFT JOIN payment_info c on a.order_no = c.order_no
+	<where>
+      <trim prefixOverrides="and">
+        and a.status &lt; 4
+        <if test="nickname!=null">
+         and b.nickname like concat('%',#{nickname},"%")
+        </if>
+        <if test="phone!=null">
+         and b.phone = #{phone}
+        </if>
+        <if test="orderNo!=null">
+         and a.order_no = #{orderNo}
+        </if>
+        <if test="status!=null">
+         and a.status = #{status}
+        </if>
+        <if test="payWay!=null">
+         and c.pay_platform = #{payWay}
+        </if>
+      </trim>
+    </where>
+      order by a.id DESC
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from virtual_item_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchong.entity.webUser.VirtualItemOrder">
+    insert into virtual_item_order (id, order_no, user_id, 
+      virtual_item_id, quantity, name, 
+      cover, summary, price, 
+      total_price, status, created, 
+      updated)
+    values (#{id,jdbcType=INTEGER}, #{orderNo,jdbcType=BIGINT}, #{userId,jdbcType=INTEGER}, 
+      #{virtualItemId,jdbcType=INTEGER}, #{quantity,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{cover,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
+      #{totalPrice,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP}, 
+      #{updated,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.webUser.VirtualItemOrder">
+    insert into virtual_item_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="virtualItemId != null">
+        virtual_item_id,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="cover != null">
+        cover,
+      </if>
+      <if test="summary != null">
+        summary,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="totalPrice != null">
+        total_price,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="virtualItemId != null">
+        #{virtualItemId,jdbcType=INTEGER},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cover != null">
+        #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null">
+        #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="totalPrice != null">
+        #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.webUser.VirtualItemOrder">
+    update virtual_item_order
+    <set>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="virtualItemId != null">
+        virtual_item_id = #{virtualItemId,jdbcType=INTEGER},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cover != null">
+        cover = #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null">
+        summary = #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="totalPrice != null">
+        total_price = #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.webUser.VirtualItemOrder">
+    update virtual_item_order
+    set order_no = #{orderNo,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=INTEGER},
+      virtual_item_id = #{virtualItemId,jdbcType=INTEGER},
+      quantity = #{quantity,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      cover = #{cover,jdbcType=VARCHAR},
+      summary = #{summary,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      total_price = #{totalPrice,jdbcType=DECIMAL},
+      status = #{status,jdbcType=TINYINT},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateStatusById">
+    update virtual_item_order
+    set status = 4
+    where
+    id = #{id}
+  </update>
+
+  <!--统计虚拟商品订单-->
+  <select id="getOrderStatistics" parameterType="java.util.Map" resultType="java.lang.Integer">
+    SELECT
+    COUNT(0)
+    FROM
+    virtual_item_order
+    WHERE
+    status = 2
+    <if test="startTime != '' and endTime != ''">
+      AND
+      created &gt;=#{startTime}
+      AND
+      created &lt;=#{endTime}
+    </if>
+
+    UNION ALL
+
+    SELECT
+    COUNT(0)
+    FROM
+    virtual_item_order
+    WHERE
+    status = 3
+    <if test="startTime != '' and endTime != ''">
+      AND
+      created &gt;=#{startTime}
+      AND
+      created &lt;=#{endTime}
+    </if>
+  </select>
+</mapper>

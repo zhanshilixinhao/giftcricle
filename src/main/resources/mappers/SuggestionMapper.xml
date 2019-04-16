@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.iwant.appUser.SuggestionMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.iwant.appUser.Suggestion">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="type" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="feedback" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="contact_way" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, type, feedback, contact_way, created, updated
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from suggestion
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from suggestion
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchong.entity.iwant.appUser.Suggestion">
+    insert into suggestion (id, user_id, type, 
+      feedback, contact_way, created, 
+      updated)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
+      #{feedback,jdbcType=VARCHAR}, #{contactWay,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, 
+      #{updated,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.iwant.appUser.Suggestion">
+    insert into suggestion
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="feedback != null">
+        feedback,
+      </if>
+      <if test="contactWay != null">
+        contact_way,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="feedback != null">
+        #{feedback,jdbcType=VARCHAR},
+      </if>
+      <if test="contactWay != null">
+        #{contactWay,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.iwant.appUser.Suggestion">
+    update suggestion
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="feedback != null">
+        feedback = #{feedback,jdbcType=VARCHAR},
+      </if>
+      <if test="contactWay != null">
+        contact_way = #{contactWay,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.iwant.appUser.Suggestion">
+    update suggestion
+    set user_id = #{userId,jdbcType=INTEGER},
+      type = #{type,jdbcType=TINYINT},
+      feedback = #{feedback,jdbcType=VARCHAR},
+      contact_way = #{contactWay,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--通过查询获得意见反馈列表-->
+  <select id="selectBySearch" parameterType="java.util.Map" resultType="com.chouchong.service.iwant.vo.SuggestionVo">
+    SELECT
+    a.id as id, a.created as created, a.contact_way as contactWay, a.feedback as feedback, a.type as type, b.nickname as nickname
+    FROM
+    suggestion a LEFT JOIN app_user b ON a.user_id = b.id
+    WHERE
+    1 = 1
+    <if test="nickname != null and nickname != ''">
+      AND b.nickname LIKE CONCAT(CONCAT('%', #{nickname}), '%')
+    </if>
+    <if test="contactWay != null and contactWay != ''">
+      AND a.contact_way LIKE CONCAT(CONCAT('%', #{contactWay}), '%')
+    </if>
+    <if test="feedback != null and feedback != ''">
+      AND a.feedback LIKE CONCAT(CONCAT('%', #{feedback}), '%')
+    </if>
+    ORDER BY created DESC
+  </select>
+</mapper>

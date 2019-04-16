@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.webUser.SysRoleMenuMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.webUser.SysRoleMenu">
+    <constructor>
+      <idArg column="role_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <idArg column="menu_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="role_menu_note" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    role_id, menu_id, role_menu_note, created
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="com.chouchong.entity.webUser.SysRoleMenuKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_role_menu
+    where role_id = #{roleId,jdbcType=INTEGER}
+      and menu_id = #{menuId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.chouchong.entity.webUser.SysRoleMenuKey">
+    delete from sys_role_menu
+    where role_id = #{roleId,jdbcType=INTEGER}
+      and menu_id = #{menuId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchong.entity.webUser.SysRoleMenu">
+    insert into sys_role_menu (role_id, menu_id, role_menu_note, 
+      created)
+    values (#{roleId,jdbcType=INTEGER}, #{menuId,jdbcType=INTEGER}, #{roleMenuNote,jdbcType=VARCHAR}, 
+      #{created,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.webUser.SysRoleMenu">
+    insert into sys_role_menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="menuId != null">
+        menu_id,
+      </if>
+      <if test="roleMenuNote != null">
+        role_menu_note,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="menuId != null">
+        #{menuId,jdbcType=INTEGER},
+      </if>
+      <if test="roleMenuNote != null">
+        #{roleMenuNote,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.webUser.SysRoleMenu">
+    update sys_role_menu
+    <set>
+      <if test="roleMenuNote != null">
+        role_menu_note = #{roleMenuNote,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where role_id = #{roleId,jdbcType=INTEGER}
+      and menu_id = #{menuId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.webUser.SysRoleMenu">
+    update sys_role_menu
+    set role_menu_note = #{roleMenuNote,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP}
+    where role_id = #{roleId,jdbcType=INTEGER}
+      and menu_id = #{menuId,jdbcType=INTEGER}
+  </update>
+
+  <!--批量插入菜单权限集合-->
+  <insert id="insertList">
+    insert into sys_role_menu (role_id, menu_id, role_menu_note,
+    created)
+    values
+    <foreach collection ="sysRoleMenus" item="menu" separator =",">
+      (#{menu.roleId}, #{menu.menuId}, #{menu.roleMenuNote},#{menu.created})
+    </foreach >
+  </insert>
+
+  <!--通过角色id删除角色菜单-->
+  <delete id="deleteByRoleId">
+    delete from sys_role_menu
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </delete>
+</mapper>

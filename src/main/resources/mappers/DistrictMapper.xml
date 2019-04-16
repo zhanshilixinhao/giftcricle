@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.iwant.withdraw.DistrictMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.iwant.withdraw.District">
+    <constructor>
+      <arg column="adcode" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="p_adcode" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="type" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="level" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <insert id="insert" parameterType="com.chouchong.entity.iwant.withdraw.District">
+    insert ignore into district (adcode, p_adcode, name,
+      type, level, created,
+      updated)
+    values (#{adcode,jdbcType=INTEGER}, #{pAdcode,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+      #{type,jdbcType=TINYINT}, #{level,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP},
+      #{updated,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.iwant.withdraw.District">
+    insert into district
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="adcode != null">
+        adcode,
+      </if>
+      <if test="pAdcode != null">
+        p_adcode,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="adcode != null">
+        #{adcode,jdbcType=INTEGER},
+      </if>
+      <if test="pAdcode != null">
+        #{pAdcode,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>

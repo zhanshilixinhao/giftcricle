@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.webUser.SysAdminMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.webUser.SysAdmin">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="username" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="password" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="active" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="avatar" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="real_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="phone" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="id_number" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="gender" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="email" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="qq" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="weChat" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="create_admin_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="update_admin_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="create_ip" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="login_count" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="last_login_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="last_login_ip" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, username, password, active, avatar, real_name, phone, id_number, gender, email,
+    qq, weChat, created, updated, create_admin_id, update_admin_id, create_ip, login_count,
+    last_login_time, last_login_ip
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_admin
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_admin
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchong.entity.webUser.SysAdmin" useGeneratedKeys="true" keyProperty="id">
+    insert into sys_admin (id, username, password,
+      active, avatar, real_name,
+      phone, id_number, gender,
+      email, qq, weChat,
+      created, updated, create_admin_id,
+      update_admin_id, create_ip, login_count,
+      last_login_time, last_login_ip)
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+      #{active,jdbcType=TINYINT}, #{avatar,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR},
+      #{phone,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT},
+      #{email,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{wechat,jdbcType=VARCHAR},
+      #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}, #{createAdminId,jdbcType=INTEGER},
+      #{updateAdminId,jdbcType=INTEGER}, #{createIp,jdbcType=VARCHAR}, #{loginCount,jdbcType=INTEGER},
+      #{lastLoginTime,jdbcType=TIMESTAMP}, #{lastLoginIp,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.webUser.SysAdmin">
+    insert into sys_admin
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="active != null">
+        active,
+      </if>
+      <if test="avatar != null">
+        avatar,
+      </if>
+      <if test="realName != null">
+        real_name,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="idNumber != null">
+        id_number,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="qq != null">
+        qq,
+      </if>
+      <if test="wechat != null">
+        weChat,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+      <if test="createAdminId != null">
+        create_admin_id,
+      </if>
+      <if test="updateAdminId != null">
+        update_admin_id,
+      </if>
+      <if test="createIp != null">
+        create_ip,
+      </if>
+      <if test="loginCount != null">
+        login_count,
+      </if>
+      <if test="lastLoginTime != null">
+        last_login_time,
+      </if>
+      <if test="lastLoginIp != null">
+        last_login_ip,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="active != null">
+        #{active,jdbcType=TINYINT},
+      </if>
+      <if test="avatar != null">
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null">
+        #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null">
+        #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="wechat != null">
+        #{wechat,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createAdminId != null">
+        #{createAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="updateAdminId != null">
+        #{updateAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="createIp != null">
+        #{createIp,jdbcType=VARCHAR},
+      </if>
+      <if test="loginCount != null">
+        #{loginCount,jdbcType=INTEGER},
+      </if>
+      <if test="lastLoginTime != null">
+        #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginIp != null">
+        #{lastLoginIp,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.webUser.SysAdmin">
+    update sys_admin
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="active != null">
+        active = #{active,jdbcType=TINYINT},
+      </if>
+      <if test="avatar != null">
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        real_name = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null">
+        id_number = #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null">
+        qq = #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="wechat != null">
+        weChat = #{wechat,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createAdminId != null">
+        create_admin_id = #{createAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="updateAdminId != null">
+        update_admin_id = #{updateAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="createIp != null">
+        create_ip = #{createIp,jdbcType=VARCHAR},
+      </if>
+      <if test="loginCount != null">
+        login_count = #{loginCount,jdbcType=INTEGER},
+      </if>
+      <if test="lastLoginTime != null">
+        last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginIp != null">
+        last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.webUser.SysAdmin">
+    update sys_admin
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      active = #{active,jdbcType=TINYINT},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      real_name = #{realName,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      id_number = #{idNumber,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=TINYINT},
+      email = #{email,jdbcType=VARCHAR},
+      qq = #{qq,jdbcType=VARCHAR},
+      weChat = #{wechat,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      create_admin_id = #{createAdminId,jdbcType=INTEGER},
+      update_admin_id = #{updateAdminId,jdbcType=INTEGER},
+      create_ip = #{createIp,jdbcType=VARCHAR},
+      login_count = #{loginCount,jdbcType=INTEGER},
+      last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      last_login_ip = #{lastLoginIp,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--根据搜索条件查询后台用户列表-->
+  <select id="selectBySearch" parameterType="java.util.Map" resultType="com.chouchong.service.webUser.vo.SysAdminVo">
+    SELECT
+    a.id as id, a.username as username, a.active as active, a.avatar as avatar, a.real_name as realName, a.phone as phone,
+    a.id_number as idNumber, a.gender as gender, a.email as email, a.qq as qq, a.weChat as wechat, a.created as created,
+    a.updated as updated, a.create_admin_id as createAdminId, a.update_admin_id as updateAdminId, a.create_ip as createIp,
+    a.login_count as loginCount, a.last_login_time as lastLoginTime, a.last_login_ip as lastLoginIp, b.role_id as roleId
+    FROM
+    sys_admin a LEFT JOIN sys_admin_role b ON a.id = b.admin_id
+    WHERE
+    1 = 1
+    <if test="username != null and username != ''">
+      AND a.username LIKE CONCAT(CONCAT('%', #{username}), '%')
+    </if>
+    <if test="phone != null and phone != ''">
+      AND a.phone LIKE CONCAT(CONCAT('%', #{phone}), '%')
+    </if>
+    <if test="status != null">
+      AND a.active = #{status}
+    </if>
+    <if test="role != null">
+      AND b.role_id = #{role}
+    </if>
+    <if test="gender != null">
+      AND a.gender = #{gender}
+    </if>
+    ORDER BY a.created DESC
+  </select>
+
+  <!--通过后台用户id得到用户信息-->
+  <select id="selectByAdminId" resultType="com.chouchong.service.webUser.vo.SysAdminVo">
+    SELECT
+    a.id as id, a.username as username, a.active as active, a.avatar as avatar, a.real_name as realName, a.phone as phone,
+    a.id_number as idNumber, a.gender as gender, a.email as email, a.qq as qq, a.weChat as wechat, a.created as created,
+    a.updated as updated, a.create_admin_id as createAdminId, a.update_admin_id as updateAdminId, a.create_ip as createIp,
+    a.login_count as loginCount, a.last_login_time as lastLoginTime, a.last_login_ip as lastLoginIp, b.role_id as roleId
+    FROM
+    sys_admin a LEFT JOIN sys_admin_role b ON a.id = b.admin_id
+    WHERE
+    a.id = #{id}
+  </select>
+
+  <!--通过用户名密码获得用户信息-->
+  <select id="selectByUsernameAndPwd" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    FROM
+    sys_admin
+    WHERE
+    username = #{username} AND password = #{password}
+  </select>
+
+  <!--通过管理员id获得权限的地址-->
+  <select id="selectPermissionsById" resultType="java.lang.String" >
+    SELECT
+    a.url
+    FROM sys_function_permission a
+    LEFT JOIN sys_role_function_permission b on a.id = b.sys_function_permission_id
+    LEFT JOIN sys_admin_role c on c.role_id = b.role_id
+    WHERE c.admin_id = #{id}
+  </select>
+
+  <!--通过管理员id获得权限-->
+  <select id="selectAllPermissionsById" resultType="com.chouchong.entity.webUser.SysFunctionPermission" >
+    SELECT
+    a.id as id , a.name as name, a.desciption as desciption, a.url as url, a.menu_id as menu_id, a.active as active,
+    a.created as created, a.create_admin_id as createAdminId, a.updated as updated, a.update_admin_id as updateAdminId
+    FROM sys_function_permission a
+    LEFT JOIN sys_role_function_permission b on a.id = b.sys_function_permission_id
+    LEFT JOIN sys_admin_role c on c.role_id = b.role_id
+    WHERE c.admin_id = #{id}
+  </select>
+
+  <!--通过管理员id获得菜单的地址-->
+  <select id="selectMenuById" resultType="java.lang.String" >
+    SELECT
+    a.url
+    FROM
+    sys_menu a
+    LEFT JOIN sys_role_menu b ON a.id = b.menu_id
+    LEFT JOIN sys_admin_role c ON b.role_id = c.role_id
+    WHERE
+    c.admin_id = #{id}
+    AND a.url IS NOT NULL
+  </select>
+
+  <!--通过用户名查找用户-->
+  <select id="selectByUserName" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    FROM
+    sys_admin
+    WHERE
+    username = #{username}
+  </select>
+  <select id="selectDetailByAdminId" resultType="com.chouchong.service.gift.coupon.vo.SysWalletVo">
+select
+       a.username,
+       a.avatar,
+        d.name,
+       b.*
+from sys_admin a
+left join sys_admin_wallet b on a.id = b.admin_id
+left join sys_admin_role c on c.admin_id = a.id
+left join sys_role d on c.role_id = d.id
+where a.id = #{adminId}
+  </select>
+
+
+</mapper>

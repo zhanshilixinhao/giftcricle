@@ -1,0 +1,902 @@
+[
+  {
+    "id": 101,
+    "name": "角色管理",
+    "urls": [
+      {
+        "name": "获取后台角色列表",
+        "url": "manage/permission/roles"
+      },
+      {
+        "name": "改变角色状态",
+        "url": "manage/permission/status"
+      },
+      {
+        "name": "删除角色",
+        "url": "manage/permission/del"
+      }
+    ]
+  },
+  {
+    "id": 102,
+    "name": "添加角色",
+    "urls": [
+      {
+        "name": "获取后台菜单列表",
+        "url": "manage/permission/menus"
+      },
+      {
+        "name": "添加后台角色",
+        "url": "manage/permission/addRole"
+      }
+    ]
+  },
+  {
+    "id": 103,
+    "name": "修改角色",
+    "urls": [
+      {
+        "name": "获得角色详情",
+        "url": "manage/permission/detail"
+      },
+      {
+        "name": "获取后台菜单列表",
+        "url": "manage/permission/menus"
+      },
+      {
+        "name": "修改角色",
+        "url": "manage/permission/update"
+      }
+    ]
+  },
+  {
+    "id": 104,
+    "name": "后台用户管理",
+    "urls": [
+      {
+        "name": "获得全部的角色",
+        "url": "manage/permission/allRole"
+      },
+      {
+        "name": "获取后台用户列表",
+        "url": "manage/user/list"
+      },
+      {
+        "name": "改变用户状态",
+        "url": "manage/user/status"
+      },
+      {
+        "name": "删除后台用户",
+        "url": "manage/user/del"
+      }
+    ]
+  },
+  {
+    "id": 105,
+    "name": "后台用户添加",
+    "urls": [
+      {
+        "name": "获得全部的角色",
+        "url": "manage/permission/allRole"
+      },
+      {
+        "name": "添加后台用户",
+        "url": "manage/user/add"
+      }
+    ]
+  },
+  {
+    "id": 106,
+    "name": "后台用户修改",
+    "urls": [
+      {
+        "name": "获得全部的角色",
+        "url": "manage/permission/allRole"
+      },
+      {
+        "name": "获取后台用户详情",
+        "url": "manage/user/detail"
+      },
+      {
+        "name": "修改后台用户",
+        "url": "manage/user/update"
+      },
+      {
+        "name": "修改密码",
+        "url": "manage/user/updatePass"
+      }
+    ]
+  },
+  {
+    "id": 201,
+    "name": "APP用户管理",
+    "urls": [
+      {
+        "name": "登录用户信息",
+        "url": "manage/user/info"
+      },
+      {
+        "name": "获取app用户列表",
+        "url": "manage/appUser/list"
+      },
+      {
+        "name": "改变用户状态",
+        "url": "manage/appUser/status"
+      }
+    ]
+  },
+  {
+    "id": 202,
+    "name": "印象标签管理",
+    "urls": [
+      {
+        "name": "登录用户信息",
+        "url": "manage/user/info"
+      },
+      {
+        "name": "获取app用户列表",
+        "url": "manage/tagDict/list"
+      },
+      {
+        "name": "添加印象标签",
+        "url": "manage/tagDict/add"
+      },
+      {
+        "name": "改变印象标签状态",
+        "url": "manage/tagDict/status"
+      },
+      {
+        "name": "删除印象标签",
+        "url": "manage/tagDict/del"
+      },
+      {
+        "name": "修改印象标签",
+        "url": "manage/tagDict/update"
+      }
+    ]
+  },
+  {
+    "id": 203,
+    "name": "礼物偏好管理",
+    "urls": [
+      {
+        "name": "获取礼物偏好列表",
+        "url": "manage/giftPre/list"
+      },
+      {
+        "name": "修改礼物偏好",
+        "url": "manage/giftPre/update"
+      },
+      {
+        "name": "删除礼物偏好",
+        "url": "manage/giftPre/del"
+      },
+      {
+        "name": "添加礼物偏好",
+        "url": "manage/giftPre/add"
+      }
+    ]
+  },
+  {
+    "id": 204,
+    "name": "送礼事件管理",
+    "urls": [
+      {
+        "name": "获取送礼事件管理",
+        "url": "manage/event/list"
+      },
+      {
+        "name": "添加送礼事件",
+        "url": "manage/event/add"
+      },
+      {
+        "name": "修改送礼事件",
+        "url": "manage/event/update"
+      },
+      {
+        "name": "删除送礼事件",
+        "url": "manage/event/del"
+      }
+    ]
+  },
+  {
+    "id": 301,
+    "name": "首页横幅管理",
+    "urls": [
+      {
+        "name": "获取首页横幅列表",
+        "url": "manage/banner/list"
+      },
+      {
+        "name": "删除首页横幅",
+        "url": "manage/banner/del"
+      },
+      {
+        "name": "改变首页横幅状态",
+        "url": "manage/banner/status"
+      }
+    ]
+  },
+  {
+    "id": 302,
+    "name": "添加横幅",
+    "urls": [
+      {
+        "name": "添加横幅",
+        "url": "manage/banner/add"
+      }
+    ]
+  },
+  {
+    "id": 303,
+    "name": "横幅修改",
+    "urls": [
+      {
+        "name": "修改横幅",
+        "url": "manage/banner/update"
+      },
+      {
+        "name": "横幅详情",
+        "url": "manage/banner/detail"
+      }
+    ]
+  },
+  {
+    "id": 401,
+    "name": "优惠券管理",
+    "urls": [
+      {
+        "name": "获取优惠券列表",
+        "url": "manage/coupon/list"
+      },
+      {
+        "name": "添加优惠券",
+        "url": "manage/coupon/add"
+      },
+      {
+        "name": "获取app用户列表通过电话号码",
+        "url": "manage/appUser/phone"
+      },
+      {
+        "name": "赠送优惠券",
+        "url": "manage/coupon/give"
+      },
+      {
+        "name": "改变优惠券状态",
+        "url": "manage/coupon/status"
+      },
+      {
+        "name": "修改优惠券",
+        "url": "manage/coupon/update"
+      },
+      {
+        "name": "删除优惠券",
+        "url": "manage/coupon/del"
+      },
+      {
+        "name": "使用优惠券",
+        "url": "manage/coupon/use"
+      }
+    ]
+  },
+  {
+    "id": 501,
+    "name": "分类管理",
+    "urls": [
+      {
+        "name": "获取商品分类列表",
+        "url": "manage/itemCate/list"
+      },
+      {
+        "name": "改变商品分类状态",
+        "url": "manage/itemCate/status"
+      },
+      {
+        "name": "删除商品分类",
+        "url": "manage/itemCate/del"
+      },
+      {
+        "name": "添加商品分类",
+        "url": "manage/itemCate/add"
+      },
+      {
+        "name": "修改商品分类",
+        "url": "manage/itemCate/update"
+      }
+    ]
+  },
+  {
+    "id": 502,
+    "name": "品牌管理",
+    "urls": [
+      {
+        "name": "获取品牌列表",
+        "url": "manage/brand/list"
+      },
+      {
+        "name": "添加品牌",
+        "url": "manage/brand/add"
+      },
+      {
+        "name": "删除品牌",
+        "url": "manage/brand/del"
+      },
+      {
+        "name": "修改品牌",
+        "url": "manage/brand/update"
+      }
+    ]
+  },
+  {
+    "id": 503,
+    "name": "商品管理",
+    "urls": [
+      {
+        "name": "获得所有的商品分类",
+        "url": "manage/itemCate/all"
+      },
+      {
+        "name": "获得所有的品牌",
+        "url": "manage/brand/all"
+      },
+      {
+        "name": "获取商品列表",
+        "url": "manage/item/list"
+      },
+      {
+        "name": "改变商品状态",
+        "url": "manage/item/status"
+      },
+      {
+        "name": "是否设为热门商品",
+        "url": "manage/item/hot"
+      },
+      {
+        "name": "是否设为精品商品",
+        "url": "manage/item/choiceness"
+      },
+      {
+        "name": "删除商品",
+        "url": "manage/item/del"
+      }
+    ]
+  },
+  {
+    "id": 504,
+    "name": "商品添加",
+    "urls": [
+      {
+        "name": "获得所有的商品分类",
+        "url": "manage/itemCate/all"
+      },
+      {
+        "name": "获得所有的品牌",
+        "url": "manage/brand/all"
+      },
+      {
+        "name": "添加商品",
+        "url": "manage/item/add"
+      }
+    ]
+  },
+  {
+    "id": 505,
+    "name": "商品修改",
+    "urls": [
+      {
+        "name": "获得所有的商品分类",
+        "url": "manage/itemCate/all"
+      },
+      {
+        "name": "获得所有的品牌",
+        "url": "manage/brand/all"
+      },
+      {
+        "name": "商品详情",
+        "url": "manage/item/detail"
+      },
+      {
+        "name": "商品修改",
+        "url": "manage/item/update"
+      }
+    ]
+  },
+  {
+    "id": 506,
+    "name": "属性管理",
+    "urls": [
+      {
+        "name": "获取商品属性列表",
+        "url": "manage/itemFeature/list"
+      },
+      {
+        "name": "添加商品属性",
+        "url": "manage/itemFeature/add"
+      },
+      {
+        "name": "修改商品属性",
+        "url": "manage/itemFeature/update"
+      },
+      {
+        "name": "删除商品属性",
+        "url": "manage/itemFeature/del"
+      }
+    ]
+  },
+  {
+    "id": 507,
+    "name": "组合商品",
+    "urls": [
+      {
+        "name": "查询sku组合的数量",
+        "url": "manage/itemSku/isGroup"
+      },
+      {
+        "name": "获得所有的商品属性",
+        "url": "manage/itemFeature/all"
+      },
+      {
+        "name": "添加sku",
+        "url": "manage/itemSku/add"
+      }
+    ]
+  },
+  {
+    "id": 508,
+    "name": "组合商品列表",
+    "urls": [
+      {
+        "name": "改变sku状态",
+        "url": "manage/itemSku/status"
+      },
+      {
+        "name": "获得所有的商品属性",
+        "url": "manage/itemFeature/all"
+      },
+      {
+        "name": "sku列表",
+        "url": "manage/itemSku/list"
+      }
+    ]
+  },
+  {
+    "id": 509,
+    "name": "组合商品编辑",
+    "urls": [
+      {
+        "name": "sku详情",
+        "url": "manage/itemSku/detail"
+      },
+      {
+        "name": "修改sku",
+        "url": "manage/itemSku/update"
+      }
+    ]
+  },
+  {
+    "id": 510,
+    "name": "商品属性值管理",
+    "urls": [
+      {
+        "name": "获得商品的所有商品属性值",
+        "url": "manage/itemSku/value"
+      },
+      {
+        "name": "修改sku属性值",
+        "url": "manage/itemSku/editValue"
+      }
+    ]
+  },
+  {
+    "id": 601,
+    "name": "分类管理",
+    "urls": [
+      {
+        "name": "获取虚拟商品分类列表",
+        "url": "manage/virItemCate/list"
+      },
+      {
+        "name": "添加虚拟商品分类",
+        "url": "manage/virItemCate/add"
+      },
+      {
+        "name": "改变虚拟商品分类状态",
+        "url": "manage/virItemCate/status"
+      },
+      {
+        "name": "修改虚拟商品分类",
+        "url": "manage/virItemCate/update"
+      },
+      {
+        "name": "删除虚拟商品分类",
+        "url": "manage/virItemCate/del"
+      }
+    ]
+  },
+  {
+    "id": 602,
+    "name": "品牌管理",
+    "urls": [
+      {
+        "name": "获取虚拟商品品牌列表",
+        "url": "manage/virItemBrand/list"
+      },
+      {
+        "name": "添加虚拟商品品牌",
+        "url": "manage/virItemBrand/add"
+      },
+      {
+        "name": "修改虚拟商品品牌",
+        "url": "manage/virItemBrand/update"
+      },
+      {
+        "name": "删除虚拟商品品牌",
+        "url": "manage/virItemBrand/del"
+      }
+    ]
+  },
+  {
+    "id": 603,
+    "name": "商品管理",
+    "urls": [
+      {
+        "name": "获得所有的虚拟商品分类",
+        "url": "manage/virItemCate/all"
+      },
+      {
+        "name": "获得所有的虚拟商品品牌",
+        "url": "manage/virItemBrand/all"
+      },
+      {
+        "name": "获得所有的虚拟商品列表",
+        "url": "manage/virItem/list"
+      },
+      {
+        "name": "改变虚拟商品状态",
+        "url": "manage/virItem/status"
+      },
+      {
+        "name": "删除虚拟商品",
+        "url": "manage/virItem/del"
+      }
+    ]
+  },
+  {
+    "id": 604,
+    "name": "添加虚拟商品",
+    "urls": [
+      {
+        "name": "获得所有的虚拟商品分类",
+        "url": "manage/virItemCate/all"
+      },
+      {
+        "name": "获得所有的虚拟商品品牌",
+        "url": "manage/virItemBrand/all"
+      },
+      {
+        "name": "添加虚拟商品",
+        "url": "manage/virItem/add"
+      }
+    ]
+  },
+  {
+    "id": 605,
+    "name": "编辑虚拟商品",
+    "urls": [
+      {
+        "name": "获得所有的虚拟商品分类",
+        "url": "manage/virItemCate/all"
+      },
+      {
+        "name": "获得所有的虚拟商品品牌",
+        "url": "manage/virItemBrand/all"
+      },
+      {
+        "name": "虚拟商品详情",
+        "url": "manage/virItem/detail"
+      },
+      {
+        "name": "修改虚拟商品",
+        "url": "manage/virItem/update"
+      }
+    ]
+  },
+  {
+    "id": 701,
+    "name": "主题管理",
+    "urls": [
+      {
+        "name": "主题列表",
+        "url": "manage/theme/list"
+      },
+      {
+        "name": "删除主题",
+        "url": "manage/theme/del"
+      },
+      {
+        "name": "修改主题",
+        "url": "manage/theme/update"
+      },
+      {
+        "name": "添加主题",
+        "url": "manage/theme/add"
+      },
+      {
+        "name": "改变主题状态",
+        "url": "manage/theme/status"
+      }
+    ]
+  },
+  {
+    "id": 702,
+    "name": "商品管理",
+    "urls": [
+      {
+        "name": "获取所有主题",
+        "url": "manage/theme/all"
+      },
+      {
+        "name": "主题商品列表",
+        "url": "manage/themeItem/list"
+      },
+      {
+        "name": "改变主题商品状态",
+        "url": "manage/themeItem/status"
+      },
+      {
+        "name": "设置排序值",
+        "url": "manage/themeItem/sort"
+      },
+      {
+        "name": "商品列表",
+        "url": "manage/item/list"
+      },
+      {
+        "name": "添加主题商品",
+        "url": "manage/themeItem/add"
+      },
+      {
+        "name": "删除主题商品",
+        "url": "manage/themeItem/del"
+      }
+    ]
+  },
+  {
+    "id": 801,
+    "name": "文章管理",
+    "urls": [
+      {
+        "name": "文章列表",
+        "url": "manage/article/list"
+      },
+      {
+        "name": "文章删除",
+        "url": "manage/article/del"
+      },
+      {
+        "name": "修改文章状态",
+        "url": "manage/article/status"
+      }
+    ]
+  },
+  {
+    "id": 802,
+    "name": "文章添加",
+    "urls": [
+      {
+        "name": "添加文章",
+        "url": "manage/article/add"
+      }
+    ]
+  },
+  {
+    "id": 803,
+    "name": "文章修改",
+    "urls": [
+      {
+        "name": "文章详情",
+        "url": "manage/article/detail"
+      },
+      {
+        "name": "文章详情",
+        "url": "manage/article/update"
+      }
+    ]
+  },
+  {
+    "id": 901,
+    "name": "商家管理",
+    "urls": [
+      {
+        "name": "商家列表",
+        "url": "manage/merchant/list"
+      },
+      {
+        "name": "商家审核",
+        "url": "manage/merchant/pass"
+      },
+      {
+        "name": "商家审核失败",
+        "url": "manage/merchant/fail"
+      }
+    ]
+  },
+  {
+    "id": 1001,
+    "name": "系统通知",
+    "urls": [
+      {
+        "name": "系统消息列表",
+        "url": "manage/message/list"
+      },
+      {
+        "name": "添加系统消息",
+        "url": "manage/message/add"
+      },
+      {
+        "name": "删除系统消息",
+        "url": "manage/message/del"
+      }
+    ]
+  },
+  {
+    "id": 1002,
+    "name": "意见反馈",
+    "urls": [
+      {
+        "name": "意见列表",
+        "url": "manage/suggestion/list"
+      },
+      {
+        "name": "删除意见反馈",
+        "url": "manage/suggestion/del"
+      }
+    ]
+  },
+  {
+    "id": 1101,
+    "name": "提现管理",
+    "urls": [
+      {
+        "name": "提现列表",
+        "url": "manage/withdraw/list"
+      },
+      {
+        "name": "提现处理",
+        "url": "manage/withdraw/handle"
+      },
+      {
+        "name": "银行列表",
+        "url": "manage/withdraw/bank"
+      },
+      {
+        "name": "开始处理",
+        "url": "manage/withdraw/status"
+      }
+    ]
+  },
+  {
+    "id": 1201,
+    "name": "充值订单",
+    "urls": [
+      {
+        "name": "充值订单列表",
+        "url": "manage/order/charge/list"
+      },
+      {
+        "name": "充值订单删除",
+        "url": "manage/order/charge/delete"
+      }
+    ]
+  },
+  {
+    "id": 1202,
+    "name": "商品购买订单",
+    "urls": [
+      {
+        "name": "商品订单列表",
+        "url": "manage/order/item/list"
+      },
+      {
+        "name": "商品订单删除",
+        "url": "manage/order/item/delete"
+      },
+      {
+        "name": "商品详情",
+        "url": "manage/order/item/detail"
+      }
+    ]
+  },
+  {
+    "id": 1203,
+    "name": "虚拟商品订单",
+    "urls": [
+      {
+        "name": "虚拟订单列表",
+        "url": "manage/order/virtual_item/list"
+      },
+      {
+        "name": "虚拟订单删除",
+        "url": "manage/order/virtual_item/delete"
+      }
+    ]
+  },
+  {
+    "id": 1204,
+    "name": "寄售台订单",
+    "urls": [
+      {
+        "name": "寄售台订单劣币哦",
+        "url": "manage/order/con_item/list"
+      },
+      {
+        "name": "寄售台顶底删除",
+        "url": "manage/order/con_item/delete"
+      }
+    ]
+  },
+  {
+    "id": 1205,
+    "name": "商品提货订单",
+    "urls": [
+      {
+        "name": "提货订单泪飙",
+        "url": "manage/order/re_item/list"
+      },
+      {
+        "name": "删除提货订单",
+        "url": "manage/order/re_item/delete"
+      },
+      {
+        "name": "收货信息",
+        "url": "manage/order/re_item/receive"
+      },
+      {
+        "name": "物流信息",
+        "url": "manage/order/re_item/logistics"
+      },
+      {
+        "name": "发货",
+        "url": "manage/order/re_item/shipments"
+      },
+      {
+        "name": "修改物流信息",
+        "url": "manage/order/re_item/update"
+      }
+    ]
+  },
+  {
+    "id": 1301,
+    "name": "折现管理",
+    "urls": [
+      {
+        "name": "折现列表",
+        "url": "manage/item/discount/list"
+      },
+      {
+        "name": "折现删除",
+        "url": "manage/item/discount/delete"
+      }
+    ]
+  },
+  {
+    "id": 1401,
+    "name": "订单统计",
+    "urls": [
+      {
+        "name": "订单统计列表",
+        "url": "/manage/statistics/order"
+      }
+    ]
+  },
+  {
+    "id": 1402,
+    "name": "用户统计",
+    "urls": [
+      {
+        "name": "用户统计",
+        "url": "/manage/statistics/user"
+      }
+    ]
+  }
+]
