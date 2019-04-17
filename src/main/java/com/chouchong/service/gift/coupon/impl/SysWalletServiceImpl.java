@@ -22,7 +22,6 @@ import com.chouchong.service.webUser.vo.WebUserInfo;
 import com.chouchong.utils.BigDecimalUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.sun.javafx.tk.TKClipboard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
