@@ -9,7 +9,9 @@ import com.chouchong.dao.order.ReceiveItemOrderMapper;
 import com.chouchong.entity.webUser.ReceiveItemOrder;
 import com.chouchong.service.order.ReItemOrderService;
 import com.chouchong.service.order.kdapi.ExpressApi;
+import com.chouchong.service.order.kdapi.ExpressApi2;
 import com.chouchong.service.order.kdapi.KdResult;
+import com.chouchong.service.order.kdapi.KdResult2;
 import com.chouchong.service.order.vo.LogisticsInfoVo;
 import com.chouchong.service.order.vo.Shipping;
 import com.chouchong.service.webUser.vo.WebUserInfo;
@@ -128,7 +130,7 @@ public class ReItemOrderSerivceImpl implements ReItemOrderService {
         LogisticsInfoVo logisticsInfoVo = JSON.parseObject(order.getLogisticsInfo(), new TypeReference<LogisticsInfoVo>() {
         });
         //根据物流公司和订单号查询物流信息
-        KdResult logisticsInfo = ExpressApi.getLogisticsInfo(logisticsInfoVo.getCom(), logisticsInfoVo.getExpressNo());
+        KdResult2 logisticsInfo = ExpressApi2.checkLogisticsInfo(logisticsInfoVo.getCom(), logisticsInfoVo.getExpressNo());
 
         Map map = new HashMap();
         map.put("logisticsInfoVo",logisticsInfoVo);
