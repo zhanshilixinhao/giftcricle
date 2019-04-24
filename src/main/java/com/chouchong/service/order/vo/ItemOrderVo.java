@@ -36,7 +36,7 @@ public class ItemOrderVo {
 
   private String phone;
 
-  private Byte payWay;
+  private Integer payWay;
 
     public Integer getId() {
         return id;
@@ -134,11 +134,11 @@ public class ItemOrderVo {
         this.phone = phone;
     }
 
-    public Byte getPayWay() {
+    public Integer getPayWay() {
         return payWay;
     }
 
-    public void setPayWay(Byte payWay) {
+    public void setPayWay(Integer payWay) {
         this.payWay = payWay;
     }
 }
