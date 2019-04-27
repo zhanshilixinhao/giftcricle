@@ -227,11 +227,11 @@
     SELECT
     c.feature_id as featureId,
     c.value as value
-    FROM
-    item_sku a LEFT JOIN item_sku_value b ON a.id = b.sku_id
-    LEFT JOIN item_value c ON b.value_id = c.id
+FROM
+     item_sku_value b
+               LEFT JOIN item_value c ON b.value_id = c.id LEFT JOIN item_sku a ON a.id = b.sku_id
     WHERE
-    a.id = #{id}
+        a.id = #{id}
   </select>
     <select id="selectAll" resultType="com.chouchong.entity.gift.item.ItemSku">
       select * from item_sku
