@@ -37,7 +37,7 @@ public class VirItemOrderServiceImpl implements VirItemOrderService {
      * @date 2018/7/19
      */
     @Override
-    public Response getList(PageQuery pageQuery, String nickname, String phone, Long orderNo, Byte status, Byte payWay) {
+    public Response getList(PageQuery pageQuery, String nickname, String phone, Long orderNo, Byte status, Integer payWay) {
         //分页
         PageHelper.startPage(pageQuery.getPageNum(),pageQuery.getPageSize());
         //查询虚拟商品订单列表

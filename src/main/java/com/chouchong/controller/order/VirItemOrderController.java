@@ -36,7 +36,7 @@ public class VirItemOrderController {
      * @date 2018/7/19
      */
     @PostMapping("list")
-    public Response getVirList(PageQuery pageQuery, String nickname, String phone, Long orderNo, Byte status, Byte payWay) {
+    public Response getVirList(PageQuery pageQuery, String nickname, String phone, Long orderNo, Byte status, Integer payWay) {
         if (StringUtils.isBlank(nickname)) {
             nickname = null;
         }

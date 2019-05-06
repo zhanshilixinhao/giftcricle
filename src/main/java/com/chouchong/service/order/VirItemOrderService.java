@@ -22,7 +22,7 @@ public interface VirItemOrderService {
      * @author linqin
      * @date 2018/7/19
      */
-    Response getList(PageQuery pageQuery, String nickname, String phone, Long orderNo, Byte status, Byte payWay);
+    Response getList(PageQuery pageQuery, String nickname, String phone, Long orderNo, Byte status, Integer payWay);
 
     /**
      * 删除虚拟商品订单

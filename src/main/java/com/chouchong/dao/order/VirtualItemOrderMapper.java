@@ -23,7 +23,7 @@ public interface VirtualItemOrderMapper {
                         @Param("phone")String phone,
                         @Param("orderNo")Long orderNo,
                         @Param("status")Byte status,
-                        @Param("payWay")Byte payWay);
+                        @Param("payWay")Integer payWay);
 
     int updateStatusById(Integer id);
 
