@@ -48,7 +48,7 @@ public class ItemOrderServiceImpl implements ItemOrderService {
      * @date 2018/7/18
      */
     @Override
-    public Response itemOrderList(PageQuery pageQuery, String nickname, String phone, Long orderNo, Byte status, Byte payWay) {
+    public Response itemOrderList(PageQuery pageQuery, String nickname, String phone, Long orderNo, Byte status, Integer payWay) {
         PageHelper.startPage(pageQuery.getPageNum(), pageQuery.getPageSize());
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         // 平台商登录

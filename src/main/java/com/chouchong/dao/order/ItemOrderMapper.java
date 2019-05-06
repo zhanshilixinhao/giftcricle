@@ -24,7 +24,7 @@ public interface ItemOrderMapper {
                                  @Param("phone") String phone,
                                  @Param("orderNo") Long orderNo,
                                  @Param("status") Byte status,
-                                 @Param("payWay") Byte payWay,
+                                 @Param("payWay") Integer payWay,
                                  @Param("adminId") Integer adminId);
 
     int updateStatusById(Integer id);

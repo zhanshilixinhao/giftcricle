@@ -21,7 +21,7 @@ public interface ItemOrderService {
      * @author linqin
      * @date 2018/7/18
      */
-    Response itemOrderList(PageQuery pageQuery, String nickname, String phone, Long orderNo, Byte status, Byte payWay);
+    Response itemOrderList(PageQuery pageQuery, String nickname, String phone, Long orderNo, Byte status, Integer payWay);
 
     /**
      * 删除商品购买订单

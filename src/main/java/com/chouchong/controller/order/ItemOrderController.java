@@ -34,7 +34,7 @@ public class ItemOrderController {
      * @date 2018/7/18
      */
     @PostMapping("list")
-    public Response itemOrderList(PageQuery pageQuery, String nickname, String phone, Long orderNo, Byte status, Byte payWay) {
+    public Response itemOrderList(PageQuery pageQuery, String nickname, String phone, Long orderNo, Byte status, Integer payWay) {
         if (StringUtils.isBlank(nickname)) {
             nickname = null;
         }
