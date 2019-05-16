@@ -37,5 +37,5 @@ public interface VirtualItemOrderMapper {
      */
     List<Integer> getOrderStatistics(Map params);
 
-    int selectUnredCount(Long start);
+    int selectUnredCount(@Param("start") Long start);
 }
