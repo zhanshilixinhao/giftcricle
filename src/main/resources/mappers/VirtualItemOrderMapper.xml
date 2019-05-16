@@ -19,11 +19,11 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, order_no, user_id, virtual_item_id, quantity, name, cover, summary, price, total_price, 
+    id, order_no, user_id, virtual_item_id, quantity, name, cover, summary, price, total_price,
     status, created, updated
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from virtual_item_order
     where id = #{id,jdbcType=INTEGER}
@@ -76,15 +76,15 @@ FROM
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchong.entity.webUser.VirtualItemOrder">
-    insert into virtual_item_order (id, order_no, user_id, 
-      virtual_item_id, quantity, name, 
-      cover, summary, price, 
-      total_price, status, created, 
+    insert into virtual_item_order (id, order_no, user_id,
+      virtual_item_id, quantity, name,
+      cover, summary, price,
+      total_price, status, created,
       updated)
-    values (#{id,jdbcType=INTEGER}, #{orderNo,jdbcType=BIGINT}, #{userId,jdbcType=INTEGER}, 
-      #{virtualItemId,jdbcType=INTEGER}, #{quantity,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{cover,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
-      #{totalPrice,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{orderNo,jdbcType=BIGINT}, #{userId,jdbcType=INTEGER},
+      #{virtualItemId,jdbcType=INTEGER}, #{quantity,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+      #{cover,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL},
+      #{totalPrice,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP},
       #{updated,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.chouchong.entity.webUser.VirtualItemOrder">
@@ -267,4 +267,17 @@ FROM
       created &lt;=#{endTime}
     </if>
   </select>
+    <select id="selectUnredCount" resultType="java.lang.Integer">
+        select count(0)
+from virtual_item_order
+      <where>
+        <trim suffixOverrides="and">
+            1= 1 and
+          <if test="start!=null">
+            unix_timestamp(a.created) >= #{start} and
+          </if>
+        </trim>
+
+      </where>
+    </select>
 </mapper>

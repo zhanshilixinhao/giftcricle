@@ -42,4 +42,13 @@ public interface ItemOrderService {
      * @date 2018/7/18
      */
     Response itemOrderDetail(Long orderNo);
+
+    /**
+     * 订单未查看数量
+     *
+     * @return
+     * @author linqin
+     * date 2018/7/18
+     */
+    Response getOrderCount();
 }

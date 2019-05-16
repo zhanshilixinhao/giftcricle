@@ -28,5 +28,5 @@ public interface ReceiveItemOrderMapper {
     int updateStatusById(Integer id);
 
 
-
+    int selectUnredCount(@Param("adminId") Integer adminId,@Param("start") Long start);
 }

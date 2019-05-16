@@ -76,6 +76,22 @@
     </where>
         order by a.id DESC
     </select>
+    <select id="selectUnredCount" resultType="java.lang.Integer">
+     select count(0)
+     from receive_item_order a
+      left join item_order b on a.order_no = b.order_no
+      <where>
+        <trim suffixOverrides="and">
+          <if test="adminId!=null">
+            b.admin_id = #{adminId} and
+          </if>
+          <if test="start!=null">
+            unix_timestamp(a.created) >= #{start} and
+          </if>
+        </trim>
+
+      </where>
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from receive_item_order

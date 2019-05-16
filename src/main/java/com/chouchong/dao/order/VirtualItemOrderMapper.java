@@ -36,4 +36,6 @@ public interface VirtualItemOrderMapper {
      * @Date: 2018/7/31
      */
     List<Integer> getOrderStatistics(Map params);
+
+    int selectUnredCount(Long start);
 }

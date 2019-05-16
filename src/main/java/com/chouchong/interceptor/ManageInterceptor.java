@@ -43,11 +43,14 @@ public class ManageInterceptor extends OncePerRequestFilter {
         hashSet.add("/manage/user/logout");
         hashSet.add("/manage/user/pas");
         hashSet.add("/manage/user/info");
+//        hashSet.add("/manage/order/item/orderCount");
         /*hashSet.add("/manage/item/detail");*/
         // 不拦截图片上传，会不会有问题？
         hashSet.add("/manage/upload/image");
 
     }
+
+    private static String url = "/manage/order/item/orderCount";
 
     private static String urls = "/noauth/manage";
 
@@ -81,6 +84,10 @@ public class ManageInterceptor extends OncePerRequestFilter {
             }
             // List<String> sysFunctionPermissions =  webUserInfo.getPermissions();
             // 判断该用户是否有权限集合
+            if (request.getRequestURI().contains(url)){
+                filterChain.doFilter(request,response);
+                return;
+            }
             List<SysFunctionPermission> permissionList = webUserInfo.getPermissionList();
             if (permissionList == null || permissionList.size() == 0) {
                 response.setContentType("application/json;charset=UTF-8");

@@ -21,6 +21,20 @@ public class ItemOrderController {
     @Autowired
     private ItemOrderService itemOrderService;
 
+
+    /**
+     * 订单未查看数量
+     *
+     * @return
+     * @author linqin
+     * date 2018/7/18
+     */
+    @PostMapping("orderCount")
+    public Response getOrderCount() {
+        return itemOrderService.getOrderCount();
+    }
+
+
     /**
      * 充值订单列表查询
      *

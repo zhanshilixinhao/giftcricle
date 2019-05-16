@@ -38,4 +38,6 @@ public interface ItemOrderMapper {
      * @Date: 2018/7/31
      */
     List<Integer> getOrderStatistics(Map params);
+
+    int selectUnredCount(@Param("adminId") Integer adminId,@Param("start") Long start);
 }

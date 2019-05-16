@@ -61,8 +61,25 @@
     from item_comment
     where id = #{id}
   </select>
+    <select id="selectUnredCount" resultType="java.lang.Integer">
+      select count(0)
+      from item_comment a
+      left join item_order b on a.order_no = b.order_no
+      <where>
+        <trim suffixOverrides="and">
+          <if test="adminId!=null">
+            b.admin_id = #{adminId} and
+          </if>
+          <if test="start!=null">
+            unix_timestamp(a.created) >= #{start} and
+          </if>
+        </trim>
 
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+      </where>
+
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from item_comment
     where id = #{id,jdbcType=INTEGER}
   </delete>

@@ -37,4 +37,6 @@ public interface ChargeOrderMapper {
      * @Date: 2018/8/1
      */
     List<Integer> getOrderStatistics(Map params);
+
+    int selectUnredCount(Long start);
 }

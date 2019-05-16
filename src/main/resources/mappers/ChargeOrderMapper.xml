@@ -52,7 +52,7 @@
     order by a.id DESC
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from charge_order
     where id = #{id,jdbcType=INTEGER}
@@ -70,11 +70,11 @@
     id = #{id}
   </delete>
   <insert id="insert" parameterType="com.chouchong.entity.webUser.ChargeOrder">
-    insert into charge_order (id, user_id, amount, 
-      order_no, status, pay_way, 
+    insert into charge_order (id, user_id, amount,
+      order_no, status, pay_way,
       created, updated)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{amount,jdbcType=DECIMAL}, 
-      #{orderNo,jdbcType=BIGINT}, #{status,jdbcType=TINYINT}, #{payWay,jdbcType=TINYINT}, 
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{amount,jdbcType=DECIMAL},
+      #{orderNo,jdbcType=BIGINT}, #{status,jdbcType=TINYINT}, #{payWay,jdbcType=TINYINT},
       #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.chouchong.entity.webUser.ChargeOrder">
@@ -201,4 +201,19 @@
       created &lt;=#{endTime}
     </if>
   </select>
+  <select id="selectUnredCount" resultType="java.lang.Integer">
+
+    select count(0)
+    from charge_order
+    <where>
+      <trim suffixOverrides="and">
+        1= 1 and
+        <if test="start!=null">
+          unix_timestamp(created) >= #{start} and
+        </if>
+      </trim>
+
+    </where>
+  </select>
+
 </mapper>
