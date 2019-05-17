@@ -4,12 +4,15 @@ import com.chouchong.common.PageQuery;
 import com.chouchong.common.Response;
 import com.chouchong.common.ResponseFactory;
 import com.chouchong.dao.webUser.ChargeOrderMapper;
+import com.chouchong.redis.MRedisTemplate;
 import com.chouchong.service.order.ChargeOrderService;
+import com.chouchong.service.webUser.vo.WebUserInfo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +25,12 @@ public class ChargeOrderServiceImpl implements ChargeOrderService {
 
     @Autowired
     private ChargeOrderMapper chargeOrderMapper;
+
+    @Autowired
+    private MRedisTemplate mRedisTemplate;
+
+    @Autowired
+    private HttpServletRequest httpServletRequest;
 
     /**
      * 充值订单列表查询
@@ -38,8 +47,10 @@ public class ChargeOrderServiceImpl implements ChargeOrderService {
     @Override
     public Response getList(PageQuery page, String nickname,String phone,Long orderNo,Byte status,Byte payWay) {
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         List<Map> maps = chargeOrderMapper.selectList(nickname,phone,orderNo,status,payWay);
         PageInfo pageInfo = new PageInfo<>(maps);
+        mRedisTemplate.setString("charge" + webUserInfo.getSysAdmin().getId(),String.valueOf(System.currentTimeMillis() / 1000));
         return ResponseFactory.page(maps,pageInfo.getTotal(),pageInfo.getPages(),
                 pageInfo.getPageNum(),pageInfo.getPageSize());
     }

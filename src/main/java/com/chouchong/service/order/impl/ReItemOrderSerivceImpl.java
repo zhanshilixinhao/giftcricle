@@ -7,6 +7,7 @@ import com.chouchong.common.Response;
 import com.chouchong.common.ResponseFactory;
 import com.chouchong.dao.order.ReceiveItemOrderMapper;
 import com.chouchong.entity.webUser.ReceiveItemOrder;
+import com.chouchong.redis.MRedisTemplate;
 import com.chouchong.service.order.ReItemOrderService;
 import com.chouchong.service.order.kdapi.ExpressApi;
 import com.chouchong.service.order.kdapi.ExpressApi2;
@@ -40,6 +41,9 @@ public class ReItemOrderSerivceImpl implements ReItemOrderService {
     @Autowired
     private HttpServletRequest httpServletRequest;
 
+    @Autowired
+    private MRedisTemplate mRedisTemplate;
+
     /**
      * 商品提货订单列表
      *
@@ -64,6 +68,8 @@ public class ReItemOrderSerivceImpl implements ReItemOrderService {
         //查询列表
         List<Map> maps = receiveItemOrderMapper.selectAll(nickname,phone,orderNo,status,adminId);
         PageInfo pageInfo = new PageInfo<>(maps);
+        // 添加最后查看的时间
+        mRedisTemplate.setString("reItem" + webUserInfo.getSysAdmin().getId(),String.valueOf(System.currentTimeMillis() / 1000));
         return ResponseFactory.page(maps,pageInfo.getTotal(),pageInfo.getPages(),
                 pageInfo.getPageNum(),pageInfo.getPageSize());
     }

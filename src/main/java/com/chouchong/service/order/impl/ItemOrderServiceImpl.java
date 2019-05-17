@@ -76,47 +76,34 @@ public class ItemOrderServiceImpl implements ItemOrderService {
         }
         OrderCountVo countVo = new OrderCountVo();
         // 未查看的评价数量
-        Long start = getStartTime("comment" + webUserInfo.getSysAdmin().getId());
-        int count = itemCommentMapper.selectUnredCount(adminId, start);
+        String string2 = mRedisTemplate.getString("comment" + webUserInfo.getSysAdmin().getId());
+        int count = itemCommentMapper.selectUnredCount(adminId, Long.parseLong(string2));
         countVo.setCommentCount(count);
+
         // 未查看的充值订单数量
-        start = getStartTime("charge" + webUserInfo.getSysAdmin().getId());
-        count = chargeOrderMapper.selectUnredCount(start);
+        String string1 = mRedisTemplate.getString("charge" + webUserInfo.getSysAdmin().getId());
+        count = chargeOrderMapper.selectUnredCount(Long.parseLong(string1));
         countVo.setChargeCount(count);
+
         // 未查看的购买商品数量
-        start = getStartTime("item" + webUserInfo.getSysAdmin().getId());
-        count = itemOrderMapper.selectUnredCount(adminId,start);
+        String string = mRedisTemplate.getString("item" + webUserInfo.getSysAdmin().getId());
+        count = itemOrderMapper.selectUnredCount(adminId, Long.parseLong(string));
         countVo.setItemCount(count);
+
         // 未查看虚拟商品
-        start = getStartTime("viItem" + webUserInfo.getSysAdmin().getId());
-        count = virtualItemOrderMapper.selectUnredCount(start);
+        String string3 = mRedisTemplate.getString("viItem" + webUserInfo.getSysAdmin().getId());
+        count = virtualItemOrderMapper.selectUnredCount(Long.parseLong(string3));
         countVo.setViItemCount(count);
         // 未查看提货订单
-        start = getStartTime("reItem" + webUserInfo.getSysAdmin().getId());
-        count = receiveItemOrderMapper.selectUnredCount(adminId,start);
+        String string4 = mRedisTemplate.getString("reItem" + webUserInfo.getSysAdmin().getId());
+        count = receiveItemOrderMapper.selectUnredCount(adminId, Long.parseLong(string4));
         countVo.setReCount(count);
         return ResponseFactory.sucData(countVo);
     }
 
 
     /**
-     * 获取缓存时间
-     *
-     * @param key
-     * @return
-     */
-    private Long getStartTime(String key) {
-        String chargeTime = mRedisTemplate.getString(key);
-        Long start = null;
-        if (!StringUtils.isEmpty(chargeTime)) {
-            start = Long.parseLong(chargeTime);
-        }
-        mRedisTemplate.setString(key, String.valueOf(System.currentTimeMillis() / 1000));
-        return start;
-    }
-
-    /**
-     * 充值订单列表查询
+     * 商品订单列表查询
      *
      * @param nickname 用户昵称
      * @param phone    号码
@@ -138,6 +125,8 @@ public class ItemOrderServiceImpl implements ItemOrderService {
         }
         List<ItemOrderVo> maps = itemOrderMapper.selectList(nickname, phone, orderNo, status, payWay, adminId);
         PageInfo pageInfo = new PageInfo<>(maps);
+        // 添加最后查看的时间
+        mRedisTemplate.setString("item" + webUserInfo.getSysAdmin().getId(), String.valueOf(System.currentTimeMillis() / 1000));
         return ResponseFactory.page(maps, pageInfo.getTotal(), pageInfo.getPages(),
                 pageInfo.getPageNum(), pageInfo.getPageSize());
     }

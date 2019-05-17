@@ -274,7 +274,7 @@ from virtual_item_order
         <trim suffixOverrides="and">
             1= 1 and
           <if test="start!=null">
-            unix_timestamp(a.created) >= #{start} and
+            unix_timestamp(created) >= #{start} and
           </if>
         </trim>
 

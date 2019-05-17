@@ -4,12 +4,15 @@ import com.chouchong.common.PageQuery;
 import com.chouchong.common.Response;
 import com.chouchong.common.ResponseFactory;
 import com.chouchong.dao.order.VirtualItemOrderMapper;
+import com.chouchong.redis.MRedisTemplate;
 import com.chouchong.service.order.VirItemOrderService;
+import com.chouchong.service.webUser.vo.WebUserInfo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +25,12 @@ public class VirItemOrderServiceImpl implements VirItemOrderService {
 
     @Autowired
     private VirtualItemOrderMapper virtualItemOrderMapper;
+
+    @Autowired
+    private HttpServletRequest httpServletRequest;
+
+    @Autowired
+    private MRedisTemplate mRedisTemplate;
 
     /**
      * 虚拟商品订单列表
@@ -40,9 +49,12 @@ public class VirItemOrderServiceImpl implements VirItemOrderService {
     public Response getList(PageQuery pageQuery, String nickname, String phone, Long orderNo, Byte status, Integer payWay) {
         //分页
         PageHelper.startPage(pageQuery.getPageNum(),pageQuery.getPageSize());
+        WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         //查询虚拟商品订单列表
         List<Map> maps = virtualItemOrderMapper.selectAll(nickname,phone,orderNo,status,payWay);
         PageInfo pageInfo = new PageInfo<>(maps);
+        // 添加最后查看的时间
+        mRedisTemplate.setString("viItem" + webUserInfo.getSysAdmin().getId(),String.valueOf(System.currentTimeMillis() / 1000));
         return ResponseFactory.page(maps,pageInfo.getTotal(),pageInfo.getPages(),
                 pageInfo.getPageNum(),pageInfo.getPageSize());
     }

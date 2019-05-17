@@ -36,7 +36,7 @@ public class ItemOrderController {
 
 
     /**
-     * 充值订单列表查询
+     * 商品订单列表查询
      *
      * @param nickname 用户昵称
      * @param phone    号码

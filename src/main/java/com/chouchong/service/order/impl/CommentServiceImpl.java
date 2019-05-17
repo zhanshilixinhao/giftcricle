@@ -7,6 +7,7 @@ import com.chouchong.common.Response;
 import com.chouchong.common.ResponseFactory;
 import com.chouchong.dao.gift.item.ItemCommentMapper;
 import com.chouchong.entity.gift.item.ItemComment;
+import com.chouchong.redis.MRedisTemplate;
 import com.chouchong.service.order.CommentService;
 import com.chouchong.service.order.vo.CommentDetail;
 import com.chouchong.service.order.vo.CommentVo;
@@ -34,6 +35,9 @@ public class CommentServiceImpl  implements CommentService {
     @Autowired
     private HttpServletRequest httpServletRequest;
 
+    @Autowired
+    private MRedisTemplate mRedisTemplate;
+
     /**
      * 获取提货订单列表
      *
@@ -60,6 +64,8 @@ public class CommentServiceImpl  implements CommentService {
         }
         List<CommentVo> list = itemCommentMapper.selectBySearch(map);
         PageInfo pageInfo = new PageInfo<>(list);
+        // 添加最后查看的时间
+        mRedisTemplate.setString("comment" + webUserInfo.getSysAdmin().getId(),String.valueOf(System.currentTimeMillis() / 1000));
         return ResponseFactory.page(list,pageInfo.getTotal(),
                 pageInfo.getPages(), pageInfo.getPageNum(), pageInfo.getPageSize());
     }
