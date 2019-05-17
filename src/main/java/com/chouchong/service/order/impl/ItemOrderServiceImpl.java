@@ -77,32 +77,56 @@ public class ItemOrderServiceImpl implements ItemOrderService {
         OrderCountVo countVo = new OrderCountVo();
         // 未查看的评价数量
         String star = mRedisTemplate.getString("comment" + webUserInfo.getSysAdmin().getId());
-        Long start =Long.parseLong(star);
-        int count = itemCommentMapper.selectUnredCount(adminId, start);
-        countVo.setCommentCount(count);
+        if (!StringUtils.isEmpty(star)) {
+            Long start = Long.parseLong(star);
+            int count = itemCommentMapper.selectUnredCount(adminId, start);
+            countVo.setCommentCount(count);
+        } else {
+            countVo.setCommentCount(0);
+        }
 
         // 未查看的充值订单数量
         String ch = mRedisTemplate.getString("charge" + webUserInfo.getSysAdmin().getId());
-        Long charge = Long.parseLong(ch);
-        count = chargeOrderMapper.selectUnredCount(charge);
-        countVo.setChargeCount(count);
+        if (!StringUtils.isEmpty(ch)) {
+            Long charge = Long.parseLong(ch);
+            int count = chargeOrderMapper.selectUnredCount(charge);
+            countVo.setChargeCount(count);
+        } else {
+            countVo.setChargeCount(0);
+
+        }
 
         // 未查看的购买商品数量
         String string = mRedisTemplate.getString("item" + webUserInfo.getSysAdmin().getId());
-        Long str = Long.parseLong(string);
-        count = itemOrderMapper.selectUnredCount(adminId, str);
-        countVo.setItemCount(count);
+        if (!StringUtils.isEmpty(string)) {
+            Long str = Long.parseLong(string);
+            int count = itemOrderMapper.selectUnredCount(adminId, str);
+            countVo.setItemCount(count);
+        } else {
+            countVo.setItemCount(0);
+        }
 
         // 未查看虚拟商品
         String vi = mRedisTemplate.getString("viItem" + webUserInfo.getSysAdmin().getId());
-        Long viItem = Long.parseLong(vi);
-        count = virtualItemOrderMapper.selectUnredCount(viItem);
-        countVo.setViItemCount(count);
+        if (!StringUtils.isEmpty(vi)) {
+            Long viItem = Long.parseLong(vi);
+            int count = virtualItemOrderMapper.selectUnredCount(viItem);
+            countVo.setViItemCount(count);
+        } else {
+            countVo.setViItemCount(0);
+        }
+
         // 未查看提货订单
         String re = mRedisTemplate.getString("reItem" + webUserInfo.getSysAdmin().getId());
-        Long reTime = Long.parseLong(re);
-        count = receiveItemOrderMapper.selectUnredCount(adminId,reTime );
-        countVo.setReCount(count);
+        if (!StringUtils.isEmpty(re)) {
+            Long reTime = Long.parseLong(re);
+            int count = receiveItemOrderMapper.selectUnredCount(adminId, reTime);
+            countVo.setReCount(count);
+        } else {
+            countVo.setReCount(0);
+
+        }
+
         return ResponseFactory.sucData(countVo);
     }
 
