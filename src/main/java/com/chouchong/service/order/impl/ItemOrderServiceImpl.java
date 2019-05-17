@@ -76,13 +76,13 @@ public class ItemOrderServiceImpl implements ItemOrderService {
         }
         OrderCountVo countVo = new OrderCountVo();
         // 未查看的评价数量
-        String string2 = mRedisTemplate.getString("comment" + webUserInfo.getSysAdmin().getId());
-        int count = itemCommentMapper.selectUnredCount(adminId, Long.parseLong(string2));
+        String star = mRedisTemplate.getString("comment" + webUserInfo.getSysAdmin().getId());
+        int count = itemCommentMapper.selectUnredCount(adminId, Long.parseLong(star));
         countVo.setCommentCount(count);
 
         // 未查看的充值订单数量
-        String string1 = mRedisTemplate.getString("charge" + webUserInfo.getSysAdmin().getId());
-        count = chargeOrderMapper.selectUnredCount(Long.parseLong(string1));
+        String ch = mRedisTemplate.getString("charge" + webUserInfo.getSysAdmin().getId());
+        count = chargeOrderMapper.selectUnredCount(Long.parseLong(ch));
         countVo.setChargeCount(count);
 
         // 未查看的购买商品数量
@@ -91,12 +91,12 @@ public class ItemOrderServiceImpl implements ItemOrderService {
         countVo.setItemCount(count);
 
         // 未查看虚拟商品
-        String string3 = mRedisTemplate.getString("viItem" + webUserInfo.getSysAdmin().getId());
-        count = virtualItemOrderMapper.selectUnredCount(Long.parseLong(string3));
+        String vi = mRedisTemplate.getString("viItem" + webUserInfo.getSysAdmin().getId());
+        count = virtualItemOrderMapper.selectUnredCount(Long.parseLong(vi));
         countVo.setViItemCount(count);
         // 未查看提货订单
-        String string4 = mRedisTemplate.getString("reItem" + webUserInfo.getSysAdmin().getId());
-        count = receiveItemOrderMapper.selectUnredCount(adminId, Long.parseLong(string4));
+        String re = mRedisTemplate.getString("reItem" + webUserInfo.getSysAdmin().getId());
+        count = receiveItemOrderMapper.selectUnredCount(adminId, Long.parseLong(re));
         countVo.setReCount(count);
         return ResponseFactory.sucData(countVo);
     }
