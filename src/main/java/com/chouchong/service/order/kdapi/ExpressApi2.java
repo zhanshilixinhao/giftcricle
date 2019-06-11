@@ -24,10 +24,10 @@ public class ExpressApi2 {
     private static final String customer = "6343B44205FE4494A76FEBB89BC751C4";
 
 
-//    public static void main(String[] args) {
-//        KdResult2 shentong = checkLogisticsInfo("shentong", "3704668285858");
-//        System.out.println(shentong.toString());
-//    }
+    public static void main(String[] args) {
+        KdResult2 shentong = checkLogisticsInfo("shentong", "3704668285858");
+        System.out.println(shentong.toString());
+    }
 
     public static KdResult2 checkLogisticsInfo(String com, String num) {
 //        String param = "{\"com\": \"" + com + "\",\"num\":\""+num+"\"}";
