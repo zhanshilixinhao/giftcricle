@@ -272,83 +272,202 @@
 
   <!--根据搜索条件查询商品列表-->
   <select id="selectBySearch" parameterType="java.util.Map" resultType="com.chouchong.service.gift.item.vo.ItemVo">
+    select *
+    from (
     SELECT a.id,
     a.title,
     a.price,
     a.sales,
     a.stock,
     a.description,
-    a.re_gender                                               as reGender,
-    a.re_max_age                                              as reMaxAge,
-    a.re_age_min                                              as reAgemin,
-    a.category_id                                             as categoryId,
-    c.name                                            as categoryName,
+    a.re_gender                                          as reGender,
+    a.re_max_age                                         as reMaxAge,
+    a.re_age_min                                         as reAgemin,
+    a.category_id                                        as categoryId,
+    c.name                                               as categoryName,
     a.cover,
     a.pictures,
     a.choiceness,
     a.hot,
     a.status,
-    a.is_audit                                                as isAudit,
-    a.brand_id                                                as brandId,
+    a.is_audit                                           as isAudit,
+    a.brand_id                                           as brandId,
     a.admin_id,
     b.username,
     a.created,
     a.updated,
     (SELECT count(0) FROM item_sku WHERE item_id = a.id) as isGroup,
-    store_id                                                as storeId
+    store_id                                             as storeId
     FROM item a
     left join sys_admin b on a.admin_id = b.id
     left join item_category c on a.category_id = c.id
-    WHERE a.status != 3
+    where 1=1
+    <if test="category != null">
+      AND c.id = #{category}
+    </if>
+    union all
+    SELECT a.id,
+    a.title,
+    a.price,
+    a.sales,
+    a.stock,
+    a.description,
+    a.re_gender                                          as reGender,
+    a.re_max_age                                         as reMaxAge,
+    a.re_age_min                                         as reAgemin,
+    a.category_id                                        as categoryId,
+    c.name                                               as categoryName,
+    a.cover,
+    a.pictures,
+    a.choiceness,
+    a.hot,
+    a.status,
+    a.is_audit                                           as isAudit,
+    a.brand_id                                           as brandId,
+    a.admin_id,
+    b.username,
+    a.created,
+    a.updated,
+    (SELECT count(0) FROM item_sku WHERE item_id = a.id) as isGroup,
+    store_id                                             as storeId
+    FROM item a
+    left join sys_admin b on a.admin_id = b.id
+    left join item_category c on a.category_id = c.id
+    where 1=1
+    <if test="category != null">
+      AND c.pid = #{category}
+    </if>
+    ) f
+    where f.status != 3
     <if test="title != null and title != ''">
-      AND a.title LIKE CONCAT(CONCAT('%', #{title}), '%')
+      AND f.title LIKE CONCAT(CONCAT('%', #{title}), '%')
     </if>
     <if test="status != null">
-      AND a.status = #{status}
+      AND f.status = #{status}
     </if>
     <if test="hot != null">
-      AND a.hot = #{hot}
+      AND f.hot = #{hot}
     </if>
     <if test="choiceness != null">
-      AND a.choiceness = #{choiceness}
+      AND f.choiceness = #{choiceness}
     </if>
     <if test="brand != null">
-      AND a.brand_id = #{brand}
-    </if>
-    <if test="category != null">
-      AND a.category_id = #{category}
+      AND f.brand_id = #{brand}
     </if>
     <if test="adminId != null">
-      and a.admin_id = #{adminId}
+      and f.admin_id = #{adminId}
     </if>
     <if test="sales != null and sales != '' || sales == 0">
       <if test="sales == 0">
-        ORDER BY a.sales DESC
+        ORDER BY f.sales DESC
       </if>
       <if test="sales == 1">
-        ORDER BY a.sales ASC
+        ORDER BY f.sales ASC
       </if>
     </if>
     <if test="price != null and price != '' || price == 0">
       <if test="price == 0">
-        ORDER BY a.price DESC
+        ORDER BY f.price DESC
       </if>
       <if test="price == 1">
-        ORDER BY a.price ASC
+        ORDER BY f.price ASC
       </if>
     </if>
     <if test="date != null and date != '' || date == 0">
       <if test="date == 0">
-        ORDER BY a.created DESC
+        ORDER BY f.created DESC
       </if>
       <if test="date == 1">
-        ORDER BY a.created ASC
+        ORDER BY f.created ASC
       </if>
     </if>
     <if test="date == null and price == null and sales == null">
-      ORDER BY a.created DESC
+      ORDER BY f.created DESC
     </if>
   </select>
+
+
+<!--  <select id="selectBySearch" parameterType="java.util.Map" resultType="com.chouchong.service.gift.item.vo.ItemVo">-->
+<!--    SELECT a.id,-->
+<!--    a.title,-->
+<!--    a.price,-->
+<!--    a.sales,-->
+<!--    a.stock,-->
+<!--    a.description,-->
+<!--    a.re_gender                                               as reGender,-->
+<!--    a.re_max_age                                              as reMaxAge,-->
+<!--    a.re_age_min                                              as reAgemin,-->
+<!--    a.category_id                                             as categoryId,-->
+<!--    c.name                                            as categoryName,-->
+<!--    a.cover,-->
+<!--    a.pictures,-->
+<!--    a.choiceness,-->
+<!--    a.hot,-->
+<!--    a.status,-->
+<!--    a.is_audit                                                as isAudit,-->
+<!--    a.brand_id                                                as brandId,-->
+<!--    a.admin_id,-->
+<!--    b.username,-->
+<!--    a.created,-->
+<!--    a.updated,-->
+<!--    (SELECT count(0) FROM item_sku WHERE item_id = a.id) as isGroup,-->
+<!--    store_id                                                as storeId-->
+<!--    FROM item a-->
+<!--    left join sys_admin b on a.admin_id = b.id-->
+<!--    left join item_category c on a.category_id = c.id-->
+<!--    WHERE a.status != 3-->
+<!--    <if test="title != null and title != ''">-->
+<!--      AND a.title LIKE CONCAT(CONCAT('%', #{title}), '%')-->
+<!--    </if>-->
+<!--    <if test="status != null">-->
+<!--      AND a.status = #{status}-->
+<!--    </if>-->
+<!--    <if test="hot != null">-->
+<!--      AND a.hot = #{hot}-->
+<!--    </if>-->
+<!--    <if test="choiceness != null">-->
+<!--      AND a.choiceness = #{choiceness}-->
+<!--    </if>-->
+<!--    <if test="brand != null">-->
+<!--      AND a.brand_id = #{brand}-->
+<!--    </if>-->
+<!--    <if test="category != null">-->
+<!--      AND a.category_id = #{category}-->
+<!--    </if>-->
+<!--    <if test="adminId != null">-->
+<!--      and a.admin_id = #{adminId}-->
+<!--    </if>-->
+<!--    <if test="sales != null and sales != '' || sales == 0">-->
+<!--      <if test="sales == 0">-->
+<!--        ORDER BY a.sales DESC-->
+<!--      </if>-->
+<!--      <if test="sales == 1">-->
+<!--        ORDER BY a.sales ASC-->
+<!--      </if>-->
+<!--    </if>-->
+<!--    <if test="price != null and price != '' || price == 0">-->
+<!--      <if test="price == 0">-->
+<!--        ORDER BY a.price DESC-->
+<!--      </if>-->
+<!--      <if test="price == 1">-->
+<!--        ORDER BY a.price ASC-->
+<!--      </if>-->
+<!--    </if>-->
+<!--    <if test="date != null and date != '' || date == 0">-->
+<!--      <if test="date == 0">-->
+<!--        ORDER BY a.created DESC-->
+<!--      </if>-->
+<!--      <if test="date == 1">-->
+<!--        ORDER BY a.created ASC-->
+<!--      </if>-->
+<!--    </if>-->
+<!--    <if test="date == null and price == null and sales == null">-->
+<!--      ORDER BY a.created DESC-->
+<!--    </if>-->
+<!--  </select>-->
+
+
+
   <!--插入商品详情-->
   <insert id="insertItemDetail">
     insert into
