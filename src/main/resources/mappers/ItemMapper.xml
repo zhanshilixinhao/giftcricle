@@ -272,7 +272,7 @@
 
   <!--根据搜索条件查询商品列表-->
   <select id="selectBySearch" parameterType="java.util.Map" resultType="com.chouchong.service.gift.item.vo.ItemVo">
-    select *
+    select distinct f.*
     from (
     SELECT a.id,
     a.title,
