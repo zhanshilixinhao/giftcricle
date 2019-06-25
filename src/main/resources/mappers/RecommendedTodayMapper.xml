@@ -12,13 +12,47 @@
       <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
     </constructor>
   </resultMap>
+  <sql id="Base_Column_List">
+    id, item_id, sort, status, day, created, updated
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from recommended_today
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.gift.item.RecommendedToday">
+    update recommended_today
+    <set>
+      <if test="itemId != null">
+        item_id = #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="day != null">
+        day = #{day,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
   <insert id="insert" parameterType="com.chouchong.entity.gift.item.RecommendedToday">
-    insert into recommended_today (id, item_id, sort, 
-      status, day, created, 
+    insert into recommended_today (id, item_id, sort,
+      status, day, created,
       updated)
-    values (#{id,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, 
-      #{status,jdbcType=TINYINT}, #{day,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP}, 
-      #{updated,jdbcType=TIMESTAMP})
+    values (#{id,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER},
+      #{status,jdbcType=TINYINT}, #{day,jdbcType=TIMESTAMP}, now(),
+      now())
   </insert>
   <insert id="insertSelective" parameterType="com.chouchong.entity.gift.item.RecommendedToday">
     insert into recommended_today
@@ -69,4 +103,34 @@
       </if>
     </trim>
   </insert>
+    <select id="selectBySearch" resultType="com.chouchong.service.gift.item.vo.RecommendVo">
+select a.id,
+       a.item_id,
+       a.status,
+       a.day,
+       a.sort,
+       a.created,
+       b.cover,
+       b.title as name
+from recommended_today a
+         left join item b on a.item_id = b.id
+where a.status = 1
+and b.status = 1
+<if test="name != null and name != ''">
+ and b.title like concat('%',#{name},'%')
+</if>
+<if test="day != null ">
+  and unix_timestamp(a.day) >= #{day}
+  and unix_timestamp(a.day) &lt; #{day}
+</if>
+order by a.sort,a.created DESC
+    </select>
+  <select id="selectByDayAndItemId" resultType="com.chouchong.entity.gift.item.RecommendedToday">
+    select *
+    from recommended_today
+    where item_id = #{itemId}
+    and unix_timestamp(a.day) >= #{day}
+  and unix_timestamp(a.day) &lt; #{day}
+  </select>
+
 </mapper>

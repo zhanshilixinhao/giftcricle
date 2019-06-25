@@ -22,5 +22,39 @@ public interface RecommendService {
      * @author linqin
      * @date 2019/6/24
      */
-    Response getRecommendList(PageQuery pageQuery, String name, Data day);
+    Response getRecommendList(PageQuery pageQuery, String name, Long day);
+
+
+    /**
+     * 添加今日推荐商品
+     *
+     * @param day 日期
+     * @param ids 商品id s
+     * @return
+     * @author linqin
+     * @date 2019/6/24
+     */
+    Response addRecommendItem(Long day, String ids);
+
+
+
+    /**
+     * 删除今日推荐商品
+     *
+     * @param id 今日推荐商品id
+     * @return
+     * @author linqin
+     * @date 2019/1/15 11:25
+     */
+    Response delRecommendItem(Integer id);
+
+    /**
+     * 今日推荐商品排序
+     *
+     * @param id 今日推荐商品id
+     * @return
+     * @author linqin
+     * @date 2019/1/15 11:25
+     */
+    Response sortRecommendItem(Integer id,Integer sort);
 }
