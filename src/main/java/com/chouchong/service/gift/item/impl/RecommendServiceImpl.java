@@ -8,12 +8,14 @@ import com.chouchong.entity.gift.item.RecommendedToday;
 import com.chouchong.entity.gift.label.LabelItem;
 import com.chouchong.service.gift.item.RecommendService;
 import com.chouchong.service.gift.item.vo.RecommendVo;
+import com.chouchong.utils.TimeUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.xml.crypto.Data;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,9 +43,15 @@ public class RecommendServiceImpl implements RecommendService {
      * @date 2019/6/24
      */
     @Override
-    public Response getRecommendList(PageQuery pageQuery, String name, Long day) {
+    public Response getRecommendList(PageQuery pageQuery, String name, Long day) throws ParseException {
         PageHelper.startPage(pageQuery.getPageNum(),pageQuery.getPageSize());
-        List<RecommendVo> labelItemVos = recommendedTodayMapper.selectBySearch(name,day);
+        Long start = null;
+        Long endTime = null;
+        if (day != null){
+            start = TimeUtils.time(day);
+             endTime = TimeUtils.timeEnd(day);
+        }
+        List<RecommendVo> labelItemVos = recommendedTodayMapper.selectBySearch(name,start,endTime);
         PageInfo pageInfo = new PageInfo<>(labelItemVos);
         return ResponseFactory.page(labelItemVos, pageInfo.getTotal(),
                 pageInfo.getPages(), pageInfo.getPageNum(), pageInfo.getPageSize());
@@ -61,12 +69,14 @@ public class RecommendServiceImpl implements RecommendService {
      * @date 2019/6/24
      */
     @Override
-    public Response addRecommendItem(Long day, String ids) {
+    public Response addRecommendItem(Long day, String ids) throws ParseException {
         String[] itemIds = ids.split(",");
         List<RecommendedToday> todays = new ArrayList<>();
+        Long start = TimeUtils.time(day);
+        Long endTime = TimeUtils.timeEnd(day);
         for (String id : itemIds) {
             Integer itemId = Integer.parseInt(id);
-            RecommendedToday today = recommendedTodayMapper.selectByDayAndItemId(day,itemId);
+            RecommendedToday today = recommendedTodayMapper.selectByDayAndItemId(itemId,start,endTime);
             if (today == null){
                 today = new RecommendedToday();
                 today.setItemId(itemId);

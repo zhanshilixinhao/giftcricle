@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.xml.crypto.Data;
+import java.text.ParseException;
 
 /**
  * @author linqin
@@ -35,7 +36,7 @@ public class RecommendController {
      * @date 2019/6/24
      */
     @PostMapping("list")
-    public Response getRecommendList(PageQuery pageQuery, String name, Long day) {
+    public Response getRecommendList(PageQuery pageQuery, String name, Long day) throws ParseException {
         return recommendService.getRecommendList(pageQuery, name, day);
     }
 
@@ -50,7 +51,7 @@ public class RecommendController {
      * @date 2019/6/24
      */
     @PostMapping("add")
-    public Response addRecommendItem(Long day, String ids) {
+    public Response addRecommendItem(Long day, String ids) throws ParseException {
         if (day == null || StringUtils.isBlank(ids)) {
             return ResponseFactory.errMissingParameter();
         }

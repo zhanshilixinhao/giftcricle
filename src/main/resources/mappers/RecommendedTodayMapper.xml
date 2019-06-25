@@ -103,34 +103,35 @@
       </if>
     </trim>
   </insert>
-    <select id="selectBySearch" resultType="com.chouchong.service.gift.item.vo.RecommendVo">
-select a.id,
-       a.item_id,
-       a.status,
-       a.day,
-       a.sort,
-       a.created,
-       b.cover,
-       b.title as name
-from recommended_today a
-         left join item b on a.item_id = b.id
-where a.status = 1
-and b.status = 1
-<if test="name != null and name != ''">
- and b.title like concat('%',#{name},'%')
-</if>
-<if test="day != null ">
-  and unix_timestamp(a.day) >= #{day}
-  and unix_timestamp(a.day) &lt; #{day}
-</if>
-order by a.sort,a.created DESC
-    </select>
+
   <select id="selectByDayAndItemId" resultType="com.chouchong.entity.gift.item.RecommendedToday">
     select *
     from recommended_today
     where item_id = #{itemId}
-    and unix_timestamp(a.day) >= #{day}
-  and unix_timestamp(a.day) &lt; #{day}
+    and unix_timestamp(`day`) >= #{start}
+  and unix_timestamp(`day`) &lt; #{endTime}
+  </select>
+  <select id="selectBySearch" resultType="com.chouchong.service.gift.item.vo.RecommendVo">
+    select a.id,
+    a.item_id,
+    a.status,
+    a.day,
+    a.sort,
+    a.created,
+    b.cover,
+    b.title as name
+    from recommended_today a
+    left join item b on a.item_id = b.id
+    where a.status = 1
+    and b.status = 1
+    <if test="name != null and name != ''">
+      and b.title like concat('%',#{name},'%')
+    </if>
+    <if test="start != null and endTime != null ">
+      and unix_timestamp(a.day) >= #{start}
+      and unix_timestamp(a.day) &lt; #{endTime}
+    </if>
+    order by a.created DESC
   </select>
 
 </mapper>

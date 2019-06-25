@@ -12,12 +12,13 @@ public interface RecommendedTodayMapper {
 
     int insertSelective(RecommendedToday record);
 
-    List<RecommendVo> selectBySearch(@Param("name") String name,@Param("day") Long day);
 
-    RecommendedToday selectByDayAndItemId(@Param("day") Long day,@Param("itemId") Integer itemId);
+    RecommendedToday selectByDayAndItemId(@Param("itemId") Integer itemId,@Param("start") Long start,@Param("endTime") Long endTime);
 
 
     RecommendedToday selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(RecommendedToday record);
+
+    List<RecommendVo> selectBySearch(@Param("name") String name,@Param("start") Long start,@Param("endTime") Long endTime);
 }

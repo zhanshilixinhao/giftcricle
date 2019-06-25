@@ -4,6 +4,7 @@ import com.chouchong.common.PageQuery;
 import com.chouchong.common.Response;
 
 import javax.xml.crypto.Data;
+import java.text.ParseException;
 
 /**
  * @author linqin
@@ -22,7 +23,7 @@ public interface RecommendService {
      * @author linqin
      * @date 2019/6/24
      */
-    Response getRecommendList(PageQuery pageQuery, String name, Long day);
+    Response getRecommendList(PageQuery pageQuery, String name, Long day) throws ParseException;
 
 
     /**
@@ -34,7 +35,7 @@ public interface RecommendService {
      * @author linqin
      * @date 2019/6/24
      */
-    Response addRecommendItem(Long day, String ids);
+    Response addRecommendItem(Long day, String ids) throws ParseException;
 
 
 
