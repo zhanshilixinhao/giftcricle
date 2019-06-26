@@ -94,4 +94,64 @@ public interface ArticleService {
      * @date 2019/1/15 11:25
      */
     Response addArticleItem(Integer articleId, String ids);
+
+    /*---------------------------------文章场景管理-------------------------------------*/
+
+    /**
+     * 获取文章场景列表
+     *
+     * @return
+     * @author linqin
+     * @date 2019/1/15 11:25
+     */
+    Response getSceneList(PageQuery page, String title);
+
+
+    /**
+     * 添加文章场景
+     *
+     * @return
+     * @author linqin
+     * @date 2019/1/15 11:25
+     */
+    Response addScene(String title);
+
+    /**
+     * 修改文章场景
+     *
+     * @return
+     * @author linqin
+     * @date 2019/1/15 11:25
+     */
+    Response updateScene(Integer id, String title);
+
+    /**
+     * 删除文章场景
+     *
+     * @return
+     * @author linqin
+     * @date 2019/1/15 11:25
+     */
+    Response delScene(Integer id);
+
+
+
+    /**
+     * 获取所有文章场景
+     *
+     * @return
+     * @author linqin
+     * @date 2019/1/15 11:25
+     */
+    Response getSceneListAll();
+
+
+    /**
+     * 获取所有文章节日
+     *
+     * @return
+     * @author linqin
+     * @date 2019/1/15 11:25
+     */
+    Response getFestivalListAll();
 }

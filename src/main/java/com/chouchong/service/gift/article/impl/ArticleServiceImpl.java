@@ -4,10 +4,14 @@ import com.chouchong.common.ErrorCode;
 import com.chouchong.common.PageQuery;
 import com.chouchong.common.Response;
 import com.chouchong.common.ResponseFactory;
+import com.chouchong.dao.gift.article.ArticleFestivalMapper;
 import com.chouchong.dao.gift.article.ArticleItemMapper;
 import com.chouchong.dao.gift.article.ArticleMapper;
+import com.chouchong.dao.gift.article.ArticleSceneMapper;
 import com.chouchong.entity.gift.article.Article;
+import com.chouchong.entity.gift.article.ArticleFestival;
 import com.chouchong.entity.gift.article.ArticleItem;
+import com.chouchong.entity.gift.article.ArticleScene;
 import com.chouchong.entity.gift.label.LabelItem;
 import com.chouchong.entity.gift.themeItem.ThemeItem;
 import com.chouchong.exception.ServiceException;
@@ -41,6 +45,13 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private ArticleItemMapper articleItemMapper;
 
+    @Autowired
+    private ArticleSceneMapper articleSceneMapper;
+
+    @Autowired
+    private ArticleFestivalMapper articleFestivalMapper;
+
+
     /**
      * 通过文章标题获得文章列表
      *
@@ -68,7 +79,7 @@ public class ArticleServiceImpl implements ArticleService {
      */
     @Override
     public Response addArticle(Article article) {
-        if (article.getType() != null && article.getType() == 1){
+        if (article.getType() != null && article.getType() == 1) {
             //查询所有banner文章
             List<Article> articleList = articleMapper.selectAllBanner();
             if (!CollectionUtils.isEmpty(articleList)) {
@@ -121,7 +132,7 @@ public class ArticleServiceImpl implements ArticleService {
         if (article1 == null) {
             return ResponseFactory.err("无此文章");
         }
-        if (article.getType() == 1){
+        if (article.getType() == 1) {
             //查询所有banner文章
             List<Article> articleList = articleMapper.selectAllBanner();
             if (!CollectionUtils.isEmpty(articleList)) {
@@ -271,4 +282,114 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
 
+    /*---------------------------------文章场景管理-------------------------------------*/
+
+    /**
+     * 获取文章场景列表
+     *
+     * @return
+     * @author linqin
+     * @date 2019/1/15 11:25
+     */
+    @Override
+    public Response getSceneList(PageQuery page, String title) {
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        List<ArticleScene> articles = articleSceneMapper.selectBySearch(title);
+        PageInfo pageInfo = new PageInfo<>(articles);
+        return ResponseFactory.page(articles, pageInfo.getTotal(),
+                pageInfo.getPages(), pageInfo.getPageNum(), pageInfo.getPageSize());
+    }
+
+    /**
+     * 添加文章场景
+     *
+     * @return
+     * @author linqin
+     * @date 2019/1/15 11:25
+     */
+    @Override
+    public Response addScene(String title) {
+        ArticleScene scene = articleSceneMapper.selectByTitle(title);
+        if (scene != null) {
+            return ResponseFactory.err("该场景已经存在，不能再添加");
+        }
+        scene = new ArticleScene();
+        scene.setTitle(title);
+        int insert = articleSceneMapper.insert(scene);
+        if (insert < 1) {
+            return ResponseFactory.err("添加失败");
+        }
+        return ResponseFactory.sucMsg("添加成功");
+    }
+
+
+    /**
+     * 修改文章场景
+     *
+     * @return
+     * @author linqin
+     * @date 2019/1/15 11:25
+     */
+    @Override
+    public Response updateScene(Integer id, String title) {
+        ArticleScene scene = articleSceneMapper.selectByPrimaryKey(id);
+        if (scene == null) {
+            return ResponseFactory.err("该场景不存在");
+        }
+        ArticleScene articleScene = articleSceneMapper.selectByTitle(title);
+        if (!articleScene.getId().equals(id)) {
+            return ResponseFactory.err("该场景已经存在，不能再添加");
+        }
+        scene.setTitle(title);
+        int update = articleSceneMapper.updateByPrimaryKeySelective(scene);
+        if (update < 1) {
+            return ResponseFactory.err("修改失败");
+        }
+        return ResponseFactory.sucMsg("修改成功");
+    }
+
+
+    /**
+     * 删除文章场景
+     *
+     * @return
+     * @author linqin
+     * @date 2019/1/15 11:25
+     */
+    @Override
+    public Response delScene(Integer id) {
+        int i = articleSceneMapper.deleteByPrimaryKey(id);
+        if (i < 1) {
+            return ResponseFactory.err("删除失败");
+        }
+        return ResponseFactory.sucMsg("删除成功");
+    }
+
+
+    /**
+     * 获取所有文章场景
+     *
+     * @return
+     * @author linqin
+     * @date 2019/1/15 11:25
+     */
+    @Override
+    public Response getSceneListAll() {
+        List<ArticleScene> articles = articleSceneMapper.selectByAll();
+        return ResponseFactory.sucData(articles);
+    }
+
+
+    /**
+     * 获取所有文章节日
+     *
+     * @return
+     * @author linqin
+     * @date 2019/1/15 11:25
+     */
+    @Override
+    public Response getFestivalListAll() {
+        List<ArticleFestival> festivals = articleFestivalMapper.selectByAll();
+        return ResponseFactory.sucData(festivals);
+    }
 }

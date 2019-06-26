@@ -5,6 +5,7 @@ import com.chouchong.common.Response;
 import com.chouchong.common.ResponseFactory;
 import com.chouchong.entity.gift.article.Article;
 import com.chouchong.service.gift.article.ArticleService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -175,5 +176,95 @@ public class ArticleController {
         }
         return articleService.addArticleItem(articleId, ids);
     }
+
+
+    /*---------------------------------文章场景管理-------------------------------------*/
+
+    /**
+     * 获取文章场景列表
+     *
+     * @return
+     * @author linqin
+     * @date 2019/1/15 11:25
+     */
+    @PostMapping("scene_list")
+    public Response getSceneList(PageQuery page,String title) {
+
+        return articleService.getSceneList(page, title);
+    }
+
+
+    /**
+     * 添加文章场景
+     *
+     * @return
+     * @author linqin
+     * @date 2019/1/15 11:25
+     */
+    @PostMapping("scene_add")
+    public Response addScene(String title) {
+        if (StringUtils.isBlank(title)){
+            return ResponseFactory.errMissingParameter();
+        }
+        return articleService.addScene( title);
+    }
+
+
+    /**
+     * 修改文章场景
+     *
+     * @return
+     * @author linqin
+     * @date 2019/1/15 11:25
+     */
+    @PostMapping("scene_update")
+    public Response updateScene(Integer id,String title) {
+        if (StringUtils.isBlank(title) || id == null){
+            return ResponseFactory.errMissingParameter();
+        }
+        return articleService.updateScene(id, title);
+    }
+
+
+
+    /**
+     * 删除文章场景
+     *
+     * @return
+     * @author linqin
+     * @date 2019/1/15 11:25
+     */
+    @PostMapping("scene_del")
+    public Response delScene(Integer id) {
+        if ( id == null){
+            return ResponseFactory.errMissingParameter();
+        }
+        return articleService.delScene(id);
+    }
+
+    /**
+     * 获取所有文章场景
+     *
+     * @return
+     * @author linqin
+     * @date 2019/1/15 11:25
+     */
+    @PostMapping("scene_list_all")
+    public Response getSceneListAll() {
+        return articleService.getSceneListAll();
+    }
+
+    /**
+     * 获取所有文章节日
+     *
+     * @return
+     * @author linqin
+     * @date 2019/1/15 11:25
+     */
+    @PostMapping("festival_list")
+    public Response getFestivalListAll() {
+        return articleService.getFestivalListAll();
+    }
+
 
 }
