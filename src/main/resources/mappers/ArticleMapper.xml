@@ -29,7 +29,7 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, title, cover, summary, admin_id, status, sort, created, updated, `type`, show_time
+    id, title, cover, summary, admin_id, status, sort, created, updated, `type`, show_time, scene_id,label_id,festival_id
   </sql>
   <sql id="Blob_Column_List">
     detail
@@ -50,11 +50,12 @@
     insert into article (id, title, cover,
       summary, admin_id, status,
       sort, created, updated,
-      detail, `type`, show_time)
+      detail, `type`, show_time,scene_id,label_id,festival_id)
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR},
       #{summary,jdbcType=VARCHAR}, #{adminId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT},
       #{sort,jdbcType=INTEGER}, now(), now(),
-      #{detail,jdbcType=LONGVARCHAR},#{type,jdbcType=TINYINT},#{showTime,jdbcType=TIMESTAMP})
+      #{detail,jdbcType=LONGVARCHAR},#{type,jdbcType=TINYINT},#{showTime,jdbcType=TIMESTAMP},#{sceneId,jdbcType=INTEGER},
+      #{labelId,jdbcType=INTEGER},#{festivalId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.chouchong.entity.gift.article.Article">
     insert into article
@@ -159,6 +160,15 @@
       <if test="showTime != null">
         show_time = #{showTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="sceneId != null">
+        scene_id = #{sceneId,jdbcType=INTEGER},
+      </if>
+      <if test="labelId != null">
+        label_id = #{labelId,jdbcType=INTEGER},
+      </if>
+      <if test="festivalId != null">
+        festival_id = #{festivalId,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -199,7 +209,7 @@
     article
     WHERE
     status != 3
-    <if test="name != null">
+    <if test="name != null and name != ''">
       AND title LIKE CONCAT(CONCAT('%', #{name}), '%')
     </if>
     <if test="type != null">

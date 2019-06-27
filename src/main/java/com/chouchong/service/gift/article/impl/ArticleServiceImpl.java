@@ -150,6 +150,9 @@ public class ArticleServiceImpl implements ArticleService {
         article1.setDetail(article.getDetail());
         article1.setType(article.getType());
         article1.setShowTime(article.getShowTime());
+        article1.setSceneId(article.getSceneId());
+        article1.setLabelId(article.getLabelId());
+        article1.setFestivalId(article.getFestivalId());
         int count = articleMapper.updateByPrimaryKeySelective(article1);
         if (count == 1) {
             return ResponseFactory.sucMsg("修改成功");

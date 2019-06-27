@@ -26,6 +26,10 @@ public class Article {
     private Byte type;
 
     private Date showTime;
+    private Integer sceneId;
+
+    private Integer labelId;
+    private Integer festivalId;
 
     public Article(Integer id, String title, String cover, String summary, Integer adminId, Byte status, Integer sort, Date created, Date updated) {
         this.id = id;
@@ -51,6 +55,7 @@ public class Article {
         this.updated = updated;
         this.detail = detail;
     }
+
 
     public Article() {
         super();
@@ -150,5 +155,29 @@ public class Article {
 
     public void setShowTime(Date showTime) {
         this.showTime = showTime;
+    }
+
+    public Integer getSceneId() {
+        return sceneId;
+    }
+
+    public void setSceneId(Integer sceneId) {
+        this.sceneId = sceneId;
+    }
+
+    public Integer getLabelId() {
+        return labelId;
+    }
+
+    public void setLabelId(Integer labelId) {
+        this.labelId = labelId;
+    }
+
+    public Integer getFestivalId() {
+        return festivalId;
+    }
+
+    public void setFestivalId(Integer festivalId) {
+        this.festivalId = festivalId;
     }
 }
