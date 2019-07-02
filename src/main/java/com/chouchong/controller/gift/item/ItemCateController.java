@@ -83,11 +83,11 @@ public class ItemCateController {
      * @Date: 2018/6/27
      */
     @PostMapping("add")
-    public Response addItemCate(String name) {
-        if (StringUtils.isAnyBlank(name)) {
+    public Response addItemCate(String name,String icon) {
+        if (StringUtils.isAnyBlank(name,icon)) {
             ResponseFactory.err("参数错误!");
         }
-        return itemCateService.addItemCate(name);
+        return itemCateService.addItemCate(name,icon);
     }
 
     /**
@@ -99,11 +99,11 @@ public class ItemCateController {
      * @Date: 2018/6/27
      */
     @PostMapping("pid_add")
-    public Response addItemCateByPid(String name, Integer pid) {
-        if (StringUtils.isAnyBlank(name) || pid == null) {
+    public Response addItemCateByPid(String name, Integer pid,String icon) {
+        if (StringUtils.isAnyBlank(name,icon) || pid == null) {
             ResponseFactory.err("参数错误!");
         }
-        return itemCateService.addItemCateByPid(name,pid);
+        return itemCateService.addItemCateByPid(name,pid,icon);
     }
 
     /**
@@ -115,11 +115,11 @@ public class ItemCateController {
      * @Date: 2018/6/27
      */
     @PostMapping("update")
-    public Response updateItemCate(Integer id, String name, Integer sort) {
-        if (id == null || name == null || sort == null) {
+    public Response updateItemCate(Integer id, String name, Integer sort,String icon) {
+        if (StringUtils.isAnyBlank(name,icon) ||id == null || sort == null) {
             ResponseFactory.err("参数错误!");
         }
-        return itemCateService.updateItemCate(id, name, sort);
+        return itemCateService.updateItemCate(id, name, sort,icon);
     }
 
     /**

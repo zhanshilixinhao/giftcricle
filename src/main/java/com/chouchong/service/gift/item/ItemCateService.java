@@ -42,7 +42,7 @@ public interface ItemCateService {
      * @author: yy
      * @Date: 2018/6/27
      */
-    Response addItemCate(String name);
+    Response addItemCate(String name,String icon);
 
     /**
      * 修改商品分类
@@ -52,7 +52,7 @@ public interface ItemCateService {
      * @author: yy
      * @Date: 2018/6/27
      */
-    Response updateItemCate(Integer id, String name, Integer sort);
+    Response updateItemCate(Integer id, String name, Integer sort,String icon);
 
     /**
      * 查询全部的商品分类
@@ -81,5 +81,5 @@ public interface ItemCateService {
      * @author: yy
      * @Date: 2018/6/27
      */
-    Response addItemCateByPid(String name, Integer pid);
+    Response addItemCateByPid(String name, Integer pid,String icon);
 }

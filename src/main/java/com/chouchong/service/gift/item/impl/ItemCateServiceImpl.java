@@ -107,14 +107,14 @@ public class ItemCateServiceImpl implements ItemCateService{
      * @Date: 2018/6/27
      */
     @Override
-    public Response addItemCate(String name) {
+    public Response addItemCate(String name,String icon) {
         ItemCategory itemCategory = new ItemCategory();
         itemCategory.setUpdated(new Date());
         itemCategory.setStatus((byte)1);
         itemCategory.setSort(0);
         itemCategory.setPid(0);
         itemCategory.setName(name);
-        itemCategory.setIcon(null);
+        itemCategory.setIcon(icon);
         itemCategory.setCreated(new Date());
         int count = itemCategoryMapper.insert(itemCategory);
         if (count == 1) {
@@ -132,14 +132,14 @@ public class ItemCateServiceImpl implements ItemCateService{
      * @Date: 2018/6/27
      */
     @Override
-    public Response addItemCateByPid(String name, Integer pid) {
+    public Response addItemCateByPid(String name, Integer pid,String icon) {
         ItemCategory itemCategory = new ItemCategory();
         itemCategory.setUpdated(new Date());
         itemCategory.setStatus((byte)1);
         itemCategory.setSort(0);
         itemCategory.setPid(pid);
         itemCategory.setName(name);
-        itemCategory.setIcon(null);
+        itemCategory.setIcon(icon);
         itemCategory.setCreated(new Date());
         int count = itemCategoryMapper.insert(itemCategory);
         if (count == 1) {
@@ -157,13 +157,14 @@ public class ItemCateServiceImpl implements ItemCateService{
      * @Date: 2018/6/27
      */
     @Override
-    public Response updateItemCate(Integer id, String name, Integer sort) {
+    public Response updateItemCate(Integer id, String name, Integer sort,String icon) {
         ItemCategory itemCategory = itemCategoryMapper.selectByPrimaryKey(id);
         if (itemCategory == null) {
             return ResponseFactory.err("商品分类不存在!");
         }
         itemCategory.setUpdated(new Date());
         itemCategory.setName(name);
+        itemCategory.setIcon(icon);
         itemCategory.setSort(sort);
         int count = itemCategoryMapper.updateByPrimaryKey(itemCategory);
         if (count == 1) {
