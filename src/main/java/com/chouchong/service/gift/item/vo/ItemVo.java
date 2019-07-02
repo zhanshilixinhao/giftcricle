@@ -59,6 +59,8 @@ public class ItemVo {
     private Integer adminId;
 
     private String username;
+    private String wxCover;
+
 
     public Integer getIsGroup() {
         return isGroup;
@@ -266,5 +268,13 @@ public class ItemVo {
 
     public void setPid(Integer pid) {
         this.pid = pid;
+    }
+
+    public String getWxCover() {
+        return wxCover;
+    }
+
+    public void setWxCover(String wxCover) {
+        this.wxCover = wxCover;
     }
 }

@@ -185,6 +185,7 @@ public class ItemServiceImpl implements ItemService {
         item.setCreated(new Date());
         item.setCover(itemVo.getCover());
         item.setCategoryId(itemVo.getCategoryId());
+        item.setWxCover(itemVo.getWxCover());
         item.setBrandId(itemVo.getBrandId());
         item.setStatus((byte)2);
         item.setHot((byte)0);
@@ -243,6 +244,7 @@ public class ItemServiceImpl implements ItemService {
             item.setCover(itemVo.getCover());
             item.setCategoryId(itemVo.getCategoryId());
             item.setBrandId(itemVo.getBrandId());
+            item.setWxCover(itemVo.getWxCover());
             int count = itemMapper.updateByPrimaryKey(item);
             if (count != 1) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(),"修改失败" );
@@ -298,6 +300,7 @@ public class ItemServiceImpl implements ItemService {
         item.setCover(itemVo.getCover());
         item.setCategoryId(itemVo.getCategoryId());
         item.setBrandId(itemVo.getBrandId());
+        item.setWxCover(itemVo.getWxCover());
         item.setId(itemVo.getId());
         return item;
     }

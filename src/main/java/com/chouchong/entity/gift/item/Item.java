@@ -46,6 +46,9 @@ public class Item {
 
     private Integer adminId;
 
+    private String wxCover;
+
+
     public Item(Integer id, String title, BigDecimal price, Integer sales, Integer stock, String description, Byte reGender, Byte reMaxAge, Byte reAgeMin, Integer storeId, Integer categoryId, String cover, String pictures, Byte choiceness, Byte hot, Byte status, Byte isAudit, Integer brandId, Date created, Date updated) {
         this.id = id;
         this.title = title;
@@ -243,5 +246,13 @@ public class Item {
 
     public void setAdminId(Integer adminId) {
         this.adminId = adminId;
+    }
+
+    public String getWxCover() {
+        return wxCover;
+    }
+
+    public void setWxCover(String wxCover) {
+        this.wxCover = wxCover;
     }
 }
