@@ -79,17 +79,17 @@ public class ArticleServiceImpl implements ArticleService {
      */
     @Override
     public Response addArticle(Article article) {
-        if (article.getType() != null && article.getType() == 1) {
-            //查询所有banner文章
-            List<Article> articleList = articleMapper.selectAllBanner();
-            if (!CollectionUtils.isEmpty(articleList)) {
-                for (Article article1 : articleList) {
-                    if (article1.getShowTime().getTime() == article.getShowTime().getTime()) {
-                        throw new ServiceException(ErrorCode.ERROR.getCode(), "该日期已经添加过banner文章");
-                    }
-                }
-            }
-        }
+//        if (article.getType() != null && article.getType() == 1) {
+//            //查询所有banner文章
+//            List<Article> articleList = articleMapper.selectAllBanner();
+//            if (!CollectionUtils.isEmpty(articleList)) {
+//                for (Article article1 : articleList) {
+//                    if (article1.getShowTime().getTime() == article.getShowTime().getTime()) {
+//                        throw new ServiceException(ErrorCode.ERROR.getCode(), "该日期已经添加过banner文章");
+//                    }
+//                }
+//            }
+//        }
         article.setAdminId(1);
         article.setStatus((byte) 2);
         article.setShowTime(article.getShowTime());
@@ -132,17 +132,17 @@ public class ArticleServiceImpl implements ArticleService {
         if (article1 == null) {
             return ResponseFactory.err("无此文章");
         }
-        if (article.getType() == 1) {
-            //查询所有banner文章
-            List<Article> articleList = articleMapper.selectAllBanner();
-            if (!CollectionUtils.isEmpty(articleList)) {
-                for (Article articles : articleList) {
-                    if (articles.getShowTime().getTime() == article.getShowTime().getTime()) {
-                        throw new ServiceException(ErrorCode.ERROR.getCode(), "该日期有对应的banner文章，请选择其他日期");
-                    }
-                }
-            }
-        }
+//        if (article.getType() == 1) {
+//            //查询所有banner文章
+//            List<Article> articleList = articleMapper.selectAllBanner();
+//            if (!CollectionUtils.isEmpty(articleList)) {
+//                for (Article articles : articleList) {
+//                    if (articles.getShowTime().getTime() == article.getShowTime().getTime()) {
+//                        throw new ServiceException(ErrorCode.ERROR.getCode(), "该日期有对应的banner文章，请选择其他日期");
+//                    }
+//                }
+//            }
+//        }
         article1.setTitle(article.getTitle());
         article1.setSort(article.getSort());
         article1.setSummary(article.getSummary());
