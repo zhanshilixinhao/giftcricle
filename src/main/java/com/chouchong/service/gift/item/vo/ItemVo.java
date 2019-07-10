@@ -60,6 +60,7 @@ public class ItemVo {
 
     private String username;
     private String wxCover;
+    private Integer sort;
 
 
     public Integer getIsGroup() {
@@ -276,5 +277,13 @@ public class ItemVo {
 
     public void setWxCover(String wxCover) {
         this.wxCover = wxCover;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
     }
 }

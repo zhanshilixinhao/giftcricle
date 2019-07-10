@@ -304,4 +304,29 @@ public class ItemServiceImpl implements ItemService {
         item.setId(itemVo.getId());
         return item;
     }
+
+
+
+    /**
+     * 设置商品排序值
+     * @param id 商品id
+     * @param sort 排序值
+     * @return
+     */
+    @Override
+    public Response setSort(Integer id, Integer sort) {
+        Item item = itemMapper.selectByPrimaryKey(id);
+        if (item == null) {
+            return ResponseFactory.err("无此商品");
+        }
+        item.setSort(sort);
+        int count = itemMapper.updateByPrimaryKeySelective(item);
+        if (count == 1) {
+            return ResponseFactory.suc();
+        }
+        return ResponseFactory.err("设置失败");
+    }
+
+
+
 }

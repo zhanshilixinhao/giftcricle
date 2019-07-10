@@ -85,4 +85,12 @@ public interface ItemService {
      * @Date: 2018/6/27
      */
     Response delItem(Integer id);
+
+    /**
+     * 设置商品排序值
+     * @param id 商品id
+     * @param sort 排序值
+     * @return
+     */
+    Response setSort(Integer id, Integer sort);
 }

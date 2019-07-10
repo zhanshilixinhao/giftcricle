@@ -48,6 +48,8 @@ public class Item {
 
     private String wxCover;
 
+    private Integer sort;
+
 
     public Item(Integer id, String title, BigDecimal price, Integer sales, Integer stock, String description, Byte reGender, Byte reMaxAge, Byte reAgeMin, Integer storeId, Integer categoryId, String cover, String pictures, Byte choiceness, Byte hot, Byte status, Byte isAudit, Integer brandId, Date created, Date updated) {
         this.id = id;
@@ -254,5 +256,13 @@ public class Item {
 
     public void setWxCover(String wxCover) {
         this.wxCover = wxCover;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
     }
 }

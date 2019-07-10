@@ -156,5 +156,19 @@ public class ItemController {
         return itemService.changeChoiceness(id, status);
     }
 
+    /**
+     * 设置商品排序值
+     * @param id 商品id
+     * @param sort 排序值
+     * @return
+     */
+    @PostMapping("sort")
+    public Response setSort(Integer id, Integer sort) {
+        if (sort == null || id == null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return itemService.setSort(id, sort);
+    }
+
 
 }
