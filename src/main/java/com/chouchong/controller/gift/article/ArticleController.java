@@ -49,8 +49,7 @@ public class ArticleController {
             return ResponseFactory.errMissingParameter();
         }
         if (article.getCover() == null || article.getDetail() == null || article.getSummary() == null
-                || article.getTitle() == null || article.getType() == null||article.getSceneId() == null ||
-        article.getLabelId() == null ||article.getFestivalId() == null) {
+                || article.getTitle() == null || article.getType() == null) {
             return ResponseFactory.errMissingParameter();
         }
         return articleService.addArticle(article);
@@ -86,8 +85,7 @@ public class ArticleController {
             return ResponseFactory.errMissingParameter();
         }
         if (article.getCover() == null || article.getDetail() == null || article.getSummary() == null
-                || article.getTitle() == null || article.getId() == null || article.getType() == null||article.getSceneId() == null ||
-                article.getLabelId() == null ||article.getFestivalId() == null) {
+                || article.getTitle() == null || article.getId() == null || article.getType() == null) {
             return ResponseFactory.errMissingParameter();
         }
         return articleService.updateArticle(article);
