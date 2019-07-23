@@ -184,6 +184,7 @@
      WHERE
         status = 1
         and pid = 0
+        and id != 0
         ORDER BY created DESC
   </select>
 
