@@ -28,6 +28,10 @@ public class WelfareVo {
 
     private Integer count;
 
+    private Byte isCode;
+
+    private String code;
+
     private String cover; //商品图片
 
     private String title; //福利标题
@@ -140,5 +144,21 @@ public class WelfareVo {
 
     public void setItemTitle(String itemTitle) {
         this.itemTitle = itemTitle;
+    }
+
+    public Byte getIsCode() {
+        return isCode;
+    }
+
+    public void setIsCode(Byte isCode) {
+        this.isCode = isCode;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

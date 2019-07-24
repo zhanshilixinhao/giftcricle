@@ -31,6 +31,10 @@ public class Welfare {
 
     private Integer count;
 
+    private Byte isCode;
+
+    private String code;
+
     private BigDecimal price; // 商品价格
 
     public Welfare(Integer id, String title, String cover, Byte type, Integer targetId, Integer quantity, Integer adminId, Date targetDate, Date created, Date updated, Date startTime, Date endTime, Integer count) {
@@ -163,5 +167,21 @@ public class Welfare {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public Byte getIsCode() {
+        return isCode;
+    }
+
+    public void setIsCode(Byte isCode) {
+        this.isCode = isCode;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

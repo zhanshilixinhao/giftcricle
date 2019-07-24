@@ -16,11 +16,13 @@
       <arg column="start_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="end_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="count" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="is_code" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="code" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
     id, title, cover, `type`, target_id, quantity, admin_id, target_date, created, updated,
-    start_time, end_time, `count`
+    start_time, end_time, `count`, is_code, code
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
@@ -70,6 +72,8 @@
     a.end_time,
     a.count,
     a.created,
+    a.is_code,
+    a.code,
     b.cover,
     b.title as itemTitle,
     d.name as brand
@@ -90,6 +94,8 @@
     a.end_time,
     a.count,
     a.created,
+    a.is_code,
+    a.code,
     b.cover,
     b.name as itemTitle,
     c.name as brand
@@ -109,6 +115,8 @@
     a.end_time,
     a.count,
     a.created,
+    a.is_code,
+    a.code,
     b.cover,
     b.title as itemTitle,
     b.brand_name as brand
@@ -142,12 +150,12 @@
       type, target_id, quantity,
       admin_id, target_date, created,
       updated, start_time, end_time,
-      count)
+      count, is_code,code)
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR},
       #{type,jdbcType=TINYINT}, #{targetId,jdbcType=INTEGER}, #{quantity,jdbcType=INTEGER},
       #{adminId,jdbcType=INTEGER}, #{targetDate,jdbcType=TIMESTAMP}, now(),
       now(), #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP},
-      #{count,jdbcType=INTEGER})
+      #{count,jdbcType=INTEGER},#{isCode,jdbcType=TINYINT},#{code,jdbcType=VARCHAR} )
   </insert>
   <insert id="insertSelective" parameterType="com.chouchong.entity.home.Welfare">
     insert into welfare
@@ -272,6 +280,12 @@
       </if>
       <if test="count != null">
         count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="isCode != null">
+        is_code = #{isCode,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=TINYINT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
