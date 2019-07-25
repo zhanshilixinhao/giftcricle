@@ -51,14 +51,14 @@ public class WelfareController {
         }
         if (StringUtils.isBlank(welfare.getTitle()) || welfare.getType() == null ||
                 welfare.getTargetId() == null || welfare.getQuantity() == null || welfare.getTargetDate() == null ||
-                welfare.getStartTime() == null || welfare.getEndTime() == null) {
+                welfare.getStartTime() == null || welfare.getEndTime() == null || welfare.getIsCode() == null) {
             return ResponseFactory.errMissingParameter();
         }
         return welfareService.addWelfare(welfare);
     }
 
     /**
-     * 添加福利
+     * 修改福利
      *
      * @param welfare
      * @return
@@ -72,7 +72,7 @@ public class WelfareController {
         }
         if (StringUtils.isAnyBlank(welfare.getTitle()) || welfare.getId() == null || welfare.getType() == null ||
                 welfare.getTargetId() == null || welfare.getQuantity() == null || welfare.getTargetDate() == null ||
-                welfare.getStartTime() == null || welfare.getEndTime() == null) {
+                welfare.getStartTime() == null || welfare.getEndTime() == null|| welfare.getIsCode() == null) {
             return ResponseFactory.errMissingParameter();
         }
         return welfareService.updateWelfare(welfare);

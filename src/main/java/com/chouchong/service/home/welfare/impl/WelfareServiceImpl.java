@@ -71,6 +71,11 @@ public class WelfareServiceImpl implements WelfareService {
         // 分页
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
         List<WelfareVo> welfareVos = welfareMapper.selectAllBySearch(welfare);
+        for (WelfareVo welfareVo : welfareVos) {
+            if (welfareVo.getIsCode() == 2) {
+                welfareVo.setCode("https://liyuquan.cn/wxmini/t=1&f=" + welfareVo.getId());
+            }
+        }
         PageInfo pageInfo = new PageInfo<>(welfareVos);
         return ResponseFactory.page(welfareVos, pageInfo.getTotal(),
                 pageInfo.getPages(), pageInfo.getPageNum(), pageInfo.getPageSize());
@@ -93,15 +98,17 @@ public class WelfareServiceImpl implements WelfareService {
         if (welfare.getTargetDate().getTime() < welfare.getStartTime().getTime() || welfare.getTargetDate().getTime() > welfare.getEndTime().getTime()) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "福利生效时间必须在福利展示之间");
         }
-        // 查询所有福利
-        List<Welfare> welfareList = welfareMapper.selectAll();
-        if (!CollectionUtils.isEmpty(welfareList)) {
-            for (Welfare welfare1 : welfareList) {
-                if (welfare.getStartTime().getTime() >= welfare1.getStartTime().getTime() && welfare.getStartTime().getTime() < welfare1.getEndTime().getTime()) {
-                    throw new ServiceException(ErrorCode.ERROR.getCode(), "该时间段已经添加过福利");
-                }
-                if (welfare.getEndTime().getTime() > welfare1.getStartTime().getTime() && welfare.getEndTime().getTime() <= welfare1.getEndTime().getTime()) {
-                    throw new ServiceException(ErrorCode.ERROR.getCode(), "该时间段已经添加过福利");
+        if (welfare.getIsCode() == 1) {
+            // 查询所有福利
+            List<Welfare> welfareList = welfareMapper.selectAll();
+            if (!CollectionUtils.isEmpty(welfareList)) {
+                for (Welfare welfare1 : welfareList) {
+                    if (welfare.getStartTime().getTime() >= welfare1.getStartTime().getTime() && welfare.getStartTime().getTime() < welfare1.getEndTime().getTime()) {
+                        throw new ServiceException(ErrorCode.ERROR.getCode(), "该时间段已经添加过福利");
+                    }
+                    if (welfare.getEndTime().getTime() > welfare1.getStartTime().getTime() && welfare.getEndTime().getTime() <= welfare1.getEndTime().getTime()) {
+                        throw new ServiceException(ErrorCode.ERROR.getCode(), "该时间段已经添加过福利");
+                    }
                 }
             }
         }
@@ -111,6 +118,7 @@ public class WelfareServiceImpl implements WelfareService {
         if (insert < 1) {
             return ResponseFactory.err("添加失败");
         }
+
         return ResponseFactory.sucMsg("添加成功");
     }
 
@@ -137,14 +145,16 @@ public class WelfareServiceImpl implements WelfareService {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "福利生效时间必须在福利展示之间");
         }
         // 查询所有福利
-        List<Welfare> welfareList = welfareMapper.selectAll();
-        if (!CollectionUtils.isEmpty(welfareList)) {
-            for (Welfare welfare1 : welfareList) {
-                if (welfare.getStartTime().getTime() >= welfare1.getStartTime().getTime() && welfare.getStartTime().getTime() < welfare1.getEndTime().getTime()) {
-                    throw new ServiceException(ErrorCode.ERROR.getCode(), "该时间段已经添加过福利");
-                }
-                if (welfare.getEndTime().getTime() > welfare1.getStartTime().getTime() && welfare.getEndTime().getTime() <= welfare1.getEndTime().getTime()) {
-                    throw new ServiceException(ErrorCode.ERROR.getCode(), "该时间段已经添加过福利");
+        if (welfare.getIsCode() == 1) { //app福利一个时间段内不能添加多个,微信福利可以添加多个
+            List<Welfare> welfareList = welfareMapper.selectAll();
+            if (!CollectionUtils.isEmpty(welfareList)) {
+                for (Welfare welfare1 : welfareList) {
+                    if (welfare.getStartTime().getTime() >= welfare1.getStartTime().getTime() && welfare.getStartTime().getTime() < welfare1.getEndTime().getTime()) {
+                        throw new ServiceException(ErrorCode.ERROR.getCode(), "该时间段已经添加过福利");
+                    }
+                    if (welfare.getEndTime().getTime() > welfare1.getStartTime().getTime() && welfare.getEndTime().getTime() <= welfare1.getEndTime().getTime()) {
+                        throw new ServiceException(ErrorCode.ERROR.getCode(), "该时间段已经添加过福利");
+                    }
                 }
             }
         }
