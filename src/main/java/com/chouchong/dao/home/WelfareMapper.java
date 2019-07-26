@@ -38,4 +38,6 @@ public interface WelfareMapper {
      * @return
      */
     List<Welfare> selectAll();
+
+    List<Welfare> selectAllById(Integer id);
 }

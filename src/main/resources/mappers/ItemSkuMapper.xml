@@ -15,7 +15,7 @@
       <!--<arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />-->
   </resultMap>
   <sql id="Base_Column_List">
-    id, item_id, title, cover, pictures, stock, price, sales, status, created, updated
+    id, item_id, title, cover, pictures, stock, price, sales, status, created, updated,linqin
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select

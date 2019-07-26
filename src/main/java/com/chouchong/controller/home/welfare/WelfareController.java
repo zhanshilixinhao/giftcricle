@@ -142,5 +142,18 @@ public class WelfareController {
         return welfareService.getSkuList(itemId);
     }
 
+    /**
+     * 商品基本信息
+     * @param type 1 商品 2 虚拟商品
+     * @param id skuId,虚拟商品id
+     * @return
+     */
+    @PostMapping("item_detail")
+    public Response itemDetail(Byte type,Integer id){
+        if (type == null || id == null){
+            return ResponseFactory.errMissingParameter();
+        }
+        return welfareService.itemDetail(type,id);
+    }
 
 }

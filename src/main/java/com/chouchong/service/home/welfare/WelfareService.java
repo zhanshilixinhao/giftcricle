@@ -76,4 +76,12 @@ public interface WelfareService {
      * @date 2019/2/22
      */
     Response detailWelfare(Integer welfareId);
+
+    /**
+     * 商品基本信息
+     * @param type 1 商品 2 虚拟商品
+     * @param id skuId,虚拟商品id
+     * @return
+     */
+    Response itemDetail(Byte type, Integer id);
 }

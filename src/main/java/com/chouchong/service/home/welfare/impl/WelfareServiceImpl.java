@@ -12,6 +12,7 @@ import com.chouchong.dao.gift.item.ItemSkuMapper;
 import com.chouchong.dao.gift.virItem.VirtualItemMapper;
 import com.chouchong.dao.home.WelfareMapper;
 import com.chouchong.entity.gift.item.ItemSku;
+import com.chouchong.entity.gift.virItem.VirtualItem;
 import com.chouchong.entity.home.Welfare;
 import com.chouchong.exception.ServiceException;
 import com.chouchong.service.home.welfare.WelfareService;
@@ -98,6 +99,7 @@ public class WelfareServiceImpl implements WelfareService {
         if (welfare.getTargetDate().getTime() < welfare.getStartTime().getTime() || welfare.getTargetDate().getTime() > welfare.getEndTime().getTime()) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "福利生效时间必须在福利展示之间");
         }
+        // 不能重复添加
         if (welfare.getIsCode() == 1) {
             // 查询所有福利
             List<Welfare> welfareList = welfareMapper.selectAll();
@@ -112,7 +114,16 @@ public class WelfareServiceImpl implements WelfareService {
                 }
             }
         }
-        //
+        // 如果添加的是商品,校验库存
+        if (welfare.getType() == 1) {
+            // 查询商品库存
+            ItemSku itemSku = itemSkuMapper.selectByPrimaryKey(welfare.getTargetId());
+            if (itemSku != null) {
+                if (welfare.getQuantity() > itemSku.getStock()){
+                    throw new ServiceException(ErrorCode.ERROR.getCode(), "库存不足,请重新填写数量");
+                }
+            }
+        }
         welfare.setCount(welfare.getQuantity());
         int insert = welfareMapper.insert(welfare);
         if (insert < 1) {
@@ -146,7 +157,7 @@ public class WelfareServiceImpl implements WelfareService {
         }
         // 查询所有福利
         if (welfare.getIsCode() == 1) { //app福利一个时间段内不能添加多个,微信福利可以添加多个
-            List<Welfare> welfareList = welfareMapper.selectAll();
+            List<Welfare> welfareList = welfareMapper.selectAllById(welfare.getId());
             if (!CollectionUtils.isEmpty(welfareList)) {
                 for (Welfare welfare1 : welfareList) {
                     if (welfare.getStartTime().getTime() >= welfare1.getStartTime().getTime() && welfare.getStartTime().getTime() < welfare1.getEndTime().getTime()) {
@@ -155,6 +166,16 @@ public class WelfareServiceImpl implements WelfareService {
                     if (welfare.getEndTime().getTime() > welfare1.getStartTime().getTime() && welfare.getEndTime().getTime() <= welfare1.getEndTime().getTime()) {
                         throw new ServiceException(ErrorCode.ERROR.getCode(), "该时间段已经添加过福利");
                     }
+                }
+            }
+        }
+        // 如果添加的是商品,校验库存
+        if (welfare.getType() == 1) {
+            // 查询商品库存
+            ItemSku itemSku = itemSkuMapper.selectByPrimaryKey(welfare.getTargetId());
+            if (itemSku != null) {
+                if (welfare.getQuantity() > itemSku.getStock()){
+                    throw new ServiceException(ErrorCode.ERROR.getCode(), "库存不足,请重新填写数量");
                 }
             }
         }
@@ -248,4 +269,31 @@ public class WelfareServiceImpl implements WelfareService {
         }
         return ResponseFactory.sucData(fe);
     }
+
+
+    /**
+     * 商品基本信息
+     * @param type 1 商品 2 虚拟商品
+     * @param id skuId,虚拟商品id
+     * @return
+     */
+    @Override
+    public Response itemDetail(Byte type, Integer id) {
+        String detail = null;
+        // 商品
+        if (type == 1){
+            ItemSku itemSku = itemSkuMapper.selectByPrimaryKey(id);
+            if (itemSku != null){
+                detail = "标题:"+itemSku.getTitle()+"  "+"价格:"+itemSku.getPrice()+"  "+"规格:"+itemSku.getLinqin();
+            }
+        } else {
+            VirtualItem virtualItem = virtualItemMapper.selectByPrimaryKey(id);
+            if (virtualItem != null){
+                detail =  "标题:"+virtualItem.getName()+"  "+"价格:"+virtualItem.getPrice()+"  "+"描述:"+virtualItem.getDescription();
+            }
+        }
+        return ResponseFactory.sucData(detail);
+    }
+
+
 }

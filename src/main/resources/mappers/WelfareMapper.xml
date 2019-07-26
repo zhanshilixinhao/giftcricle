@@ -142,6 +142,13 @@
     from welfare
     where is_code = 1
   </select>
+  <select id="selectAllById" resultType="com.chouchong.entity.home.Welfare">
+    select
+    *
+    from welfare
+    where is_code = 1
+    and id != #{id}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from welfare
     where id = #{id,jdbcType=INTEGER}
