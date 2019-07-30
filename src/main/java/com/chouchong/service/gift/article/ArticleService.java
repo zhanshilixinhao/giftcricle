@@ -154,4 +154,12 @@ public interface ArticleService {
      * @date 2019/1/15 11:25
      */
     Response getFestivalListAll();
+
+    /** 获取所有文章对象
+     *
+     * @return
+     * @author linqin
+     * @date 2019/1/15 11:25
+     */
+    Response getArLabelListAll();
 }

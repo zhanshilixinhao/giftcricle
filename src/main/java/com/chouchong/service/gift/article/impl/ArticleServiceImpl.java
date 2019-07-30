@@ -4,14 +4,8 @@ import com.chouchong.common.ErrorCode;
 import com.chouchong.common.PageQuery;
 import com.chouchong.common.Response;
 import com.chouchong.common.ResponseFactory;
-import com.chouchong.dao.gift.article.ArticleFestivalMapper;
-import com.chouchong.dao.gift.article.ArticleItemMapper;
-import com.chouchong.dao.gift.article.ArticleMapper;
-import com.chouchong.dao.gift.article.ArticleSceneMapper;
-import com.chouchong.entity.gift.article.Article;
-import com.chouchong.entity.gift.article.ArticleFestival;
-import com.chouchong.entity.gift.article.ArticleItem;
-import com.chouchong.entity.gift.article.ArticleScene;
+import com.chouchong.dao.gift.article.*;
+import com.chouchong.entity.gift.article.*;
 import com.chouchong.entity.gift.label.LabelItem;
 import com.chouchong.entity.gift.themeItem.ThemeItem;
 import com.chouchong.exception.ServiceException;
@@ -50,6 +44,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private ArticleFestivalMapper articleFestivalMapper;
+
+    @Autowired
+    private ArticleLabelMapper articleLabelMapper;
 
 
     /**
@@ -340,7 +337,7 @@ public class ArticleServiceImpl implements ArticleService {
             return ResponseFactory.err("该场景不存在");
         }
         ArticleScene articleScene = articleSceneMapper.selectByTitle(title);
-        if (!articleScene.getId().equals(id)) {
+        if (articleScene != null && !articleScene.getId().equals(id)) {
             return ResponseFactory.err("该场景已经存在，不能再添加");
         }
         scene.setTitle(title);
@@ -393,6 +390,18 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Response getFestivalListAll() {
         List<ArticleFestival> festivals = articleFestivalMapper.selectByAll();
+        return ResponseFactory.sucData(festivals);
+    }
+
+    /** 获取所有文章对象
+     *
+     * @return
+     * @author linqin
+     * @date 2019/1/15 11:25
+     */
+    @Override
+    public Response getArLabelListAll() {
+        List<ArticleLabel> festivals = articleLabelMapper.selectByAll();
         return ResponseFactory.sucData(festivals);
     }
 }

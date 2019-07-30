@@ -266,5 +266,16 @@ public class ArticleController {
         return articleService.getFestivalListAll();
     }
 
+     /** 获取所有文章对象
+     *
+     * @return
+     * @author linqin
+     * @date 2019/1/15 11:25
+     */
+    @PostMapping("label_list")
+    public Response getArLabelListAll() {
+        return articleService.getArLabelListAll();
+    }
+
 
 }
