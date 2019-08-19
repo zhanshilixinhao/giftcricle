@@ -361,7 +361,7 @@
             AND f.choiceness = #{choiceness}
         </if>
         <if test="brand != null">
-            AND f.brand_id = #{brand}
+            AND f.brandId = #{brand}
         </if>
         <if test="adminId != null">
             and f.admin_id = #{adminId}
