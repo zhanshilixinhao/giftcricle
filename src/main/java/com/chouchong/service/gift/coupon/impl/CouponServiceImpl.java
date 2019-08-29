@@ -5,9 +5,12 @@ import com.alibaba.fastjson.TypeReference;
 import com.chouchong.common.*;
 import com.chouchong.dao.gift.bpItem.BpItemMapper;
 import com.chouchong.dao.gift.coupon.CouponMapper;
+import com.chouchong.dao.gift.coupon.CouponSendRecordMapper;
+import com.chouchong.dao.gift.coupon.CouponUseRecordMapper;
 import com.chouchong.dao.iwant.merchant.MerchantMapper;
 import com.chouchong.entity.gift.bpItem.BpItem;
 import com.chouchong.entity.gift.coupon.Coupon;
+import com.chouchong.entity.gift.coupon.CouponSendRecord;
 import com.chouchong.entity.iwant.merchant.Merchant;
 import com.chouchong.entity.webUser.SysAdmin;
 import com.chouchong.redis.MRedisTemplate;
@@ -36,6 +39,12 @@ import java.util.Map;
 public class CouponServiceImpl implements CouponService{
     @Autowired
     private CouponMapper couponMapper;
+
+    @Autowired
+    private CouponSendRecordMapper couponSendRecordMapper;
+
+    @Autowired
+    private CouponUseRecordMapper couponUseRecordMapper;
 
     @Autowired
     private MerchantMapper merchantMapper;
@@ -187,7 +196,7 @@ public class CouponServiceImpl implements CouponService{
      * @Date: 2018/7/11
      */
     @Override
-    public Response giveCouponUser(Integer userId, Integer couponId, Integer quantity) {
+    public Response giveCouponUser(Integer userId, Integer couponId, Integer quantity,String token) {
         // 背包实体 类型为存放用户优惠券
         BpItem bpItem = new BpItem();
         bpItem.setUserId(userId);
@@ -203,10 +212,50 @@ public class CouponServiceImpl implements CouponService{
         map.put("type", 3);
         bpItem.setFrom(JSON.toJSONString(map));
         int count = bpItemMapper.insert(bpItem);
-        if (count == 1) {
-            return ResponseFactory.sucMsg("赠送成功!");
+        if (count  < 0) {
+            return ResponseFactory.err("赠送失败!");
         }
-        return ResponseFactory.err("赠送失败!");
+        // 添加赠送记录
+        int i = addSendRecord(userId, couponId, quantity, token);
+        if (i< 0) {
+            return ResponseFactory.err("添加赠送记录失败!");
+        }
+        return ResponseFactory.sucMsg("赠送成功!");
+    }
+
+    /**
+     * 添加优惠券赠送记录
+     * @param userId
+     * @param couponId
+     * @param quantity
+     * @param token
+     * @return 1 正确  0 错误
+     */
+    private int addSendRecord(Integer userId, Integer couponId, Integer quantity,String token){
+        // 根据token取出用户信息
+        WebUserInfo webUserInfo = mRedisTemplate.get(token, new TypeReference<WebUserInfo>() {
+        });
+        if (webUserInfo == null) {
+            return 0;
+        }
+        SysAdmin sysAdmin = webUserInfo.getSysAdmin();
+        Merchant merchant = merchantMapper.selectByAdminId(sysAdmin.getId());
+        if (merchant == null) {
+            return 0;
+        }
+        Coupon coupon = couponMapper.selectByPrimaryKey(couponId);
+        if (coupon == null){
+            return 0;
+        }
+        CouponSendRecord record = new CouponSendRecord();
+        record.setAdminId(sysAdmin.getId());
+        record.setMerchantId(merchant.getId());
+        record.setCouponId(couponId);
+        record.setUserId(userId);
+        record.setTitle(coupon.getTitle());
+        record.setCover(coupon.getCover());
+        record.setQuantity(quantity);
+        return couponSendRecordMapper.insert(record);
     }
 
     /**
@@ -255,5 +304,6 @@ public class CouponServiceImpl implements CouponService{
         }
         return ResponseFactory.err("使用失败");
     }
+
 
 }

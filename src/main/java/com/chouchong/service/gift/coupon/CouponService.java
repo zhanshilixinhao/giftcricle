@@ -63,7 +63,7 @@ public interface CouponService {
      * @author: yy
      * @Date: 2018/7/11
      */
-    Response giveCouponUser(Integer userId, Integer couponId, Integer quantity);
+    Response giveCouponUser(Integer userId, Integer couponId, Integer quantity,String token);
 
     /**
      * 使用优惠券

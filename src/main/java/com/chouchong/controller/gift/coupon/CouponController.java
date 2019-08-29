@@ -107,11 +107,11 @@ public class CouponController {
      * @Date: 2018/7/11
      */
     @PostMapping("give")
-    public Response giveCouponUser(Integer userId, Integer couponId, Integer quantity) {
+    public Response giveCouponUser(Integer userId, Integer couponId, Integer quantity,String token) {
         if (userId == null || couponId == null || quantity == null) {
             return ResponseFactory.errMissingParameter();
         }
-        return couponService.giveCouponUser(userId, couponId, quantity);
+        return couponService.giveCouponUser(userId, couponId, quantity,token);
     }
 
     /**
