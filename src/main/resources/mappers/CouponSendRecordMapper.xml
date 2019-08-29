@@ -24,6 +24,20 @@
     from coupon_send_record
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByTitle" resultType="com.chouchong.service.gift.coupon.vo.CouponVo">
+select a.*,
+       b.nickname,
+       b.phone
+from coupon_send_record a
+         left join app_user b on a.user_id = b.id
+where a.merchant_id = #{id}
+    <if test="title != null and title != ''">
+      AND a.title LIKE CONCAT(CONCAT('%', #{title}), '%')
+    </if>
+    ORDER BY a.created DESC
+
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from coupon_send_record
     where id = #{id,jdbcType=INTEGER}

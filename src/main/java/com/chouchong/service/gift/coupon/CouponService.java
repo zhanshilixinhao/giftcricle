@@ -73,5 +73,40 @@ public interface CouponService {
      * @author: yy
      * @Date: 2018/7/11
      */
-    Response useCoupon(Long couponCode);
+    Response useCoupon(Long couponCode,String token);
+
+
+    /**
+     * 获取优惠券赠送列表
+     * @param page
+     * @param token
+     * @param title
+     * @return
+     */
+    Response getSendRecordList(PageQuery page, String token, String title);
+
+
+
+    /**
+     * 删除优惠券赠送记录
+     * @param sendId 优惠券赠送记录id
+     * @return
+     */
+    Response deleteSendRecord(Integer sendId);
+
+    /**
+     * 获取优惠券使用列表
+     * @param page
+     * @param token
+     * @param title
+     * @return
+     */
+    Response getUseRecordList(PageQuery page, String token, String title);
+
+    /**
+     * 删除优惠券赠送记录
+     * @param useId 优惠券使用记录id
+     * @return
+     */
+    Response deleteUseRecord(Integer useId);
 }
