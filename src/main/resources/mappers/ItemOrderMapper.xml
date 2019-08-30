@@ -2,18 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chouchong.dao.order.ItemOrderMapper">
     <resultMap id="BaseResultMap" type="com.chouchong.entity.webUser.ItemOrder">
-        <constructor>
-            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-            <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-            <arg column="store_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-            <arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT"/>
-            <arg column="total_price" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
-            <arg column="quantity" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-            <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT"/>
-            <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
-            <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
-            <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-        </constructor>
+<!--        <constructor>-->
+<!--            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>-->
+<!--            <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>-->
+<!--            <arg column="store_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>-->
+<!--            <arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT"/>-->
+<!--            <arg column="total_price" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>-->
+<!--            <arg column="quantity" javaType="java.lang.Integer" jdbcType="INTEGER"/>-->
+<!--            <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT"/>-->
+<!--            <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>-->
+<!--            <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>-->
+<!--            <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>-->
+<!--        </constructor>-->
     </resultMap>
     <sql id="Base_Column_List">
     id, user_id, store_id, order_no, total_price, quantity, status, created, updated,admin_id

@@ -183,7 +183,7 @@ public class ItemOrderServiceImpl implements ItemOrderService {
         if (update < 1) {
             return ResponseFactory.err("状态更新失败");
         }
-        return ResponseFactory.suc();
+        return ResponseFactory.sucMsg("删除成功");
     }
 
 
