@@ -23,7 +23,9 @@ public class CouponSendRecord {
 
     private Date created;
 
-    public CouponSendRecord(Integer id, Integer merchantId, Integer adminId, Integer couponId, Integer userId, String title, String cover, Integer quantity, Date updated, Date created) {
+    private Long bpId;
+
+    public CouponSendRecord(Integer id, Integer merchantId, Integer adminId, Integer couponId, Integer userId, String title, String cover, Integer quantity, Date updated, Date created,Long bpId) {
         this.id = id;
         this.merchantId = merchantId;
         this.adminId = adminId;
@@ -34,6 +36,7 @@ public class CouponSendRecord {
         this.quantity = quantity;
         this.updated = updated;
         this.created = created;
+        this.bpId = bpId;
     }
 
     public CouponSendRecord() {
@@ -118,5 +121,13 @@ public class CouponSendRecord {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public Long getBpId() {
+        return bpId;
+    }
+
+    public void setBpId(Long bpId) {
+        this.bpId = bpId;
     }
 }

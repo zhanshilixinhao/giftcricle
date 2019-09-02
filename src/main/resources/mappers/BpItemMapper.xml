@@ -29,7 +29,7 @@
     delete from bp_item
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.chouchong.entity.gift.bpItem.BpItem">
+  <insert id="insert" parameterType="com.chouchong.entity.gift.bpItem.BpItem" useGeneratedKeys="true" keyProperty="id">
     insert into bp_item (id, user_id, target_id,
       quantity, price, `from`,
       `type`, created, updated

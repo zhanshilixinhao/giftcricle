@@ -218,7 +218,7 @@ public class CouponServiceImpl implements CouponService{
             return ResponseFactory.err("赠送失败!");
         }
         // 添加赠送记录
-        int i = addSendRecord(userId, couponId, quantity, token);
+        int i = addSendRecord(userId, couponId, quantity, token,bpItem.getId());
         if (i< 0) {
             return ResponseFactory.err("添加赠送记录失败!");
         }
@@ -233,7 +233,7 @@ public class CouponServiceImpl implements CouponService{
      * @param token
      * @return 1 正确  0 错误
      */
-    private int addSendRecord(Integer userId, Integer couponId, Integer quantity,String token){
+    private int addSendRecord(Integer userId, Integer couponId, Integer quantity,String token,Long bpId){
         // 根据token取出用户信息
         WebUserInfo webUserInfo = mRedisTemplate.get(token, new TypeReference<WebUserInfo>() {
         });
@@ -257,6 +257,7 @@ public class CouponServiceImpl implements CouponService{
         record.setTitle(coupon.getTitle());
         record.setCover(coupon.getCover());
         record.setQuantity(quantity);
+        record.setBpId(bpId);
         return couponSendRecordMapper.insert(record);
     }
 
