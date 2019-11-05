@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.v3.StoreMemberChargeMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.v3.StoreMemberCharge">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="merchant_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="store_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="recharge_money" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="send_money" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="expense_money" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="type" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="explain" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="total_money" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="scale" javaType="java.lang.Float" jdbcType="REAL" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, merchant_id, store_id, recharge_money, send_money, expense_money, type,
+    `explain`, updated, created, total_money, scale
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from store_member_charge
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from store_member_charge
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchong.entity.v3.StoreMemberCharge">
+    insert into store_member_charge (id, user_id, merchant_id,
+      store_id, recharge_money, send_money,
+      expense_money, type, `explain`,
+      updated, created, total_money,
+      scale)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{merchantId,jdbcType=INTEGER},
+      #{storeId,jdbcType=INTEGER}, #{rechargeMoney,jdbcType=DECIMAL}, #{sendMoney,jdbcType=DECIMAL},
+      #{expenseMoney,jdbcType=DECIMAL}, #{type,jdbcType=TINYINT}, #{explain,jdbcType=VARCHAR},
+      #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP}, #{totalMoney,jdbcType=DECIMAL},
+      #{scale,jdbcType=REAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.v3.StoreMemberCharge">
+    insert into store_member_charge
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="merchantId != null">
+        merchant_id,
+      </if>
+      <if test="storeId != null">
+        store_id,
+      </if>
+      <if test="rechargeMoney != null">
+        recharge_money,
+      </if>
+      <if test="sendMoney != null">
+        send_money,
+      </if>
+      <if test="expenseMoney != null">
+        expense_money,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="explain != null">
+        `explain`,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="totalMoney != null">
+        total_money,
+      </if>
+      <if test="scale != null">
+        scale,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="merchantId != null">
+        #{merchantId,jdbcType=INTEGER},
+      </if>
+      <if test="storeId != null">
+        #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="rechargeMoney != null">
+        #{rechargeMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="sendMoney != null">
+        #{sendMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="expenseMoney != null">
+        #{expenseMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="explain != null">
+        #{explain,jdbcType=VARCHAR},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalMoney != null">
+        #{totalMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="scale != null">
+        #{scale,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.v3.StoreMemberCharge">
+    update store_member_charge
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="merchantId != null">
+        merchant_id = #{merchantId,jdbcType=INTEGER},
+      </if>
+      <if test="storeId != null">
+        store_id = #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="rechargeMoney != null">
+        recharge_money = #{rechargeMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="sendMoney != null">
+        send_money = #{sendMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="expenseMoney != null">
+        expense_money = #{expenseMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="explain != null">
+        explain = #{explain,jdbcType=VARCHAR},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalMoney != null">
+        total_money = #{totalMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="scale != null">
+        scale = #{scale,jdbcType=REAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.v3.StoreMemberCharge">
+    update store_member_charge
+    set user_id = #{userId,jdbcType=INTEGER},
+      merchant_id = #{merchantId,jdbcType=INTEGER},
+      store_id = #{storeId,jdbcType=INTEGER},
+      recharge_money = #{rechargeMoney,jdbcType=DECIMAL},
+      send_money = #{sendMoney,jdbcType=DECIMAL},
+      expense_money = #{expenseMoney,jdbcType=DECIMAL},
+      type = #{type,jdbcType=TINYINT},
+      explain = #{explain,jdbcType=VARCHAR},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      created = #{created,jdbcType=TIMESTAMP},
+      total_money = #{totalMoney,jdbcType=DECIMAL},
+      scale = #{scale,jdbcType=REAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
