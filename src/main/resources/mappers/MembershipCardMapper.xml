@@ -46,6 +46,46 @@
     from membership_card
     where id = #{id,jdbcType=INTEGER}
   </select>
+    <select id="selectBySearch" resultType="com.chouchong.service.v3.vo.CardVo">
+        select id,
+       card_no,
+       title,
+       summary,
+       colour,
+       logo,
+       store_ids,
+       admin_id,
+       created
+from membership_card
+where status = 1
+      <if test="cardId != null">
+        and id = #{cardId}
+      </if>
+      <if test="adminId != null">
+        and admin_id = #{adminId}
+      </if>
+      <if test="title != null and title != ''">
+        and title like concat('%',#{title},'%')
+      </if>
+      <if test="cardNo != null ">
+        and card_no like concat('%',#{cardNo},'%')
+      </if>
+      order by created DESC
+    </select>
+  <select id="selectById" resultType="com.chouchong.service.v3.vo.CardVo">
+    select id,
+       card_no,
+       title,
+       summary,
+       colour,
+       logo,
+       store_ids,
+       admin_id,
+       created
+from membership_card
+where id = #{cardId}
+and status = 1
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from membership_card
     where id = #{id,jdbcType=INTEGER}
@@ -59,7 +99,7 @@
     values (#{id,jdbcType=INTEGER}, #{cardNo,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR},
       #{colour,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, #{storeIds,jdbcType=VARCHAR},
       #{adminId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT},
-      #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP}, #{summary,jdbcType=LONGVARCHAR}
+      now(), now(), #{summary,jdbcType=LONGVARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.chouchong.entity.v3.MembershipCard">

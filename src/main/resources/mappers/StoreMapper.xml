@@ -12,7 +12,7 @@
             <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
             <arg column="area" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="linkman" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
         </constructor>
     </resultMap>
     <sql id="Base_Column_List">
@@ -48,6 +48,32 @@
         </if>
         <if test="address != null and address != ''">
             and address like concat('%',#{address},'%') or area like concat('%',#{address},'%')
+        </if>
+        order by created DESC
+    </select>
+    <select id="selectById" resultType="com.chouchong.service.v3.vo.StoreVo">
+        select
+        id,
+        name,
+        address,
+        phone,
+        area,
+        linkman
+        from store
+        where id = #{id}
+    </select>
+    <select id="selectByAll" resultType="com.chouchong.service.v3.vo.StoreVo">
+         select
+         id,
+        name,
+        address,
+        phone,
+        area,
+        linkman
+        from store
+        where 1=1
+        <if test="adminId != null">
+            and admin_id = #{adminId}
         </if>
         order by created DESC
     </select>
@@ -151,7 +177,7 @@
                 created = #{created,jdbcType=TIMESTAMP},
             </if>
             <if test="updated != null">
-                updated = #{updated,jdbcType=TIMESTAMP},
+                updated = now(),
             </if>
             <if test="area != null">
                 area = #{area,jdbcType=VARCHAR},

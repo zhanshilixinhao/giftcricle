@@ -2,6 +2,7 @@ package com.chouchong.dao.v3;
 
 
 import com.chouchong.entity.v3.Store;
+import com.chouchong.service.v3.vo.StoreVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -29,4 +30,8 @@ public interface StoreMapper {
      */
     List<Store> selectBySearch(@Param("adminId") Integer adminId, @Param("merchantId") Integer merchantId,
                                @Param("name") String name, @Param("address") String address);
+
+    StoreVo selectById(@Param("id") Integer id);
+
+    List<StoreVo> selectByAll(@Param("adminId") Integer adminId);
 }
