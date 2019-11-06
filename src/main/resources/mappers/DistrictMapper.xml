@@ -69,4 +69,23 @@
       </if>
     </trim>
   </insert>
+
+  <select id="selectSimple" resultType="com.chouchong.service.v3.vo.DistrictVo">
+    SELECT
+    adcode as id,
+    name
+    FROM
+    district
+    <where>
+      <trim suffixOverrides="and">
+        <if test="pAdcode!=0">
+          p_adcode = #{pAdcode} and
+        </if>
+        <if test="level!=null">
+          `level` = #{level} and
+        </if>
+      </trim>
+    </where>
+  </select>
+
 </mapper>

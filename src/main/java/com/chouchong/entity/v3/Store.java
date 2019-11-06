@@ -21,7 +21,9 @@ public class Store {
 
     private String linkman;
 
-    public Store(Integer id, Integer merchantId, String name, String address, String phone, Date created, Date updated, String area, String linkman) {
+    private Integer adminId;
+
+    public Store(Integer id, Integer merchantId, String name, String address, String phone, Date created, Date updated, String area, String linkman,Integer adminId) {
         this.id = id;
         this.merchantId = merchantId;
         this.name = name;
@@ -31,6 +33,7 @@ public class Store {
         this.updated = updated;
         this.area = area;
         this.linkman = linkman;
+        this.adminId = adminId;
     }
 
     public Store() {
@@ -107,5 +110,13 @@ public class Store {
 
     public void setLinkman(String linkman) {
         this.linkman = linkman == null ? null : linkman.trim();
+    }
+
+    public Integer getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(Integer adminId) {
+        this.adminId = adminId;
     }
 }
