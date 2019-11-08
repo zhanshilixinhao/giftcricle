@@ -22,13 +22,17 @@ public class CardVo {
 
     private String storeIds;
 
+    private String eventIds;
+
     private Integer adminId;
-    
+
     private Date created;
 
     private String summary;
 
     private List<StoreVo> storeVos;
+
+    private List<EventVo> eventVos;
 
     public Integer getId() {
         return id;
@@ -85,7 +89,7 @@ public class CardVo {
     public void setAdminId(Integer adminId) {
         this.adminId = adminId;
     }
-    
+
 
     public Date getCreated() {
         return created;
@@ -109,5 +113,21 @@ public class CardVo {
 
     public void setStoreVos(List<StoreVo> storeVos) {
         this.storeVos = storeVos;
+    }
+
+    public List<EventVo> getEventVos() {
+        return eventVos;
+    }
+
+    public void setEventVos(List<EventVo> eventVos) {
+        this.eventVos = eventVos;
+    }
+
+    public String getEventIds() {
+        return eventIds;
+    }
+
+    public void setEventIds(String eventIds) {
+        this.eventIds = eventIds;
     }
 }

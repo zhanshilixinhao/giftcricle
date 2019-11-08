@@ -13,7 +13,7 @@
     admin_id, role_id, admin_role_note, created
   </sql>
   <select id="selectByPrimaryKey" parameterType="com.chouchong.entity.webUser.SysAdminRoleKey" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from sys_admin_role
     where admin_id = #{adminId,jdbcType=INTEGER}
@@ -25,9 +25,9 @@
       and role_id = #{roleId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchong.entity.webUser.SysAdminRole">
-    insert into sys_admin_role (admin_id, role_id, admin_role_note, 
+    insert into sys_admin_role (admin_id, role_id, admin_role_note,
       created)
-    values (#{adminId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{adminRoleNote,jdbcType=VARCHAR}, 
+    values (#{adminId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{adminRoleNote,jdbcType=VARCHAR},
       #{created,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.chouchong.entity.webUser.SysAdminRole">
@@ -100,5 +100,13 @@
     sys_admin_role
     WHERE
     role_id = #{id}
+  </select>
+  <select id="selectIdByRoleId" resultType="java.lang.Integer">
+    SELECT
+    admin_id
+    FROM
+    sys_admin_role
+    WHERE
+    role_id = #{roleId}
   </select>
 </mapper>

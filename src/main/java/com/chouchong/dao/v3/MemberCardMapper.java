@@ -17,4 +17,5 @@ public interface MemberCardMapper {
     int updateByPrimaryKey(MemberCard record);
 
 
+    void deleteByCardId(Integer cardId);
 }

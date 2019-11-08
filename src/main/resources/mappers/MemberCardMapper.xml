@@ -24,11 +24,15 @@
     delete from member_card
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  <delete id="deleteByCardId">
+    delete from member_card
+    where membership_card_id = #{cardId}
+  </delete>
   <insert id="insert" parameterType="com.chouchong.entity.v3.MemberCard">
     insert into member_card (id, membership_card_id, members_event_id,
       updated, created)
     values (#{id,jdbcType=INTEGER}, #{membershipCardId,jdbcType=INTEGER}, #{membersEventId,jdbcType=INTEGER},
-      #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP})
+     now(), now())
   </insert>
   <insert id="insertSelective" parameterType="com.chouchong.entity.v3.MemberCard">
     insert into member_card

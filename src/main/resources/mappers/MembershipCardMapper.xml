@@ -90,7 +90,7 @@ and status = 1
     delete from membership_card
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chouchong.entity.v3.MembershipCard">
+  <insert id="insert" parameterType="com.chouchong.entity.v3.MembershipCard" keyProperty="id" useGeneratedKeys="true">
     insert into membership_card (id, card_no, title,
       colour, logo, store_ids,
       admin_id, type, status,

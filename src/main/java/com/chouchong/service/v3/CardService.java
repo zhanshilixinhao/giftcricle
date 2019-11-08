@@ -27,7 +27,7 @@ public interface CardService {
      * @param card
      * @return
      */
-    Response addCard(MembershipCard card);
+    Response addCard(MembershipCard card,String eventIds);
 
 
     /**
@@ -35,7 +35,7 @@ public interface CardService {
      * @param card
      * @return
      */
-    Response updateCard(MembershipCard card);
+    Response updateCard(MembershipCard card,String eventIds);
 
 
     /**
@@ -58,4 +58,10 @@ public interface CardService {
      * @return
      */
     Response allStoreList();
+
+    /**
+     * 获取自己创建的所有活动
+     * @return
+     */
+    Response allEventList();
 }

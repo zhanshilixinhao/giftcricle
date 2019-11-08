@@ -41,14 +41,14 @@ public class CardController {
      * @return
      */
     @PostMapping("add")
-    public Response addCard(MembershipCard card){
-        if (StringUtils.isAnyBlank(card.getTitle(),card.getColour(),card.getLogo(),card.getStoreIds())){
+    public Response addCard(MembershipCard card,String eventIds){
+        if (StringUtils.isAnyBlank(card.getTitle(),card.getColour(),card.getLogo(),card.getStoreIds(),eventIds)){
             return ResponseFactory.errMissingParameter();
         }
         if (card.getSummary() == null){
             return ResponseFactory.errMissingParameter();
         }
-        return cardService.addCard(card);
+        return cardService.addCard(card,eventIds);
     }
 
 
@@ -59,14 +59,14 @@ public class CardController {
      * @return
      */
     @PostMapping("update")
-    public Response updateCard(MembershipCard card){
-        if (StringUtils.isAnyBlank(card.getTitle(),card.getColour(),card.getLogo(),card.getStoreIds())){
+    public Response updateCard(MembershipCard card,String eventIds){
+        if (StringUtils.isAnyBlank(card.getTitle(),card.getColour(),card.getLogo(),card.getStoreIds(),eventIds)){
             return ResponseFactory.errMissingParameter();
         }
-        if (card.getCardNo() == null || card.getSummary() == null || card.getId() == null){
+        if (card.getSummary() == null || card.getId() == null){
             return ResponseFactory.errMissingParameter();
         }
-        return cardService.updateCard(card);
+        return cardService.updateCard(card,eventIds);
     }
 
     /**
@@ -105,5 +105,14 @@ public class CardController {
         return cardService.allStoreList();
     }
 
+
+    /**
+     * 获取自己创建的所有活动
+     * @return
+     */
+    @PostMapping("all_event")
+    public Response allEventList() {
+        return cardService.allEventList();
+    }
 
 }

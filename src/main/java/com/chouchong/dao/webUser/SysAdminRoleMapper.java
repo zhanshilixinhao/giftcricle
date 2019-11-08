@@ -38,4 +38,13 @@ public interface SysAdminRoleMapper {
      * @Date: 2018/7/20
      */
     List<SysAdminRole> selectByRoleId(@Param("id") Integer id);
+    /**
+     * 通过角色id获得后台用户id
+     *
+     * @param: [id 角色id]
+     * @return: java.util.List<com.chouchong.entity.webUser.SysAdminRole>
+     * @author: yy
+     * @Date: 2018/7/20
+     */
+    List<Integer> selectIdByRoleId(@Param("roleId") Integer roleId);
 }
