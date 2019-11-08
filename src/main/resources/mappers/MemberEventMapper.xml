@@ -1,139 +1,151 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chouchong.dao.v3.MemberEventMapper">
-  <resultMap id="BaseResultMap" type="com.chouchong.entity.v3.MemberEvent">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="summary" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="recharge_money" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
-      <arg column="send_money" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
-      <arg column="target_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="type" javaType="java.lang.Byte" jdbcType="TINYINT" />
-      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
-      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-    </constructor>
-  </resultMap>
-  <sql id="Base_Column_List">
+    <resultMap id="BaseResultMap" type="com.chouchong.entity.v3.MemberEvent">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="summary" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="recharge_money" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+            <arg column="send_money" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+            <arg column="target_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="type" javaType="java.lang.Byte" jdbcType="TINYINT"/>
+            <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT"/>
+            <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, title, summary, recharge_money, send_money, target_id, admin_id, type, status,
     updated, created
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from member_event
-    where id = #{id,jdbcType=INTEGER}
-  </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from member_event
+        where id = #{id,jdbcType=INTEGER}
+    </select>
     <select id="selectByAll" resultType="com.chouchong.service.v3.vo.EventVo">
         select a.*
-from (
-select id,
-       title,
-       summary,
-       recharge_money,
-       send_money,
-       target_id,
-       admin_id,
-       type,
-       status,
-       created,
-       null as targetName
-from member_event
-where type = 1 or type = 2
-union all
-select a.id,
-       a.title,
-       a.summary,
-       a.recharge_money,
-       a.send_money,
-       a.target_id,
-       a.admin_id,
-       a.type,
-       a.status,
-       a.created,
-       b.title as targetName
-from member_event a
-left join item_sku b on a.target_id = b.id
-where type = 3
-union all
-select a.id,
-       a.title,
-       a.summary,
-       a.recharge_money,
-       a.send_money,
-       a.target_id,
-       a.admin_id,
-       a.type,
-       a.status,
-       a.created,
-       b.name as targetName
-from member_event a
-         left join virtual_item b on a.target_id = b.id
-where type = 4
-     ) a
-where a.status = 1
-<if test="adminId != null">
-  and a.admin_id = #{adminId}
-</if>
-order by a.created DESC
+        from (
+        select id,
+        title,
+        summary,
+        recharge_money,
+        send_money,
+        target_id,
+        admin_id,
+        type,
+        status,
+        created,
+        null as targetName
+        from member_event
+        where type = 1 or type = 2
+        union all
+        select a.id,
+        a.title,
+        a.summary,
+        a.recharge_money,
+        a.send_money,
+        a.target_id,
+        a.admin_id,
+        a.type,
+        a.status,
+        a.created,
+        b.title as targetName
+        from member_event a
+        left join item_sku b on a.target_id = b.id
+        where type = 3
+        union all
+        select a.id,
+        a.title,
+        a.summary,
+        a.recharge_money,
+        a.send_money,
+        a.target_id,
+        a.admin_id,
+        a.type,
+        a.status,
+        a.created,
+        b.name as targetName
+        from member_event a
+        left join virtual_item b on a.target_id = b.id
+        where type = 4
+        ) a
+        where a.status = 1
+        <if test="adminId != null">
+            and a.admin_id = #{adminId}
+        </if>
+        <if test="type != null">
+            and a.type = #{type}
+        </if>
+        <if test="title != null and title != ''">
+            and a.title like concat('%',#{title},'%')
+        </if>
+        order by a.created DESC
     </select>
-  <select id="selectAllByAdminIds" resultType="com.chouchong.service.v3.vo.EventVo">
-    select a.*
-    from (
-    select id,
-    title,
-    summary,
-    recharge_money,
-    send_money,
-    target_id,
-    admin_id,
-    type,
-    status,
-    created,
-    null as targetName
-    from member_event
-    where type = 1 or type = 2
-    union all
-    select a.id,
-    a.title,
-    a.summary,
-    a.recharge_money,
-    a.send_money,
-    a.target_id,
-    a.admin_id,
-    a.type,
-    a.status,
-    a.created,
-    b.title as targetName
-    from member_event a
-    left join item_sku b on a.target_id = b.id
-    where type = 3
-    union all
-    select a.id,
-    a.title,
-    a.summary,
-    a.recharge_money,
-    a.send_money,
-    a.target_id,
-    a.admin_id,
-    a.type,
-    a.status,
-    a.created,
-    b.name as targetName
-    from member_event a
-    left join virtual_item b on a.target_id = b.id
-    where type = 4
-    ) a
-    where a.status = 1
-    and a.admin_id in
-    <foreach collection="list" open="(" close=")" item="list" separator="," index="index">
-        #{list}
-    </foreach>
-    order by a.created DESC
-  </select>
-  <select id="selectByCardId" resultType="com.chouchong.service.v3.vo.EventVo">
+    <select id="selectAllByAdminIds" resultType="com.chouchong.service.v3.vo.EventVo">
+        select a.*
+        from (
+        select id,
+        title,
+        summary,
+        recharge_money,
+        send_money,
+        target_id,
+        admin_id,
+        type,
+        status,
+        created,
+        null as targetName
+        from member_event
+        where type = 1 or type = 2
+        union all
+        select a.id,
+        a.title,
+        a.summary,
+        a.recharge_money,
+        a.send_money,
+        a.target_id,
+        a.admin_id,
+        a.type,
+        a.status,
+        a.created,
+        b.title as targetName
+        from member_event a
+        left join item_sku b on a.target_id = b.id
+        where type = 3
+        union all
+        select a.id,
+        a.title,
+        a.summary,
+        a.recharge_money,
+        a.send_money,
+        a.target_id,
+        a.admin_id,
+        a.type,
+        a.status,
+        a.created,
+        b.name as targetName
+        from member_event a
+        left join virtual_item b on a.target_id = b.id
+        where type = 4
+        ) a
+        where a.status = 1
+        and a.admin_id in
+        <foreach collection="list" open="(" close=")" item="list" separator="," index="index">
+            #{list}
+        </foreach>
+        <if test="type != null">
+            and a.type = #{type}
+        </if>
+        <if test="title != null and title != ''">
+            and a.title like concat('%',#{title},'%')
+        </if>
+        order by a.created DESC
+    </select>
+    <select id="selectByCardId" resultType="com.chouchong.service.v3.vo.EventVo">
         select a.id,
        a.title,
        a.summary,
@@ -149,11 +161,11 @@ from member_event a
 where a.status = 1
   and b.membership_card_id = #{cardId}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from member_event
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chouchong.entity.v3.MemberEvent">
+    <insert id="insert" parameterType="com.chouchong.entity.v3.MemberEvent">
     insert into member_event (id, title, summary,
       recharge_money, send_money, target_id,
       admin_id, type, status,
@@ -161,118 +173,118 @@ where a.status = 1
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR},
       #{rechargeMoney,jdbcType=DECIMAL}, #{sendMoney,jdbcType=DECIMAL}, #{targetId,jdbcType=INTEGER},
       #{adminId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT},
-      #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP})
+      now(), now())
   </insert>
-  <insert id="insertSelective" parameterType="com.chouchong.entity.v3.MemberEvent">
-    insert into member_event
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="title != null">
-        title,
-      </if>
-      <if test="summary != null">
-        summary,
-      </if>
-      <if test="rechargeMoney != null">
-        recharge_money,
-      </if>
-      <if test="sendMoney != null">
-        send_money,
-      </if>
-      <if test="targetId != null">
-        target_id,
-      </if>
-      <if test="adminId != null">
-        admin_id,
-      </if>
-      <if test="type != null">
-        type,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="updated != null">
-        updated,
-      </if>
-      <if test="created != null">
-        created,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="title != null">
-        #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="summary != null">
-        #{summary,jdbcType=VARCHAR},
-      </if>
-      <if test="rechargeMoney != null">
-        #{rechargeMoney,jdbcType=DECIMAL},
-      </if>
-      <if test="sendMoney != null">
-        #{sendMoney,jdbcType=DECIMAL},
-      </if>
-      <if test="targetId != null">
-        #{targetId,jdbcType=INTEGER},
-      </if>
-      <if test="adminId != null">
-        #{adminId,jdbcType=INTEGER},
-      </if>
-      <if test="type != null">
-        #{type,jdbcType=TINYINT},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=TINYINT},
-      </if>
-      <if test="updated != null">
-        #{updated,jdbcType=TIMESTAMP},
-      </if>
-      <if test="created != null">
-        #{created,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.v3.MemberEvent">
-    update member_event
-    <set>
-      <if test="title != null">
-        title = #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="summary != null">
-        summary = #{summary,jdbcType=VARCHAR},
-      </if>
-      <if test="rechargeMoney != null">
-        recharge_money = #{rechargeMoney,jdbcType=DECIMAL},
-      </if>
-      <if test="sendMoney != null">
-        send_money = #{sendMoney,jdbcType=DECIMAL},
-      </if>
-      <if test="targetId != null">
-        target_id = #{targetId,jdbcType=INTEGER},
-      </if>
-      <if test="adminId != null">
-        admin_id = #{adminId,jdbcType=INTEGER},
-      </if>
-      <if test="type != null">
-        type = #{type,jdbcType=TINYINT},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=TINYINT},
-      </if>
-      <if test="updated != null">
-        updated = #{updated,jdbcType=TIMESTAMP},
-      </if>
-      <if test="created != null">
-        created = #{created,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.v3.MemberEvent">
+    <insert id="insertSelective" parameterType="com.chouchong.entity.v3.MemberEvent">
+        insert into member_event
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="summary != null">
+                summary,
+            </if>
+            <if test="rechargeMoney != null">
+                recharge_money,
+            </if>
+            <if test="sendMoney != null">
+                send_money,
+            </if>
+            <if test="targetId != null">
+                target_id,
+            </if>
+            <if test="adminId != null">
+                admin_id,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="updated != null">
+                updated,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="summary != null">
+                #{summary,jdbcType=VARCHAR},
+            </if>
+            <if test="rechargeMoney != null">
+                #{rechargeMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="sendMoney != null">
+                #{sendMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="targetId != null">
+                #{targetId,jdbcType=INTEGER},
+            </if>
+            <if test="adminId != null">
+                #{adminId,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=TINYINT},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="updated != null">
+                #{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="created != null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.v3.MemberEvent">
+        update member_event
+        <set>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="summary != null">
+                summary = #{summary,jdbcType=VARCHAR},
+            </if>
+            <if test="rechargeMoney != null">
+                recharge_money = #{rechargeMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="sendMoney != null">
+                send_money = #{sendMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="targetId != null">
+                target_id = #{targetId,jdbcType=INTEGER},
+            </if>
+            <if test="adminId != null">
+                admin_id = #{adminId,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=TINYINT},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="updated != null">
+                updated = #{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.v3.MemberEvent">
     update member_event
     set title = #{title,jdbcType=VARCHAR},
       summary = #{summary,jdbcType=VARCHAR},

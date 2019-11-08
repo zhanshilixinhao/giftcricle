@@ -3,6 +3,7 @@ package com.chouchong.dao.v3;
 
 import com.chouchong.entity.v3.MemberEvent;
 import com.chouchong.service.v3.vo.EventVo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -19,14 +20,14 @@ public interface MemberEventMapper {
 
     int updateByPrimaryKey(MemberEvent record);
 
-    List<EventVo> selectByAll(Integer adminId);
+    List<EventVo> selectByAll(@Param("adminId") Integer adminId, @Param("title") String title, @Param("type") Byte type);
 
     /**
      * 所有礼遇圈添加的活动
      * @param list
      * @return
      */
-    List<EventVo> selectAllByAdminIds(List<Integer> list);
+    List<EventVo> selectAllByAdminIds(@Param("list") List<Integer> list, @Param("title") String title, @Param("type") Byte type);
 
     List<EventVo> selectByCardId(Integer cardId);
 }

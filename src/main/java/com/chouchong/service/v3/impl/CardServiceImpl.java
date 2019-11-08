@@ -262,12 +262,12 @@ public class CardServiceImpl implements CardService {
             if (webUserInfo.getRoleId() == 3) {
                 adminId = webUserInfo.getSysAdmin().getId();
             }
-            List<EventVo> eventVos = memberEventMapper.selectByAll(adminId);
+            List<EventVo> eventVos = memberEventMapper.selectByAll(adminId,null,null);
             return ResponseFactory.sucData(eventVos);
         } else {
             // 礼遇圈（所有礼遇圈添加的可看）
             List<Integer> adminIds = sysAdminRoleMapper.selectIdByRoleId(webUserInfo.getRoleId());
-            List<EventVo> eventVos = memberEventMapper.selectAllByAdminIds(adminIds);
+            List<EventVo> eventVos = memberEventMapper.selectAllByAdminIds(adminIds,null,null);
             return ResponseFactory.sucData(eventVos);
         }
     }
