@@ -2,6 +2,9 @@ package com.chouchong.service.v3;
 
 import com.chouchong.common.PageQuery;
 import com.chouchong.common.Response;
+import com.chouchong.entity.v3.UserMemberCard;
+
+import java.math.BigDecimal;
 
 /**
  * @author linqin
@@ -28,4 +31,33 @@ public interface UserCardService {
      * @return
      */
     Response cardInfo( Integer userId,Integer cardId);
+
+
+    /**
+     * 分店获取用户会员卡列表
+     * @param page
+     * @param cardNo 卡号
+     * @param phone 用户电话
+     * @return
+     */
+    Response getUserCardList1(PageQuery page, String cardNo, String phone);
+
+    /**
+     * 分店开卡
+     * @param card
+     * @return
+     */
+    Response addUserCard(UserMemberCard card);
+
+    /**
+     * 分店会员卡充值
+     * @param userId 用户id
+     * @param cardId 会员卡id
+     * @param recharge 充值金额
+     * @param explain 充值说明
+     * @param send 赠送金额
+     * @param eventId 活动id
+     * @return
+     */
+    Response chargeCard(Integer userId, Integer cardId, BigDecimal recharge, String explain, BigDecimal send, Integer eventId);
 }

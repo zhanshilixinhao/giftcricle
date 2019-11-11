@@ -68,4 +68,6 @@ public interface AppUserMapper {
      * @Date: 2018/7/31
      */
     List<Map> selectAllByCreated();
+
+    AppUser selectByPhone1(@Param("phone") String phone);
 }

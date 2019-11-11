@@ -86,6 +86,17 @@ from membership_card
 where id = #{cardId}
 and status = 1
   </select>
+  <select id="selectByAdminId" resultType="com.chouchong.entity.v3.MembershipCard">
+select
+        id, card_no, title, summary, colour, logo, store_ids, admin_id, type, status, updated, created
+from membership_card
+where admin_id = #{createdAdminId}
+union all
+select
+    id, card_no, title, summary, colour, logo, store_ids, admin_id, type, status, updated, created
+from membership_card
+where id = 0
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from membership_card
     where id = #{id,jdbcType=INTEGER}

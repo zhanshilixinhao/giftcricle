@@ -26,4 +26,6 @@ public interface MembershipCardMapper {
                                 @Param("cardNo") Long cardNo, @Param("title") String title);
 
     CardVo selectById(@Param("cardId") Integer cardId);
+
+    List<MembershipCard> selectByAdminId(Integer createdAdminId);
 }

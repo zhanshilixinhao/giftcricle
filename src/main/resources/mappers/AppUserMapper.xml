@@ -21,11 +21,11 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, account, password, phone, avatar, nickname, age, gender, signature, district, 
+    id, account, password, phone, avatar, nickname, age, gender, signature, district,
     status, sent_pwd, wxid, created, updated
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from app_user
     where id = #{id,jdbcType=INTEGER}
@@ -35,16 +35,16 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.chouchong.entity.iwant.appUser.AppUser">
-    insert into app_user (id, account, password, 
-      phone, avatar, nickname, 
-      age, gender, signature, 
-      district, status, sent_pwd, 
+    insert into app_user (id, account, password,
+      phone, avatar, nickname,
+      age, gender, signature,
+      district, status, sent_pwd,
       wxid, created, updated
       )
-    values (#{id,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
-      #{age,jdbcType=INTEGER}, #{gender,jdbcType=TINYINT}, #{signature,jdbcType=VARCHAR}, 
-      #{district,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{sentPwd,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+      #{phone,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR},
+      #{age,jdbcType=INTEGER}, #{gender,jdbcType=TINYINT}, #{signature,jdbcType=VARCHAR},
+      #{district,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{sentPwd,jdbcType=VARCHAR},
       #{wxid,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -299,5 +299,13 @@ FROM
 	( SELECT `status`, count( id ) AS count FROM app_user GROUP BY `status` ) b
 	GROUP BY
 	`status`
+  </select>
+  <select id="selectByPhone1" resultType="com.chouchong.entity.iwant.appUser.AppUser">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    FROM
+    app_user
+    WHERE
+    phone = #{phone}
   </select>
 </mapper>
