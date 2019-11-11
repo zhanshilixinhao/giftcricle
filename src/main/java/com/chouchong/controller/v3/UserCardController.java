@@ -94,5 +94,22 @@ public class UserCardController {
         return userCardService.chargeCard(userId,cardId,recharge,explain,send,eventId);
     }
 
+    /**
+     * 分店消费（线下消费）
+     * @param userId 用户id
+     * @param cardId 会员卡id
+     * @param expense 消费金额
+     * @param explain 消费说明
+     * @return
+     */
+    @PostMapping("expense")
+    public Response expenseCard(Integer userId, Integer cardId, BigDecimal expense,String explain){
+        if ( userId == null || cardId == null||expense == null){
+            return ResponseFactory.errMissingParameter();
+        }
+        return userCardService.expenseCard(userId,cardId,expense,explain);
+    }
+
+
 
 }

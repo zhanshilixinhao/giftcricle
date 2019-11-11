@@ -30,4 +30,7 @@ public interface UserMemberCardMapper {
     List<UserCardVo> selectBySearch(@Param("cardNo") String cardNo, @Param("phone") String phone, @Param("adminId") Integer adminId);
 
     List<UserCardVo> selectBySearch1(@Param("cardNo") String cardNo, @Param("phone") String phone, @Param("list") List<Integer> list);
+
+    UserMemberCard selectByUseridcardId(@Param("userId") Integer userId, @Param("cardId") Integer cardId);
+
 }

@@ -41,7 +41,7 @@
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{merchantId,jdbcType=INTEGER},
       #{storeId,jdbcType=INTEGER}, #{rechargeMoney,jdbcType=DECIMAL}, #{sendMoney,jdbcType=DECIMAL},
       #{expenseMoney,jdbcType=DECIMAL}, #{type,jdbcType=TINYINT}, #{explain,jdbcType=VARCHAR},
-      #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP}, #{totalMoney,jdbcType=DECIMAL},
+      now(), now(), #{totalMoney,jdbcType=DECIMAL},
       #{scale,jdbcType=REAL})
   </insert>
   <insert id="insertSelective" parameterType="com.chouchong.entity.v3.StoreMemberCharge">

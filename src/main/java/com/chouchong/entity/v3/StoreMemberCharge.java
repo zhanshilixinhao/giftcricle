@@ -30,7 +30,9 @@ public class StoreMemberCharge {
 
     private Float scale;
 
-    public StoreMemberCharge(Integer id, Integer userId, Integer merchantId, Integer storeId, BigDecimal rechargeMoney, BigDecimal sendMoney, BigDecimal expenseMoney, Byte type, String explain, Date updated, Date created, BigDecimal totalMoney, Float scale) {
+    private Integer membershipCardId;
+
+    public StoreMemberCharge(Integer id, Integer userId, Integer merchantId, Integer storeId, BigDecimal rechargeMoney, BigDecimal sendMoney, BigDecimal expenseMoney, Byte type, String explain, Date updated, Date created, BigDecimal totalMoney, Float scale,Integer membershipCardId) {
         this.id = id;
         this.userId = userId;
         this.merchantId = merchantId;
@@ -44,6 +46,7 @@ public class StoreMemberCharge {
         this.created = created;
         this.totalMoney = totalMoney;
         this.scale = scale;
+        this.membershipCardId = membershipCardId;
     }
 
     public StoreMemberCharge() {
@@ -152,5 +155,13 @@ public class StoreMemberCharge {
 
     public void setScale(Float scale) {
         this.scale = scale;
+    }
+
+    public Integer getMembershipCardId() {
+        return membershipCardId;
+    }
+
+    public void setMembershipCardId(Integer membershipCardId) {
+        this.membershipCardId = membershipCardId;
     }
 }

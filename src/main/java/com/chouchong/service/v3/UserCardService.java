@@ -60,4 +60,16 @@ public interface UserCardService {
      * @return
      */
     Response chargeCard(Integer userId, Integer cardId, BigDecimal recharge, String explain, BigDecimal send, Integer eventId);
+    /**
+     * 分店消费（线下消费）
+     * @param userId 用户id
+     * @param cardId 会员卡id
+     * @param expense 消费金额
+     * @param explain 消费说明
+     * @return
+     */
+    Response expenseCard(Integer userId, Integer cardId, BigDecimal expense, String explain);
+
+
+
 }
