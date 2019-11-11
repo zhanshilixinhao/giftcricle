@@ -27,6 +27,21 @@
         from member_charge_record
         where id = #{id,jdbcType=INTEGER}
     </select>
+    <select id="selectByUserIdCardId" resultType="com.chouchong.service.v3.vo.ChargeVo">
+        select a.id,
+       a.recharge_money,
+       a.send_money,
+       a.type,
+       a.store_id,
+       a.`explain`,
+       b.name as storeName,
+       a.created
+from member_charge_record a
+left join store b on a.store_id = b.id
+where a.user_id = #{userId}
+and a.membership_card_id = #{cardId}
+order by a.created DESC
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from member_charge_record

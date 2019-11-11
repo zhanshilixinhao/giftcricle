@@ -96,7 +96,6 @@ public class StoreServiceImpl implements StoreService {
         store1.setPhone(store.getPhone());
         store1.setArea(store.getArea());
         store1.setLinkman(store.getLinkman());
-        store1.setAdminId(adminId);
         int insert = storeMapper.insert(store1);
         if (insert < 1) {
             return ResponseFactory.err("添加失败");

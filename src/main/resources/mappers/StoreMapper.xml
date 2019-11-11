@@ -77,6 +77,12 @@
         </if>
         order by created DESC
     </select>
+    <select id="selectByAdminId" resultType="com.chouchong.entity.v3.Store">
+        select
+        <include refid="Base_Column_List"/>
+        from store
+        where admin_id = #{adminId}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from store
     where id = #{id,jdbcType=INTEGER}

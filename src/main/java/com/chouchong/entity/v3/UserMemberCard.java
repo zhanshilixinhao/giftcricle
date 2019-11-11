@@ -26,7 +26,9 @@ public class UserMemberCard {
 
     private String phone;
 
-    public UserMemberCard(Integer id, Integer membershipCardId, Integer userId, BigDecimal balance, BigDecimal totalAmount, BigDecimal consumeAmount, Date updated, Date created, Byte status, Integer storeId, String phone) {
+    private Integer adminId;
+
+    public UserMemberCard(Integer id, Integer membershipCardId, Integer userId, BigDecimal balance, BigDecimal totalAmount, BigDecimal consumeAmount, Date updated, Date created, Byte status, Integer storeId, String phone,Integer adminId) {
         this.id = id;
         this.membershipCardId = membershipCardId;
         this.userId = userId;
@@ -38,6 +40,7 @@ public class UserMemberCard {
         this.status = status;
         this.storeId = storeId;
         this.phone = phone;
+        this.adminId = adminId;
     }
 
     public UserMemberCard() {
@@ -130,5 +133,13 @@ public class UserMemberCard {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public Integer getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(Integer adminId) {
+        this.adminId = adminId;
     }
 }
