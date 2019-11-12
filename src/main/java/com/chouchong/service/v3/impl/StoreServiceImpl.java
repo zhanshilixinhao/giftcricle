@@ -7,8 +7,10 @@ import com.chouchong.common.ResponseFactory;
 import com.chouchong.dao.iwant.merchant.MerchantMapper;
 import com.chouchong.dao.iwant.withdraw.DistrictMapper;
 import com.chouchong.dao.v3.StoreMapper;
+import com.chouchong.dao.webUser.SysAdminMapper;
 import com.chouchong.entity.iwant.merchant.Merchant;
 import com.chouchong.entity.v3.Store;
+import com.chouchong.entity.webUser.SysAdmin;
 import com.chouchong.redis.MRedisTemplate;
 import com.chouchong.service.v3.StoreService;
 import com.chouchong.service.v3.vo.DistrictVo;
@@ -42,6 +44,9 @@ public class StoreServiceImpl implements StoreService {
     private DistrictMapper districtMapper;
 
     @Autowired
+    private SysAdminMapper sysAdminMapper;
+
+    @Autowired
     private MRedisTemplate mRedisTemplate;
 
     /**
@@ -56,16 +61,19 @@ public class StoreServiceImpl implements StoreService {
      */
     @Override
     public Response getStoreList(String name, String address, PageQuery page) {
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         // 平台商登录
         Integer adminId = null;
         Integer merchantId = null;
         if (webUserInfo.getRoleId() == 2) {
             merchantId = 0;
-        } else if (webUserInfo.getRoleId() == 3 || webUserInfo.getRoleId() == 4) {
-            adminId = webUserInfo.getSysAdmin().getId();
+        } else if (webUserInfo.getRoleId() == 3 ) {
+            Merchant merchant = merchantMapper.selectByAdminId(webUserInfo.getSysAdmin().getId());
+            if (merchant != null){
+                merchantId = merchant.getId();
+            }
         }
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
         List<Store> stores = storeMapper.selectBySearch(adminId, merchantId, name, address);
         PageInfo pageInfo = new PageInfo<>(stores);
         return ResponseFactory.page(stores, pageInfo.getTotal(), pageInfo.getPages(),
@@ -191,4 +199,36 @@ public class StoreServiceImpl implements StoreService {
         Store store = storeMapper.selectByPrimaryKey(storeId);
         return ResponseFactory.sucData(store);
     }
+
+    /**
+     * 门店绑定后台用户
+     * @param storeId 门店id
+     * @param username 后台用户名
+     * @return
+     */
+    @Override
+    public Response bindStore(Integer storeId, String username) {
+        Store store = storeMapper.selectByPrimaryKey(storeId);
+        if (store == null) {
+            return ResponseFactory.err("该门店不存在");
+        }
+        // 为商家绑定后台用户
+        if (store.getAdminId() != null) {
+            return ResponseFactory.err("该门店已绑定后台用户");
+        }
+        SysAdmin sysAdmin = sysAdminMapper.selectByUserName(username);
+        if (sysAdmin == null) {
+            return ResponseFactory.err("用户名不存在");
+        }
+        store.setAdminId(sysAdmin.getId());
+        int i = storeMapper.updateByPrimaryKeySelective(store);
+        if (i < 1) {
+            return ResponseFactory.err("操作失败!");
+        }
+        // 改变商家的后台用户为启用
+        sysAdmin.setActive((byte) 1);
+        sysAdminMapper.updateByPrimaryKeySelective(sysAdmin);
+        return ResponseFactory.sucMsg("操作成功");
+    }
+
 }

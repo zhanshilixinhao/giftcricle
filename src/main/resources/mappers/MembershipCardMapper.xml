@@ -109,10 +109,12 @@ where id = 0
         created
         from membership_card
         where status = 1
-        and id in
-        <foreach collection="list" open="(" close=")" item="list" separator="," index="index">
-            #{list}
-        </foreach>
+        <if test="list != null">
+            and id in
+            <foreach collection="list" open="(" close=")" item="list" separator="," index="index">
+                #{list}
+            </foreach>
+        </if>
         <if test="title != null and title != ''">
             and title like concat('%',#{title},'%')
         </if>

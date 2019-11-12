@@ -33,7 +33,7 @@ public interface StoreMapper {
 
     StoreVo selectById(@Param("id") Integer id);
 
-    List<StoreVo> selectByAll(@Param("adminId") Integer adminId);
+    List<StoreVo> selectByAll(@Param("merchantId") Integer merchantId);
 
     Store selectByAdminId(@Param("adminId") Integer adminId);
 }

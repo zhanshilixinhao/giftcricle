@@ -71,4 +71,12 @@ public interface StoreService {
      * @date 2019/11/5
      */
     Response detailStore(Integer storeId);
+
+    /**
+     * 门店绑定后台用户
+     * @param storeId 门店id
+     * @param username 后台用户名
+     * @return
+     */
+    Response bindStore(Integer storeId, String username);
 }

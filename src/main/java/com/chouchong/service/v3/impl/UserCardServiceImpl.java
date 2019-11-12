@@ -131,10 +131,16 @@ public class UserCardServiceImpl implements UserCardService {
         List<MembershipCard> cardList = membershipCardMapper.selectByAdminId(createdAdminId);
         if (!CollectionUtils.isEmpty(cardList)) {
             for (MembershipCard card : cardList) {
-                if (card.getStoreIds().indexOf(store.getId()) != -1) {
-                    list.add(card.getId());
+                String[] strings = card.getStoreIds().split(",");
+                for (String string : strings) {
+                    if (string.equals(store.getId().toString())) {
+                        list.add(card.getId());
+                    }
                 }
             }
+        }
+        if (list.size() == 0) {
+            return ResponseFactory.suc();
         }
         List<UserCardVo> list1 = userMemberCardMapper.selectBySearch1(cardNo, phone, list);
         PageInfo pageInfo = new PageInfo<>(list1);
@@ -214,7 +220,7 @@ public class UserCardServiceImpl implements UserCardService {
             return ResponseFactory.err("充值失败");
         }
         // 更新余额
-        updateBalance(userId, cardId, (byte) 1, recharge);
+        updateBalance(userId, cardId, (byte) 1, recharge, send);
         // 添加详细记录
         BigDecimal total = recharge;
         Float scale = null;
@@ -260,22 +266,23 @@ public class UserCardServiceImpl implements UserCardService {
             return ResponseFactory.err("失败");
         }
         // 更新余额
-        updateBalance(userId, cardId, (byte) 2, expense);
+        updateBalance(userId, cardId, (byte) 2, expense, new BigDecimal("0"));
         // 添加详细记录
         detailCharge(userId, merchant.getId(), storeId, new BigDecimal("0"), cardId, new BigDecimal("0"), expense, (byte) 2, explain, expense, 0f);
         return ResponseFactory.sucMsg("成功");
     }
 
 
-    private void updateBalance(Integer userId, Integer cardId, Byte type, BigDecimal balance) {
+    private void updateBalance(Integer userId, Integer cardId, Byte type, BigDecimal balance, BigDecimal send) {
         UserMemberCard card = userMemberCardMapper.selectByUseridcardId(userId, cardId);
         if (card == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "该用户会员卡不存在");
         }
         if (type == 1) {
             // 充值
-            card.setBalance(BigDecimalUtil.add(card.getBalance().doubleValue(), balance.doubleValue()));
-            card.setTotalAmount(BigDecimalUtil.add(card.getTotalAmount().doubleValue(), balance.doubleValue()));
+            BigDecimal total = BigDecimalUtil.add(balance.doubleValue(), send.doubleValue());
+            card.setBalance(BigDecimalUtil.add(card.getBalance().doubleValue(), total.doubleValue()));
+            card.setTotalAmount(BigDecimalUtil.add(card.getTotalAmount().doubleValue(), total.doubleValue()));
         } else {
             // 消费
             if (card.getBalance().compareTo(balance) < 0) {

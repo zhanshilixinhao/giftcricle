@@ -72,8 +72,8 @@
         linkman
         from store
         where 1=1
-        <if test="adminId != null">
-            and admin_id = #{adminId}
+        <if test="merchantId != null">
+            and merchant_id = #{merchantId}
         </if>
         order by created DESC
     </select>

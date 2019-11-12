@@ -4,11 +4,13 @@ import com.chouchong.common.OrderHelper;
 import com.chouchong.common.PageQuery;
 import com.chouchong.common.Response;
 import com.chouchong.common.ResponseFactory;
+import com.chouchong.dao.iwant.merchant.MerchantMapper;
 import com.chouchong.dao.v3.MemberCardMapper;
 import com.chouchong.dao.v3.MemberEventMapper;
 import com.chouchong.dao.v3.MembershipCardMapper;
 import com.chouchong.dao.v3.StoreMapper;
 import com.chouchong.dao.webUser.SysAdminRoleMapper;
+import com.chouchong.entity.iwant.merchant.Merchant;
 import com.chouchong.entity.v3.MemberCard;
 import com.chouchong.entity.v3.MemberEvent;
 import com.chouchong.entity.v3.MembershipCard;
@@ -59,6 +61,9 @@ public class CardServiceImpl implements CardService {
     @Autowired
     private MemberCardMapper memberCardMapper;
 
+    @Autowired
+    private MerchantMapper merchantMapper;
+
     /**
      * 获取会员卡列表
      *
@@ -75,7 +80,7 @@ public class CardServiceImpl implements CardService {
         Integer cardId = null;
         if (webUserInfo.getRoleId() == 2) {
             cardId = 0;
-        } else if (webUserInfo.getRoleId() == 3 || webUserInfo.getRoleId() == 4) {
+        } else if (webUserInfo.getRoleId() == 3 || webUserInfo.getRoleId() == 5) {
             adminId = webUserInfo.getSysAdmin().getId();
         }
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
@@ -127,13 +132,19 @@ public class CardServiceImpl implements CardService {
         if (!CollectionUtils.isEmpty(cardList)) {
             for (MembershipCard card : cardList) {
                 // 分店卡
-                if (card.getStoreIds().indexOf(store.getId()) != -1) {
-                    list.add(card.getId());
+                String[] strings = card.getStoreIds().split(",");
+                for (String string : strings) {
+                    if (string.equals(store.getId().toString())) {
+                        list.add(card.getId());
+                    }
                 }
             }
         }
-        if (type == null || type != 1){
+        if (type == null || type != 1) {
             PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        }
+        if (list.size() == 0) {
+            return ResponseFactory.suc();
         }
         List<CardVo> cardVos = membershipCardMapper.selectBySearchStore(list, cardNo, title);
         if (!CollectionUtils.isEmpty(cardVos)) {
@@ -213,8 +224,13 @@ public class CardServiceImpl implements CardService {
             return ResponseFactory.err("该会员卡不存在");
         }
         // 礼遇圈卡必须选礼遇圈门店
-        if (card.getId() == 0 && card.getStoreIds().indexOf(0) == -1) {
-            return ResponseFactory.err("礼遇圈卡必须选礼遇圈门店");
+        if (card.getId() == 0) {
+            String[] strings = card.getStoreIds().split(",");
+            for (String string : strings) {
+                if (!"0".equals(string)) {
+                    return ResponseFactory.err("礼遇圈卡必须选礼遇圈门店");
+                }
+            }
         }
         ca.setTitle(card.getTitle());
         ca.setSummary(card.getSummary());
@@ -299,11 +315,14 @@ public class CardServiceImpl implements CardService {
     public Response allStoreList() {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         // 平台商登录
-        Integer adminId = null;
+        Integer merchantId = null;
         if (webUserInfo.getRoleId() == 3) {
-            adminId = webUserInfo.getSysAdmin().getId();
+            Merchant merchant = merchantMapper.selectByAdminId(webUserInfo.getSysAdmin().getId());
+            if (merchant != null) {
+                merchantId = merchant.getId();
+            }
         }
-        List<StoreVo> storeVos = storeMapper.selectByAll(adminId);
+        List<StoreVo> storeVos = storeMapper.selectByAll(merchantId);
         return ResponseFactory.sucData(storeVos);
     }
 

@@ -26,7 +26,7 @@ public class StoreController {
     /**
      * 获取门店列表
      *
-     * @param name    名称
+     * @param name     名称
      * @param location 地址
      * @param page
      * @return
@@ -48,8 +48,8 @@ public class StoreController {
      */
     @PostMapping("add")
     public Response addStore(Store store) {
-        if (StringUtils.isAnyBlank(store.getName(),store.getAddress(),
-                store.getPhone(),store.getLinkman(),store.getArea())){
+        if (StringUtils.isAnyBlank(store.getName(), store.getAddress(),
+                store.getPhone(), store.getLinkman(), store.getArea())) {
             return ResponseFactory.errMissingParameter();
         }
         return storeService.addStore(store);
@@ -65,11 +65,11 @@ public class StoreController {
      */
     @PostMapping("update")
     public Response updateStore(Store store) {
-        if (StringUtils.isAnyBlank(store.getName(),store.getAddress(),
-                store.getPhone(),store.getLinkman(),store.getArea())){
+        if (StringUtils.isAnyBlank(store.getName(), store.getAddress(),
+                store.getPhone(), store.getLinkman(), store.getArea())) {
             return ResponseFactory.errMissingParameter();
         }
-        if (store.getId() == null){
+        if (store.getId() == null) {
             return ResponseFactory.errMissingParameter();
         }
         return storeService.updateStore(store);
@@ -85,7 +85,7 @@ public class StoreController {
      */
     @PostMapping("detail")
     public Response detailStore(Integer storeId) {
-        if (storeId == null){
+        if (storeId == null) {
             return ResponseFactory.errMissingParameter();
         }
         return storeService.detailStore(storeId);
@@ -101,21 +101,36 @@ public class StoreController {
      */
     @PostMapping("delete")
     public Response deleteStore(Integer storeId) {
-        if (storeId == null){
+        if (storeId == null) {
             return ResponseFactory.errMissingParameter();
         }
         return storeService.deleteStore(storeId);
     }
 
     /**
-     *获取行政区列表
+     * 获取行政区列表
+     *
      * @return
      * @author yichenshanren
      * @date 2018/6/6
      */
     @PostMapping("district")
-    public Response getDistrictList(){
-        return  storeService.getDistrictList();
+    public Response getDistrictList() {
+        return storeService.getDistrictList();
+    }
+
+    /**
+     * 门店绑定后台用户
+     * @param storeId 门店id
+     * @param username 后台用户名
+     * @return
+     */
+    @PostMapping("bind")
+    public Response bindStore(Integer storeId,String username){
+        if (StringUtils.isBlank(username) || storeId == null){
+            return ResponseFactory.errMissingParameter();
+        }
+        return storeService.bindStore(storeId,username);
     }
 
 }
