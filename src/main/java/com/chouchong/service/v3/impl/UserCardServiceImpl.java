@@ -165,6 +165,10 @@ public class UserCardServiceImpl implements UserCardService {
         if (appUser == null) {
             return ResponseFactory.err("需要先注册礼遇圈");
         }
+        UserMemberCard userMemberCard = userMemberCardMapper.selectByUseridcardId(appUser.getId(), card.getMembershipCardId());
+        if (userMemberCard != null){
+            return ResponseFactory.err("已经开过卡了，不能重复开卡");
+        }
         UserMemberCard ca = new UserMemberCard();
         ca.setMembershipCardId(card.getMembershipCardId());
         ca.setUserId(appUser.getId());
