@@ -34,6 +34,20 @@ public class CardController {
         return cardService.getCardList(cardNo,title,page);
     }
 
+    /**
+     * 获取会员卡列表(分店)
+     * @param cardNo 卡号
+     * @param title 标题
+     * @param type 1 不分页
+     * @param page
+     * @return
+     */
+    @PostMapping("store_card")
+    public Response getCardList1(Long cardNo, String title, PageQuery page,Integer type){
+        return cardService.getCardList1(cardNo,title,page,type);
+    }
+
+
 
     /**
      * 添加会员卡

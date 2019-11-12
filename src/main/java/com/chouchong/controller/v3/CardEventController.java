@@ -99,4 +99,19 @@ public class CardEventController {
     }
 
 
+    /**
+     * 会员卡活动列表
+     * @param cardId 会员卡id
+     * @return
+     */
+    @PostMapping("all_event")
+    public Response cardEvent(Integer cardId){
+        if (cardId == null){
+            return ResponseFactory.errMissingParameter();
+        }
+        return cardEventService.cardEvent(cardId);
+    }
+
+
+
 }

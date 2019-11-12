@@ -22,7 +22,10 @@ public interface MembershipCardMapper {
 
     int updateByPrimaryKey(MembershipCard record);
 
-    List<CardVo> selectBySearch(@Param("adminId") Integer adminId, @Param("cardId") Integer cardId,
+    List<CardVo>selectBySearch(@Param("adminId") Integer adminId, @Param("cardId") Integer cardId,
+                                @Param("cardNo") Long cardNo, @Param("title") String title);
+
+    List<CardVo>selectBySearchStore(@Param("list") List<Integer> list,
                                 @Param("cardNo") Long cardNo, @Param("title") String title);
 
     CardVo selectById(@Param("cardId") Integer cardId);

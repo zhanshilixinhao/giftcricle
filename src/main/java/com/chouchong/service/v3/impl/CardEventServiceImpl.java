@@ -145,5 +145,15 @@ public class CardEventServiceImpl implements CardEventService {
     }
 
 
+    /**
+     * 会员卡活动列表
+     * @param cardId 会员卡id
+     * @return
+     */
+    @Override
+    public Response cardEvent(Integer cardId) {
+        List<EventVo> eventVos = memberEventMapper.selectByCardId(cardId);
+        return ResponseFactory.sucData(eventVos);
+    }
 
 }

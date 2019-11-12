@@ -64,4 +64,14 @@ public interface CardService {
      * @return
      */
     Response allEventList();
+
+    /**
+     * 获取会员卡列表(分店)
+     * @param cardNo 卡号
+     * @param title 标题
+     * @param type 1 不分页
+     * @param page
+     * @return
+     */
+    Response getCardList1(Long cardNo, String title, PageQuery page, Integer type);
 }

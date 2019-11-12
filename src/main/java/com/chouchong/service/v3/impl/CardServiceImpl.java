@@ -12,6 +12,7 @@ import com.chouchong.dao.webUser.SysAdminRoleMapper;
 import com.chouchong.entity.v3.MemberCard;
 import com.chouchong.entity.v3.MemberEvent;
 import com.chouchong.entity.v3.MembershipCard;
+import com.chouchong.entity.v3.Store;
 import com.chouchong.entity.webUser.SysAdminRole;
 import com.chouchong.service.v3.CardService;
 import com.chouchong.service.v3.vo.CardVo;
@@ -68,7 +69,6 @@ public class CardServiceImpl implements CardService {
      */
     @Override
     public Response getCardList(Long cardNo, String title, PageQuery page) {
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         // 平台商登录
         Integer adminId = null;
@@ -78,6 +78,7 @@ public class CardServiceImpl implements CardService {
         } else if (webUserInfo.getRoleId() == 3 || webUserInfo.getRoleId() == 4) {
             adminId = webUserInfo.getSysAdmin().getId();
         }
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
         List<CardVo> cardVos = membershipCardMapper.selectBySearch(adminId, cardId, cardNo, title);
         if (!CollectionUtils.isEmpty(cardVos)) {
             for (CardVo cardVo : cardVos) {
@@ -91,8 +92,8 @@ public class CardServiceImpl implements CardService {
                 }
                 cardVo.setStoreVos(stores);
                 // 会员卡活动
-               List<EventVo> eventVos = memberEventMapper.selectByCardId(cardVo.getId());
-               cardVo.setEventVos(eventVos);
+                List<EventVo> eventVos = memberEventMapper.selectByCardId(cardVo.getId());
+                cardVo.setEventVos(eventVos);
             }
         }
         PageInfo pageInfo = new PageInfo<>(cardVos);
@@ -100,6 +101,66 @@ public class CardServiceImpl implements CardService {
                 pageInfo.getPageNum(), pageInfo.getPageSize());
     }
 
+    /**
+     * 获取会员卡列表(分店)
+     *
+     * @param cardNo 卡号
+     * @param title  标题
+     * @param type   1 不分页
+     * @param page
+     * @return
+     */
+    @Override
+    public Response getCardList1(Long cardNo, String title, PageQuery page, Integer type) {
+        WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
+//        分店adminId
+        Integer adminId = webUserInfo.getSysAdmin().getId();
+        // 创建者adminId(商家adminId)
+        Integer createdAdminId = webUserInfo.getSysAdmin().getCreateAdminId();
+        // 查询门店id
+        Store store = storeMapper.selectByAdminId(adminId);
+        if (store == null) {
+            return ResponseFactory.suc();
+        }
+        List<Integer> list = new ArrayList<>();
+        List<MembershipCard> cardList = membershipCardMapper.selectByAdminId(createdAdminId);
+        if (!CollectionUtils.isEmpty(cardList)) {
+            for (MembershipCard card : cardList) {
+                // 分店卡
+                if (card.getStoreIds().indexOf(store.getId()) != -1) {
+                    list.add(card.getId());
+                }
+            }
+        }
+        if (type == null || type != 1){
+            PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        }
+        List<CardVo> cardVos = membershipCardMapper.selectBySearchStore(list, cardNo, title);
+        if (!CollectionUtils.isEmpty(cardVos)) {
+            for (CardVo cardVo : cardVos) {
+                List<StoreVo> stores = new ArrayList<>();
+                if (!StringUtils.isEmpty(cardVo.getStoreIds())) {
+                    String[] split = cardVo.getStoreIds().split(",");
+                    for (String s : split) {
+                        StoreVo store1 = storeMapper.selectById(Integer.parseInt(s));
+                        stores.add(store1);
+                    }
+                }
+                cardVo.setStoreVos(stores);
+                // 会员卡活动
+                List<EventVo> eventVos = memberEventMapper.selectByCardId(cardVo.getId());
+                cardVo.setEventVos(eventVos);
+            }
+        }
+        if (type == null || type != 1) {
+            PageInfo pageInfo = new PageInfo<>(cardVos);
+            return ResponseFactory.page(cardVos, pageInfo.getTotal(), pageInfo.getPages(),
+                    pageInfo.getPageNum(), pageInfo.getPageSize());
+
+        } else {
+            return ResponseFactory.sucData(cardVos);
+        }
+    }
 
     /**
      * 添加会员卡
@@ -213,7 +274,7 @@ public class CardServiceImpl implements CardService {
         if (vo != null) {
             // 会员卡活动
             List<EventVo> eventVos = memberEventMapper.selectByCardId(vo.getId());
-            if (!StringUtils.isEmpty(eventVos)){
+            if (!StringUtils.isEmpty(eventVos)) {
                 StringBuilder eventIds = new StringBuilder();
                 String substring = null;
                 for (EventVo eventVo : eventVos) {
@@ -227,7 +288,6 @@ public class CardServiceImpl implements CardService {
         }
         return ResponseFactory.sucData(vo);
     }
-
 
 
     /**
@@ -262,12 +322,12 @@ public class CardServiceImpl implements CardService {
             if (webUserInfo.getRoleId() == 3) {
                 adminId = webUserInfo.getSysAdmin().getId();
             }
-            List<EventVo> eventVos = memberEventMapper.selectByAll(adminId,null,null);
+            List<EventVo> eventVos = memberEventMapper.selectByAll(adminId, null, null);
             return ResponseFactory.sucData(eventVos);
         } else {
             // 礼遇圈（所有礼遇圈添加的可看）
             List<Integer> adminIds = sysAdminRoleMapper.selectIdByRoleId(webUserInfo.getRoleId());
-            List<EventVo> eventVos = memberEventMapper.selectAllByAdminIds(adminIds,null,null);
+            List<EventVo> eventVos = memberEventMapper.selectAllByAdminIds(adminIds, null, null);
             return ResponseFactory.sucData(eventVos);
         }
     }

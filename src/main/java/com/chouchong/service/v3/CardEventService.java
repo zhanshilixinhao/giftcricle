@@ -49,4 +49,11 @@ public interface CardEventService {
      * @return
      */
     Response detailCardEvent(Integer eventId);
+
+     /**
+     * 会员卡活动列表
+     * @param cardId 会员卡id
+     * @return
+     */
+    Response cardEvent(Integer cardId);
 }

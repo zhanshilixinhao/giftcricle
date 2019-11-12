@@ -116,6 +116,7 @@ public class UserCardServiceImpl implements UserCardService {
      */
     @Override
     public Response getUserCardList1(PageQuery page, String cardNo, String phone) {
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
 //        分店adminId
         Integer adminId = webUserInfo.getSysAdmin().getId();
@@ -192,6 +193,10 @@ public class UserCardServiceImpl implements UserCardService {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         Integer adminId = webUserInfo.getSysAdmin().getId();
         Store store = storeMapper.selectByAdminId(adminId);
+        Integer storeId = null;
+        if (store != null && store.getId() != null) {
+            storeId = store.getId();
+        }
         Merchant merchant = merchantMapper.selectByAdminId(webUserInfo.getSysAdmin().getCreateAdminId());
         // 添加充值记录
         MemberChargeRecord record = new MemberChargeRecord();
@@ -201,7 +206,7 @@ public class UserCardServiceImpl implements UserCardService {
         record.setRechargeMoney(recharge);
         record.setSendMoney(send);
         record.setType((byte) 2);
-        record.setStoreId(store.getId());
+        record.setStoreId(storeId);
         record.setAdminId(adminId);
         record.setExplain(explain);
         int insert = memberChargeRecordMapper.insert(record);
@@ -209,24 +214,24 @@ public class UserCardServiceImpl implements UserCardService {
             return ResponseFactory.err("充值失败");
         }
         // 更新余额
-        updateBalance(userId,cardId,(byte)1,recharge);
+        updateBalance(userId, cardId, (byte) 1, recharge);
         // 添加详细记录
         BigDecimal total = recharge;
         Float scale = null;
-        if (send != null){
-             total = BigDecimalUtil.add(recharge.doubleValue(),send.doubleValue());
-             scale = BigDecimalUtil.div(send.doubleValue(),total.doubleValue()).floatValue();
+        if (send != null) {
+            total = BigDecimalUtil.add(recharge.doubleValue(), send.doubleValue());
+            scale = BigDecimalUtil.div(send.doubleValue(), total.doubleValue()).floatValue();
         }
-        detailCharge(userId,merchant.getId(),store.getId(),recharge,cardId,send,new BigDecimal("0"),(byte)1,explain,total,scale);
+        detailCharge(userId, merchant.getId(), storeId, recharge, cardId, send, new BigDecimal("0"), (byte) 1, explain, total, scale);
         return ResponseFactory.sucMsg("充值成功");
     }
 
 
-
     /**
      * 分店消费（线下消费）
-     * @param userId 用户id
-     * @param cardId 会员卡id
+     *
+     * @param userId  用户id
+     * @param cardId  会员卡id
      * @param expense 消费金额
      * @param explain 消费说明
      * @return
@@ -236,14 +241,18 @@ public class UserCardServiceImpl implements UserCardService {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         Integer adminId = webUserInfo.getSysAdmin().getId();
         Store store = storeMapper.selectByAdminId(adminId);
+        Integer storeId = null;
+        if (store != null && store.getId() != null) {
+            storeId = store.getId();
+        }
         Merchant merchant = merchantMapper.selectByAdminId(webUserInfo.getSysAdmin().getCreateAdminId());
         // 添加消费记录
         MemberExpenseRecord re = new MemberExpenseRecord();
         re.setMembershipCardId(cardId);
         re.setUserId(userId);
         re.setExpenseMoney(expense);
-        re.setType((byte)2);
-        re.setStoreId(store.getId());
+        re.setType((byte) 2);
+        re.setStoreId(storeId);
         re.setAdminId(adminId);
         re.setExplain(explain);
         int insert = memberExpenseRecordMapper.insert(re);
@@ -251,12 +260,11 @@ public class UserCardServiceImpl implements UserCardService {
             return ResponseFactory.err("失败");
         }
         // 更新余额
-        updateBalance(userId,cardId,(byte)2,expense);
+        updateBalance(userId, cardId, (byte) 2, expense);
         // 添加详细记录
-        detailCharge(userId,merchant.getId(),store.getId(),new BigDecimal("0"),cardId,new BigDecimal("0"),expense,(byte)2,explain,expense,0f);
+        detailCharge(userId, merchant.getId(), storeId, new BigDecimal("0"), cardId, new BigDecimal("0"), expense, (byte) 2, explain, expense, 0f);
         return ResponseFactory.sucMsg("成功");
     }
-
 
 
     private void updateBalance(Integer userId, Integer cardId, Byte type, BigDecimal balance) {
@@ -283,8 +291,8 @@ public class UserCardServiceImpl implements UserCardService {
     }
 
 
-    private void detailCharge(Integer userId,Integer merchant,Integer storeId,BigDecimal re,Integer cardId,
-                              BigDecimal send ,BigDecimal ex,Byte type,String explain,BigDecimal total,Float scale){
+    private void detailCharge(Integer userId, Integer merchant, Integer storeId, BigDecimal re, Integer cardId,
+                              BigDecimal send, BigDecimal ex, Byte type, String explain, BigDecimal total, Float scale) {
         StoreMemberCharge store = new StoreMemberCharge();
         store.setUserId(userId);
         store.setMerchantId(merchant);
