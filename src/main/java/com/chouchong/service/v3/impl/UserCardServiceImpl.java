@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
@@ -218,7 +219,11 @@ public class UserCardServiceImpl implements UserCardService {
         record.setType((byte) 2);
         record.setStoreId(storeId);
         record.setAdminId(adminId);
-        record.setExplain(explain);
+        if(StringUtils.isEmpty(explain)){
+            record.setExplain("余额充值");
+        }else {
+            record.setExplain(explain);
+        }
         int insert = memberChargeRecordMapper.insert(record);
         if (insert < 1) {
             return ResponseFactory.err("充值失败");
@@ -264,7 +269,11 @@ public class UserCardServiceImpl implements UserCardService {
         re.setType((byte) 2);
         re.setStoreId(storeId);
         re.setAdminId(adminId);
-        re.setExplain(explain);
+        if(StringUtils.isEmpty(explain)){
+            re.setExplain("线下消费");
+        }else {
+            re.setExplain(explain);
+        }
         int insert = memberExpenseRecordMapper.insert(re);
         if (insert < 1) {
             return ResponseFactory.err("失败");
