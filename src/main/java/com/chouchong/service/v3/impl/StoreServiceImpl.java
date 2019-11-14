@@ -101,10 +101,10 @@ public class StoreServiceImpl implements StoreService {
         if (merchant != null) {
             store1.setMerchantId(merchant.getId());
         }
-        String s = store.getAddress().replaceAll(",", "");
-        store1.setAddress(s);
+        store1.setAddress(store.getAddress());
         store1.setPhone(store.getPhone());
-        store1.setArea(store.getArea());
+        String s = store.getArea().replaceAll(",", "");
+        store1.setArea(s);
         store1.setLinkman(store.getLinkman());
         int insert = storeMapper.insert(store1);
         if (insert < 1) {
@@ -129,10 +129,10 @@ public class StoreServiceImpl implements StoreService {
             return ResponseFactory.err("改门店不存在");
         }
         store1.setName(store.getName());
-        String s = store.getAddress().replaceAll(",", "");
-        store1.setAddress(s);
+        store1.setAddress(store.getAddress());
         store1.setPhone(store.getPhone());
-        store1.setArea(store.getArea());
+        String s = store.getArea().replaceAll(",", "");
+        store1.setArea(s);
         store1.setLinkman(store.getLinkman());
         int i = storeMapper.updateByPrimaryKeySelective(store1);
         if (i < 1) {
