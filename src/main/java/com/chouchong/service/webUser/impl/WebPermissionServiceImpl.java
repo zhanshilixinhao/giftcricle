@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 /**
@@ -51,6 +52,9 @@ public class WebPermissionServiceImpl implements WebPermissionService {
 
     @Autowired
     private MRedisTemplate mRedisTemplate;
+
+    @Autowired
+    private HttpServletRequest httpServletRequest;
 
     /**
      * 获得后台角色列表
@@ -282,7 +286,12 @@ public class WebPermissionServiceImpl implements WebPermissionService {
      */
     @Override
     public Response getAllRole() {
-        List<SysRole> sysRoles = sysRoleMapper.selectAllRole();
+        WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
+        Integer roleId = null;
+        if (webUserInfo.getRoleId() == 3){
+           roleId = webUserInfo.getRoleId();
+        }
+        List<SysRole> sysRoles = sysRoleMapper.selectAllRole(roleId);
         return ResponseFactory.sucData(sysRoles);
     }
 

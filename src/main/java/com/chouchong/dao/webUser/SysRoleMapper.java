@@ -1,6 +1,7 @@
 package com.chouchong.dao.webUser;
 
 import com.chouchong.entity.webUser.SysRole;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -36,7 +37,7 @@ public interface SysRoleMapper {
      * @author: yy
      * @Date: 2018/7/17
      */
-    List<SysRole> selectAllRole();
+    List<SysRole> selectAllRole(@Param("roleId") Integer roleId);
     /**
      * 获得后台的所有的角色（包括超级管理员）
      *
