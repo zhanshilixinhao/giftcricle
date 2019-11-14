@@ -103,8 +103,7 @@ public class StoreServiceImpl implements StoreService {
         }
         store1.setAddress(store.getAddress());
         store1.setPhone(store.getPhone());
-        String s = store.getArea().replaceAll(",", "");
-        store1.setArea(s);
+        store1.setArea(store.getArea());
         store1.setLinkman(store.getLinkman());
         int insert = storeMapper.insert(store1);
         if (insert < 1) {
@@ -131,8 +130,7 @@ public class StoreServiceImpl implements StoreService {
         store1.setName(store.getName());
         store1.setAddress(store.getAddress());
         store1.setPhone(store.getPhone());
-        String s = store.getArea().replaceAll(",", "");
-        store1.setArea(s);
+        store1.setArea(store.getArea());
         store1.setLinkman(store.getLinkman());
         int i = storeMapper.updateByPrimaryKeySelective(store1);
         if (i < 1) {
