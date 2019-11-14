@@ -129,7 +129,8 @@ public class StoreServiceImpl implements StoreService {
             return ResponseFactory.err("改门店不存在");
         }
         store1.setName(store.getName());
-        store1.setAddress(store.getAddress());
+        String s = store.getAddress().replaceAll(",", "");
+        store1.setAddress(s);
         store1.setPhone(store.getPhone());
         store1.setArea(store.getArea());
         store1.setLinkman(store.getLinkman());
