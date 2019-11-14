@@ -17,6 +17,7 @@ import com.chouchong.service.v3.vo.DistrictVo;
 import com.chouchong.service.webUser.vo.WebUserInfo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -67,9 +68,9 @@ public class StoreServiceImpl implements StoreService {
         Integer merchantId = null;
         if (webUserInfo.getRoleId() == 2) {
             merchantId = 0;
-        } else if (webUserInfo.getRoleId() == 3 ) {
+        } else if (webUserInfo.getRoleId() == 3) {
             Merchant merchant = merchantMapper.selectByAdminId(webUserInfo.getSysAdmin().getId());
-            if (merchant != null){
+            if (merchant != null) {
                 merchantId = merchant.getId();
             }
         }
@@ -100,7 +101,8 @@ public class StoreServiceImpl implements StoreService {
         if (merchant != null) {
             store1.setMerchantId(merchant.getId());
         }
-        store1.setAddress(store.getAddress());
+        String s = store.getAddress().replaceAll(",", "");
+        store1.setAddress(s);
         store1.setPhone(store.getPhone());
         store1.setArea(store.getArea());
         store1.setLinkman(store.getLinkman());
@@ -123,7 +125,7 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public Response updateStore(Store store) {
         Store store1 = storeMapper.selectByPrimaryKey(store.getId());
-        if (store1 == null){
+        if (store1 == null) {
             return ResponseFactory.err("改门店不存在");
         }
         store1.setName(store.getName());
@@ -158,7 +160,8 @@ public class StoreServiceImpl implements StoreService {
 
 
     /**
-     *获取行政区列表
+     * 获取行政区列表
+     *
      * @return
      * @author yichenshanren
      * @date 2018/6/6
@@ -168,7 +171,8 @@ public class StoreServiceImpl implements StoreService {
         List<DistrictVo> list = mRedisTemplate.get(
                 "gc-di-li",
                 300, TimeUnit.DAYS,
-                new TypeReference<List<DistrictVo>>(){},
+                new TypeReference<List<DistrictVo>>() {
+                },
                 this::getAllDistrict);
         return ResponseFactory.sucData(list);
     }
@@ -202,7 +206,8 @@ public class StoreServiceImpl implements StoreService {
 
     /**
      * 门店绑定后台用户
-     * @param storeId 门店id
+     *
+     * @param storeId  门店id
      * @param username 后台用户名
      * @return
      */
