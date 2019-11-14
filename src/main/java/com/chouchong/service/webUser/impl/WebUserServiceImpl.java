@@ -24,6 +24,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -51,6 +53,9 @@ public class WebUserServiceImpl implements WebUserService{
 
     @Autowired
     private MRedisTemplate mRedisTemplate;
+
+    @Autowired
+    private HttpServletRequest httpServletRequest;
 
     /**
      * 后台用户登录
@@ -193,6 +198,33 @@ public class WebUserServiceImpl implements WebUserService{
         map.put("gender",jsonObject.getInteger("gender"));
         map.put("status",jsonObject.getInteger("status"));
         List<SysAdminVo> sysAdmins = sysAdminMapper.selectBySearch(map);
+        PageInfo pageInfo = new PageInfo<>(sysAdmins);
+        return ResponseFactory.page(sysAdmins, pageInfo.getTotal(),
+                pageInfo.getPages(), pageInfo.getPageNum(), pageInfo.getPageSize());
+    }
+
+    /**
+     * 获得后台用户列表（新加）
+     *
+     * @param: [page 分页信息, search 查询条件]
+     * @return: com.chouchong.common.Response
+     * @author: yy
+     * @Date: 2018/7/20
+     */
+    @Override
+    public Response getWebUserList1(PageQuery page, String username, String phone,
+                                    Integer gender, Integer status) {
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
+        Integer roleId = null;
+        Integer cAdminId = null;
+        if (webUserInfo.getRoleId() == 2){
+            roleId = webUserInfo.getRoleId();
+        }
+        if (webUserInfo.getRoleId() == 3){
+            cAdminId = webUserInfo.getSysAdmin().getId();
+        }
+        List<SysAdminVo> sysAdmins = sysAdminMapper.selectBySearch1(username,phone,gender,status,roleId,cAdminId);
         PageInfo pageInfo = new PageInfo<>(sysAdmins);
         return ResponseFactory.page(sysAdmins, pageInfo.getTotal(),
                 pageInfo.getPages(), pageInfo.getPageNum(), pageInfo.getPageSize());

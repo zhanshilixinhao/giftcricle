@@ -90,4 +90,16 @@ public interface SysAdminMapper {
      * @return
      */
     SysWalletVo selectDetailByAdminId(Integer adminId);
+
+    /**
+     * 通过查询条件获得后台用户列表（v3）
+     *
+     * @param: [map 查询条件]
+     * @return: java.util.List<com.chouchong.entity.webUser.SysAdmin>
+     * @author: yy
+     * @Date: 2018/7/17
+     */
+    List<SysAdminVo> selectBySearch1(@Param("username") String username, @Param("phone") String phone,
+                                     @Param("gender") Integer gender, @Param("status") Integer status,
+                                     @Param("roleId") Integer roleId, @Param("cAdminId") Integer cAdminId);
 }

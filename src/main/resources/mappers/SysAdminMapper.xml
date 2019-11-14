@@ -377,6 +377,37 @@ left join sys_admin_role c on c.admin_id = a.id
 left join sys_role d on c.role_id = d.id
 where a.id = #{adminId}
   </select>
+  <select id="selectBySearch1" resultType="com.chouchong.service.webUser.vo.SysAdminVo">
+    SELECT
+    a.id as id, a.username as username, a.active as active, a.avatar as avatar, a.real_name as realName, a.phone as phone,
+    a.id_number as idNumber, a.gender as gender, a.email as email, a.qq as qq, a.weChat as wechat, a.created as created,
+    a.updated as updated, a.create_admin_id as createAdminId, a.update_admin_id as updateAdminId, a.create_ip as createIp,
+    a.login_count as loginCount, a.last_login_time as lastLoginTime, a.last_login_ip as lastLoginIp, b.role_id as roleId
+    FROM
+    sys_admin a
+    LEFT JOIN sys_admin_role b ON a.id = b.admin_id
+    WHERE
+    1 = 1
+    <if test="username != null and username != ''">
+      AND a.username LIKE CONCAT(CONCAT('%', #{username}), '%')
+    </if>
+    <if test="phone != null and phone != ''">
+      AND a.phone LIKE CONCAT(CONCAT('%', #{phone}), '%')
+    </if>
+    <if test="status != null">
+      AND a.active = #{status}
+    </if>
+    <if test="gender != null">
+      AND a.gender = #{gender}
+    </if>
+    <if test="roleId != null">
+      AND b.role_id != 1
+    </if>
+    <if test="cAdminId != null">
+      AND a.create_admin_id = #{cAdminId}
+    </if>
+    ORDER BY a.created DESC
+  </select>
 
 
 </mapper>

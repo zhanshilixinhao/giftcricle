@@ -40,6 +40,24 @@ public class WebUserController {
     }
 
     /**
+     * 获得后台用户列表（新加）
+     *
+     * @param: [page 分页信息, search 查询条件]
+     * @return: com.chouchong.common.Response
+     * @author: yy
+     * @Date: 2018/7/20
+     */
+    @PostMapping("list1")
+    public Response getWebUserList1(PageQuery page, String username,String phone,
+                                    Integer gender, Integer status) {
+        return webUserService.getWebUserList1(page,username,phone,gender,status);
+    }
+
+
+
+
+
+    /**
      * 添加后台用户
      *
      * @param: [sysAdminVo 用户信息]

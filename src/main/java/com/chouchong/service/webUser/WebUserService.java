@@ -104,4 +104,14 @@ public interface WebUserService {
      * @Date: 2018/7/20
      */
     Response delSysAdmin(Integer id);
+
+    /**
+     * 获得后台用户列表（新加）
+     *
+     * @param: [page 分页信息, search 查询条件]
+     * @return: com.chouchong.common.Response
+     * @author: yy
+     * @Date: 2018/7/20
+     */
+    Response getWebUserList1(PageQuery page, String username,  String phone, Integer gender, Integer status);
 }
