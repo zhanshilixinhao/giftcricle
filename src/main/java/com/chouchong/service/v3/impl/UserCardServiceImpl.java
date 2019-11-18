@@ -11,6 +11,7 @@ import com.chouchong.entity.iwant.appUser.AppUser;
 import com.chouchong.entity.iwant.merchant.Merchant;
 import com.chouchong.entity.v3.*;
 import com.chouchong.exception.ServiceException;
+import com.chouchong.redis.MRedisTemplate;
 import com.chouchong.service.v3.UserCardService;
 import com.chouchong.service.v3.vo.ChargeVo;
 import com.chouchong.service.v3.vo.ExpenseVo;
@@ -66,6 +67,7 @@ public class UserCardServiceImpl implements UserCardService {
 
     @Autowired
     private MerchantMapper merchantMapper;
+
 
     /**
      * 获取用户会员卡列表
