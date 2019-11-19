@@ -32,7 +32,13 @@ public class StoreMemberCharge {
 
     private Integer membershipCardId;
 
-    public StoreMemberCharge(Integer id, Integer userId, Integer merchantId, Integer storeId, BigDecimal rechargeMoney, BigDecimal sendMoney, BigDecimal expenseMoney, Byte type, String explain, Date updated, Date created, BigDecimal totalMoney, Float scale,Integer membershipCardId) {
+    private BigDecimal balance;
+
+    private Byte status;
+
+    private Integer memberEventId;
+
+    public StoreMemberCharge(Integer id, Integer userId, Integer merchantId, Integer storeId, BigDecimal rechargeMoney, BigDecimal sendMoney, BigDecimal expenseMoney, Byte type, String explain, Date updated, Date created, BigDecimal totalMoney, Float scale,Integer membershipCardId,BigDecimal balance, Byte status,Integer memberEventId) {
         this.id = id;
         this.userId = userId;
         this.merchantId = merchantId;
@@ -47,6 +53,9 @@ public class StoreMemberCharge {
         this.totalMoney = totalMoney;
         this.scale = scale;
         this.membershipCardId = membershipCardId;
+        this.balance = balance;
+        this.status = status;
+        this.memberEventId = memberEventId;
     }
 
     public StoreMemberCharge() {
@@ -163,5 +172,29 @@ public class StoreMemberCharge {
 
     public void setMembershipCardId(Integer membershipCardId) {
         this.membershipCardId = membershipCardId;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
+    }
+
+    public Integer getMemberEventId() {
+        return memberEventId;
+    }
+
+    public void setMemberEventId(Integer memberEventId) {
+        this.memberEventId = memberEventId;
     }
 }

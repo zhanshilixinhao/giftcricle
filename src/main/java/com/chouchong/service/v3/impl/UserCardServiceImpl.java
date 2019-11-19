@@ -68,6 +68,9 @@ public class UserCardServiceImpl implements UserCardService {
     @Autowired
     private MerchantMapper merchantMapper;
 
+    @Autowired
+    private StoreTurnoverMapper storeTurnoverMapper;
+
 
     /**
      * 获取用户会员卡列表
@@ -239,7 +242,7 @@ public class UserCardServiceImpl implements UserCardService {
             total = BigDecimalUtil.add(recharge.doubleValue(), send.doubleValue());
             scale = BigDecimalUtil.div(send.doubleValue(), total.doubleValue()).floatValue();
         }
-        detailCharge(userId, merchant.getId(), storeId, recharge, cardId, send, new BigDecimal("0"), (byte) 1, explain, total, scale);
+        detailCharge(userId, merchant.getId(), storeId, recharge, cardId, send, new BigDecimal("0"), (byte) 1, explain, total, scale,total,(byte)1,eventId);
         return ResponseFactory.sucMsg("充值成功");
     }
 
@@ -283,7 +286,36 @@ public class UserCardServiceImpl implements UserCardService {
         // 更新余额
         updateBalance(userId, cardId, (byte) 2, expense, new BigDecimal("0"));
         // 添加详细记录
-        detailCharge(userId, merchant.getId(), storeId, new BigDecimal("0"), cardId, new BigDecimal("0"), expense, (byte) 2, explain, expense, 0f);
+        int storeMemberId = detailCharge(userId, merchant.getId(), storeId, new BigDecimal("0"), cardId, new BigDecimal("0"), expense, (byte) 2, explain, expense,
+                0f, new BigDecimal("0"), (byte) 4,null);
+        //取出之前充值的记录
+        List<StoreMemberCharge> charges = storeMemberChargeMapper.selectByUserIdCardId(userId,cardId);
+        if (!CollectionUtils.isEmpty(charges)){
+            BigDecimal expense1 = expense;
+            for (StoreMemberCharge charge : charges) {
+                //判断此次充值还剩余的余额
+                if(charge.getBalance().compareTo(expense1) == 0){
+                    // 余额与消费金额相等,更新详细记录，添加消费营业额记录
+                    BigDecimal sub = BigDecimalUtil.sub(charge.getBalance().doubleValue(), expense1.doubleValue());
+                    updateDetailCharge(charge.getId(),sub,(byte)3);
+                    addStoreTurnover(storeMemberId,expense1,charge.getScale(),storeId,charge.getStoreId(),charge.getMemberEventId());
+                    break;
+                }else if(charge.getBalance().compareTo(expense1) > 0){
+                    //余额大于消费金额，更新详细记录，添加消费营业额记录
+                    BigDecimal sub = BigDecimalUtil.sub(charge.getBalance().doubleValue(), expense1.doubleValue());
+                    updateDetailCharge(charge.getId(),sub,(byte)2);
+                    addStoreTurnover(storeMemberId,expense1,charge.getScale(),storeId,charge.getStoreId(),charge.getMemberEventId());
+                    break;
+                } else {
+                    //余额小于消费金额
+                    //扣除第一次充值的余额后还不够的钱
+                    BigDecimal sub = BigDecimalUtil.sub(expense1.doubleValue(),charge.getBalance().doubleValue());
+                    updateDetailCharge(charge.getId(),new BigDecimal("0"),(byte)3);
+                    addStoreTurnover(storeMemberId,charge.getBalance(),charge.getScale(),storeId,charge.getStoreId(),charge.getMemberEventId());
+                    expense1 = sub;
+                }
+            }
+        }
         return ResponseFactory.sucMsg("成功");
     }
 
@@ -292,6 +324,9 @@ public class UserCardServiceImpl implements UserCardService {
         UserMemberCard card = userMemberCardMapper.selectByUseridcardId(userId, cardId);
         if (card == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "该用户会员卡不存在");
+        }
+        if (send == null){
+            send = new BigDecimal("0");
         }
         if (type == 1) {
             // 充值
@@ -313,8 +348,8 @@ public class UserCardServiceImpl implements UserCardService {
     }
 
 
-    private void detailCharge(Integer userId, Integer merchant, Integer storeId, BigDecimal re, Integer cardId,
-                              BigDecimal send, BigDecimal ex, Byte type, String explain, BigDecimal total, Float scale) {
+    private int detailCharge(Integer userId, Integer merchant, Integer storeId, BigDecimal re, Integer cardId, BigDecimal send, BigDecimal ex,
+                              Byte type, String explain, BigDecimal total, Float scale,BigDecimal balance,Byte status,Integer eventId) {
         StoreMemberCharge store = new StoreMemberCharge();
         store.setUserId(userId);
         store.setMerchantId(merchant);
@@ -327,11 +362,55 @@ public class UserCardServiceImpl implements UserCardService {
         store.setExplain(explain);
         store.setScale(scale);
         store.setMembershipCardId(cardId);
+        store.setBalance(balance);
+        store.setStatus(status);
+        store.setMemberEventId(eventId);
         int insert = storeMemberChargeMapper.insert(store);
         if (insert < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "失败");
         }
+        return store.getId();
     }
 
+    /**
+     * 更新详细记录
+     * @param id 详细记录id
+     * @param balance 余额
+     * @param status 状态
+     */
+    private void updateDetailCharge(Integer id,BigDecimal balance,Byte status){
+        StoreMemberCharge store = storeMemberChargeMapper.selectByPrimaryKey(id);
+        if (store == null) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "该记录不存在");
+        }
+        store.setBalance(balance);
+        store.setStatus(status);
+        int i = storeMemberChargeMapper.updateByPrimaryKeySelective(store);
+        if (i < 1) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "失败");
+        }
+    }
+
+    private void addStoreTurnover(Integer storeMemberId,BigDecimal ex,Float scale,Integer storeId,
+                                  Integer blagStoreId,Integer eventId){
+        //营业额
+
+        BigDecimal multi = BigDecimalUtil.multi(ex.doubleValue(), scale);
+        // 收入
+        BigDecimal sub = BigDecimalUtil.sub(ex.doubleValue(), multi.doubleValue());
+        StoreTurnover turnover = new StoreTurnover();
+        turnover.setStoreMemberId(storeMemberId);
+        turnover.setBlagMoney(sub);
+        turnover.setTurnoverMoney(multi);
+        turnover.setStoreId(storeId);
+        turnover.setBlagStoreId(blagStoreId);
+        if (eventId != null){
+            turnover.setEventId(eventId);
+        }
+        int insert = storeTurnoverMapper.insert(turnover);
+        if (insert < 1) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "失败");
+        }
+    }
 
 }

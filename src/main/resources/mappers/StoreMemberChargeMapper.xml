@@ -17,11 +17,14 @@
             <arg column="total_money" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
             <arg column="scale" javaType="java.lang.Float" jdbcType="REAL"/>
             <arg column="membership_card_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="balance" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+            <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT"/>
+            <arg column="member_event_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
         </constructor>
     </resultMap>
     <sql id="Base_Column_List">
     id, user_id, merchant_id, store_id, recharge_money, send_money, expense_money, type,
-    `explain`, updated, created, total_money, scale,membership_card_id
+    `explain`, updated, created, total_money, scale,membership_card_id,balance,status,member_event_id
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -29,21 +32,34 @@
         from store_member_charge
         where id = #{id,jdbcType=INTEGER}
     </select>
+    <select id="selectByUserIdCardId" resultType="com.chouchong.entity.v3.StoreMemberCharge">
+        select
+        <include refid="Base_Column_List"/>
+        from store_member_charge
+        where user_id = #{userId}
+        and membership_card_id = #{cardId}
+        and type = 1
+        and status != 3
+        and status != 4
+        order by created ASC
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from store_member_charge
     where id = #{id,jdbcType=INTEGER}
   </delete>
-    <insert id="insert" parameterType="com.chouchong.entity.v3.StoreMemberCharge">
+    <insert id="insert" parameterType="com.chouchong.entity.v3.StoreMemberCharge" keyProperty="id"
+            useGeneratedKeys="true">
     insert into store_member_charge (id, user_id, merchant_id,
       store_id, recharge_money, send_money,
       expense_money, type, `explain`,
       updated, created, total_money,
-      scale,membership_card_id)
+      scale,membership_card_id,balance,status,member_event_id)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{merchantId,jdbcType=INTEGER},
       #{storeId,jdbcType=INTEGER}, #{rechargeMoney,jdbcType=DECIMAL}, #{sendMoney,jdbcType=DECIMAL},
       #{expenseMoney,jdbcType=DECIMAL}, #{type,jdbcType=TINYINT}, #{explain,jdbcType=VARCHAR},
       now(), now(), #{totalMoney,jdbcType=DECIMAL},
-      #{scale,jdbcType=REAL}, #{membershipCardId,jdbcType=INTEGER})
+      #{scale,jdbcType=REAL}, #{membershipCardId,jdbcType=INTEGER},#{balance,jdbcType=DECIMAL},
+       #{status,jdbcType=TINYINT},#{memberEventId,jdbcType=INTEGER})
   </insert>
     <insert id="insertSelective" parameterType="com.chouchong.entity.v3.StoreMemberCharge">
         insert into store_member_charge
@@ -90,6 +106,15 @@
             <if test="membershipCardId != null">
                 membership_card_id,
             </if>
+            <if test="balance != null">
+                balance,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="memberEventId != null">
+                member_event_id,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -134,6 +159,15 @@
             <if test="membershipCardId != null">
                 #{membershipCardId,jdbcType=INTEGER},
             </if>
+            <if test="balance != null">
+                #{balance,jdbcType=DECIMAL},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="memberEventId != null">
+                #{memberEventId,jdbcType=INTEGER},
+            </if>
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.v3.StoreMemberCharge">
@@ -161,7 +195,7 @@
                 type = #{type,jdbcType=TINYINT},
             </if>
             <if test="explain != null">
-                explain = #{explain,jdbcType=VARCHAR},
+                `explain` = #{explain,jdbcType=VARCHAR},
             </if>
             <if test="updated != null">
                 updated = #{updated,jdbcType=TIMESTAMP},
@@ -177,6 +211,15 @@
             </if>
             <if test="membershipCardId != null">
                 membership_card_id = #{membershipCardId,jdbcType=INTEGER},
+            </if>
+            <if test="balance != null">
+                balance = #{balance,jdbcType=DECIMAL},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="memberEventId != null">
+                member_event_id = #{memberEventId,jdbcType=INTEGER},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
@@ -195,7 +238,10 @@
       created = #{created,jdbcType=TIMESTAMP},
       total_money = #{totalMoney,jdbcType=DECIMAL},
       scale = #{scale,jdbcType=REAL},
-      membership_card_id = #{membershipCardId,jdbcType=INTEGER}
+      membership_card_id = #{membershipCardId,jdbcType=INTEGER},
+      balance = #{balance,jdbcType=DECIMAL},
+      status = #{status,jdbcType=TINYINT},
+      member_event_id = #{memberEventId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
