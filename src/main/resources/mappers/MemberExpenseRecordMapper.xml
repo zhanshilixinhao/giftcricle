@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chouchong.dao.v3.MemberExpenseRecordMapper">
-  <resultMap id="BaseResultMap" type="com.chouchong.entity.v3.MemberExpenseRecord">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="membership_card_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="expense_money" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
-      <arg column="type" javaType="java.lang.Byte" jdbcType="TINYINT" />
-      <arg column="store_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="target_id" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="explain" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-    </constructor>
-  </resultMap>
-  <sql id="Base_Column_List">
+    <resultMap id="BaseResultMap" type="com.chouchong.entity.v3.MemberExpenseRecord">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="membership_card_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="expense_money" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+            <arg column="type" javaType="java.lang.Byte" jdbcType="TINYINT"/>
+            <arg column="store_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="target_id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="explain" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, membership_card_id, user_id, expense_money, type, store_id, target_id, admin_id,
     `explain`, updated, created
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from member_expense_record
-    where id = #{id,jdbcType=INTEGER}
-  </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from member_expense_record
+        where id = #{id,jdbcType=INTEGER}
+    </select>
     <select id="selectByUserIdCardId" resultType="com.chouchong.service.v3.vo.ExpenseVo">
         select a.id,
        a.expense_money,
@@ -40,12 +40,45 @@ where a.user_id = #{userId}
 and a.membership_card_id = #{cardId}
 order by a.created DESC
     </select>
+    <select id="selectBySearch" resultType="com.chouchong.service.v3.vo.ExpenseReVo">
+        select a.id,
+        a.membership_card_id,
+        a.user_id,
+        a.expense_money,
+        a.type,
+        a.store_id,
+        a.`explain`,
+        a.created,
+        c.title,
+        c.card_no,
+        d.phone,
+        d.nickname,
+        e.name as storeName
+        from member_expense_record a
+        left join membership_card c on a.membership_card_id = c.id
+        left join app_user d on d.id = a.user_id
+        left join store e on a.store_id = e.id
+        <if test="phone != null and phone != ''">
+            and d.phone like concat('%',#{phone},'%')
+        </if>
+        <if test="storeName != null and storeName != ''">
+            and e.name like concat('%',#{storeName},'%')
+        </if>
+        <if test="cardNo != null">
+            and c.card_no like concat('%',#{cardNo},'%')
+        </if>
+        <if test="startTime != null and endTime != null">
+            and unix_timestamp(a.created) &gt;= #{startTime}
+            and unix_timestamp(a.created) &lt; #{endTime}
+        </if>
+        order by a.created DESC
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from member_expense_record
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chouchong.entity.v3.MemberExpenseRecord">
+    <insert id="insert" parameterType="com.chouchong.entity.v3.MemberExpenseRecord">
     insert into member_expense_record (id, membership_card_id, user_id,
       expense_money, type, store_id,
       target_id, admin_id, `explain`,
@@ -55,116 +88,116 @@ order by a.created DESC
       #{targetId,jdbcType=VARCHAR}, #{adminId,jdbcType=INTEGER}, #{explain,jdbcType=VARCHAR},
       now(), now())
   </insert>
-  <insert id="insertSelective" parameterType="com.chouchong.entity.v3.MemberExpenseRecord">
-    insert into member_expense_record
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="membershipCardId != null">
-        membership_card_id,
-      </if>
-      <if test="userId != null">
-        user_id,
-      </if>
-      <if test="expenseMoney != null">
-        expense_money,
-      </if>
-      <if test="type != null">
-        type,
-      </if>
-      <if test="storeId != null">
-        store_id,
-      </if>
-      <if test="targetId != null">
-        target_id,
-      </if>
-      <if test="adminId != null">
-        admin_id,
-      </if>
-      <if test="explain != null">
-        explain,
-      </if>
-      <if test="updated != null">
-        updated,
-      </if>
-      <if test="created != null">
-        created,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="membershipCardId != null">
-        #{membershipCardId,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="expenseMoney != null">
-        #{expenseMoney,jdbcType=DECIMAL},
-      </if>
-      <if test="type != null">
-        #{type,jdbcType=TINYINT},
-      </if>
-      <if test="storeId != null">
-        #{storeId,jdbcType=INTEGER},
-      </if>
-      <if test="targetId != null">
-        #{targetId,jdbcType=VARCHAR},
-      </if>
-      <if test="adminId != null">
-        #{adminId,jdbcType=INTEGER},
-      </if>
-      <if test="explain != null">
-        #{explain,jdbcType=VARCHAR},
-      </if>
-      <if test="updated != null">
-        #{updated,jdbcType=TIMESTAMP},
-      </if>
-      <if test="created != null">
-        #{created,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.v3.MemberExpenseRecord">
-    update member_expense_record
-    <set>
-      <if test="membershipCardId != null">
-        membership_card_id = #{membershipCardId,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="expenseMoney != null">
-        expense_money = #{expenseMoney,jdbcType=DECIMAL},
-      </if>
-      <if test="type != null">
-        type = #{type,jdbcType=TINYINT},
-      </if>
-      <if test="storeId != null">
-        store_id = #{storeId,jdbcType=INTEGER},
-      </if>
-      <if test="targetId != null">
-        target_id = #{targetId,jdbcType=VARCHAR},
-      </if>
-      <if test="adminId != null">
-        admin_id = #{adminId,jdbcType=INTEGER},
-      </if>
-      <if test="explain != null">
-        `explain` = #{explain,jdbcType=VARCHAR},
-      </if>
-      <if test="updated != null">
-        updated = #{updated,jdbcType=TIMESTAMP},
-      </if>
-      <if test="created != null">
-        created = #{created,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.v3.MemberExpenseRecord">
+    <insert id="insertSelective" parameterType="com.chouchong.entity.v3.MemberExpenseRecord">
+        insert into member_expense_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="membershipCardId != null">
+                membership_card_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="expenseMoney != null">
+                expense_money,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="storeId != null">
+                store_id,
+            </if>
+            <if test="targetId != null">
+                target_id,
+            </if>
+            <if test="adminId != null">
+                admin_id,
+            </if>
+            <if test="explain != null">
+                explain,
+            </if>
+            <if test="updated != null">
+                updated,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="membershipCardId != null">
+                #{membershipCardId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="expenseMoney != null">
+                #{expenseMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=TINYINT},
+            </if>
+            <if test="storeId != null">
+                #{storeId,jdbcType=INTEGER},
+            </if>
+            <if test="targetId != null">
+                #{targetId,jdbcType=VARCHAR},
+            </if>
+            <if test="adminId != null">
+                #{adminId,jdbcType=INTEGER},
+            </if>
+            <if test="explain != null">
+                #{explain,jdbcType=VARCHAR},
+            </if>
+            <if test="updated != null">
+                #{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="created != null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.v3.MemberExpenseRecord">
+        update member_expense_record
+        <set>
+            <if test="membershipCardId != null">
+                membership_card_id = #{membershipCardId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="expenseMoney != null">
+                expense_money = #{expenseMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=TINYINT},
+            </if>
+            <if test="storeId != null">
+                store_id = #{storeId,jdbcType=INTEGER},
+            </if>
+            <if test="targetId != null">
+                target_id = #{targetId,jdbcType=VARCHAR},
+            </if>
+            <if test="adminId != null">
+                admin_id = #{adminId,jdbcType=INTEGER},
+            </if>
+            <if test="explain != null">
+                `explain` = #{explain,jdbcType=VARCHAR},
+            </if>
+            <if test="updated != null">
+                updated = #{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.v3.MemberExpenseRecord">
     update member_expense_record
     set membership_card_id = #{membershipCardId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
