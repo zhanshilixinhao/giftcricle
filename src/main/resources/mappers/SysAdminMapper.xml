@@ -408,6 +408,14 @@ where a.id = #{adminId}
     </if>
     ORDER BY a.created DESC
   </select>
+  <select id="selectIdByCreatedId" resultType="java.lang.Integer">
+    SELECT
+    id
+    FROM
+    sys_admin
+    WHERE
+    create_admin_id = #{cAdminId}
+  </select>
 
 
 </mapper>

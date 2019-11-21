@@ -23,6 +23,8 @@ public interface StoreTurnoverMapper {
     int updateByPrimaryKey(StoreTurnover record);
 
     List<TurnoverVo> selectBySearch(@Param("eventName") String eventName, @Param("title") String title,
-                                    @Param("startTime") Long startTime, @Param("endTime") Long endTime);
+                                    @Param("startTime") Long startTime, @Param("endTime") Long endTime,
+                                    @Param("storeId") Integer storeId, @Param("merchantId") Integer merchantId);
+
 
 }

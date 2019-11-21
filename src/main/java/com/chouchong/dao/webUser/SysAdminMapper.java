@@ -102,4 +102,12 @@ public interface SysAdminMapper {
     List<SysAdminVo> selectBySearch1(@Param("username") String username, @Param("phone") String phone,
                                      @Param("gender") Integer gender, @Param("status") Integer status,
                                      @Param("roleId") Integer roleId, @Param("cAdminId") Integer cAdminId);
+
+    /**
+     * 通过创建者查询adminIds
+     * @param cAdminId
+     * @return
+     */
+    List<Integer> selectIdByCreatedId(Integer cAdminId);
+
 }

@@ -58,6 +58,47 @@ order by a.created DESC
         left join membership_card c on a.membership_card_id = c.id
         left join app_user d on d.id = a.user_id
         left join store e on a.store_id = e.id
+        where 1=1
+        <if test="adminId != null ">
+            and a.admin_id = #{adminId}
+        </if>
+        <if test="phone != null and phone != ''">
+            and d.phone like concat('%',#{phone},'%')
+        </if>
+        <if test="storeName != null and storeName != ''">
+            and e.name like concat('%',#{storeName},'%')
+        </if>
+        <if test="cardNo != null">
+            and c.card_no like concat('%',#{cardNo},'%')
+        </if>
+        <if test="startTime != null and endTime != null">
+            and unix_timestamp(a.created) &gt;= #{startTime}
+            and unix_timestamp(a.created) &lt; #{endTime}
+        </if>
+        order by a.created DESC
+    </select>
+    <select id="selectBySearch1" resultType="com.chouchong.service.v3.vo.ExpenseReVo">
+        select a.id,
+        a.membership_card_id,
+        a.user_id,
+        a.expense_money,
+        a.type,
+        a.store_id,
+        a.`explain`,
+        a.created,
+        c.title,
+        c.card_no,
+        d.phone,
+        d.nickname,
+        e.name as storeName
+        from member_expense_record a
+        left join membership_card c on a.membership_card_id = c.id
+        left join app_user d on d.id = a.user_id
+        left join store e on a.store_id = e.id
+        where a.admin_id in
+        <foreach collection="list" open="(" close=")" item="list" separator="," index="index">
+            #{list}
+        </foreach>
         <if test="phone != null and phone != ''">
             and d.phone like concat('%',#{phone},'%')
         </if>

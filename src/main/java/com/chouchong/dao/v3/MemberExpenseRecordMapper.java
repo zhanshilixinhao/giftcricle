@@ -23,6 +23,9 @@ public interface MemberExpenseRecordMapper {
 
     List<ExpenseVo> selectByUserIdCardId(@Param("userId") Integer userId, @Param("cardId") Integer cardId);
 
-    List<ExpenseReVo> selectBySearch(@Param("phone") String phone, @Param("storeName") String storeName, @Param("cardNo") Long cardNo, @Param("startTime") Long startTime, @Param("endTime") Long endTime);
+    List<ExpenseReVo> selectBySearch(@Param("phone") String phone, @Param("storeName") String storeName, @Param("cardNo") Long cardNo,
+                                     @Param("startTime") Long startTime, @Param("endTime") Long endTime, @Param("adminId") Integer adminId);
+
+    List<ExpenseReVo> selectBySearch1(@Param("phone") String phone, @Param("storeName") String storeName, @Param("cardNo") Long cardNo, @Param("startTime") Long startTime, @Param("endTime") Long endTime, @Param("list") List<Integer> list);
 
 }

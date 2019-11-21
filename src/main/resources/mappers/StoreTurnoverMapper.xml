@@ -46,6 +46,12 @@
         left join store e on a.store_id = e.id
         left join member_event f on a.event_id = f.id
         where 1=1
+        <if test="storeId != null ">
+            and a.store_id = #{storeId}
+        </if>
+        <if test="merchantId != null ">
+            and b.merchant_id = #{merchantId}
+        </if>
         <if test="eventName != null and eventName != ''">
             and f.title like concat('%',#{eventName},'%')
         </if>
