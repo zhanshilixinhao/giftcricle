@@ -2,6 +2,7 @@ package com.chouchong.service.v3;
 
 import com.chouchong.common.PageQuery;
 import com.chouchong.common.Response;
+import com.chouchong.entity.v3.CardGrade;
 import com.chouchong.entity.v3.MemberEvent;
 
 /**
@@ -56,4 +57,38 @@ public interface CardEventService {
      * @return
      */
     Response cardEvent(Integer cardId);
+
+    //****************************************会员卡等级***********************************************************/
+
+    /**
+     * 获取会员卡等级列表
+     *
+     * @param cardId 会员卡id
+     * @return
+     */
+    Response getCardGradeList(Integer cardId);
+
+    /**
+     * 添加会员卡等级
+     *
+     * @param grade
+     * @return
+     */
+    Response addCardGrade(CardGrade grade,Integer cardId);
+
+
+    /**
+     * 修改会员卡等级
+     *
+     * @param grade
+     * @return
+     */
+    Response updateCardGrade(CardGrade grade);
+
+    /**
+     * 删除会员卡等级
+     * @param gradeId 等级id
+     * @return
+     */
+    Response deleteCardGrade(Integer gradeId);
 }

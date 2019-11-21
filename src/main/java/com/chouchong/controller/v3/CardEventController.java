@@ -3,6 +3,7 @@ package com.chouchong.controller.v3;
 import com.chouchong.common.PageQuery;
 import com.chouchong.common.Response;
 import com.chouchong.common.ResponseFactory;
+import com.chouchong.entity.v3.CardGrade;
 import com.chouchong.entity.v3.MemberEvent;
 import com.chouchong.service.v3.CardEventService;
 import org.apache.commons.lang3.StringUtils;
@@ -112,6 +113,63 @@ public class CardEventController {
         return cardEventService.cardEvent(cardId);
     }
 
+ //****************************************会员卡等级***********************************************************/
+    /**
+     * 获取会员卡等级列表
+     *
+     * @param cardId 会员卡id
+     * @return
+     */
+    @PostMapping("grade_list")
+    public Response getCardGradeList(Integer cardId) {
+        if (cardId == null){
+            return ResponseFactory.errMissingParameter();
+        }
+        return cardEventService.getCardGradeList(cardId);
+    }
+
+    /**
+     * 添加会员卡等级
+     *
+     * @param cardId 会员卡id
+     * @param grade
+     * @return
+     */
+    @PostMapping("grade_add")
+    public Response addCardGrade(CardGrade grade,Integer cardId) {
+        if (StringUtils.isAnyBlank(grade.getTitle(), grade.getSummary()) || grade.getGrade() == null ||cardId == null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return cardEventService.addCardGrade(grade,cardId);
+    }
+
+
+    /**
+     * 修改会员卡等级
+     *
+     * @param grade
+     * @return
+     */
+    @PostMapping("grade_update")
+    public Response updateCardGrade(CardGrade grade) {
+        if (StringUtils.isAnyBlank(grade.getTitle(), grade.getSummary()) || grade.getGrade() == null ||grade.getId() == null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return cardEventService.updateCardGrade(grade);
+    }
+
+    /**
+     * 删除会员卡等级
+     * @param gradeId 等级id
+     * @return
+     */
+    @PostMapping("grade_delete")
+    public Response deleteCardGrade(Integer gradeId){
+        if (gradeId == null){
+            return ResponseFactory.errMissingParameter();
+        }
+        return cardEventService.deleteCardGrade(gradeId);
+    }
 
 
 }
