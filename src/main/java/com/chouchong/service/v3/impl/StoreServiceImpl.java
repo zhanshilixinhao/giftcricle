@@ -73,6 +73,8 @@ public class StoreServiceImpl implements StoreService {
             if (merchant != null) {
                 merchantId = merchant.getId();
             }
+        } else if (webUserInfo.getRoleId() == 5){
+            adminId = webUserInfo.getSysAdmin().getId();
         }
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
         List<Store> stores = storeMapper.selectBySearch(adminId, merchantId, name, address);
