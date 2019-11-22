@@ -61,23 +61,21 @@ public class StoreServiceImpl implements StoreService {
      * @date 2019/11/5
      */
     @Override
-    public Response getStoreList(String name, String address, PageQuery page) {
+    public Response getStoreList(String name, String address, String merchant1, PageQuery page) {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         // 平台商登录
         Integer adminId = null;
         Integer merchantId = null;
-        if (webUserInfo.getRoleId() == 2) {
-            merchantId = 0;
-        } else if (webUserInfo.getRoleId() == 3) {
+        if (webUserInfo.getRoleId() == 3) {
             Merchant merchant = merchantMapper.selectByAdminId(webUserInfo.getSysAdmin().getId());
             if (merchant != null) {
                 merchantId = merchant.getId();
             }
-        } else if (webUserInfo.getRoleId() == 5){
+        } else if (webUserInfo.getRoleId() == 5) {
             adminId = webUserInfo.getSysAdmin().getId();
         }
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
-        List<Store> stores = storeMapper.selectBySearch(adminId, merchantId, name, address);
+        List<Store> stores = storeMapper.selectBySearch(adminId, merchantId, name, address, merchant1);
         PageInfo pageInfo = new PageInfo<>(stores);
         return ResponseFactory.page(stores, pageInfo.getTotal(), pageInfo.getPages(),
                 pageInfo.getPageNum(), pageInfo.getPageSize());

@@ -25,31 +25,36 @@
         where id = #{id,jdbcType=INTEGER}
     </select>
     <select id="selectBySearch" resultType="com.chouchong.entity.v3.Store">
-        select id,
-        merchant_id,
-        name,
-        address,
-        phone,
-        created,
-        updated,
-        area,
-        linkman,
-        admin_id
-        from store
+        select a.id,
+        a.merchant_id,
+        a.name,
+        a.address,
+        a.phone,
+        a.created,
+        a.updated,
+        a.area,
+        a.linkman,
+        a.admin_id,
+        m.name as merchantName
+        from store a
+        left join merchant m on a.merchant_id = m.id
         where 1=1
         <if test="merchantId != null">
-            and merchant_id = #{merchantId}
+            and a.merchant_id = #{merchantId}
         </if>
         <if test="adminId != null">
-            and admin_id = #{adminId}
+            and a.admin_id = #{adminId}
         </if>
         <if test="name != null and name != ''">
-            and name like concat('%',#{name},'%')
+            and a.name like concat('%',#{name},'%')
+        </if>
+         <if test="merchant != null and merchant != ''">
+            and m.name like concat('%',#{merchant},'%')
         </if>
         <if test="address != null and address != ''">
-            and address like concat('%',#{address},'%') or area like concat('%',#{address},'%')
+            and a.address like concat('%',#{address},'%') or a.area like concat('%',#{address},'%')
         </if>
-        order by created DESC
+        order by a.merchant_id ASC,a.created DESC
     </select>
     <select id="selectById" resultType="com.chouchong.service.v3.vo.StoreVo">
         select

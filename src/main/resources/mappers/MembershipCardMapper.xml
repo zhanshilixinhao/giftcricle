@@ -70,7 +70,7 @@
         <if test="cardNo != null ">
             and card_no like concat('%',#{cardNo},'%')
         </if>
-        order by created DESC
+        order by admin_id ASC, created DESC
     </select>
     <select id="selectById" resultType="com.chouchong.service.v3.vo.CardVo">
     select id,

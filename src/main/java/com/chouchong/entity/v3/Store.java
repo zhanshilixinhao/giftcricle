@@ -23,6 +23,8 @@ public class Store {
 
     private Integer adminId;
 
+    private String merchantName;
+
     public Store(Integer id, Integer merchantId, String name, String address, String phone, Date created, Date updated, String area, String linkman,Integer adminId) {
         this.id = id;
         this.merchantId = merchantId;
@@ -34,6 +36,14 @@ public class Store {
         this.area = area;
         this.linkman = linkman;
         this.adminId = adminId;
+    }
+
+    public String getMerchantName() {
+        return merchantName;
+    }
+
+    public void setMerchantName(String merchantName) {
+        this.merchantName = merchantName;
     }
 
     public Store() {

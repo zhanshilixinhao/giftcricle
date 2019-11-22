@@ -29,7 +29,7 @@ public interface StoreMapper {
      * @return
      */
     List<Store> selectBySearch(@Param("adminId") Integer adminId, @Param("merchantId") Integer merchantId,
-                               @Param("name") String name, @Param("address") String address);
+                               @Param("name") String name, @Param("address") String address, @Param("merchant") String merchant);
 
     StoreVo selectById(@Param("id") Integer id);
 

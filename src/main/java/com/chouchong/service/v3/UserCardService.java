@@ -21,7 +21,7 @@ public interface UserCardService {
      * @param phone 用户电话
      * @return
      */
-    Response getUserCardList(PageQuery page, String nickname, String phone);
+    Response getUserCardList(PageQuery page, String nickname, String phone,Byte type);
 
 
     /**
@@ -71,5 +71,12 @@ public interface UserCardService {
     Response expenseCard(Integer userId, Integer cardId, BigDecimal expense, String explain);
 
 
-
+    /**
+     * 修改用户的会员卡等级
+     * @param userId 用户id
+     * @param cardId 会员卡id
+     * @param gradeId 会员卡等级id
+     * @return
+     */
+    Response updateCardGrade(Integer userId, Integer cardId, Integer gradeId);
 }

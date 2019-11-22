@@ -31,7 +31,18 @@ public class UserCardVo {
 
     private String title;
 
+    private Integer gradeId;
+    private String gradeTitle;
+
     private Byte type;
+
+    public Integer getGradeId() {
+        return gradeId;
+    }
+
+    public void setGradeId(Integer gradeId) {
+        this.gradeId = gradeId;
+    }
 
     public Integer getCardId() {
         return cardId;
@@ -128,5 +139,13 @@ public class UserCardVo {
 
     public void setType(Byte type) {
         this.type = type;
+    }
+
+    public String getGradeTitle() {
+        return gradeTitle;
+    }
+
+    public void setGradeTitle(String gradeTitle) {
+        this.gradeTitle = gradeTitle;
     }
 }

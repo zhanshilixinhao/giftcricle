@@ -11,7 +11,6 @@ import com.chouchong.entity.iwant.appUser.AppUser;
 import com.chouchong.entity.iwant.merchant.Merchant;
 import com.chouchong.entity.v3.*;
 import com.chouchong.exception.ServiceException;
-import com.chouchong.redis.MRedisTemplate;
 import com.chouchong.service.v3.UserCardService;
 import com.chouchong.service.v3.vo.ChargeVo;
 import com.chouchong.service.v3.vo.ExpenseVo;
@@ -81,14 +80,14 @@ public class UserCardServiceImpl implements UserCardService {
      * @return
      */
     @Override
-    public Response getUserCardList(PageQuery page, String cardNo, String phone) {
+    public Response getUserCardList(PageQuery page, String cardNo, String phone,Byte type) {
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         Integer adminId = null;
         if (webUserInfo.getRoleId() == 3) {
             adminId = webUserInfo.getSysAdmin().getId();
         }
-        List<UserCardVo> list = userMemberCardMapper.selectBySearch(cardNo, phone, adminId);
+        List<UserCardVo> list = userMemberCardMapper.selectBySearch(cardNo, phone, adminId,type);
         PageInfo pageInfo = new PageInfo<>(list);
         return ResponseFactory.page(list, pageInfo.getTotal(), pageInfo.getPages(),
                 pageInfo.getPageNum(), pageInfo.getPageSize());
@@ -413,4 +412,24 @@ public class UserCardServiceImpl implements UserCardService {
         }
     }
 
+    /**
+     * 修改用户的会员卡等级
+     * @param userId 用户id
+     * @param cardId 会员卡id
+     * @param gradeId 会员卡等级id
+     * @return
+     */
+    @Override
+    public Response updateCardGrade(Integer userId, Integer cardId, Integer gradeId) {
+        UserMemberCard userMemberCard = userMemberCardMapper.selectByUseridcardId(userId, cardId);
+        if (userMemberCard == null){
+            return ResponseFactory.err("会员信息不存在");
+        }
+        userMemberCard.setGradeId(gradeId);
+        int i = userMemberCardMapper.updateByPrimaryKeySelective(userMemberCard);
+        if (i < 1) {
+            return ResponseFactory.err("失败");
+        }
+        return ResponseFactory.sucMsg("成功");
+    }
 }

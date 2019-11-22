@@ -27,7 +27,8 @@ public interface UserMemberCardMapper {
      * @param adminId
      * @return
      */
-    List<UserCardVo> selectBySearch(@Param("cardNo") String cardNo, @Param("phone") String phone, @Param("adminId") Integer adminId);
+    List<UserCardVo> selectBySearch(@Param("cardNo") String cardNo, @Param("phone") String phone,
+                                    @Param("adminId") Integer adminId, @Param("type") Byte type);
 
     List<UserCardVo> selectBySearch1(@Param("cardNo") String cardNo, @Param("phone") String phone, @Param("list") List<Integer> list);
 

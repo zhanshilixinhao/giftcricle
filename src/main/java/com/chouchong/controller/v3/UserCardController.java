@@ -31,8 +31,8 @@ public class UserCardController {
      * @return
      */
     @PostMapping("list")
-    public Response getUserCardList(PageQuery page, String cardNo, String phone){
-        return userCardService.getUserCardList(page,cardNo,phone);
+    public Response getUserCardList(PageQuery page, String cardNo, String phone,Byte type){
+        return userCardService.getUserCardList(page,cardNo,phone,type);
     }
 
     /**
@@ -109,6 +109,22 @@ public class UserCardController {
         }
         return userCardService.expenseCard(userId,cardId,expense,explain);
     }
+
+    /**
+     * 修改用户的会员卡等级
+     * @param userId 用户id
+     * @param cardId 会员卡id
+     * @param gradeId 会员卡等级id
+     * @return
+     */
+    @PostMapping("update_grade")
+    public Response updateUserGrade(Integer userId, Integer cardId,Integer gradeId){
+        if ( userId == null || cardId == null|| gradeId == null){
+            return ResponseFactory.errMissingParameter();
+        }
+        return userCardService.updateCardGrade(userId,cardId,gradeId);
+    }
+
 
 
 

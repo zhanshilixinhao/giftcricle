@@ -78,9 +78,10 @@ public class CardServiceImpl implements CardService {
         // 平台商登录
         Integer adminId = null;
         Integer cardId = null;
-        if (webUserInfo.getRoleId() == 2) {
-            cardId = 0;
-        } else if (webUserInfo.getRoleId() == 3 || webUserInfo.getRoleId() == 5) {
+//        if (webUserInfo.getRoleId() == 2) {
+//            cardId = 0;
+//        } else
+        if (webUserInfo.getRoleId() == 3 || webUserInfo.getRoleId() == 5) {
             adminId = webUserInfo.getSysAdmin().getId();
         }
         PageHelper.startPage(page.getPageNum(), page.getPageSize());

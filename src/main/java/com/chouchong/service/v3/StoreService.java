@@ -21,7 +21,7 @@ public interface StoreService {
      * @author linqin
      * @date 2019/11/5
      */
-    Response getStoreList(String name, String address, PageQuery page);
+    Response getStoreList(String name, String address,String merchant,  PageQuery page);
 
     /**
      * 添加门店

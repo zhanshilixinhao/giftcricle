@@ -15,11 +15,12 @@
             <arg column="store_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
             <arg column="phone" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="grade_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
         </constructor>
     </resultMap>
     <sql id="Base_Column_List">
     id, membership_card_id, user_id, balance, total_amount, consume_amount, updated,
-    created, status, store_id,phone,admin_id
+    created, status, store_id,phone,admin_id,grade_id
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -39,14 +40,20 @@
         b.title,
         b.type,
         c.nickname,
-        s.name as storeName
+        s.name as storeName,
+        f.title as gradeTitle,
+        f.id as gradeId
         from user_member_card a
         left join membership_card b on a.membership_card_id = b.id
         left join app_user c on c.id = a.user_id
         left join store s on a.store_id = s.id
+        left join card_grade f on a.grade_id = f.id
         where b.status = 1
         <if test="adminId != null">
             and b.admin_id = #{adminId}
+        </if>
+        <if test="type != null">
+            and b.type = #{type}
         </if>
         <if test="phone != null and phone != ''">
             and a.phone like concat('%',#{phone},'%')
@@ -68,11 +75,14 @@
         b.title,
         b.type,
         c.nickname,
-        s.name as storeName
+        s.name as storeName,
+        f.title as gradeTitle,
+        f.id as gradeId
         from user_member_card a
         left join membership_card b on a.membership_card_id = b.id
         left join app_user c on c.id = a.user_id
         left join store s on a.store_id = s.id
+        left join card_grade f on a.grade_id = f.id
         where b.status = 1
         and a.membership_card_id in
         <foreach collection="list" index="index" separator="," item="list" open="(" close=")">
@@ -102,11 +112,11 @@
     insert into user_member_card (id, membership_card_id, user_id,
       balance, total_amount, consume_amount,
       updated, created, status,
-      store_id,phone,admin_id)
+      store_id,phone,admin_id,grade_id)
     values (#{id,jdbcType=INTEGER}, #{membershipCardId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
       #{balance,jdbcType=DECIMAL}, #{totalAmount,jdbcType=DECIMAL}, #{consumeAmount,jdbcType=DECIMAL},
       now(), now(), #{status,jdbcType=TINYINT},
-      #{storeId,jdbcType=INTEGER},#{phone,jdbcType=VARCHAR},#{adminId,jdbcType=INTEGER})
+      #{storeId,jdbcType=INTEGER},#{phone,jdbcType=VARCHAR},#{adminId,jdbcType=INTEGER},#{gradeId,jdbcType=INTEGER})
   </insert>
     <insert id="insertSelective" parameterType="com.chouchong.entity.v3.UserMemberCard">
         insert into user_member_card
@@ -147,6 +157,9 @@
             <if test="adminId != null">
                 admin_id,
             </if>
+            <if test="gradeId != null">
+                grade_id,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -184,6 +197,9 @@
             </if>
             <if test="adminId != null">
                 #{adminId,jdbcType=INTEGER},
+            </if>
+            <if test="gradeId != null">
+                #{gradeId,jdbcType=INTEGER},
             </if>
         </trim>
     </insert>
@@ -223,6 +239,9 @@
             <if test="adminId != null">
                 admin_id = #{adminId,jdbcType=INTEGER},
             </if>
+            <if test="gradeId != null">
+                grade_id = #{gradeId,jdbcType=INTEGER},
+            </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
@@ -238,7 +257,8 @@
       status = #{status,jdbcType=TINYINT},
       store_id = #{storeId,jdbcType=INTEGER},
       phone = #{phone,jdbcType=VARCHAR},
-      admin_id = #{adminId,jdbcType=INTEGER}
+      admin_id = #{adminId,jdbcType=INTEGER},
+      grade_id = #{gradeId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -34,8 +34,8 @@ public class StoreController {
      * @date 2019/11/5
      */
     @PostMapping("list")
-    public Response getStoreList(String name, String location, PageQuery page) {
-        return storeService.getStoreList(name, location, page);
+    public Response getStoreList(String name, String location,String merchant, PageQuery page) {
+        return storeService.getStoreList(name, location,merchant, page);
     }
 
     /**
