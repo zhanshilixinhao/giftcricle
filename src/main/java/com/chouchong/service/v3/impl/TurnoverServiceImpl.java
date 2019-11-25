@@ -19,6 +19,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
@@ -88,6 +89,9 @@ public class TurnoverServiceImpl implements TurnoverService {
             }
         }
         TurnoverVos turnoverVos1 = storeTurnoverMapper.selectBySearch1(eventName, title, startTime, endTime,storeId,merchantId);
+        if (turnoverVos1 == null){
+            turnoverVos1 = new TurnoverVos();
+        }
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
         List<TurnoverVo> turnoverVos = storeTurnoverMapper.selectBySearch(eventName, title, startTime, endTime,storeId,merchantId);
         PageInfo pageInfo = new PageInfo<>(turnoverVos);
@@ -127,6 +131,9 @@ public class TurnoverServiceImpl implements TurnoverService {
                 return ResponseFactory.suc();
             }
             ChargeReVos chargeRes1 = memberChargeRecordMapper.selectBySearch1s(phone, storeName, cardNo, startTime, endTime, list);
+            if (chargeRes1 == null){
+                chargeRes1 = new ChargeReVos();
+            }
             PageHelper.startPage(page.getPageNum(), page.getPageSize());
             List<ChargeReVo> chargeRes = memberChargeRecordMapper.selectBySearch1(phone, storeName, cardNo, startTime, endTime, list);
             PageInfo pageInfo = new PageInfo<>(chargeRes);
@@ -138,6 +145,9 @@ public class TurnoverServiceImpl implements TurnoverService {
             adminId = webUserInfo.getSysAdmin().getId();
         }
         ChargeReVos chargeRes1 = memberChargeRecordMapper.selectBySearchs(phone, storeName, cardNo, startTime, endTime, adminId);
+        if (chargeRes1 == null){
+            chargeRes1 = new ChargeReVos();
+        }
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
         List<ChargeReVo> chargeRes = memberChargeRecordMapper.selectBySearch(phone, storeName, cardNo, startTime, endTime, adminId);
         PageInfo pageInfo = new PageInfo<>(chargeRes);
@@ -177,6 +187,9 @@ public class TurnoverServiceImpl implements TurnoverService {
                 return ResponseFactory.suc();
             }
             ExpenseReVos expenseRes1 = memberExpenseRecordMapper.selectBySearch1s(phone, storeName, cardNo, startTime, endTime, list);
+            if (expenseRes1 == null){
+                expenseRes1 = new ExpenseReVos();
+            }
             PageHelper.startPage(page.getPageNum(), page.getPageSize());
             List<ExpenseReVo> expenseRes = memberExpenseRecordMapper.selectBySearch1(phone, storeName, cardNo, startTime, endTime, list);
             PageInfo pageInfo = new PageInfo<>(expenseRes);
@@ -187,6 +200,9 @@ public class TurnoverServiceImpl implements TurnoverService {
             adminId = webUserInfo.getSysAdmin().getId();
         }
         ExpenseReVos expenseRes1 = memberExpenseRecordMapper.selectBySearchs(phone, storeName, cardNo, startTime, endTime, adminId);
+        if (expenseRes1 == null){
+            expenseRes1 = new ExpenseReVos();
+        }
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
         List<ExpenseReVo> expenseRes = memberExpenseRecordMapper.selectBySearch(phone, storeName, cardNo, startTime, endTime, adminId);
         PageInfo pageInfo = new PageInfo<>(expenseRes);

@@ -226,12 +226,18 @@ public class CardServiceImpl implements CardService {
         }
         // 礼遇圈卡必须选礼遇圈门店
         if (card.getId() == 0) {
-            String[] strings = card.getStoreIds().split(",");
-            for (String string : strings) {
-                if (!"0".equals(string)) {
-                    return ResponseFactory.err("礼遇圈卡必须选礼遇圈门店");
-                }
+            boolean contains = card.getStoreIds().contains("0");
+            if (!contains) {
+              return  ResponseFactory.err("礼遇圈卡必须选礼遇圈门店");
             }
+//            String[] strings = card.getStoreIds().split(",");
+//            for (String string : strings) {
+//                if ("0".equals(string)) {
+//                    break;
+//                } else {
+//                    return ResponseFactory.err("礼遇圈卡必须选礼遇圈门店");
+//                }
+//            }
         }
         ca.setTitle(card.getTitle());
         ca.setSummary(card.getSummary());
