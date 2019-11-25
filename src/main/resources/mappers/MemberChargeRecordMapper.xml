@@ -124,6 +124,60 @@ order by a.created DESC
         </if>
         order by a.created DESC
     </select>
+    <select id="selectBySearch1s" resultType="com.chouchong.service.v3.vo.ChargeReVos">
+        select sum(a.recharge_money) as totalChargeMoney,
+        sum(a.send_money) as totalSendMoney
+        from member_charge_record a
+        left join membership_card c on a.membership_card_id = c.id
+        left join app_user d on d.id = a.user_id
+        left join store e on a.store_id = e.id
+        left join member_event f on a.member_event_id = f.id
+        where a.admin_id in
+        <foreach collection="list" open="(" close=")" item="list" separator="," index="index">
+            #{list}
+        </foreach>
+        <if test="phone != null and phone != ''">
+            and d.phone like concat('%',#{phone},'%')
+        </if>
+        <if test="storeName != null and storeName != ''">
+            and e.name like concat('%',#{storeName},'%')
+        </if>
+        <if test="cardNo != null">
+            and c.card_no like concat('%',#{cardNo},'%')
+        </if>
+        <if test="startTime != null and endTime != null">
+            and unix_timestamp(a.created) &gt;= #{startTime}
+            and unix_timestamp(a.created) &lt; #{endTime}
+        </if>
+        order by a.created DESC
+    </select>
+    <select id="selectBySearchs" resultType="com.chouchong.service.v3.vo.ChargeReVos">
+        select sum(a.recharge_money) as totalChargeMoney,
+        sum(a.send_money) as totalSendMoney
+        from member_charge_record a
+        left join membership_card c on a.membership_card_id = c.id
+        left join app_user d on d.id = a.user_id
+        left join store e on a.store_id = e.id
+        left join member_event f on a.member_event_id = f.id
+        where 1=1
+        <if test="adminId != null ">
+            and a.admin_id = #{adminId}
+        </if>
+        <if test="phone != null and phone != ''">
+            and d.phone like concat('%',#{phone},'%')
+        </if>
+        <if test="storeName != null and storeName != ''">
+            and e.name like concat('%',#{storeName},'%')
+        </if>
+        <if test="cardNo != null">
+            and c.card_no like concat('%',#{cardNo},'%')
+        </if>
+        <if test="startTime != null and endTime != null">
+            and unix_timestamp(a.created) &gt;= #{startTime}
+            and unix_timestamp(a.created) &lt; #{endTime}
+        </if>
+        order by a.created DESC
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from member_charge_record

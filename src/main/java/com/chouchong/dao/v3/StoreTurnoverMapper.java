@@ -3,6 +3,7 @@ package com.chouchong.dao.v3;
 
 import com.chouchong.entity.v3.StoreTurnover;
 import com.chouchong.service.v3.vo.TurnoverVo;
+import com.chouchong.service.v3.vo.TurnoverVos;
 import org.apache.ibatis.annotations.Param;
 
 import javax.xml.crypto.Data;
@@ -26,5 +27,9 @@ public interface StoreTurnoverMapper {
                                     @Param("startTime") Long startTime, @Param("endTime") Long endTime,
                                     @Param("storeId") Integer storeId, @Param("merchantId") Integer merchantId);
 
+
+    TurnoverVos selectBySearch1(@Param("eventName") String eventName, @Param("title") String title,
+                                      @Param("startTime") Long startTime, @Param("endTime") Long endTime, @Param("storeId") Integer storeId,
+                                      @Param("merchantId") Integer merchantId);
 
 }

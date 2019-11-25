@@ -3,6 +3,7 @@ package com.chouchong.dao.v3;
 
 import com.chouchong.entity.v3.MemberExpenseRecord;
 import com.chouchong.service.v3.vo.ExpenseReVo;
+import com.chouchong.service.v3.vo.ExpenseReVos;
 import com.chouchong.service.v3.vo.ExpenseVo;
 import org.apache.ibatis.annotations.Param;
 
@@ -28,4 +29,9 @@ public interface MemberExpenseRecordMapper {
 
     List<ExpenseReVo> selectBySearch1(@Param("phone") String phone, @Param("storeName") String storeName, @Param("cardNo") Long cardNo, @Param("startTime") Long startTime, @Param("endTime") Long endTime, @Param("list") List<Integer> list);
 
+    ExpenseReVos selectBySearchs(@Param("phone") String phone, @Param("storeName") String storeName, @Param("cardNo") Long cardNo,
+                                 @Param("startTime") Long startTime, @Param("endTime") Long endTime, @Param("adminId") Integer adminId);
+
+    ExpenseReVos selectBySearch1s(@Param("phone") String phone, @Param("storeName") String storeName, @Param("cardNo") Long cardNo,
+                                  @Param("startTime") Long startTime, @Param("endTime") Long endTime, @Param("list") List<Integer> list);
 }
