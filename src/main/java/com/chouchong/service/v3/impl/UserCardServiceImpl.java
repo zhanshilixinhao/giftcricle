@@ -1,9 +1,6 @@
 package com.chouchong.service.v3.impl;
 
-import com.chouchong.common.ErrorCode;
-import com.chouchong.common.PageQuery;
-import com.chouchong.common.Response;
-import com.chouchong.common.ResponseFactory;
+import com.chouchong.common.*;
 import com.chouchong.dao.iwant.appUser.AppUserMapper;
 import com.chouchong.dao.iwant.merchant.MerchantMapper;
 import com.chouchong.dao.v3.*;
@@ -70,6 +67,9 @@ public class UserCardServiceImpl implements UserCardService {
     @Autowired
     private StoreTurnoverMapper storeTurnoverMapper;
 
+    @Autowired
+    private OrderHelper orderHelper;
+
 
     /**
      * 获取用户会员卡列表
@@ -81,12 +81,12 @@ public class UserCardServiceImpl implements UserCardService {
      */
     @Override
     public Response getUserCardList(PageQuery page, String cardNo, String phone,Byte type) {
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         Integer adminId = null;
         if (webUserInfo.getRoleId() == 3) {
             adminId = webUserInfo.getSysAdmin().getId();
         }
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
         List<UserCardVo> list = userMemberCardMapper.selectBySearch(cardNo, phone, adminId,type);
         PageInfo pageInfo = new PageInfo<>(list);
         return ResponseFactory.page(list, pageInfo.getTotal(), pageInfo.getPages(),
@@ -121,7 +121,6 @@ public class UserCardServiceImpl implements UserCardService {
      */
     @Override
     public Response getUserCardList1(PageQuery page, String cardNo, String phone) {
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
 //        分店adminId
         Integer adminId = webUserInfo.getSysAdmin().getId();
@@ -147,6 +146,7 @@ public class UserCardServiceImpl implements UserCardService {
         if (list.size() == 0) {
             return ResponseFactory.suc();
         }
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
         List<UserCardVo> list1 = userMemberCardMapper.selectBySearch1(cardNo, phone, list);
         PageInfo pageInfo = new PageInfo<>(list1);
         return ResponseFactory.page(list1, pageInfo.getTotal(), pageInfo.getPages(),
@@ -184,6 +184,7 @@ public class UserCardServiceImpl implements UserCardService {
         ca.setStoreId(store.getId());
         ca.setPhone(card.getPhone());
         ca.setAdminId(adminId);
+        ca.setCardNo(orderHelper.genOrderNo(7, 9));
         int insert = userMemberCardMapper.insert(ca);
         if (insert < 1) {
             return ResponseFactory.err("开卡失败");

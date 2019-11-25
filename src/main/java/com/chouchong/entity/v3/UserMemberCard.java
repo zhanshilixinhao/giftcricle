@@ -30,7 +30,9 @@ public class UserMemberCard {
 
     private Integer gradeId;
 
-    public UserMemberCard(Integer id, Integer membershipCardId, Integer userId, BigDecimal balance, BigDecimal totalAmount, BigDecimal consumeAmount, Date updated, Date created, Byte status, Integer storeId, String phone,Integer adminId,Integer gradeId) {
+    private Long cardNo;
+
+    public UserMemberCard(Integer id, Integer membershipCardId, Integer userId, BigDecimal balance, BigDecimal totalAmount, BigDecimal consumeAmount, Date updated, Date created, Byte status, Integer storeId, String phone,Integer adminId,Integer gradeId,Long cardNo) {
         this.id = id;
         this.membershipCardId = membershipCardId;
         this.userId = userId;
@@ -44,6 +46,7 @@ public class UserMemberCard {
         this.phone = phone;
         this.adminId = adminId;
         this.gradeId = gradeId;
+        this.cardNo = cardNo;
     }
 
     public UserMemberCard() {
@@ -152,5 +155,13 @@ public class UserMemberCard {
 
     public void setGradeId(Integer gradeId) {
         this.gradeId = gradeId;
+    }
+
+    public Long getCardNo() {
+        return cardNo;
+    }
+
+    public void setCardNo(Long cardNo) {
+        this.cardNo = cardNo;
     }
 }

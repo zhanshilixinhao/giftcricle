@@ -16,11 +16,12 @@
             <arg column="phone" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
             <arg column="grade_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="card_no" javaType="java.lang.Long" jdbcType="BIGINT"/>
         </constructor>
     </resultMap>
     <sql id="Base_Column_List">
     id, membership_card_id, user_id, balance, total_amount, consume_amount, updated,
-    created, status, store_id,phone,admin_id,grade_id
+    created, status, store_id,phone,admin_id,grade_id,card_no
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -36,7 +37,7 @@
         a.created,
         a.store_id,
         a.phone,
-        b.card_no,
+        a.card_no,
         b.title,
         b.type,
         c.nickname,
@@ -59,7 +60,7 @@
             and a.phone like concat('%',#{phone},'%')
         </if>
         <if test="cardNo != null and cardNo != ''">
-            and b.card_no like concat('%',#{cardNo},'%')
+            and a.card_no like concat('%',#{cardNo},'%')
         </if>
         order by a.user_id DESC ,a.created DESC
     </select>
@@ -71,7 +72,7 @@
         a.created,
         a.store_id,
         a.phone,
-        b.card_no,
+        a.card_no,
         b.title,
         b.type,
         c.nickname,
@@ -92,7 +93,7 @@
             and a.phone like concat('%',#{phone},'%')
         </if>
         <if test="cardNo != null and cardNo != ''">
-            and b.card_no like concat('%',#{cardNo},'%')
+            and a.card_no like concat('%',#{cardNo},'%')
         </if>
         order by a.user_id DESC ,a.created DESC
     </select>
@@ -112,11 +113,11 @@
     insert into user_member_card (id, membership_card_id, user_id,
       balance, total_amount, consume_amount,
       updated, created, status,
-      store_id,phone,admin_id,grade_id)
+      store_id,phone,admin_id,grade_id,card_no)
     values (#{id,jdbcType=INTEGER}, #{membershipCardId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
       #{balance,jdbcType=DECIMAL}, #{totalAmount,jdbcType=DECIMAL}, #{consumeAmount,jdbcType=DECIMAL},
       now(), now(), #{status,jdbcType=TINYINT},
-      #{storeId,jdbcType=INTEGER},#{phone,jdbcType=VARCHAR},#{adminId,jdbcType=INTEGER},#{gradeId,jdbcType=INTEGER})
+      #{storeId,jdbcType=INTEGER},#{phone,jdbcType=VARCHAR},#{adminId,jdbcType=INTEGER},#{gradeId,jdbcType=INTEGER},#{cardNo,jdbcType=BIGINT})
   </insert>
     <insert id="insertSelective" parameterType="com.chouchong.entity.v3.UserMemberCard">
         insert into user_member_card
@@ -160,6 +161,9 @@
             <if test="gradeId != null">
                 grade_id,
             </if>
+            <if test="cardNo != null">
+                card_no,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -200,6 +204,9 @@
             </if>
             <if test="gradeId != null">
                 #{gradeId,jdbcType=INTEGER},
+            </if>
+            <if test="cardNo != null">
+                #{cardNo,jdbcType=BIGINT},
             </if>
         </trim>
     </insert>
@@ -242,6 +249,9 @@
             <if test="gradeId != null">
                 grade_id = #{gradeId,jdbcType=INTEGER},
             </if>
+            <if test="cardNo != null">
+                card_no = #{cardNo,jdbcType=BIGINT},
+            </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
@@ -258,7 +268,8 @@
       store_id = #{storeId,jdbcType=INTEGER},
       phone = #{phone,jdbcType=VARCHAR},
       admin_id = #{adminId,jdbcType=INTEGER},
-      grade_id = #{gradeId,jdbcType=INTEGER}
+      grade_id = #{gradeId,jdbcType=INTEGER},
+      card_no = #{cardNo,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

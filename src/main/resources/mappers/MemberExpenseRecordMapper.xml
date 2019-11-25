@@ -50,7 +50,7 @@ order by a.created DESC
         a.`explain`,
         a.created,
         c.title,
-        c.card_no,
+        g.card_no,
         d.phone,
         d.nickname,
         e.name as storeName
@@ -58,6 +58,7 @@ order by a.created DESC
         left join membership_card c on a.membership_card_id = c.id
         left join app_user d on d.id = a.user_id
         left join store e on a.store_id = e.id
+        left join user_member_card g on a.user_id = g.user_id and a.membership_card_id = g.membership_card_id
         where 1=1
         <if test="adminId != null ">
             and a.admin_id = #{adminId}
@@ -69,7 +70,7 @@ order by a.created DESC
             and e.name like concat('%',#{storeName},'%')
         </if>
         <if test="cardNo != null">
-            and c.card_no like concat('%',#{cardNo},'%')
+            and g.card_no like concat('%',#{cardNo},'%')
         </if>
         <if test="startTime != null and endTime != null">
             and unix_timestamp(a.created) &gt;= #{startTime}
@@ -87,7 +88,7 @@ order by a.created DESC
         a.`explain`,
         a.created,
         c.title,
-        c.card_no,
+        g.card_no,
         d.phone,
         d.nickname,
         e.name as storeName
@@ -95,6 +96,7 @@ order by a.created DESC
         left join membership_card c on a.membership_card_id = c.id
         left join app_user d on d.id = a.user_id
         left join store e on a.store_id = e.id
+        left join user_member_card g on a.user_id = g.user_id and a.membership_card_id = g.membership_card_id
         where a.admin_id in
         <foreach collection="list" open="(" close=")" item="list" separator="," index="index">
             #{list}
@@ -106,7 +108,7 @@ order by a.created DESC
             and e.name like concat('%',#{storeName},'%')
         </if>
         <if test="cardNo != null">
-            and c.card_no like concat('%',#{cardNo},'%')
+            and g.card_no like concat('%',#{cardNo},'%')
         </if>
         <if test="startTime != null and endTime != null">
             and unix_timestamp(a.created) &gt;= #{startTime}
@@ -120,6 +122,7 @@ order by a.created DESC
         left join membership_card c on a.membership_card_id = c.id
         left join app_user d on d.id = a.user_id
         left join store e on a.store_id = e.id
+        left join user_member_card g on a.user_id = g.user_id and a.membership_card_id = g.membership_card_id
         where 1=1
         <if test="adminId != null ">
             and a.admin_id = #{adminId}
@@ -131,7 +134,7 @@ order by a.created DESC
             and e.name like concat('%',#{storeName},'%')
         </if>
         <if test="cardNo != null">
-            and c.card_no like concat('%',#{cardNo},'%')
+            and g.card_no like concat('%',#{cardNo},'%')
         </if>
         <if test="startTime != null and endTime != null">
             and unix_timestamp(a.created) &gt;= #{startTime}
@@ -145,6 +148,7 @@ order by a.created DESC
         left join membership_card c on a.membership_card_id = c.id
         left join app_user d on d.id = a.user_id
         left join store e on a.store_id = e.id
+        left join user_member_card g on a.user_id = g.user_id and a.membership_card_id = g.membership_card_id
         where a.admin_id in
         <foreach collection="list" open="(" close=")" item="list" separator="," index="index">
             #{list}
@@ -156,7 +160,7 @@ order by a.created DESC
             and e.name like concat('%',#{storeName},'%')
         </if>
         <if test="cardNo != null">
-            and c.card_no like concat('%',#{cardNo},'%')
+            and g.card_no like concat('%',#{cardNo},'%')
         </if>
         <if test="startTime != null and endTime != null">
             and unix_timestamp(a.created) &gt;= #{startTime}

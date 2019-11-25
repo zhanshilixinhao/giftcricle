@@ -184,7 +184,7 @@ public class CardServiceImpl implements CardService {
     public Response addCard(MembershipCard card, String eventIds) {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         MembershipCard ca = new MembershipCard();
-        ca.setCardNo(orderHelper.genOrderNo(7, 9));
+//        ca.setCardNo(orderHelper.genOrderNo(7, 9));
         ca.setTitle(card.getTitle());
         ca.setSummary(card.getSummary());
         ca.setColour(card.getColour());
