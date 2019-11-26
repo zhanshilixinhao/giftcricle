@@ -80,14 +80,14 @@ public class UserCardServiceImpl implements UserCardService {
      * @return
      */
     @Override
-    public Response getUserCardList(PageQuery page, String cardNo, String phone,Byte type) {
+    public Response getUserCardList(PageQuery page, String cardNo, String phone, Byte type) {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         Integer adminId = null;
         if (webUserInfo.getRoleId() == 3) {
             adminId = webUserInfo.getSysAdmin().getId();
         }
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
-        List<UserCardVo> list = userMemberCardMapper.selectBySearch(cardNo, phone, adminId,type);
+        List<UserCardVo> list = userMemberCardMapper.selectBySearch(cardNo, phone, adminId, type);
         PageInfo pageInfo = new PageInfo<>(list);
         return ResponseFactory.page(list, pageInfo.getTotal(), pageInfo.getPages(),
                 pageInfo.getPageNum(), pageInfo.getPageSize());
@@ -171,7 +171,7 @@ public class UserCardServiceImpl implements UserCardService {
             return ResponseFactory.err("需要先注册礼遇圈");
         }
         UserMemberCard userMemberCard = userMemberCardMapper.selectByUseridcardId(appUser.getId(), card.getMembershipCardId());
-        if (userMemberCard != null){
+        if (userMemberCard != null) {
             return ResponseFactory.err("已经开过卡了，不能重复开卡");
         }
         UserMemberCard ca = new UserMemberCard();
@@ -213,6 +213,9 @@ public class UserCardServiceImpl implements UserCardService {
         if (store != null && store.getId() != null) {
             storeId = store.getId();
         }
+        if (send == null) {
+            send = new BigDecimal("0");
+        }
         Merchant merchant = merchantMapper.selectByAdminId(webUserInfo.getSysAdmin().getCreateAdminId());
         // 添加充值记录
         MemberChargeRecord record = new MemberChargeRecord();
@@ -224,9 +227,9 @@ public class UserCardServiceImpl implements UserCardService {
         record.setType((byte) 2);
         record.setStoreId(storeId);
         record.setAdminId(adminId);
-        if(StringUtils.isEmpty(explain)){
+        if (StringUtils.isEmpty(explain)) {
             record.setExplain("余额充值");
-        }else {
+        } else {
             record.setExplain(explain);
         }
         int insert = memberChargeRecordMapper.insert(record);
@@ -238,11 +241,9 @@ public class UserCardServiceImpl implements UserCardService {
         // 添加详细记录
         BigDecimal total = recharge;
         Float scale = null;
-        if (send != null) {
-            total = BigDecimalUtil.add(recharge.doubleValue(), send.doubleValue());
-            scale = BigDecimalUtil.div(send.doubleValue(), total.doubleValue()).floatValue();
-        }
-        detailCharge(userId, merchant.getId(), storeId, recharge, cardId, send, new BigDecimal("0"), (byte) 1, explain, total, scale,total,(byte)1,eventId);
+        total = BigDecimalUtil.add(recharge.doubleValue(), send.doubleValue());
+        scale = BigDecimalUtil.div(send.doubleValue(), total.doubleValue()).floatValue();
+        detailCharge(userId, merchant.getId(), storeId, recharge, cardId, send, new BigDecimal("0"), (byte) 1, explain, total, scale, total, (byte) 1, eventId);
         return ResponseFactory.sucMsg("充值成功");
     }
 
@@ -274,9 +275,9 @@ public class UserCardServiceImpl implements UserCardService {
         re.setType((byte) 2);
         re.setStoreId(storeId);
         re.setAdminId(adminId);
-        if(StringUtils.isEmpty(explain)){
+        if (StringUtils.isEmpty(explain)) {
             re.setExplain("线下消费");
-        }else {
+        } else {
             re.setExplain(explain);
         }
         int insert = memberExpenseRecordMapper.insert(re);
@@ -287,31 +288,31 @@ public class UserCardServiceImpl implements UserCardService {
         updateBalance(userId, cardId, (byte) 2, expense, new BigDecimal("0"));
         // 添加详细记录
         int storeMemberId = detailCharge(userId, merchant.getId(), storeId, new BigDecimal("0"), cardId, new BigDecimal("0"), expense, (byte) 2, explain, expense,
-                0f, new BigDecimal("0"), (byte) 4,null);
+                0f, new BigDecimal("0"), (byte) 4, null);
         //取出之前充值的记录
-        List<StoreMemberCharge> charges = storeMemberChargeMapper.selectByUserIdCardId(userId,cardId);
-        if (!CollectionUtils.isEmpty(charges)){
+        List<StoreMemberCharge> charges = storeMemberChargeMapper.selectByUserIdCardId(userId, cardId);
+        if (!CollectionUtils.isEmpty(charges)) {
             BigDecimal expense1 = expense;
             for (StoreMemberCharge charge : charges) {
                 //判断此次充值还剩余的余额
-                if(charge.getBalance().compareTo(expense1) == 0){
+                if (charge.getBalance().compareTo(expense1) == 0) {
                     // 余额与消费金额相等,更新详细记录，添加消费营业额记录
                     BigDecimal sub = BigDecimalUtil.sub(charge.getBalance().doubleValue(), expense1.doubleValue());
-                    updateDetailCharge(charge.getId(),sub,(byte)3);
-                    addStoreTurnover(storeMemberId,expense1,charge.getScale(),storeId,charge.getStoreId(),charge.getMemberEventId());
+                    updateDetailCharge(charge.getId(), sub, (byte) 3);
+                    addStoreTurnover(storeMemberId, expense1, charge.getScale(), storeId, charge.getStoreId(), charge.getMemberEventId());
                     break;
-                }else if(charge.getBalance().compareTo(expense1) > 0){
+                } else if (charge.getBalance().compareTo(expense1) > 0) {
                     //余额大于消费金额，更新详细记录，添加消费营业额记录
                     BigDecimal sub = BigDecimalUtil.sub(charge.getBalance().doubleValue(), expense1.doubleValue());
-                    updateDetailCharge(charge.getId(),sub,(byte)2);
-                    addStoreTurnover(storeMemberId,expense1,charge.getScale(),storeId,charge.getStoreId(),charge.getMemberEventId());
+                    updateDetailCharge(charge.getId(), sub, (byte) 2);
+                    addStoreTurnover(storeMemberId, expense1, charge.getScale(), storeId, charge.getStoreId(), charge.getMemberEventId());
                     break;
                 } else {
                     //余额小于消费金额
                     //扣除第一次充值的余额后还不够的钱
-                    BigDecimal sub = BigDecimalUtil.sub(expense1.doubleValue(),charge.getBalance().doubleValue());
-                    updateDetailCharge(charge.getId(),new BigDecimal("0"),(byte)3);
-                    addStoreTurnover(storeMemberId,charge.getBalance(),charge.getScale(),storeId,charge.getStoreId(),charge.getMemberEventId());
+                    BigDecimal sub = BigDecimalUtil.sub(expense1.doubleValue(), charge.getBalance().doubleValue());
+                    updateDetailCharge(charge.getId(), new BigDecimal("0"), (byte) 3);
+                    addStoreTurnover(storeMemberId, charge.getBalance(), charge.getScale(), storeId, charge.getStoreId(), charge.getMemberEventId());
                     expense1 = sub;
                 }
             }
@@ -325,7 +326,7 @@ public class UserCardServiceImpl implements UserCardService {
         if (card == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "该用户会员卡不存在");
         }
-        if (send == null){
+        if (send == null) {
             send = new BigDecimal("0");
         }
         if (type == 1) {
@@ -349,7 +350,7 @@ public class UserCardServiceImpl implements UserCardService {
 
 
     private int detailCharge(Integer userId, Integer merchant, Integer storeId, BigDecimal re, Integer cardId, BigDecimal send, BigDecimal ex,
-                              Byte type, String explain, BigDecimal total, Float scale,BigDecimal balance,Byte status,Integer eventId) {
+                             Byte type, String explain, BigDecimal total, Float scale, BigDecimal balance, Byte status, Integer eventId) {
         StoreMemberCharge store = new StoreMemberCharge();
         store.setUserId(userId);
         store.setMerchantId(merchant);
@@ -374,11 +375,12 @@ public class UserCardServiceImpl implements UserCardService {
 
     /**
      * 更新详细记录
-     * @param id 详细记录id
+     *
+     * @param id      详细记录id
      * @param balance 余额
-     * @param status 状态
+     * @param status  状态
      */
-    private void updateDetailCharge(Integer id,BigDecimal balance,Byte status){
+    private void updateDetailCharge(Integer id, BigDecimal balance, Byte status) {
         StoreMemberCharge store = storeMemberChargeMapper.selectByPrimaryKey(id);
         if (store == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "该记录不存在");
@@ -391,8 +393,8 @@ public class UserCardServiceImpl implements UserCardService {
         }
     }
 
-    private void addStoreTurnover(Integer storeMemberId,BigDecimal ex,Float scale,Integer storeId,
-                                  Integer blagStoreId,Integer eventId){
+    private void addStoreTurnover(Integer storeMemberId, BigDecimal ex, Float scale, Integer storeId,
+                                  Integer blagStoreId, Integer eventId) {
         //营业额
 
         BigDecimal multi = BigDecimalUtil.multi(ex.doubleValue(), scale);
@@ -404,7 +406,7 @@ public class UserCardServiceImpl implements UserCardService {
         turnover.setTurnoverMoney(multi);
         turnover.setStoreId(storeId);
         turnover.setBlagStoreId(blagStoreId);
-        if (eventId != null){
+        if (eventId != null) {
             turnover.setEventId(eventId);
         }
         int insert = storeTurnoverMapper.insert(turnover);
@@ -415,15 +417,16 @@ public class UserCardServiceImpl implements UserCardService {
 
     /**
      * 修改用户的会员卡等级
-     * @param userId 用户id
-     * @param cardId 会员卡id
+     *
+     * @param userId  用户id
+     * @param cardId  会员卡id
      * @param gradeId 会员卡等级id
      * @return
      */
     @Override
     public Response updateCardGrade(Integer userId, Integer cardId, Integer gradeId) {
         UserMemberCard userMemberCard = userMemberCardMapper.selectByUseridcardId(userId, cardId);
-        if (userMemberCard == null){
+        if (userMemberCard == null) {
             return ResponseFactory.err("会员信息不存在");
         }
         userMemberCard.setGradeId(gradeId);
