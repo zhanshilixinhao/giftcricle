@@ -19,7 +19,7 @@
     </resultMap>
     <sql id="Base_Column_List">
     id, membership_card_id, user_id, expense_money, type, store_id, target_id, admin_id,
-    `explain`, updated, created,order_no
+    `explain`, updated, created,order_no,before_money
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -178,11 +178,11 @@ order by a.created DESC
     insert into member_expense_record (id, membership_card_id, user_id,
       expense_money, type, store_id,
       target_id, admin_id, `explain`,
-      updated, created,order_no)
+      updated, created,order_no,before_money)
     values (#{id,jdbcType=INTEGER}, #{membershipCardId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
       #{expenseMoney,jdbcType=DECIMAL}, #{type,jdbcType=TINYINT}, #{storeId,jdbcType=INTEGER},
       #{targetId,jdbcType=VARCHAR}, #{adminId,jdbcType=INTEGER}, #{explain,jdbcType=VARCHAR},
-      now(), now(),#{orderNo,jdbcType=BIGINT})
+      now(), now(),#{orderNo,jdbcType=BIGINT},#{beforeMoney,jdbcType=DECIMAL})
   </insert>
     <insert id="insertSelective" parameterType="com.chouchong.entity.v3.MemberExpenseRecord">
         insert into member_expense_record

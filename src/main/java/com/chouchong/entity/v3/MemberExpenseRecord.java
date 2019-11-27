@@ -26,7 +26,11 @@ public class MemberExpenseRecord {
 
     private Date created;
 
-    public MemberExpenseRecord(Integer id, Integer membershipCardId, Integer userId, BigDecimal expenseMoney, Byte type, Integer storeId, String targetId, Integer adminId, String explain, Date updated, Date created) {
+    private Long orderNo;
+
+    private BigDecimal beforeMoney;
+
+    public MemberExpenseRecord(Integer id, Integer membershipCardId, Integer userId, BigDecimal expenseMoney, Byte type, Integer storeId, String targetId, Integer adminId, String explain, Date updated, Date created,Long orderNo) {
         this.id = id;
         this.membershipCardId = membershipCardId;
         this.userId = userId;
@@ -38,6 +42,23 @@ public class MemberExpenseRecord {
         this.explain = explain;
         this.updated = updated;
         this.created = created;
+        this.orderNo = orderNo;
+    }
+
+    public Long getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(Long orderNo) {
+        this.orderNo = orderNo;
+    }
+
+    public BigDecimal getBeforeMoney() {
+        return beforeMoney;
+    }
+
+    public void setBeforeMoney(BigDecimal beforeMoney) {
+        this.beforeMoney = beforeMoney;
     }
 
     public MemberExpenseRecord() {

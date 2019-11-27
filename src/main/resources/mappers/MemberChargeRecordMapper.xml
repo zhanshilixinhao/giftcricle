@@ -20,7 +20,7 @@
     </resultMap>
     <sql id="Base_Column_List">
     id, membership_card_id, user_id, member_event_id, recharge_money, send_money, type,
-    store_id, admin_id, `explain`, updated, created,order_no
+    store_id, admin_id, `explain`, updated, created,order_no,before_money
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select

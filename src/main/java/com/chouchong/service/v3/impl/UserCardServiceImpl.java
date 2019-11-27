@@ -245,7 +245,8 @@ public class UserCardServiceImpl implements UserCardService {
         // 添加详细记录
         Float scale = null;
         scale = BigDecimalUtil.div(send.doubleValue(), total.doubleValue()).floatValue();
-        detailCharge(userId, merchant.getId(), storeId, recharge, cardId, send, new BigDecimal("0"), (byte) 1, explain, total, scale, total, (byte) 1, eventId);
+        detailCharge(userId, merchant.getId(), storeId, recharge, cardId, send, new BigDecimal("0"), (byte) 1, explain,
+                total, scale, total, (byte) 1, eventId,record.getOrderNo());
         return ResponseFactory.sucMsg("充值成功");
     }
 
@@ -269,6 +270,8 @@ public class UserCardServiceImpl implements UserCardService {
             storeId = store.getId();
         }
         Merchant merchant = merchantMapper.selectByAdminId(webUserInfo.getSysAdmin().getCreateAdminId());
+        // 更新余额
+        UserMemberCard card = updateBalance(userId, cardId, (byte) 2, expense, new BigDecimal("0"));
         // 添加消费记录
         MemberExpenseRecord re = new MemberExpenseRecord();
         re.setMembershipCardId(cardId);
@@ -282,15 +285,15 @@ public class UserCardServiceImpl implements UserCardService {
         } else {
             re.setExplain(explain);
         }
+        re.setOrderNo(orderHelper.genOrderNo(7, 11));
+        re.setBeforeMoney(BigDecimalUtil.add(card.getBalance().doubleValue(), expense.doubleValue()));
         int insert = memberExpenseRecordMapper.insert(re);
         if (insert < 1) {
             return ResponseFactory.err("失败");
         }
-        // 更新余额
-        updateBalance(userId, cardId, (byte) 2, expense, new BigDecimal("0"));
         // 添加详细记录
         int storeMemberId = detailCharge(userId, merchant.getId(), storeId, new BigDecimal("0"), cardId, new BigDecimal("0"), expense, (byte) 2, explain, expense,
-                0f, new BigDecimal("0"), (byte) 4, null);
+                0f, new BigDecimal("0"), (byte) 4, null,re.getOrderNo());
         //取出之前充值的记录
         List<StoreMemberCharge> charges = storeMemberChargeMapper.selectByUserIdCardId(userId, cardId);
         if (!CollectionUtils.isEmpty(charges)) {
@@ -353,7 +356,7 @@ public class UserCardServiceImpl implements UserCardService {
 
 
     private int detailCharge(Integer userId, Integer merchant, Integer storeId, BigDecimal re, Integer cardId, BigDecimal send, BigDecimal ex,
-                             Byte type, String explain, BigDecimal total, Float scale, BigDecimal balance, Byte status, Integer eventId) {
+                             Byte type, String explain, BigDecimal total, Float scale, BigDecimal balance, Byte status, Integer eventId,Long orderNo) {
         StoreMemberCharge store = new StoreMemberCharge();
         store.setUserId(userId);
         store.setMerchantId(merchant);
@@ -369,6 +372,7 @@ public class UserCardServiceImpl implements UserCardService {
         store.setBalance(balance);
         store.setStatus(status);
         store.setMemberEventId(eventId);
+        store.setOrderNo(orderNo);
         int insert = storeMemberChargeMapper.insert(store);
         if (insert < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "失败");

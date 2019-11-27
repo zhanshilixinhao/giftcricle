@@ -38,7 +38,9 @@ public class StoreMemberCharge {
 
     private Integer memberEventId;
 
-    public StoreMemberCharge(Integer id, Integer userId, Integer merchantId, Integer storeId, BigDecimal rechargeMoney, BigDecimal sendMoney, BigDecimal expenseMoney, Byte type, String explain, Date updated, Date created, BigDecimal totalMoney, Float scale,Integer membershipCardId,BigDecimal balance, Byte status,Integer memberEventId) {
+    private Long orderNo;
+
+    public StoreMemberCharge(Integer id, Integer userId, Integer merchantId, Integer storeId, BigDecimal rechargeMoney, BigDecimal sendMoney, BigDecimal expenseMoney, Byte type, String explain, Date updated, Date created, BigDecimal totalMoney, Float scale,Integer membershipCardId,BigDecimal balance, Byte status,Integer memberEventId,Long orderNo) {
         this.id = id;
         this.userId = userId;
         this.merchantId = merchantId;
@@ -56,6 +58,15 @@ public class StoreMemberCharge {
         this.balance = balance;
         this.status = status;
         this.memberEventId = memberEventId;
+        this.orderNo = orderNo;
+    }
+
+    public Long getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(Long orderNo) {
+        this.orderNo = orderNo;
     }
 
     public StoreMemberCharge() {
