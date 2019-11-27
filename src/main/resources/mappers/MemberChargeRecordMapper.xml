@@ -15,11 +15,12 @@
             <arg column="explain" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
             <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT" />
         </constructor>
     </resultMap>
     <sql id="Base_Column_List">
     id, membership_card_id, user_id, member_event_id, recharge_money, send_money, type,
-    store_id, admin_id, `explain`, updated, created
+    store_id, admin_id, `explain`, updated, created,order_no
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -191,12 +192,12 @@ order by a.created DESC
     insert into member_charge_record (id, membership_card_id, user_id,
       member_event_id, recharge_money, send_money,
       type, store_id, admin_id,
-      `explain`, updated, created
+      `explain`, updated, created,order_no
       )
     values (#{id,jdbcType=INTEGER}, #{membershipCardId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
       #{memberEventId,jdbcType=INTEGER}, #{rechargeMoney,jdbcType=DECIMAL}, #{sendMoney,jdbcType=DECIMAL},
       #{type,jdbcType=TINYINT}, #{storeId,jdbcType=INTEGER}, #{adminId,jdbcType=INTEGER},
-      #{explain,jdbcType=VARCHAR}, now(), now()
+      #{explain,jdbcType=VARCHAR}, now(), now(),#{orderNo,jdbcType=BIGINT}
       )
   </insert>
     <insert id="insertSelective" parameterType="com.chouchong.entity.v3.MemberChargeRecord">
@@ -238,6 +239,9 @@ order by a.created DESC
             <if test="created != null">
                 created,
             </if>
+            <if test="orderNo != null">
+                order_no,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -275,6 +279,9 @@ order by a.created DESC
             </if>
             <if test="created != null">
                 #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="orderNo != null">
+                #{orderNo,jdbcType=BIGINT},
             </if>
         </trim>
     </insert>
@@ -314,6 +321,9 @@ order by a.created DESC
             <if test="created != null">
                 created = #{created,jdbcType=TIMESTAMP},
             </if>
+            <if test="orderNo != null">
+                order_no = #{orderNo,jdbcType=BIGINT},
+            </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
@@ -329,7 +339,8 @@ order by a.created DESC
       admin_id = #{adminId,jdbcType=INTEGER},
       explain = #{explain,jdbcType=VARCHAR},
       updated = #{updated,jdbcType=TIMESTAMP},
-      created = #{created,jdbcType=TIMESTAMP}
+      created = #{created,jdbcType=TIMESTAMP},
+      order_no = #{orderNo,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

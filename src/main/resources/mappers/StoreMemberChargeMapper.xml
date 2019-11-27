@@ -20,11 +20,12 @@
             <arg column="balance" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
             <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT"/>
             <arg column="member_event_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT" />
         </constructor>
     </resultMap>
     <sql id="Base_Column_List">
     id, user_id, merchant_id, store_id, recharge_money, send_money, expense_money, type,
-    `explain`, updated, created, total_money, scale,membership_card_id,balance,status,member_event_id
+    `explain`, updated, created, total_money, scale,membership_card_id,balance,status,member_event_id,order_no
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -53,13 +54,13 @@
       store_id, recharge_money, send_money,
       expense_money, type, `explain`,
       updated, created, total_money,
-      scale,membership_card_id,balance,status,member_event_id)
+      scale,membership_card_id,balance,status,member_event_id,order_no)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{merchantId,jdbcType=INTEGER},
       #{storeId,jdbcType=INTEGER}, #{rechargeMoney,jdbcType=DECIMAL}, #{sendMoney,jdbcType=DECIMAL},
       #{expenseMoney,jdbcType=DECIMAL}, #{type,jdbcType=TINYINT}, #{explain,jdbcType=VARCHAR},
       now(), now(), #{totalMoney,jdbcType=DECIMAL},
       #{scale,jdbcType=REAL}, #{membershipCardId,jdbcType=INTEGER},#{balance,jdbcType=DECIMAL},
-       #{status,jdbcType=TINYINT},#{memberEventId,jdbcType=INTEGER})
+       #{status,jdbcType=TINYINT},#{memberEventId,jdbcType=INTEGER},#{orderNo,jdbcType=BIGINT})
   </insert>
     <insert id="insertSelective" parameterType="com.chouchong.entity.v3.StoreMemberCharge">
         insert into store_member_charge
@@ -115,6 +116,9 @@
             <if test="memberEventId != null">
                 member_event_id,
             </if>
+            <if test="orderNo != null">
+                order_no,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -167,6 +171,9 @@
             </if>
             <if test="memberEventId != null">
                 #{memberEventId,jdbcType=INTEGER},
+            </if>
+            <if test="orderNo != null">
+                #{orderNo,jdbcType=BIGINT},
             </if>
         </trim>
     </insert>
@@ -221,6 +228,9 @@
             <if test="memberEventId != null">
                 member_event_id = #{memberEventId,jdbcType=INTEGER},
             </if>
+            <if test="orderNo != null">
+                order_no = #{orderNo,jdbcType=BIGINT},
+            </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
@@ -241,7 +251,8 @@
       membership_card_id = #{membershipCardId,jdbcType=INTEGER},
       balance = #{balance,jdbcType=DECIMAL},
       status = #{status,jdbcType=TINYINT},
-      member_event_id = #{memberEventId,jdbcType=INTEGER}
+      member_event_id = #{memberEventId,jdbcType=INTEGER},
+      order_no = #{orderNo,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
