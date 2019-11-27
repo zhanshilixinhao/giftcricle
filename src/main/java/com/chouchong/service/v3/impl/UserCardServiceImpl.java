@@ -217,7 +217,11 @@ public class UserCardServiceImpl implements UserCardService {
             send = new BigDecimal("0");
         }
         Merchant merchant = merchantMapper.selectByAdminId(webUserInfo.getSysAdmin().getCreateAdminId());
+        // 更新余额
+        UserMemberCard card = updateBalance(userId, cardId, (byte) 1, recharge, send);
         // 添加充值记录
+        BigDecimal total = recharge;
+        total = BigDecimalUtil.add(recharge.doubleValue(), send.doubleValue());
         MemberChargeRecord record = new MemberChargeRecord();
         record.setMembershipCardId(cardId);
         record.setUserId(userId);
@@ -232,16 +236,14 @@ public class UserCardServiceImpl implements UserCardService {
         } else {
             record.setExplain(explain);
         }
+        record.setOrderNo(orderHelper.genOrderNo(7, 10));
+        record.setBeforeMoney(BigDecimalUtil.sub(card.getBalance().doubleValue(), total.doubleValue()));
         int insert = memberChargeRecordMapper.insert(record);
         if (insert < 1) {
             return ResponseFactory.err("充值失败");
         }
-        // 更新余额
-        updateBalance(userId, cardId, (byte) 1, recharge, send);
         // 添加详细记录
-        BigDecimal total = recharge;
         Float scale = null;
-        total = BigDecimalUtil.add(recharge.doubleValue(), send.doubleValue());
         scale = BigDecimalUtil.div(send.doubleValue(), total.doubleValue()).floatValue();
         detailCharge(userId, merchant.getId(), storeId, recharge, cardId, send, new BigDecimal("0"), (byte) 1, explain, total, scale, total, (byte) 1, eventId);
         return ResponseFactory.sucMsg("充值成功");
@@ -321,7 +323,7 @@ public class UserCardServiceImpl implements UserCardService {
     }
 
 
-    private void updateBalance(Integer userId, Integer cardId, Byte type, BigDecimal balance, BigDecimal send) {
+    private UserMemberCard updateBalance(Integer userId, Integer cardId, Byte type, BigDecimal balance, BigDecimal send) {
         UserMemberCard card = userMemberCardMapper.selectByUseridcardId(userId, cardId);
         if (card == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "该用户会员卡不存在");
@@ -346,6 +348,7 @@ public class UserCardServiceImpl implements UserCardService {
         if (i < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "余额更新失败");
         }
+        return card;
     }
 
 

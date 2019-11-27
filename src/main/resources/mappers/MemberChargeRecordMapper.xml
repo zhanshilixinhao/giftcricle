@@ -192,12 +192,12 @@ order by a.created DESC
     insert into member_charge_record (id, membership_card_id, user_id,
       member_event_id, recharge_money, send_money,
       type, store_id, admin_id,
-      `explain`, updated, created,order_no
+      `explain`, updated, created,order_no,before_money
       )
     values (#{id,jdbcType=INTEGER}, #{membershipCardId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
       #{memberEventId,jdbcType=INTEGER}, #{rechargeMoney,jdbcType=DECIMAL}, #{sendMoney,jdbcType=DECIMAL},
       #{type,jdbcType=TINYINT}, #{storeId,jdbcType=INTEGER}, #{adminId,jdbcType=INTEGER},
-      #{explain,jdbcType=VARCHAR}, now(), now(),#{orderNo,jdbcType=BIGINT}
+      #{explain,jdbcType=VARCHAR}, now(), now(),#{orderNo,jdbcType=BIGINT},#{beforeMoney,jdbcType=DECIMAL}
       )
   </insert>
     <insert id="insertSelective" parameterType="com.chouchong.entity.v3.MemberChargeRecord">
