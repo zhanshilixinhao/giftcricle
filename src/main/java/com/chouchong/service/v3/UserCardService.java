@@ -59,7 +59,7 @@ public interface UserCardService {
      * @param eventId 活动id
      * @return
      */
-    Response chargeCard(Integer userId, Integer cardId, BigDecimal recharge, String explain, BigDecimal send, Integer eventId);
+    Response chargeCard(Integer userId, String phone, Integer cardId, BigDecimal recharge, String explain, BigDecimal send, Integer eventId);
     /**
      * 分店消费（线下消费）
      * @param userId 用户id
@@ -68,7 +68,7 @@ public interface UserCardService {
      * @param explain 消费说明
      * @return
      */
-    Response expenseCard(Integer userId, Integer cardId, BigDecimal expense, String explain);
+    Response expenseCard(Integer userId,String phone,  Integer cardId, BigDecimal expense, String explain);
 
 
     /**

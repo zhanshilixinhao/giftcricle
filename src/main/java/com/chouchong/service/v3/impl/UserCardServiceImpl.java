@@ -204,7 +204,7 @@ public class UserCardServiceImpl implements UserCardService {
      * @return
      */
     @Override
-    public Response chargeCard(Integer userId, Integer cardId, BigDecimal recharge,
+    public Response chargeCard(Integer userId, String phone, Integer cardId, BigDecimal recharge,
                                String explain, BigDecimal send, Integer eventId) {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         Integer adminId = webUserInfo.getSysAdmin().getId();
@@ -215,6 +215,14 @@ public class UserCardServiceImpl implements UserCardService {
         }
         if (send == null) {
             send = new BigDecimal("0");
+        }
+        // 如果用户id为空
+        if(userId == null && !StringUtils.isEmpty(phone)){
+            AppUser appUser = appUserMapper.selectByPhone1(phone);
+            if (appUser == null){
+                return ResponseFactory.err("号码不对，没有查到该用户");
+            }
+            userId = appUser.getId();
         }
         Merchant merchant = merchantMapper.selectByAdminId(webUserInfo.getSysAdmin().getCreateAdminId());
         // 更新余额
@@ -261,7 +269,7 @@ public class UserCardServiceImpl implements UserCardService {
      * @return
      */
     @Override
-    public Response expenseCard(Integer userId, Integer cardId, BigDecimal expense, String explain) {
+    public Response expenseCard(Integer userId,String phone,  Integer cardId, BigDecimal expense, String explain) {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         Integer adminId = webUserInfo.getSysAdmin().getId();
         Store store = storeMapper.selectByAdminId(adminId);
@@ -270,6 +278,14 @@ public class UserCardServiceImpl implements UserCardService {
             storeId = store.getId();
         }
         Merchant merchant = merchantMapper.selectByAdminId(webUserInfo.getSysAdmin().getCreateAdminId());
+        // 如果用户id为空
+        if(userId == null && !StringUtils.isEmpty(phone)){
+            AppUser appUser = appUserMapper.selectByPhone1(phone);
+            if (appUser == null){
+                return ResponseFactory.err("号码不对，没有查到该用户");
+            }
+            userId = appUser.getId();
+        }
         // 更新余额
         UserMemberCard card = updateBalance(userId, cardId, (byte) 2, expense, new BigDecimal("0"));
         // 添加消费记录

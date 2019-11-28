@@ -4,12 +4,14 @@ import com.chouchong.common.OrderHelper;
 import com.chouchong.common.PageQuery;
 import com.chouchong.common.Response;
 import com.chouchong.common.ResponseFactory;
+import com.chouchong.dao.iwant.appUser.AppUserMapper;
 import com.chouchong.dao.iwant.merchant.MerchantMapper;
 import com.chouchong.dao.v3.MemberCardMapper;
 import com.chouchong.dao.v3.MemberEventMapper;
 import com.chouchong.dao.v3.MembershipCardMapper;
 import com.chouchong.dao.v3.StoreMapper;
 import com.chouchong.dao.webUser.SysAdminRoleMapper;
+import com.chouchong.entity.iwant.appUser.AppUser;
 import com.chouchong.entity.iwant.merchant.Merchant;
 import com.chouchong.entity.v3.MemberCard;
 import com.chouchong.entity.v3.MemberEvent;
@@ -63,6 +65,9 @@ public class CardServiceImpl implements CardService {
 
     @Autowired
     private MerchantMapper merchantMapper;
+
+    @Autowired
+    private AppUserMapper appUserMapper;
 
     /**
      * 获取会员卡列表
@@ -129,7 +134,7 @@ public class CardServiceImpl implements CardService {
             return ResponseFactory.suc();
         }
         List<Integer> list = new ArrayList<>();
-        List<MembershipCard> cardList = membershipCardMapper.selectByAdminId(createdAdminId);
+        List<MembershipCard> cardList = membershipCardMapper.selectByAdminId1(createdAdminId);
         if (!CollectionUtils.isEmpty(cardList)) {
             for (MembershipCard card : cardList) {
                 // 分店卡
@@ -173,6 +178,8 @@ public class CardServiceImpl implements CardService {
             return ResponseFactory.sucData(cardVos);
         }
     }
+
+
 
     /**
      * 添加会员卡

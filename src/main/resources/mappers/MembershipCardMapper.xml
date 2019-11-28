@@ -97,6 +97,13 @@ select
 from membership_card
 where id = 0
   </select>
+
+    <select id="selectByAdminId1" resultType="com.chouchong.entity.v3.MembershipCard">
+select
+        id, card_no, title, summary, colour, logo, store_ids, admin_id, type, status, updated, created
+from membership_card
+where admin_id = #{createdAdminId}
+  </select>
     <select id="selectBySearchStore" resultType="com.chouchong.service.v3.vo.CardVo">
         select id,
         card_no,

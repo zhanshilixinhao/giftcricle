@@ -5,6 +5,7 @@ import com.chouchong.common.Response;
 import com.chouchong.common.ResponseFactory;
 import com.chouchong.entity.v3.UserMemberCard;
 import com.chouchong.service.v3.UserCardService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -86,12 +87,15 @@ public class UserCardController {
      * @return
      */
     @PostMapping("charge")
-    public Response chargeCard(Integer userId, Integer cardId, BigDecimal recharge,String explain,
+    public Response chargeCard(Integer userId, String phone,Integer cardId, BigDecimal recharge,String explain,
                                BigDecimal send,Integer eventId){
-        if ( userId == null || cardId == null||recharge == null){
+        if ( cardId == null||recharge == null){
             return ResponseFactory.errMissingParameter();
         }
-        return userCardService.chargeCard(userId,cardId,recharge,explain,send,eventId);
+        if(userId == null && StringUtils.isBlank(phone)){
+            return ResponseFactory.errMissingParameter();
+        }
+        return userCardService.chargeCard(userId,phone,cardId,recharge,explain,send,eventId);
     }
 
     /**
@@ -103,11 +107,14 @@ public class UserCardController {
      * @return
      */
     @PostMapping("expense")
-    public Response expenseCard(Integer userId, Integer cardId, BigDecimal expense,String explain){
-        if ( userId == null || cardId == null||expense == null){
+    public Response expenseCard(Integer userId,String phone, Integer cardId, BigDecimal expense,String explain){
+        if (cardId == null||expense == null){
             return ResponseFactory.errMissingParameter();
         }
-        return userCardService.expenseCard(userId,cardId,expense,explain);
+        if(userId == null && StringUtils.isBlank(phone)){
+            return ResponseFactory.errMissingParameter();
+        }
+        return userCardService.expenseCard(userId,phone,cardId,expense,explain);
     }
 
     /**

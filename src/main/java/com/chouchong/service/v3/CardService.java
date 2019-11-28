@@ -74,4 +74,6 @@ public interface CardService {
      * @return
      */
     Response getCardList1(Long cardNo, String title, PageQuery page, Integer type);
+
+
 }

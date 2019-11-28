@@ -31,4 +31,5 @@ public interface MembershipCardMapper {
     CardVo selectById(@Param("cardId") Integer cardId);
 
     List<MembershipCard> selectByAdminId(Integer createdAdminId);
+    List<MembershipCard> selectByAdminId1(Integer createdAdminId);
 }
