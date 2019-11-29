@@ -42,10 +42,7 @@ public class ChargeReVo {
 
     private Date created;
 
-    private BigDecimal appTotalCh;
-    private BigDecimal appTotalSen;
-    private BigDecimal storeTotalCh;
-    private BigDecimal storeTotalSen;
+    private Long orderNo;
 
     public Integer getId() {
         return id;
@@ -175,35 +172,11 @@ public class ChargeReVo {
         this.cardNo = cardNo;
     }
 
-    public BigDecimal getAppTotalCh() {
-        return appTotalCh;
+    public Long getOrderNo() {
+        return orderNo;
     }
 
-    public void setAppTotalCh(BigDecimal appTotalCh) {
-        this.appTotalCh = appTotalCh;
-    }
-
-    public BigDecimal getAppTotalSen() {
-        return appTotalSen;
-    }
-
-    public void setAppTotalSen(BigDecimal appTotalSen) {
-        this.appTotalSen = appTotalSen;
-    }
-
-    public BigDecimal getStoreTotalCh() {
-        return storeTotalCh;
-    }
-
-    public void setStoreTotalCh(BigDecimal storeTotalCh) {
-        this.storeTotalCh = storeTotalCh;
-    }
-
-    public BigDecimal getStoreTotalSen() {
-        return storeTotalSen;
-    }
-
-    public void setStoreTotalSen(BigDecimal storeTotalSen) {
-        this.storeTotalSen = storeTotalSen;
+    public void setOrderNo(Long orderNo) {
+        this.orderNo = orderNo;
     }
 }

@@ -14,6 +14,7 @@ import com.chouchong.entity.v3.Store;
 import com.chouchong.service.v3.TurnoverService;
 import com.chouchong.service.v3.vo.*;
 import com.chouchong.service.webUser.vo.WebUserInfo;
+import com.chouchong.utils.BigDecimalUtil;
 import com.chouchong.utils.TimeUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,14 +60,14 @@ public class TurnoverServiceImpl implements TurnoverService {
      * 获取营业额统计列表
      *
      * @param page
-     * @param eventName 活动名称
+     * @param eventId 活动名称
      * @param title     卡标题
      * @param startTime 开始时间
      * @param endTime   结束时间
      * @return
      */
     @Override
-    public Response getTurnoverList(PageQuery page, String eventName, String title, Long startTime, Long endTime) throws ParseException {
+    public Response getTurnoverList(PageQuery page,Integer eventId, String title, Long startTime, Long endTime) throws ParseException {
         if (startTime != null) {
             startTime = TimeUtils.time(startTime);
         }
@@ -88,14 +90,21 @@ public class TurnoverServiceImpl implements TurnoverService {
                 storeId = store.getId();
             }
         }
-        TurnoverVos turnoverVos1 = storeTurnoverMapper.selectBySearch1(eventName, title, startTime, endTime,storeId,merchantId);
+        TurnoverVos turnoverVos1 = storeTurnoverMapper.selectBySearch1(eventId, title, startTime, endTime,storeId,merchantId);
         if (turnoverVos1 == null){
             turnoverVos1 = new TurnoverVos();
         }
+        if (turnoverVos1.getTotalBlagMoney() == null){
+            turnoverVos1.setTotalBlagMoney(new BigDecimal("0"));
+        }
+        if (turnoverVos1.getTotalTurnoverMoney() == null){
+            turnoverVos1.setTotalTurnoverMoney(new BigDecimal("0"));
+        }
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
-        List<TurnoverVo> turnoverVos = storeTurnoverMapper.selectBySearch(eventName, title, startTime, endTime,storeId,merchantId);
+        List<TurnoverVo> turnoverVos = storeTurnoverMapper.selectBySearch(eventId, title, startTime, endTime,storeId,merchantId);
         PageInfo pageInfo = new PageInfo<>(turnoverVos);
         turnoverVos1.setTurnoverVo(turnoverVos);
+        turnoverVos1.setTotalMoney(BigDecimalUtil.add(turnoverVos1.getTotalBlagMoney().doubleValue(),turnoverVos1.getTotalTurnoverMoney().doubleValue()));
         return ResponseFactory.page(turnoverVos1, pageInfo.getTotal(), pageInfo.getPages(),
                 pageInfo.getPageNum(), pageInfo.getPageSize());
     }

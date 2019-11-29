@@ -16,13 +16,13 @@ public interface TurnoverService {
     /**
      * 获取营业额统计列表
      * @param page
-     * @param eventName 活动名称
+     * @param eventId 活动名称
      * @param title 卡标题
      * @param startTime 开始时间
      * @param endTime 结束时间
      * @return
      */
-    Response getTurnoverList(PageQuery page, String eventName, String title,  Long startTime, Long endTime) throws ParseException;
+    Response getTurnoverList(PageQuery page, Integer eventId, String title,  Long startTime, Long endTime) throws ParseException;
 
     /**
      * 充值记录

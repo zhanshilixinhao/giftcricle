@@ -36,6 +36,16 @@ public class ExpenseReVo {
 
     private Date created;
 
+    private Long orderNo;
+
+    public Long getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(Long orderNo) {
+        this.orderNo = orderNo;
+    }
+
     public Integer getId() {
         return id;
     }

@@ -24,16 +24,16 @@ public class TurnoverController {
     /**
      * 获取营业额统计列表
      * @param page
-     * @param eventName 活动名称
+     * @param eventId 活动id
      * @param title 卡标题
      * @param startTime 开始时间
      * @param endTime 结束时间
      * @return
      */
     @PostMapping("list")
-    public Response getTurnoverList(PageQuery page, String eventName, String title,  Long startTime,
-                                    Long endTime) throws ParseException {
-        return turnoverService.getTurnoverList(page,eventName,title,startTime,endTime);
+    public Response getTurnoverList(PageQuery page, Integer eventId, String title,  Long startTime,
+                                    Long endTime,String phone,String storeName) throws ParseException {
+        return turnoverService.getTurnoverList(page,eventId,title,startTime,endTime);
     }
 
     /**

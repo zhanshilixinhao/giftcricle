@@ -52,8 +52,8 @@
         <if test="merchantId != null ">
             and b.merchant_id = #{merchantId}
         </if>
-        <if test="eventName != null and eventName != ''">
-            and f.title like concat('%',#{eventName},'%')
+        <if test="eventId != null">
+            and a.event_id = #{eventId}
         </if>
         <if test="title != null and title != ''">
             and c.title like concat('%',#{title},'%')
@@ -80,8 +80,8 @@
         <if test="merchantId != null ">
             and b.merchant_id = #{merchantId}
         </if>
-        <if test="eventName != null and eventName != ''">
-            and f.title like concat('%',#{eventName},'%')
+        <if test="eventId != null">
+            and a.event_id = #{eventId}
         </if>
         <if test="title != null and title != ''">
             and c.title like concat('%',#{title},'%')

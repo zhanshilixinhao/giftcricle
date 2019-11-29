@@ -11,6 +11,10 @@ import java.util.List;
 public class TurnoverVos {
 
    private List<TurnoverVo> turnoverVo;
+    /**
+     * 总消费金额
+     */
+   private BigDecimal totalMoney ;
 
     /**
      * /总收入
@@ -21,6 +25,14 @@ public class TurnoverVos {
      * /总营业额
      */
    private BigDecimal totalTurnoverMoney;
+
+    public BigDecimal getTotalMoney() {
+        return totalMoney;
+    }
+
+    public void setTotalMoney(BigDecimal totalMoney) {
+        this.totalMoney = totalMoney;
+    }
 
     public List<TurnoverVo> getTurnoverVo() {
         return turnoverVo;
