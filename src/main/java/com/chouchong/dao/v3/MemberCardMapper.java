@@ -2,6 +2,9 @@ package com.chouchong.dao.v3;
 
 
 import com.chouchong.entity.v3.MemberCard;
+import com.chouchong.entity.v3.MemberEvent;
+
+import java.util.List;
 
 public interface MemberCardMapper {
     int deleteByPrimaryKey(Integer id);
@@ -18,4 +21,8 @@ public interface MemberCardMapper {
 
 
     void deleteByCardId(Integer cardId);
+
+    List<MemberEvent> selectByCardIds(List<Integer> list);
+
+    List<MemberEvent> selectByCardId();
 }

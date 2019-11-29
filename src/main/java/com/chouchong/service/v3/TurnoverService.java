@@ -22,7 +22,7 @@ public interface TurnoverService {
      * @param endTime 结束时间
      * @return
      */
-    Response getTurnoverList(PageQuery page, Integer eventId, String title,  Long startTime, Long endTime) throws ParseException;
+    Response getTurnoverList(PageQuery page, Integer eventId, String title,  Long startTime, Long endTime,String phone,String storeName) throws ParseException;
 
     /**
      * 充值记录

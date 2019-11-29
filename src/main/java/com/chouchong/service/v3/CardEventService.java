@@ -91,4 +91,10 @@ public interface CardEventService {
      * @return
      */
     Response deleteCardGrade(Integer gradeId);
+
+    /**
+     * 门店会员卡活动列表
+     * @return
+     */
+    Response storeCardEvent();
 }

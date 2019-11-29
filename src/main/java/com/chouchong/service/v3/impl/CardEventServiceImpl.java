@@ -3,22 +3,21 @@ package com.chouchong.service.v3.impl;
 import com.chouchong.common.PageQuery;
 import com.chouchong.common.Response;
 import com.chouchong.common.ResponseFactory;
-import com.chouchong.dao.v3.CardGradeMapper;
-import com.chouchong.dao.v3.MemberCardGradeMapper;
-import com.chouchong.dao.v3.MemberEventMapper;
+import com.chouchong.dao.v3.*;
 import com.chouchong.dao.webUser.SysAdminRoleMapper;
-import com.chouchong.entity.v3.CardGrade;
-import com.chouchong.entity.v3.MemberCardGrade;
-import com.chouchong.entity.v3.MemberEvent;
+import com.chouchong.entity.v3.*;
 import com.chouchong.service.v3.CardEventService;
 import com.chouchong.service.v3.vo.EventVo;
+import com.chouchong.service.v3.vo.UserCardVo;
 import com.chouchong.service.webUser.vo.WebUserInfo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,6 +41,15 @@ public class CardEventServiceImpl implements CardEventService {
 
     @Autowired
     private MemberCardGradeMapper memberCardGradeMapper;
+
+    @Autowired
+    private StoreMapper storeMapper;
+
+    @Autowired
+    private MembershipCardMapper membershipCardMapper;
+
+    @Autowired
+    private MemberCardMapper memberCardMapper;
 
     /**
      * 获取活动列表
@@ -170,6 +178,41 @@ public class CardEventServiceImpl implements CardEventService {
         return ResponseFactory.sucData(eventVos);
     }
 
+    /**
+     * 门店会员卡活动列表
+     *
+     * @return
+     */
+    @Override
+    public Response storeCardEvent() {
+        WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
+        // 分店adminId
+        Integer adminId = null;
+        // 礼遇圈后台登录，所有活动
+        if (webUserInfo.getRoleId() == 2 || webUserInfo.getRoleId() == 1) {
+            List<MemberEvent> list1 = memberCardMapper.selectByCardId();
+            return ResponseFactory.sucData(list1);
+        }
+        // 公司和门店（公司创建和礼遇圈活动）
+        if (webUserInfo.getRoleId() == 3){
+            adminId = webUserInfo.getSysAdmin().getId();
+        } else {
+            adminId = webUserInfo.getSysAdmin().getCreateAdminId();
+        }
+        List<Integer> list = new ArrayList<>();
+        List<MembershipCard> cardList = membershipCardMapper.selectByAdminId(adminId);
+        if (!CollectionUtils.isEmpty(cardList)) {
+            for (MembershipCard card : cardList) {
+               list.add(card.getId());
+            }
+        }
+        if (list.size() == 0) {
+            return ResponseFactory.suc();
+        }
+        List<MemberEvent> list1 = memberCardMapper.selectByCardIds(list);
+        return ResponseFactory.sucData(list1);
+    }
+
 
     //****************************************会员卡等级***********************************************************/
 
@@ -222,10 +265,10 @@ public class CardEventServiceImpl implements CardEventService {
      */
     @Override
     public Response updateCardGrade(CardGrade grade) {
-       CardGrade cardGrade = cardGradeMapper.selectByPrimaryKey(grade.getId());
-       if (cardGrade == null){
-           return ResponseFactory.err("该等级不存在");
-       }
+        CardGrade cardGrade = cardGradeMapper.selectByPrimaryKey(grade.getId());
+        if (cardGrade == null) {
+            return ResponseFactory.err("该等级不存在");
+        }
         cardGrade.setTitle(grade.getTitle());
         cardGrade.setSummary(grade.getSummary());
         cardGrade.setGrade(grade.getGrade());
@@ -239,6 +282,7 @@ public class CardEventServiceImpl implements CardEventService {
 
     /**
      * 删除会员卡等级
+     *
      * @param gradeId 等级id
      * @return
      */

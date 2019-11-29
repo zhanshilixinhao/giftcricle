@@ -38,6 +38,26 @@ public class TurnoverVo {
 
     private Date created;
 
+    private Long orderNo;
+
+    private BigDecimal totalMoney;
+
+    public Long getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(Long orderNo) {
+        this.orderNo = orderNo;
+    }
+
+    public BigDecimal getTotalMoney() {
+        return totalMoney;
+    }
+
+    public void setTotalMoney(BigDecimal totalMoney) {
+        this.totalMoney = totalMoney;
+    }
+
     public Integer getId() {
         return id;
     }

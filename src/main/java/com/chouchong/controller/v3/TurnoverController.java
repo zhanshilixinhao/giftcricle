@@ -33,7 +33,7 @@ public class TurnoverController {
     @PostMapping("list")
     public Response getTurnoverList(PageQuery page, Integer eventId, String title,  Long startTime,
                                     Long endTime,String phone,String storeName) throws ParseException {
-        return turnoverService.getTurnoverList(page,eventId,title,startTime,endTime);
+        return turnoverService.getTurnoverList(page,eventId,title,startTime,endTime,phone,storeName);
     }
 
     /**
@@ -68,6 +68,7 @@ public class TurnoverController {
                                     Long endTime) throws ParseException {
         return turnoverService.getExpenseRecord(page,phone,storeName,cardNo,startTime,endTime);
     }
+
 
 
 

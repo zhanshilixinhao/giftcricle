@@ -113,6 +113,15 @@ public class CardEventController {
         return cardEventService.cardEvent(cardId);
     }
 
+    /**
+     * 门店会员卡活动列表
+     * @return
+     */
+    @PostMapping("store_event")
+    public Response storeCardEvent(){
+        return cardEventService.storeCardEvent();
+    }
+
  //****************************************会员卡等级***********************************************************/
     /**
      * 获取会员卡等级列表

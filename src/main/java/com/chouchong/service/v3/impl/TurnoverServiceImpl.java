@@ -67,7 +67,7 @@ public class TurnoverServiceImpl implements TurnoverService {
      * @return
      */
     @Override
-    public Response getTurnoverList(PageQuery page,Integer eventId, String title, Long startTime, Long endTime) throws ParseException {
+    public Response getTurnoverList(PageQuery page,Integer eventId, String title, Long startTime, Long endTime,String phone,String storeName) throws ParseException {
         if (startTime != null) {
             startTime = TimeUtils.time(startTime);
         }
@@ -90,7 +90,7 @@ public class TurnoverServiceImpl implements TurnoverService {
                 storeId = store.getId();
             }
         }
-        TurnoverVos turnoverVos1 = storeTurnoverMapper.selectBySearch1(eventId, title, startTime, endTime,storeId,merchantId);
+        TurnoverVos turnoverVos1 = storeTurnoverMapper.selectBySearch1(eventId, title, startTime, endTime,storeId,merchantId,phone,storeName);
         if (turnoverVos1 == null){
             turnoverVos1 = new TurnoverVos();
         }
@@ -101,7 +101,7 @@ public class TurnoverServiceImpl implements TurnoverService {
             turnoverVos1.setTotalTurnoverMoney(new BigDecimal("0"));
         }
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
-        List<TurnoverVo> turnoverVos = storeTurnoverMapper.selectBySearch(eventId, title, startTime, endTime,storeId,merchantId);
+        List<TurnoverVo> turnoverVos = storeTurnoverMapper.selectBySearch(eventId, title, startTime, endTime,storeId,merchantId,phone,storeName);
         PageInfo pageInfo = new PageInfo<>(turnoverVos);
         turnoverVos1.setTurnoverVo(turnoverVos);
         turnoverVos1.setTotalMoney(BigDecimalUtil.add(turnoverVos1.getTotalBlagMoney().doubleValue(),turnoverVos1.getTotalTurnoverMoney().doubleValue()));
