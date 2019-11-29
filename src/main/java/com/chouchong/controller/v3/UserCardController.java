@@ -29,11 +29,12 @@ public class UserCardController {
      * @param page
      * @param cardNo 卡号
      * @param phone 用户电话
+     * @param title 卡标题
      * @return
      */
     @PostMapping("list")
-    public Response getUserCardList(PageQuery page, String cardNo, String phone,Byte type){
-        return userCardService.getUserCardList(page,cardNo,phone,type);
+    public Response getUserCardList(PageQuery page, String cardNo, String phone,Byte type,String title){
+        return userCardService.getUserCardList(page,cardNo,phone,type,title);
     }
 
     /**
@@ -54,11 +55,12 @@ public class UserCardController {
      * @param page
      * @param cardNo 卡号
      * @param phone 用户电话
+     * @param title 卡标题
      * @return
      */
     @PostMapping("list_store")
-    public Response getUserCardList1(PageQuery page, String cardNo, String phone){
-        return userCardService.getUserCardList1(page,cardNo,phone);
+    public Response getUserCardList1(PageQuery page, String cardNo, String phone,String title){
+        return userCardService.getUserCardList1(page,cardNo,phone,title);
     }
 
 

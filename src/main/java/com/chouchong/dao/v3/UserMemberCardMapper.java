@@ -25,12 +25,14 @@ public interface UserMemberCardMapper {
      * @param cardNo
      * @param phone
      * @param adminId
+     * @param title
      * @return
      */
     List<UserCardVo> selectBySearch(@Param("cardNo") String cardNo, @Param("phone") String phone,
-                                    @Param("adminId") Integer adminId, @Param("type") Byte type);
+                                    @Param("adminId") Integer adminId, @Param("type") Byte type, @Param("title") String title);
 
-    List<UserCardVo> selectBySearch1(@Param("cardNo") String cardNo, @Param("phone") String phone, @Param("list") List<Integer> list);
+    List<UserCardVo> selectBySearch1(@Param("cardNo") String cardNo, @Param("phone") String phone,
+                                     @Param("list") List<Integer> list, @Param("title") String title);
 
     UserMemberCard selectByUseridcardId(@Param("userId") Integer userId, @Param("cardId") Integer cardId);
 

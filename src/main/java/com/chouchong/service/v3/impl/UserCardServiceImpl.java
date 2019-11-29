@@ -80,14 +80,14 @@ public class UserCardServiceImpl implements UserCardService {
      * @return
      */
     @Override
-    public Response getUserCardList(PageQuery page, String cardNo, String phone, Byte type) {
+    public Response getUserCardList(PageQuery page, String cardNo, String phone, Byte type,String title) {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         Integer adminId = null;
         if (webUserInfo.getRoleId() == 3) {
             adminId = webUserInfo.getSysAdmin().getId();
         }
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
-        List<UserCardVo> list = userMemberCardMapper.selectBySearch(cardNo, phone, adminId, type);
+        List<UserCardVo> list = userMemberCardMapper.selectBySearch(cardNo, phone, adminId, type,title);
         PageInfo pageInfo = new PageInfo<>(list);
         return ResponseFactory.page(list, pageInfo.getTotal(), pageInfo.getPages(),
                 pageInfo.getPageNum(), pageInfo.getPageSize());
@@ -120,7 +120,7 @@ public class UserCardServiceImpl implements UserCardService {
      * @return
      */
     @Override
-    public Response getUserCardList1(PageQuery page, String cardNo, String phone) {
+    public Response getUserCardList1(PageQuery page, String cardNo, String phone,String title) {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
 //        分店adminId
         Integer adminId = webUserInfo.getSysAdmin().getId();
@@ -147,7 +147,7 @@ public class UserCardServiceImpl implements UserCardService {
             return ResponseFactory.suc();
         }
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
-        List<UserCardVo> list1 = userMemberCardMapper.selectBySearch1(cardNo, phone, list);
+        List<UserCardVo> list1 = userMemberCardMapper.selectBySearch1(cardNo, phone, list,title);
         PageInfo pageInfo = new PageInfo<>(list1);
         return ResponseFactory.page(list1, pageInfo.getTotal(), pageInfo.getPages(),
                 pageInfo.getPageNum(), pageInfo.getPageSize());

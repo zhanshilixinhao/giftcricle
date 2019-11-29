@@ -59,6 +59,9 @@
         <if test="phone != null and phone != ''">
             and a.phone like concat('%',#{phone},'%')
         </if>
+        <if test="title != null and title != ''">
+            and b.title like concat('%',#{title},'%')
+        </if>
         <if test="cardNo != null and cardNo != ''">
             and a.card_no like concat('%',#{cardNo},'%')
         </if>
@@ -94,6 +97,9 @@
         </if>
         <if test="cardNo != null and cardNo != ''">
             and a.card_no like concat('%',#{cardNo},'%')
+        </if>
+        <if test="title != null and title != ''">
+            and b.title like concat('%',#{title},'%')
         </if>
         order by a.user_id DESC ,a.created DESC
     </select>
