@@ -310,7 +310,7 @@ public class UserCardServiceImpl implements UserCardService {
         // 添加详细记录
         int storeMemberId = detailCharge(userId, merchant.getId(), storeId, new BigDecimal("0"), cardId, new BigDecimal("0"), expense, (byte) 2, explain, expense,
                 0f, new BigDecimal("0"), (byte) 4, null,re.getOrderNo());
-        //取出之前充值的记录
+        //取出之前充值和别人转赠的记录
         List<StoreMemberCharge> charges = storeMemberChargeMapper.selectByUserIdCardId(userId, cardId);
         if (!CollectionUtils.isEmpty(charges)) {
             BigDecimal expense1 = expense;

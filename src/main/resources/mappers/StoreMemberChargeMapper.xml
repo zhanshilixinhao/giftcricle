@@ -39,7 +39,7 @@
         from store_member_charge
         where user_id = #{userId}
         and membership_card_id = #{cardId}
-        and type = 1
+        and type != 2
         and status != 3
         and status != 4
         order by created ASC
