@@ -2,6 +2,7 @@ package com.chouchong.service.v3;
 
 import com.chouchong.common.PageQuery;
 import com.chouchong.common.Response;
+import com.chouchong.entity.v3.CardRebate;
 
 import javax.xml.crypto.Data;
 import java.text.ParseException;
@@ -47,4 +48,11 @@ public interface TurnoverService {
      * @return
      */
     Response getExpenseRecord(PageQuery page, String phone, String storeName, Long cardNo, Long startTime, Long endTime) throws ParseException;
+
+    /**
+     * 退回扣款
+     * @param rebate
+     * @return
+     */
+    Response refundExpense(CardRebate rebate, String password);
 }

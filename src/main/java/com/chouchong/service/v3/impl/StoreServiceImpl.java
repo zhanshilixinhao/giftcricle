@@ -1,9 +1,7 @@
 package com.chouchong.service.v3.impl;
 
 import com.alibaba.fastjson.TypeReference;
-import com.chouchong.common.PageQuery;
-import com.chouchong.common.Response;
-import com.chouchong.common.ResponseFactory;
+import com.chouchong.common.*;
 import com.chouchong.dao.iwant.merchant.MerchantMapper;
 import com.chouchong.dao.iwant.withdraw.DistrictMapper;
 import com.chouchong.dao.v3.StoreMapper;
@@ -105,6 +103,10 @@ public class StoreServiceImpl implements StoreService {
         store1.setPhone(store.getPhone());
         store1.setArea(store.getArea());
         store1.setLinkman(store.getLinkman());
+        if (StringUtils.isNotBlank(store.getPassword())){
+            String s = Utils.toMD5(store.getPassword() + Constants.STOREPWD);
+            store1.setPassword(s);
+        }
         int insert = storeMapper.insert(store1);
         if (insert < 1) {
             return ResponseFactory.err("添加失败");
@@ -132,6 +134,10 @@ public class StoreServiceImpl implements StoreService {
         store1.setPhone(store.getPhone());
         store1.setArea(store.getArea());
         store1.setLinkman(store.getLinkman());
+        if (StringUtils.isNotBlank(store.getPassword())){
+            String s = Utils.toMD5(store.getPassword() + Constants.STOREPWD);
+            store1.setPassword(s);
+        }
         int i = storeMapper.updateByPrimaryKeySelective(store1);
         if (i < 1) {
             return ResponseFactory.err("修改失败");

@@ -13,10 +13,11 @@
             <arg column="area" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="linkman" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="password" javaType="java.lang.String" jdbcType="VARCHAR"/>
         </constructor>
     </resultMap>
     <sql id="Base_Column_List">
-    id, merchant_id, name, address, phone, created, updated, area, linkman,admin_id
+    id, merchant_id, name, address, phone, created, updated, area, linkman,admin_id,password
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -95,11 +96,11 @@
     <insert id="insert" parameterType="com.chouchong.entity.v3.Store">
     insert into store (id, merchant_id, name,
       address, phone, created,
-      updated, area, linkman,admin_id
+      updated, area, linkman,admin_id,password
       )
     values (#{id,jdbcType=INTEGER}, #{merchantId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
       #{address,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, now(),
-      now(), #{area,jdbcType=VARCHAR}, #{linkman,jdbcType=VARCHAR},#{adminId,jdbcType=INTEGER}
+      now(), #{area,jdbcType=VARCHAR}, #{linkman,jdbcType=VARCHAR},#{adminId,jdbcType=INTEGER},#{password,jdbcType=VARCHAR}
       )
   </insert>
     <insert id="insertSelective" parameterType="com.chouchong.entity.v3.Store">
@@ -135,6 +136,9 @@
             <if test="adminId != null">
                 admin_id,
             </if>
+            <if test="password != null">
+                password,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -166,6 +170,9 @@
             </if>
             <if test="adminId != null">
                 #{adminId,jdbcType=INTEGER},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -199,6 +206,9 @@
             <if test="adminId != null">
                 admin_id = #{adminId,jdbcType=INTEGER},
             </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
@@ -212,7 +222,8 @@
       updated = #{updated,jdbcType=TIMESTAMP},
       area = #{area,jdbcType=VARCHAR},
       linkman = #{linkman,jdbcType=VARCHAR},
-      admin_id = #{adminId,jdbcType=INTEGER}
+      admin_id = #{adminId,jdbcType=INTEGER},
+      password = #{password,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -12,11 +12,12 @@
             <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
             <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
             <arg column="event_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="store_charge_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
         </constructor>
     </resultMap>
     <sql id="Base_Column_List">
     id, store_member_id, blag_money, turnover_money, store_id, blag_store_id, updated,
-    created,event_id
+    created,event_id,store_charge_id
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -106,6 +107,12 @@
         </if>
         order by a.created DESC
     </select>
+    <select id="selectByStoreMId" resultType="com.chouchong.entity.v3.StoreTurnover">
+        select
+        <include refid="Base_Column_List"/>
+        from store_turnover
+        where store_member_id = #{id}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from store_turnover
     where id = #{id,jdbcType=INTEGER}
@@ -113,10 +120,10 @@
     <insert id="insert" parameterType="com.chouchong.entity.v3.StoreTurnover">
     insert into store_turnover (id, store_member_id, blag_money,
       turnover_money, store_id, blag_store_id,
-      updated, created,event_id)
+      updated, created,event_id,store_charge_id)
     values (#{id,jdbcType=INTEGER}, #{storeMemberId,jdbcType=INTEGER}, #{blagMoney,jdbcType=DECIMAL},
       #{turnoverMoney,jdbcType=DECIMAL}, #{storeId,jdbcType=INTEGER}, #{blagStoreId,jdbcType=INTEGER},
-      now(), now(),#{eventId,jdbcType=INTEGER})
+      now(), now(),#{eventId,jdbcType=INTEGER},#{storeChargeId,jdbcType=INTEGER})
   </insert>
     <insert id="insertSelective" parameterType="com.chouchong.entity.v3.StoreTurnover">
         insert into store_turnover
@@ -148,6 +155,9 @@
             <if test="eventId != null">
                 event_id,
             </if>
+            <if test="storeChargeId != null">
+                store_charge_id,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -176,6 +186,9 @@
             </if>
             <if test="eventId != null">
                 #{eventId,jdbcType=INTEGER},
+            </if>
+            <if test="storeChargeId != null">
+                #{storeChargeId,jdbcType=INTEGER},
             </if>
         </trim>
     </insert>
@@ -206,6 +219,9 @@
             <if test="eventId != null">
                 event_id = #{storeId,jdbcType=INTEGER},
             </if>
+            <if test="storeChargeId != null">
+                store_charge_id = #{storeChargeId,jdbcType=INTEGER},
+            </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
@@ -218,7 +234,8 @@
       blag_store_id = #{blagStoreId,jdbcType=INTEGER},
       updated = #{updated,jdbcType=TIMESTAMP},
       created = #{created,jdbcType=TIMESTAMP},
-      event_id = #{eventId,jdbcType=INTEGER}
+      event_id = #{eventId,jdbcType=INTEGER},
+      store_charge_id = #{storeChargeId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

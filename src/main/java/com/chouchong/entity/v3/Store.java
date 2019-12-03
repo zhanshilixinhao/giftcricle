@@ -25,7 +25,9 @@ public class Store {
 
     private String merchantName;
 
-    public Store(Integer id, Integer merchantId, String name, String address, String phone, Date created, Date updated, String area, String linkman,Integer adminId) {
+    private String password;
+
+    public Store(Integer id, Integer merchantId, String name, String address, String phone, Date created, Date updated, String area, String linkman,Integer adminId,String password) {
         this.id = id;
         this.merchantId = merchantId;
         this.name = name;
@@ -36,6 +38,15 @@ public class Store {
         this.area = area;
         this.linkman = linkman;
         this.adminId = adminId;
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getMerchantName() {

@@ -34,4 +34,6 @@ public interface MemberExpenseRecordMapper {
 
     ExpenseReVos selectBySearch1s(@Param("phone") String phone, @Param("storeName") String storeName, @Param("cardNo") Long cardNo,
                                   @Param("startTime") Long startTime, @Param("endTime") Long endTime, @Param("list") List<Integer> list);
+
+    int deleteByOrderNo(Long orderNo);
 }

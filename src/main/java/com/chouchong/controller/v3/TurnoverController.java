@@ -2,7 +2,10 @@ package com.chouchong.controller.v3;
 
 import com.chouchong.common.PageQuery;
 import com.chouchong.common.Response;
+import com.chouchong.common.ResponseFactory;
+import com.chouchong.entity.v3.CardRebate;
 import com.chouchong.service.v3.TurnoverService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -69,7 +72,19 @@ public class TurnoverController {
         return turnoverService.getExpenseRecord(page,phone,storeName,cardNo,startTime,endTime);
     }
 
-
+    /**
+     * 退回扣款
+     * @param rebate
+     * @return
+     */
+    @PostMapping("refund")
+    public Response refundExpense(CardRebate rebate,String password){
+        if (rebate.getUserId() == null || rebate.getMembershipCardId() == null || rebate.getExpenseRecordId() == null||
+        rebate.getMoney() == null ||rebate.getOrderNo() == null|| StringUtils.isAnyBlank(rebate.getExplain(),password)){
+            return ResponseFactory.errMissingParameter();
+        }
+        return turnoverService.refundExpense(rebate,password);
+    }
 
 
 }

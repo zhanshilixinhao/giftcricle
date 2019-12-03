@@ -1,16 +1,12 @@
 package com.chouchong.service.v3.impl;
 
-import com.chouchong.common.PageQuery;
-import com.chouchong.common.Response;
-import com.chouchong.common.ResponseFactory;
+import com.chouchong.common.*;
 import com.chouchong.dao.iwant.merchant.MerchantMapper;
-import com.chouchong.dao.v3.MemberChargeRecordMapper;
-import com.chouchong.dao.v3.MemberExpenseRecordMapper;
-import com.chouchong.dao.v3.StoreMapper;
-import com.chouchong.dao.v3.StoreTurnoverMapper;
+import com.chouchong.dao.v3.*;
 import com.chouchong.dao.webUser.SysAdminMapper;
 import com.chouchong.entity.iwant.merchant.Merchant;
-import com.chouchong.entity.v3.Store;
+import com.chouchong.entity.v3.*;
+import com.chouchong.exception.ServiceException;
 import com.chouchong.service.v3.TurnoverService;
 import com.chouchong.service.v3.vo.*;
 import com.chouchong.service.webUser.vo.WebUserInfo;
@@ -18,8 +14,11 @@ import com.chouchong.utils.BigDecimalUtil;
 import com.chouchong.utils.TimeUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,10 +32,14 @@ import java.util.List;
  * @date 2019/11/18
  */
 @Service
+@Transactional(rollbackFor = Exception.class, isolation = Isolation.REPEATABLE_READ)
 public class TurnoverServiceImpl implements TurnoverService {
 
     @Autowired
     private StoreTurnoverMapper storeTurnoverMapper;
+
+    @Autowired
+    private StoreMemberChargeMapper storeMemberChargeMapper;
 
     @Autowired
     private MemberChargeRecordMapper memberChargeRecordMapper;
@@ -56,18 +59,24 @@ public class TurnoverServiceImpl implements TurnoverService {
     @Autowired
     private StoreMapper storeMapper;
 
+    @Autowired
+    private CardRebateMapper cardRebateMapper;
+
+    @Autowired
+    private UserMemberCardMapper userMemberCardMapper;
+
     /**
      * 获取营业额统计列表
      *
      * @param page
-     * @param eventId 活动名称
+     * @param eventId   活动名称
      * @param title     卡标题
      * @param startTime 开始时间
      * @param endTime   结束时间
      * @return
      */
     @Override
-    public Response getTurnoverList(PageQuery page,Integer eventId, String title, Long startTime, Long endTime,String phone,String storeName) throws ParseException {
+    public Response getTurnoverList(PageQuery page, Integer eventId, String title, Long startTime, Long endTime, String phone, String storeName) throws ParseException {
         if (startTime != null) {
             startTime = TimeUtils.time(startTime);
         }
@@ -90,21 +99,21 @@ public class TurnoverServiceImpl implements TurnoverService {
                 storeId = store.getId();
             }
         }
-        TurnoverVos turnoverVos1 = storeTurnoverMapper.selectBySearch1(eventId, title, startTime, endTime,storeId,merchantId,phone,storeName);
-        if (turnoverVos1 == null){
+        TurnoverVos turnoverVos1 = storeTurnoverMapper.selectBySearch1(eventId, title, startTime, endTime, storeId, merchantId, phone, storeName);
+        if (turnoverVos1 == null) {
             turnoverVos1 = new TurnoverVos();
         }
-        if (turnoverVos1.getTotalBlagMoney() == null){
+        if (turnoverVos1.getTotalBlagMoney() == null) {
             turnoverVos1.setTotalBlagMoney(new BigDecimal("0"));
         }
-        if (turnoverVos1.getTotalTurnoverMoney() == null){
+        if (turnoverVos1.getTotalTurnoverMoney() == null) {
             turnoverVos1.setTotalTurnoverMoney(new BigDecimal("0"));
         }
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
-        List<TurnoverVo> turnoverVos = storeTurnoverMapper.selectBySearch(eventId, title, startTime, endTime,storeId,merchantId,phone,storeName);
+        List<TurnoverVo> turnoverVos = storeTurnoverMapper.selectBySearch(eventId, title, startTime, endTime, storeId, merchantId, phone, storeName);
         PageInfo pageInfo = new PageInfo<>(turnoverVos);
         turnoverVos1.setTurnoverVo(turnoverVos);
-        turnoverVos1.setTotalMoney(BigDecimalUtil.add(turnoverVos1.getTotalBlagMoney().doubleValue(),turnoverVos1.getTotalTurnoverMoney().doubleValue()));
+        turnoverVos1.setTotalMoney(BigDecimalUtil.add(turnoverVos1.getTotalBlagMoney().doubleValue(), turnoverVos1.getTotalTurnoverMoney().doubleValue()));
         return ResponseFactory.page(turnoverVos1, pageInfo.getTotal(), pageInfo.getPages(),
                 pageInfo.getPageNum(), pageInfo.getPageSize());
     }
@@ -140,7 +149,7 @@ public class TurnoverServiceImpl implements TurnoverService {
                 return ResponseFactory.suc();
             }
             ChargeReVos chargeRes1 = memberChargeRecordMapper.selectBySearch1s(phone, storeName, cardNo, startTime, endTime, list);
-            if (chargeRes1 == null){
+            if (chargeRes1 == null) {
                 chargeRes1 = new ChargeReVos();
             }
             PageHelper.startPage(page.getPageNum(), page.getPageSize());
@@ -154,7 +163,7 @@ public class TurnoverServiceImpl implements TurnoverService {
             adminId = webUserInfo.getSysAdmin().getId();
         }
         ChargeReVos chargeRes1 = memberChargeRecordMapper.selectBySearchs(phone, storeName, cardNo, startTime, endTime, adminId);
-        if (chargeRes1 == null){
+        if (chargeRes1 == null) {
             chargeRes1 = new ChargeReVos();
         }
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
@@ -196,7 +205,7 @@ public class TurnoverServiceImpl implements TurnoverService {
                 return ResponseFactory.suc();
             }
             ExpenseReVos expenseRes1 = memberExpenseRecordMapper.selectBySearch1s(phone, storeName, cardNo, startTime, endTime, list);
-            if (expenseRes1 == null){
+            if (expenseRes1 == null) {
                 expenseRes1 = new ExpenseReVos();
             }
             PageHelper.startPage(page.getPageNum(), page.getPageSize());
@@ -209,7 +218,7 @@ public class TurnoverServiceImpl implements TurnoverService {
             adminId = webUserInfo.getSysAdmin().getId();
         }
         ExpenseReVos expenseRes1 = memberExpenseRecordMapper.selectBySearchs(phone, storeName, cardNo, startTime, endTime, adminId);
-        if (expenseRes1 == null){
+        if (expenseRes1 == null) {
             expenseRes1 = new ExpenseReVos();
         }
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
@@ -219,4 +228,108 @@ public class TurnoverServiceImpl implements TurnoverService {
         return ResponseFactory.page(expenseRes1, pageInfo.getTotal(), pageInfo.getPages(),
                 pageInfo.getPageNum(), pageInfo.getPageSize());
     }
+
+
+    /**
+     * 退回扣款
+     *
+     * @param rebate
+     * @return
+     */
+    @Override
+    public Response refundExpense(CardRebate rebate, String password) {
+        WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
+        Integer adminId = webUserInfo.getSysAdmin().getId();
+        // 查询门店信息
+        Store store = storeMapper.selectByAdminId(adminId);
+        if (store == null) {
+            return ResponseFactory.err("操作失败！");
+        }
+        if (StringUtils.isBlank(store.getPassword())) {
+            return ResponseFactory.err("未设置密码，请联系公司设置密码！");
+        }
+        // 校验密码
+        String s = Utils.toMD5(password + Constants.STOREPWD);
+        if (!s.equals(store.getPhone())) {
+            return ResponseFactory.err("密码错误！");
+        }
+        // 退款
+        // 退回门店金额详情表消费,并删除，删除营业额记录
+        rebateStoreMemberCharge(rebate.getMembershipCardId(),rebate.getUserId(),rebate.getOrderNo());
+        // 删除消费记录
+        int i = memberExpenseRecordMapper.deleteByOrderNo(rebate.getOrderNo());
+        if (i < 1) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "删除消费记录失败");
+        }
+        // 退回用户余额
+        UserMemberCard user = userMemberCardMapper.selectByUseridcardId(rebate.getUserId(), rebate.getMembershipCardId());
+        if (user != null){
+
+        }
+        // 添加退款记录
+        rebate.setStatus((byte) 1);
+        rebate.setAdminId(adminId);
+        addCardRebate(rebate);
+    }
+
+    /**
+     * 退回门店金额详情表消费
+     *
+     * @param cardId  会员卡id
+     * @param userId  用户id
+     * @param orderNo 订单号
+     */
+    private void rebateStoreMemberCharge(Integer cardId, Integer userId, Long orderNo) {
+        // 查询消费详情记录
+        StoreMemberCharge charge = storeMemberChargeMapper.selectByUserIdCardIdOrderNo(cardId, userId, orderNo);
+        if (charge == null) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "金额详情记录不存在");
+        }
+        List<StoreTurnover> lists = storeTurnoverMapper.selectByStoreMId(charge.getId());
+        if (!CollectionUtils.isEmpty(lists)) {
+            for (StoreTurnover list : lists) {
+                // 总扣款金额
+                BigDecimal add = BigDecimalUtil.add(list.getBlagMoney().doubleValue(), list.getTurnoverMoney().doubleValue());
+                // 查询被扣款的记录并更新记录
+                StoreMemberCharge charge1 = storeMemberChargeMapper.selectByPrimaryKey(list.getStoreChargeId());
+                if (charge1 != null) {
+                    // 退回余额
+                    BigDecimal balance = BigDecimalUtil.add(charge1.getBalance().doubleValue(), add.doubleValue());
+                    charge1.setBalance(balance);
+                    if (balance.compareTo(charge1.getTotalMoney()) == 0) {
+                        charge1.setStatus((byte) 1);
+                    } else {
+                        charge1.setStatus((byte) 2);
+                    }
+                    int i = storeMemberChargeMapper.updateByPrimaryKeySelective(charge1);
+                    if (i < 1) {
+                        throw new ServiceException(ErrorCode.ERROR.getCode(), "更新失败");
+                    }
+                }
+                // 删除营业额记录
+                int i = storeTurnoverMapper.deleteByPrimaryKey(list.getId());
+                if (i < 1) {
+                    throw new ServiceException(ErrorCode.ERROR.getCode(), "删除营业额记录失败");
+                }
+            }
+        }
+        //删除门店详情扣款记录
+        int i = storeMemberChargeMapper.deleteByPrimaryKey(charge.getId());
+        if (i < 1) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "删除门店详情扣款记录失败");
+        }
+    }
+
+    /**
+     * 添加退款记录
+     *
+     * @param rebate
+     */
+    private void addCardRebate(CardRebate rebate) {
+        int insert = cardRebateMapper.insert(rebate);
+        if (insert < 1) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "添加退款记录失败");
+        }
+    }
+
 }

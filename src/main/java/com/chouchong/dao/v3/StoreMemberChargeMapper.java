@@ -21,4 +21,7 @@ public interface StoreMemberChargeMapper {
 
     List<StoreMemberCharge> selectByUserIdCardId(@Param("userId") Integer userId, @Param("cardId") Integer cardId);
 
+    StoreMemberCharge selectByUserIdCardIdOrderNo(@Param("cardId") Integer cardId,
+                                                  @Param("userId") Integer userId,
+                                                  @Param("orderNo") Long orderNo);
 }
