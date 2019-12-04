@@ -26,6 +26,79 @@
     from card_rebate
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectBySearch" resultType="com.chouchong.service.v3.vo.RefundVo">
+    select a.id,
+       a.user_id,
+       a.membership_card_id,
+       a.`explain`,
+       a.money,
+       a.created,
+       c.title,
+       d.nickname,
+       d.phone,
+       e.name as storeName,
+       g.card_no
+from card_rebate a
+         left join membership_card c on a.membership_card_id = c.id
+         left join app_user d on d.id = a.user_id
+         left join store e on a.admin_id = e.admin_id
+         left join user_member_card g on a.user_id = g.user_id and a.membership_card_id = g.membership_card_id
+    where a.status = 1
+    <if test="adminId != null ">
+      and a.admin_id = #{adminId}
+    </if>
+    <if test="phone != null and phone != ''">
+      and d.phone like concat('%',#{phone},'%')
+    </if>
+    <if test="storeName != null and storeName != ''">
+      and e.name like concat('%',#{storeName},'%')
+    </if>
+    <if test="cardNo != null">
+      and g.card_no like concat('%',#{cardNo},'%')
+    </if>
+    <if test="startTime != null and endTime != null">
+      and unix_timestamp(a.created) &gt;= #{startTime}
+      and unix_timestamp(a.created) &lt; #{endTime}
+    </if>
+    order by a.created DESC
+  </select>
+  <select id="selectBySearch1" resultType="com.chouchong.service.v3.vo.RefundVo">
+        select a.id,
+       a.user_id,
+       a.membership_card_id,
+       a.`explain`,
+       a.money,
+       a.created,
+       c.title,
+       d.nickname,
+       d.phone,
+       e.name as storeName,
+       g.card_no
+from card_rebate a
+         left join membership_card c on a.membership_card_id = c.id
+         left join app_user d on d.id = a.user_id
+         left join store e on a.admin_id = e.admin_id
+         left join user_member_card g on a.user_id = g.user_id and a.membership_card_id = g.membership_card_id
+    where a.status = 1
+    and a.admin_id in
+    <foreach collection="list" open="(" close=")" item="list" separator="," index="index">
+      #{list}
+    </foreach>
+    <if test="phone != null and phone != ''">
+      and d.phone like concat('%',#{phone},'%')
+    </if>
+    <if test="storeName != null and storeName != ''">
+      and e.name like concat('%',#{storeName},'%')
+    </if>
+    <if test="cardNo != null">
+      and g.card_no like concat('%',#{cardNo},'%')
+    </if>
+    <if test="startTime != null and endTime != null">
+      and unix_timestamp(a.created) &gt;= #{startTime}
+      and unix_timestamp(a.created) &lt; #{endTime}
+    </if>
+    order by a.created DESC
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from card_rebate
     where id = #{id,jdbcType=INTEGER}
@@ -38,7 +111,7 @@
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{membershipCardId,jdbcType=INTEGER},
       #{explain,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{expenseRecordId,jdbcType=INTEGER},
       #{money,jdbcType=DECIMAL}, #{orderNo,jdbcType=BIGINT}, #{adminId,jdbcType=INTEGER},
-      #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP})
+      now(), now())
   </insert>
   <insert id="insertSelective" parameterType="com.chouchong.entity.v3.CardRebate">
     insert into card_rebate

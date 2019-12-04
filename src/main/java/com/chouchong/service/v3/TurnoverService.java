@@ -55,4 +55,17 @@ public interface TurnoverService {
      * @return
      */
     Response refundExpense(CardRebate rebate, String password);
+
+    /**
+     * 退款记录
+     *
+     * @param page
+     * @param phone     电话号码
+     * @param storeName 门店名称
+     * @param cardNo    卡号
+     * @param startTime 开始时间
+     * @param endTime   结束时间
+     * @return
+     */
+    Response getRefundExpense(PageQuery page, String phone, String storeName, Long cardNo, Long startTime, Long endTime) throws ParseException;
 }

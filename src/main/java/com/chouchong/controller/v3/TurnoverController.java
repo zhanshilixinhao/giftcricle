@@ -26,64 +26,86 @@ public class TurnoverController {
 
     /**
      * 获取营业额统计列表
+     *
      * @param page
-     * @param eventId 活动id
-     * @param title 卡标题
+     * @param eventId   活动id
+     * @param title     卡标题
      * @param startTime 开始时间
-     * @param endTime 结束时间
+     * @param endTime   结束时间
      * @return
      */
     @PostMapping("list")
-    public Response getTurnoverList(PageQuery page, Integer eventId, String title,  Long startTime,
-                                    Long endTime,String phone,String storeName) throws ParseException {
-        return turnoverService.getTurnoverList(page,eventId,title,startTime,endTime,phone,storeName);
+    public Response getTurnoverList(PageQuery page, Integer eventId, String title, Long startTime,
+                                    Long endTime, String phone, String storeName) throws ParseException {
+        return turnoverService.getTurnoverList(page, eventId, title, startTime, endTime, phone, storeName);
     }
 
     /**
      * 充值记录
+     *
      * @param page
-     * @param phone 电话号码
+     * @param phone     电话号码
      * @param storeName 门店名称
-     * @param cardNo 卡号
+     * @param cardNo    卡号
      * @param startTime 开始时间
-     * @param endTime 结束时间
+     * @param endTime   结束时间
      * @return
      */
     @PostMapping("record_list")
-    public Response getChargeRecord(PageQuery page, String phone, String storeName,  Long cardNo,Long startTime,
+    public Response getChargeRecord(PageQuery page, String phone, String storeName, Long cardNo, Long startTime,
                                     Long endTime) throws ParseException {
-        return turnoverService.getChargeRecord(page,phone,storeName,cardNo,startTime,endTime);
+        return turnoverService.getChargeRecord(page, phone, storeName, cardNo, startTime, endTime);
     }
 
 
     /**
      * 扣款记录
+     *
      * @param page
-     * @param phone 电话号码
+     * @param phone     电话号码
      * @param storeName 门店名称
-     * @param cardNo 卡号
+     * @param cardNo    卡号
      * @param startTime 开始时间
-     * @param endTime 结束时间
+     * @param endTime   结束时间
      * @return
      */
     @PostMapping("expense_list")
-    public Response getExpenseRecord(PageQuery page, String phone, String storeName,  Long cardNo,Long startTime,
-                                    Long endTime) throws ParseException {
-        return turnoverService.getExpenseRecord(page,phone,storeName,cardNo,startTime,endTime);
+    public Response getExpenseRecord(PageQuery page, String phone, String storeName, Long cardNo, Long startTime,
+                                     Long endTime) throws ParseException {
+        return turnoverService.getExpenseRecord(page, phone, storeName, cardNo, startTime, endTime);
     }
 
     /**
+     * 退款记录
+     *
+     * @param page
+     * @param phone     电话号码
+     * @param storeName 门店名称
+     * @param cardNo    卡号
+     * @param startTime 开始时间
+     * @param endTime   结束时间
+     * @return
+     */
+    @PostMapping("refund_list")
+    public Response getRefundExpense(PageQuery page, String phone, String storeName, Long cardNo, Long startTime,
+                                     Long endTime) throws ParseException {
+        return turnoverService.getRefundExpense(page, phone, storeName, cardNo, startTime, endTime);
+    }
+
+
+    /**
      * 退回扣款
+     *
      * @param rebate
      * @return
      */
     @PostMapping("refund")
-    public Response refundExpense(CardRebate rebate,String password){
-        if (rebate.getUserId() == null || rebate.getMembershipCardId() == null || rebate.getExpenseRecordId() == null||
-        rebate.getMoney() == null ||rebate.getOrderNo() == null|| StringUtils.isAnyBlank(rebate.getExplain(),password)){
+    public Response refundExpense(CardRebate rebate, String password) {
+        if (rebate.getUserId() == null || rebate.getMembershipCardId() == null || rebate.getExpenseRecordId() == null ||
+                rebate.getMoney() == null || rebate.getOrderNo() == null || StringUtils.isAnyBlank(rebate.getExplain(), password)) {
             return ResponseFactory.errMissingParameter();
         }
-        return turnoverService.refundExpense(rebate,password);
+        return turnoverService.refundExpense(rebate, password);
     }
 
 

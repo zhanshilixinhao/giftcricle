@@ -231,6 +231,50 @@ public class TurnoverServiceImpl implements TurnoverService {
 
 
     /**
+     * 退款记录
+     *
+     * @param page
+     * @param phone     电话号码
+     * @param storeName 门店名称
+     * @param cardNo    卡号
+     * @param startTime 开始时间
+     * @param endTime   结束时间
+     * @return
+     */
+    @Override
+    public Response getRefundExpense(PageQuery page, String phone, String storeName, Long cardNo, Long startTime, Long endTime) throws ParseException {
+        if (startTime != null) {
+            startTime = TimeUtils.time(startTime);
+        }
+        if (endTime != null) {
+            endTime = TimeUtils.timeEnd(endTime);
+        }
+        // 角色
+        WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
+        Integer adminId = null;
+        // 商家
+        if (webUserInfo.getRoleId() == 3) {
+            Integer cAdminId = webUserInfo.getSysAdmin().getId();
+            List<Integer> list = sysAdminMapper.selectIdByCreatedId(cAdminId);
+            if (list.size() == 0) {
+                return ResponseFactory.suc();
+            }
+            PageHelper.startPage(page.getPageNum(), page.getPageSize());
+            List<RefundVo> refundVos = cardRebateMapper.selectBySearch1(phone, storeName, cardNo, startTime, endTime, list);
+            PageInfo pageInfo = new PageInfo<>(refundVos);
+            return ResponseFactory.page(refundVos, pageInfo.getTotal(), pageInfo.getPages(),
+                    pageInfo.getPageNum(), pageInfo.getPageSize());
+        } else if (webUserInfo.getRoleId() == 5) {
+            adminId = webUserInfo.getSysAdmin().getId();
+        }
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        List<RefundVo> refundVos = cardRebateMapper.selectBySearch(phone, storeName, cardNo, startTime, endTime, adminId);
+        PageInfo pageInfo = new PageInfo<>(refundVos);
+        return ResponseFactory.page(refundVos, pageInfo.getTotal(), pageInfo.getPages(),
+                pageInfo.getPageNum(), pageInfo.getPageSize());
+    }
+
+    /**
      * 退回扣款
      *
      * @param rebate
