@@ -18,6 +18,7 @@ import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -74,6 +75,11 @@ public class StoreServiceImpl implements StoreService {
         }
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
         List<Store> stores = storeMapper.selectBySearch(adminId, merchantId, name, address, merchant1);
+        if (!CollectionUtils.isEmpty(stores)){
+            for (Store store : stores) {
+                store.setPassword(null);
+            }
+        }
         PageInfo pageInfo = new PageInfo<>(stores);
         return ResponseFactory.page(stores, pageInfo.getTotal(), pageInfo.getPages(),
                 pageInfo.getPageNum(), pageInfo.getPageSize());

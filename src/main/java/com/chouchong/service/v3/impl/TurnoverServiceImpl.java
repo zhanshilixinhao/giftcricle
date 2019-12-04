@@ -250,26 +250,31 @@ public class TurnoverServiceImpl implements TurnoverService {
         }
         // 校验密码
         String s = Utils.toMD5(password + Constants.STOREPWD);
-        if (!s.equals(store.getPhone())) {
+        if (!store.getPassword().equals(s)) {
             return ResponseFactory.err("密码错误！");
         }
         // 退款
         // 退回门店金额详情表消费,并删除，删除营业额记录
         rebateStoreMemberCharge(rebate.getMembershipCardId(),rebate.getUserId(),rebate.getOrderNo());
         // 删除消费记录
-        int i = memberExpenseRecordMapper.deleteByOrderNo(rebate.getOrderNo());
+        int i = memberExpenseRecordMapper.deleteByPrimaryKey(rebate.getExpenseRecordId());
         if (i < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "删除消费记录失败");
         }
         // 退回用户余额
         UserMemberCard user = userMemberCardMapper.selectByUseridcardId(rebate.getUserId(), rebate.getMembershipCardId());
         if (user != null){
-
+            user.setBalance(BigDecimalUtil.add(user.getBalance().doubleValue(),rebate.getMoney().doubleValue()));
+            int i1 = userMemberCardMapper.updateByPrimaryKeySelective(user);
+            if (i1 < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "退回用户余额失败");
+            }
         }
         // 添加退款记录
         rebate.setStatus((byte) 1);
         rebate.setAdminId(adminId);
         addCardRebate(rebate);
+        return ResponseFactory.sucMsg("退款成功");
     }
 
     /**

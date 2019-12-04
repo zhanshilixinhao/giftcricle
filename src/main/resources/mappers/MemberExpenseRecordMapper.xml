@@ -176,10 +176,7 @@ order by a.created DESC
     delete from member_expense_record
     where id = #{id,jdbcType=INTEGER}
   </delete>
-    <delete id="deleteByOrderNo">
-        delete from member_expense_record
-    where order_no = #{orderNo}
-    </delete>
+
     <insert id="insert" parameterType="com.chouchong.entity.v3.MemberExpenseRecord">
     insert into member_expense_record (id, membership_card_id, user_id,
       expense_money, type, store_id,

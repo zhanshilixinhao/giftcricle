@@ -17,7 +17,7 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, membership_card_id, explain, status, expense_record_id, money, order_no,
+    id, user_id, membership_card_id, `explain`, status, expense_record_id, money, order_no,
     admin_id, updated, created
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -32,7 +32,7 @@
   </delete>
   <insert id="insert" parameterType="com.chouchong.entity.v3.CardRebate">
     insert into card_rebate (id, user_id, membership_card_id,
-      explain, status, expense_record_id,
+      `explain`, status, expense_record_id,
       money, order_no, admin_id,
       updated, created)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{membershipCardId,jdbcType=INTEGER},
@@ -53,7 +53,7 @@
         membership_card_id,
       </if>
       <if test="explain != null">
-        explain,
+        `explain`,
       </if>
       <if test="status != null">
         status,
