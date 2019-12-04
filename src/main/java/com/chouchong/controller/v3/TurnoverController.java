@@ -3,15 +3,26 @@ package com.chouchong.controller.v3;
 import com.chouchong.common.PageQuery;
 import com.chouchong.common.Response;
 import com.chouchong.common.ResponseFactory;
+import com.chouchong.common.v3.ExcelUtils;
 import com.chouchong.entity.v3.CardRebate;
 import com.chouchong.service.v3.TurnoverService;
+import com.chouchong.service.v3.vo.RefundVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author linqin
@@ -84,12 +95,49 @@ public class TurnoverController {
      * @param cardNo    卡号
      * @param startTime 开始时间
      * @param endTime   结束时间
+     * @param isExport  是否导出
      * @return
      */
-    @PostMapping("refund_list")
+    @RequestMapping("refund_list")
     public Response getRefundExpense(PageQuery page, String phone, String storeName, Long cardNo, Long startTime,
-                                     Long endTime) throws ParseException {
-        return turnoverService.getRefundExpense(page, phone, storeName, cardNo, startTime, endTime);
+                                     Long endTime, Integer isExport, HttpServletRequest request, HttpServletResponse respon) throws ParseException, IOException {
+        Response response = turnoverService.getRefundExpense(page, phone, storeName, cardNo, startTime, endTime, isExport);
+        if (response.getData() != null) {
+            List<RefundVo> refundVos = (List<RefundVo>) response.getData();
+            if (!CollectionUtils.isEmpty(refundVos) && isExport != null) {
+                List<Map<String, Object>> list = new ArrayList<>();
+                int i = 1;
+                for (RefundVo vo : refundVos) {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("index", i++);
+                    map.put("nickname", vo.getNickname());
+                    map.put("cardNo", vo.getCardNo());
+                    map.put("phone", vo.getPhone());
+                    map.put("money", vo.getPhone());
+                    map.put("storeName", vo.getStoreName());
+                    map.put("title", vo.getTitle());
+                    map.put("explain", vo.getExplain());
+                    map.put("created", vo.getCreated());
+                    list.add(map);
+                }
+
+                ExcelUtils.preExport(request, respon, "退款记录");
+                ExcelUtils.exportExcel2("退款记录",
+                        new ExcelUtils.Header[]{
+                                ExcelUtils.Header.h("index", "序号"),
+                                ExcelUtils.Header.h("nickname", "用户昵称"),
+                                ExcelUtils.Header.h("cardNo", "卡号"),
+                                ExcelUtils.Header.h("phone", "用户电话"),
+                                ExcelUtils.Header.h("money", "退款金额"),
+                                ExcelUtils.Header.h("storeName", "退款门店"),
+                                ExcelUtils.Header.h("title", "会员卡"),
+                                ExcelUtils.Header.h("explain", "退款说明"),
+                                ExcelUtils.Header.h("created", "退款时间"),
+                        }, list, respon.getOutputStream(), "yyyy-MM-dd HH:mm:ss");
+                return null;
+            }
+        }
+        return response;
     }
 
 

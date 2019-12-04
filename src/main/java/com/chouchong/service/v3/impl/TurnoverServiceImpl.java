@@ -242,7 +242,7 @@ public class TurnoverServiceImpl implements TurnoverService {
      * @return
      */
     @Override
-    public Response getRefundExpense(PageQuery page, String phone, String storeName, Long cardNo, Long startTime, Long endTime) throws ParseException {
+    public Response getRefundExpense(PageQuery page, String phone, String storeName, Long cardNo, Long startTime, Long endTime,Integer isExport) throws ParseException {
         if (startTime != null) {
             startTime = TimeUtils.time(startTime);
         }
@@ -259,7 +259,9 @@ public class TurnoverServiceImpl implements TurnoverService {
             if (list.size() == 0) {
                 return ResponseFactory.suc();
             }
-            PageHelper.startPage(page.getPageNum(), page.getPageSize());
+            if (isExport == null){
+                PageHelper.startPage(page.getPageNum(), page.getPageSize());
+            }
             List<RefundVo> refundVos = cardRebateMapper.selectBySearch1(phone, storeName, cardNo, startTime, endTime, list);
             PageInfo pageInfo = new PageInfo<>(refundVos);
             return ResponseFactory.page(refundVos, pageInfo.getTotal(), pageInfo.getPages(),
@@ -267,7 +269,9 @@ public class TurnoverServiceImpl implements TurnoverService {
         } else if (webUserInfo.getRoleId() == 5) {
             adminId = webUserInfo.getSysAdmin().getId();
         }
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        if (isExport == null){
+            PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        }
         List<RefundVo> refundVos = cardRebateMapper.selectBySearch(phone, storeName, cardNo, startTime, endTime, adminId);
         PageInfo pageInfo = new PageInfo<>(refundVos);
         return ResponseFactory.page(refundVos, pageInfo.getTotal(), pageInfo.getPages(),

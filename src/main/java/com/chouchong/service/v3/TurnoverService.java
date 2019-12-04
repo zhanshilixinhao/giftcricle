@@ -67,5 +67,5 @@ public interface TurnoverService {
      * @param endTime   结束时间
      * @return
      */
-    Response getRefundExpense(PageQuery page, String phone, String storeName, Long cardNo, Long startTime, Long endTime) throws ParseException;
+    Response getRefundExpense(PageQuery page, String phone, String storeName, Long cardNo, Long startTime, Long endTime,Integer isExport) throws ParseException;
 }
