@@ -6,7 +6,7 @@ import com.chouchong.common.ResponseFactory;
 import com.chouchong.common.v3.ExcelUtils;
 import com.chouchong.entity.v3.CardRebate;
 import com.chouchong.service.v3.TurnoverService;
-import com.chouchong.service.v3.vo.RefundVo;
+import com.chouchong.service.v3.vo.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
@@ -45,10 +45,50 @@ public class TurnoverController {
      * @param endTime   结束时间
      * @return
      */
-    @PostMapping("list")
+    @RequestMapping("list")
     public Response getTurnoverList(PageQuery page, Integer eventId, String title, Long startTime,
-                                    Long endTime, String phone, String storeName) throws ParseException {
-        return turnoverService.getTurnoverList(page, eventId, title, startTime, endTime, phone, storeName);
+                                    Long endTime, String phone, String storeName,Integer isExport,HttpServletRequest request,
+                                    HttpServletResponse respon) throws ParseException, IOException {
+        Response response = turnoverService.getTurnoverList(page, eventId, title, startTime, endTime, phone, storeName, isExport);
+        if (response.getData() instanceof TurnoverVos && ((TurnoverVos) response.getData()).getTurnoverVo() != null){
+            List<TurnoverVo> vos = ((TurnoverVos) response.getData()).getTurnoverVo();
+            if (!CollectionUtils.isEmpty(vos) && isExport != null){
+                List<Map<String, Object>> list = new ArrayList<>();
+                int i = 1;
+                for (TurnoverVo vo : vos) {
+                    Map<String ,Object> map = new HashMap<>();
+                    map.put("index", i++);
+                    map.put("totalMoney", vo.getTotalMoney());
+                    map.put("blagMoney", vo.getBlagMoney());
+                    map.put("turnoverMoney", vo.getTurnoverMoney());
+                    map.put("orderNo", vo.getOrderNo());
+                    map.put("eventName", vo.getEventName());
+                    map.put("storeName", vo.getStoreName());
+                    map.put("title", vo.getTitle());
+                    map.put("nickname", vo.getNickname());
+                    map.put("phone", vo.getPhone());
+                    map.put("created", vo.getCreated());
+                    list.add(map);
+                }
+
+                ExcelUtils.preExport(request, respon, "收入及营销费用");
+                ExcelUtils.exportExcel2("收入及营销费用", new ExcelUtils.Header[]{
+                        ExcelUtils.Header.h("index", "序号"),
+                        ExcelUtils.Header.h("totalMoney", "营业额"),
+                        ExcelUtils.Header.h("blagMoney", "本金收入"),
+                        ExcelUtils.Header.h("turnoverMoney", "营销费用"),
+                        ExcelUtils.Header.h("orderNo", "订单号"),
+                        ExcelUtils.Header.h("eventName", "活动"),
+                        ExcelUtils.Header.h("storeName", "消费门店"),
+                        ExcelUtils.Header.h("title", "会员卡"),
+                        ExcelUtils.Header.h("nickname", "用户昵称"),
+                        ExcelUtils.Header.h("phone", "用户电话"),
+                        ExcelUtils.Header.h("created", "创建时间"),
+                }, list, respon.getOutputStream(), "yyyy-MM-dd HH:mm:ss");
+                return null;
+            }
+        }
+        return response;
     }
 
     /**
@@ -62,10 +102,51 @@ public class TurnoverController {
      * @param endTime   结束时间
      * @return
      */
-    @PostMapping("record_list")
+    @RequestMapping("record_list")
     public Response getChargeRecord(PageQuery page, String phone, String storeName, Long cardNo, Long startTime,
-                                    Long endTime) throws ParseException {
-        return turnoverService.getChargeRecord(page, phone, storeName, cardNo, startTime, endTime);
+                                    Long endTime,Integer isExport,HttpServletRequest request,HttpServletResponse respon) throws ParseException, IOException {
+        Response response = turnoverService.getChargeRecord(page, phone, storeName, cardNo, startTime, endTime, isExport);
+        if (response.getData() instanceof ChargeReVos && ((ChargeReVos) response.getData()).getChargeReVo() != null){
+            List<ChargeReVo> vos = ((ChargeReVos) response.getData()).getChargeReVo();
+            if (!CollectionUtils.isEmpty(vos) && isExport != null){
+                List<Map<String, Object>> list = new ArrayList<>();
+                int i = 1;
+                for (ChargeReVo vo : vos) {
+                    Map<String ,Object> map = new HashMap<>();
+                    map.put("index", i++);
+                    map.put("nickname", vo.getNickname());
+                    map.put("cardNo", vo.getCardNo());
+                    map.put("phone", vo.getPhone());
+                    map.put("rechargeMoney", vo.getRechargeMoney());
+                    map.put("sendMoney", vo.getSendMoney());
+                    map.put("orderNo", vo.getOrderNo());
+                    map.put("storeName", vo.getStoreName());
+                    map.put("title", vo.getTitle());
+                    map.put("eventName", vo.getEventName());
+                    map.put("explain", vo.getExplain());
+                    map.put("created", vo.getCreated());
+                    list.add(map);
+                }
+
+                ExcelUtils.preExport(request, respon, "充值记录");
+                ExcelUtils.exportExcel2("充值记录", new ExcelUtils.Header[]{
+                        ExcelUtils.Header.h("index", "序号"),
+                        ExcelUtils.Header.h("nickname", "用户昵称"),
+                        ExcelUtils.Header.h("cardNo", "卡号"),
+                        ExcelUtils.Header.h("phone", "用户电话"),
+                        ExcelUtils.Header.h("rechargeMoney", "充值金额"),
+                        ExcelUtils.Header.h("sendMoney", "赠送金额"),
+                        ExcelUtils.Header.h("orderNo", "订单号"),
+                        ExcelUtils.Header.h("storeName", "充值门店"),
+                        ExcelUtils.Header.h("title", "会员卡"),
+                        ExcelUtils.Header.h("eventName", "充值所选活动"),
+                        ExcelUtils.Header.h("explain", "充值说明"),
+                        ExcelUtils.Header.h("created", "充值时间"),
+                }, list, respon.getOutputStream(), "yyyy-MM-dd HH:mm:ss");
+                return null;
+            }
+        }
+        return response;
     }
 
 
@@ -80,10 +161,47 @@ public class TurnoverController {
      * @param endTime   结束时间
      * @return
      */
-    @PostMapping("expense_list")
+    @RequestMapping("expense_list")
     public Response getExpenseRecord(PageQuery page, String phone, String storeName, Long cardNo, Long startTime,
-                                     Long endTime) throws ParseException {
-        return turnoverService.getExpenseRecord(page, phone, storeName, cardNo, startTime, endTime);
+                                     Long endTime, Integer isExport, HttpServletRequest request, HttpServletResponse respon) throws ParseException, IOException {
+        Response response = turnoverService.getExpenseRecord(page, phone, storeName, cardNo, startTime, endTime,isExport);
+        if (response.getData() instanceof ExpenseReVos && ((ExpenseReVos) response.getData()).getExpenseReVo() != null) {
+            List<ExpenseReVo> vos = ((ExpenseReVos) response.getData()).getExpenseReVo();
+            if (!CollectionUtils.isEmpty(vos) && isExport != null) {
+                List<Map<String, Object>> list = new ArrayList<>();
+                int i = 1;
+                for (ExpenseReVo vo : vos) {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("index", i++);
+                    map.put("nickname", vo.getNickname());
+                    map.put("cardNo", vo.getCardNo());
+                    map.put("phone", vo.getPhone());
+                    map.put("expenseMoney", vo.getExpenseMoney());
+                    map.put("orderNo", vo.getOrderNo());
+                    map.put("storeName", vo.getStoreName());
+                    map.put("title", vo.getTitle());
+                    map.put("explain", vo.getExplain());
+                    map.put("created", vo.getCreated());
+                    list.add(map);
+                }
+
+                ExcelUtils.preExport(request, respon, "消费记录");
+                ExcelUtils.exportExcel2("消费记录", new ExcelUtils.Header[]{
+                        ExcelUtils.Header.h("index", "序号"),
+                        ExcelUtils.Header.h("nickname", "用户昵称"),
+                        ExcelUtils.Header.h("cardNo", "卡号"),
+                        ExcelUtils.Header.h("phone", "用户电话"),
+                        ExcelUtils.Header.h("expenseMoney", "消费金额"),
+                        ExcelUtils.Header.h("orderNo", "订单号"),
+                        ExcelUtils.Header.h("storeName", "消费门店"),
+                        ExcelUtils.Header.h("title", "会员卡"),
+                        ExcelUtils.Header.h("explain", "消费说明"),
+                        ExcelUtils.Header.h("created", "消费时间"),
+                }, list, respon.getOutputStream(), "yyyy-MM-dd HH:mm:ss");
+                return null;
+            }
+        }
+        return response;
     }
 
     /**
@@ -113,7 +231,7 @@ public class TurnoverController {
                     map.put("nickname", vo.getNickname());
                     map.put("cardNo", vo.getCardNo());
                     map.put("phone", vo.getPhone());
-                    map.put("money", vo.getPhone());
+                    map.put("money", vo.getMoney());
                     map.put("storeName", vo.getStoreName());
                     map.put("title", vo.getTitle());
                     map.put("explain", vo.getExplain());

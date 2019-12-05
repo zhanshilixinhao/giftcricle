@@ -76,7 +76,7 @@ public class TurnoverServiceImpl implements TurnoverService {
      * @return
      */
     @Override
-    public Response getTurnoverList(PageQuery page, Integer eventId, String title, Long startTime, Long endTime, String phone, String storeName) throws ParseException {
+    public Response getTurnoverList(PageQuery page, Integer eventId, String title, Long startTime, Long endTime, String phone, String storeName, Integer isExport) throws ParseException {
         if (startTime != null) {
             startTime = TimeUtils.time(startTime);
         }
@@ -109,7 +109,9 @@ public class TurnoverServiceImpl implements TurnoverService {
         if (turnoverVos1.getTotalTurnoverMoney() == null) {
             turnoverVos1.setTotalTurnoverMoney(new BigDecimal("0"));
         }
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        if (isExport == null){
+            PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        }
         List<TurnoverVo> turnoverVos = storeTurnoverMapper.selectBySearch(eventId, title, startTime, endTime, storeId, merchantId, phone, storeName);
         PageInfo pageInfo = new PageInfo<>(turnoverVos);
         turnoverVos1.setTurnoverVo(turnoverVos);
@@ -131,7 +133,7 @@ public class TurnoverServiceImpl implements TurnoverService {
      * @return
      */
     @Override
-    public Response getChargeRecord(PageQuery page, String phone, String storeName, Long cardNo, Long startTime, Long endTime) throws ParseException {
+    public Response getChargeRecord(PageQuery page, String phone, String storeName, Long cardNo, Long startTime, Long endTime, Integer isExport) throws ParseException {
         if (startTime != null) {
             startTime = TimeUtils.time(startTime);
         }
@@ -152,7 +154,9 @@ public class TurnoverServiceImpl implements TurnoverService {
             if (chargeRes1 == null) {
                 chargeRes1 = new ChargeReVos();
             }
-            PageHelper.startPage(page.getPageNum(), page.getPageSize());
+            if (isExport == null){
+                PageHelper.startPage(page.getPageNum(), page.getPageSize());
+            }
             List<ChargeReVo> chargeRes = memberChargeRecordMapper.selectBySearch1(phone, storeName, cardNo, startTime, endTime, list);
             PageInfo pageInfo = new PageInfo<>(chargeRes);
             chargeRes1.setChargeReVo(chargeRes);
@@ -166,7 +170,9 @@ public class TurnoverServiceImpl implements TurnoverService {
         if (chargeRes1 == null) {
             chargeRes1 = new ChargeReVos();
         }
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        if (isExport == null){
+            PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        }
         List<ChargeReVo> chargeRes = memberChargeRecordMapper.selectBySearch(phone, storeName, cardNo, startTime, endTime, adminId);
         PageInfo pageInfo = new PageInfo<>(chargeRes);
         chargeRes1.setChargeReVo(chargeRes);
@@ -187,7 +193,7 @@ public class TurnoverServiceImpl implements TurnoverService {
      * @return
      */
     @Override
-    public Response getExpenseRecord(PageQuery page, String phone, String storeName, Long cardNo, Long startTime, Long endTime) throws ParseException {
+    public Response getExpenseRecord(PageQuery page, String phone, String storeName, Long cardNo, Long startTime, Long endTime, Integer isExport) throws ParseException {
         if (startTime != null) {
             startTime = TimeUtils.time(startTime);
         }
@@ -208,7 +214,9 @@ public class TurnoverServiceImpl implements TurnoverService {
             if (expenseRes1 == null) {
                 expenseRes1 = new ExpenseReVos();
             }
-            PageHelper.startPage(page.getPageNum(), page.getPageSize());
+            if (isExport == null){
+                PageHelper.startPage(page.getPageNum(), page.getPageSize());
+            }
             List<ExpenseReVo> expenseRes = memberExpenseRecordMapper.selectBySearch1(phone, storeName, cardNo, startTime, endTime, list);
             PageInfo pageInfo = new PageInfo<>(expenseRes);
             expenseRes1.setExpenseReVo(expenseRes);
@@ -221,7 +229,9 @@ public class TurnoverServiceImpl implements TurnoverService {
         if (expenseRes1 == null) {
             expenseRes1 = new ExpenseReVos();
         }
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        if (isExport == null){
+            PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        }
         List<ExpenseReVo> expenseRes = memberExpenseRecordMapper.selectBySearch(phone, storeName, cardNo, startTime, endTime, adminId);
         PageInfo pageInfo = new PageInfo<>(expenseRes);
         expenseRes1.setExpenseReVo(expenseRes);

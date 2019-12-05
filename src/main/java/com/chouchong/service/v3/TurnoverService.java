@@ -23,7 +23,7 @@ public interface TurnoverService {
      * @param endTime 结束时间
      * @return
      */
-    Response getTurnoverList(PageQuery page, Integer eventId, String title,  Long startTime, Long endTime,String phone,String storeName) throws ParseException;
+    Response getTurnoverList(PageQuery page, Integer eventId, String title,  Long startTime, Long endTime,String phone,String storeName,Integer isExport) throws ParseException;
 
     /**
      * 充值记录
@@ -35,7 +35,7 @@ public interface TurnoverService {
      * @param endTime 结束时间
      * @return
      */
-    Response getChargeRecord(PageQuery page, String phone, String storeName, Long cardNo, Long startTime, Long endTime) throws ParseException;
+    Response getChargeRecord(PageQuery page, String phone, String storeName, Long cardNo, Long startTime, Long endTime,Integer isExport) throws ParseException;
 
     /**
      * 扣款记录
@@ -47,7 +47,7 @@ public interface TurnoverService {
      * @param endTime 结束时间
      * @return
      */
-    Response getExpenseRecord(PageQuery page, String phone, String storeName, Long cardNo, Long startTime, Long endTime) throws ParseException;
+    Response getExpenseRecord(PageQuery page, String phone, String storeName, Long cardNo, Long startTime, Long endTime,Integer isExport) throws ParseException;
 
     /**
      * 退回扣款
