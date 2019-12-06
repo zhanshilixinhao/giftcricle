@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.v3.StoreMemberEventMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.v3.StoreMemberEvent">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="membership_card_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="store_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="member_event_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="capital_money" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="send_money" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="total_money" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="explain" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="scale" javaType="java.lang.Float" jdbcType="REAL" />
+      <arg column="type" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="capital_balance" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="capital_status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="send_balance" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="send_status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, membership_card_id, store_id, member_event_id, order_no, capital_money,
+    send_money, total_money, explain, scale, type, capital_balance, capital_status, send_balance,
+    send_status, updated, created
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from store_member_event
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from store_member_event
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchong.entity.v3.StoreMemberEvent">
+    insert into store_member_event (id, user_id, membership_card_id,
+      store_id, member_event_id, order_no,
+      capital_money, send_money, total_money,
+      explain, scale, type,
+      capital_balance, capital_status, send_balance,
+      send_status, updated, created
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{membershipCardId,jdbcType=INTEGER},
+      #{storeId,jdbcType=INTEGER}, #{memberEventId,jdbcType=INTEGER}, #{orderNo,jdbcType=BIGINT},
+      #{capitalMoney,jdbcType=DECIMAL}, #{sendMoney,jdbcType=DECIMAL}, #{totalMoney,jdbcType=DECIMAL},
+      #{explain,jdbcType=VARCHAR}, #{scale,jdbcType=REAL}, #{type,jdbcType=TINYINT},
+      #{capitalBalance,jdbcType=DECIMAL}, #{capitalStatus,jdbcType=TINYINT}, #{sendBalance,jdbcType=DECIMAL},
+      #{sendStatus,jdbcType=TINYINT}, #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.v3.StoreMemberEvent">
+    insert into store_member_event
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="membershipCardId != null">
+        membership_card_id,
+      </if>
+      <if test="storeId != null">
+        store_id,
+      </if>
+      <if test="memberEventId != null">
+        member_event_id,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="capitalMoney != null">
+        capital_money,
+      </if>
+      <if test="sendMoney != null">
+        send_money,
+      </if>
+      <if test="totalMoney != null">
+        total_money,
+      </if>
+      <if test="explain != null">
+        explain,
+      </if>
+      <if test="scale != null">
+        scale,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="capitalBalance != null">
+        capital_balance,
+      </if>
+      <if test="capitalStatus != null">
+        capital_status,
+      </if>
+      <if test="sendBalance != null">
+        send_balance,
+      </if>
+      <if test="sendStatus != null">
+        send_status,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="membershipCardId != null">
+        #{membershipCardId,jdbcType=INTEGER},
+      </if>
+      <if test="storeId != null">
+        #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="memberEventId != null">
+        #{memberEventId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=BIGINT},
+      </if>
+      <if test="capitalMoney != null">
+        #{capitalMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="sendMoney != null">
+        #{sendMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="totalMoney != null">
+        #{totalMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="explain != null">
+        #{explain,jdbcType=VARCHAR},
+      </if>
+      <if test="scale != null">
+        #{scale,jdbcType=REAL},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="capitalBalance != null">
+        #{capitalBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="capitalStatus != null">
+        #{capitalStatus,jdbcType=TINYINT},
+      </if>
+      <if test="sendBalance != null">
+        #{sendBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="sendStatus != null">
+        #{sendStatus,jdbcType=TINYINT},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.v3.StoreMemberEvent">
+    update store_member_event
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="membershipCardId != null">
+        membership_card_id = #{membershipCardId,jdbcType=INTEGER},
+      </if>
+      <if test="storeId != null">
+        store_id = #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="memberEventId != null">
+        member_event_id = #{memberEventId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=BIGINT},
+      </if>
+      <if test="capitalMoney != null">
+        capital_money = #{capitalMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="sendMoney != null">
+        send_money = #{sendMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="totalMoney != null">
+        total_money = #{totalMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="explain != null">
+        explain = #{explain,jdbcType=VARCHAR},
+      </if>
+      <if test="scale != null">
+        scale = #{scale,jdbcType=REAL},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="capitalBalance != null">
+        capital_balance = #{capitalBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="capitalStatus != null">
+        capital_status = #{capitalStatus,jdbcType=TINYINT},
+      </if>
+      <if test="sendBalance != null">
+        send_balance = #{sendBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="sendStatus != null">
+        send_status = #{sendStatus,jdbcType=TINYINT},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.v3.StoreMemberEvent">
+    update store_member_event
+    set user_id = #{userId,jdbcType=INTEGER},
+      membership_card_id = #{membershipCardId,jdbcType=INTEGER},
+      store_id = #{storeId,jdbcType=INTEGER},
+      member_event_id = #{memberEventId,jdbcType=INTEGER},
+      order_no = #{orderNo,jdbcType=BIGINT},
+      capital_money = #{capitalMoney,jdbcType=DECIMAL},
+      send_money = #{sendMoney,jdbcType=DECIMAL},
+      total_money = #{totalMoney,jdbcType=DECIMAL},
+      explain = #{explain,jdbcType=VARCHAR},
+      scale = #{scale,jdbcType=REAL},
+      type = #{type,jdbcType=TINYINT},
+      capital_balance = #{capitalBalance,jdbcType=DECIMAL},
+      capital_status = #{capitalStatus,jdbcType=TINYINT},
+      send_balance = #{sendBalance,jdbcType=DECIMAL},
+      send_status = #{sendStatus,jdbcType=TINYINT},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      created = #{created,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

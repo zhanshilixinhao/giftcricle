@@ -14,11 +14,12 @@
             <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT"/>
             <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
             <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="scale" javaType="java.lang.Float" jdbcType="REAL"/>
         </constructor>
     </resultMap>
     <sql id="Base_Column_List">
     id, title, summary, recharge_money, send_money, target_id, admin_id, type, status,
-    updated, created
+    updated, created, scale
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -169,11 +170,11 @@ where a.status = 1
     insert into member_event (id, title, summary,
       recharge_money, send_money, target_id,
       admin_id, type, status,
-      updated, created)
+      updated, created, scale)
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR},
       #{rechargeMoney,jdbcType=DECIMAL}, #{sendMoney,jdbcType=DECIMAL}, #{targetId,jdbcType=INTEGER},
       #{adminId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT},
-      now(), now())
+      now(), now(),#{scale,jdbcType=REAL})
   </insert>
     <insert id="insertSelective" parameterType="com.chouchong.entity.v3.MemberEvent">
         insert into member_event
@@ -211,6 +212,9 @@ where a.status = 1
             <if test="created != null">
                 created,
             </if>
+            <if test="scale != null">
+                scale,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -245,6 +249,9 @@ where a.status = 1
             </if>
             <if test="created != null">
                 #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="scale != null">
+                #{scale,jdbcType=REAL},
             </if>
         </trim>
     </insert>
@@ -281,6 +288,9 @@ where a.status = 1
             <if test="created != null">
                 created = #{created,jdbcType=TIMESTAMP},
             </if>
+            <if test="scale != null">
+                scale = #{scale,jdbcType=REAL},
+            </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
@@ -295,7 +305,8 @@ where a.status = 1
       type = #{type,jdbcType=TINYINT},
       status = #{status,jdbcType=TINYINT},
       updated = #{updated,jdbcType=TIMESTAMP},
-      created = #{created,jdbcType=TIMESTAMP}
+      created = #{created,jdbcType=TIMESTAMP},
+      scale = #{scale,jdbcType=REAL}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

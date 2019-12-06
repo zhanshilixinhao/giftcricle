@@ -26,7 +26,9 @@ public class MemberEvent {
 
     private Date created;
 
-    public MemberEvent(Integer id, String title, String summary, BigDecimal rechargeMoney, BigDecimal sendMoney, Integer targetId, Integer adminId, Byte type, Byte status, Date updated, Date created) {
+    private Float scale;
+
+    public MemberEvent(Integer id, String title, String summary, BigDecimal rechargeMoney, BigDecimal sendMoney, Integer targetId, Integer adminId, Byte type, Byte status, Date updated, Date created, Float scale) {
         this.id = id;
         this.title = title;
         this.summary = summary;
@@ -38,6 +40,7 @@ public class MemberEvent {
         this.status = status;
         this.updated = updated;
         this.created = created;
+        this.scale = scale;
     }
 
     public MemberEvent() {
@@ -130,5 +133,13 @@ public class MemberEvent {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public Float getScale() {
+        return scale;
+    }
+
+    public void setScale(Float scale) {
+        this.scale = scale;
     }
 }
