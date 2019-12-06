@@ -180,7 +180,6 @@ public class CardServiceImpl implements CardService {
     }
 
 
-
     /**
      * 添加会员卡
      *
@@ -198,7 +197,7 @@ public class CardServiceImpl implements CardService {
         ca.setLogo(card.getLogo());
         ca.setStoreIds(card.getStoreIds());
         ca.setAdminId(webUserInfo.getSysAdmin().getId());
-        ca.setType((byte) 10);
+        ca.setType(card.getType());
         ca.setStatus((byte) 1);
         int insert = membershipCardMapper.insert(ca);
         if (insert < 1) {
@@ -235,7 +234,7 @@ public class CardServiceImpl implements CardService {
         if (card.getId() == 0) {
             boolean contains = card.getStoreIds().contains("0");
             if (!contains) {
-              return  ResponseFactory.err("礼遇圈卡必须选礼遇圈门店");
+                return ResponseFactory.err("礼遇圈卡必须选礼遇圈门店");
             }
 //            String[] strings = card.getStoreIds().split(",");
 //            for (String string : strings) {
@@ -255,16 +254,18 @@ public class CardServiceImpl implements CardService {
         if (i < 1) {
             return ResponseFactory.err("修改失败");
         }
-        // 添加会员卡活动
-        memberCardMapper.deleteByCardId(card.getId());
-        String[] split = eventIds.split(",");
-        for (String s : split) {
-            MemberCard card1 = new MemberCard();
-            card1.setMembersEventId(Integer.parseInt(s));
-            card1.setMembershipCardId(ca.getId());
-            int insert1 = memberCardMapper.insert(card1);
-            if (insert1 < 1) {
-                return ResponseFactory.err("失败！");
+        if (ca.getType() != 11) {
+            // 添加会员卡活动
+            memberCardMapper.deleteByCardId(card.getId());
+            String[] split = eventIds.split(",");
+            for (String s : split) {
+                MemberCard card1 = new MemberCard();
+                card1.setMembersEventId(Integer.parseInt(s));
+                card1.setMembershipCardId(ca.getId());
+                int insert1 = memberCardMapper.insert(card1);
+                if (insert1 < 1) {
+                    return ResponseFactory.err("失败！");
+                }
             }
         }
         return ResponseFactory.sucMsg("修改成功");
@@ -307,12 +308,18 @@ public class CardServiceImpl implements CardService {
             if (!StringUtils.isEmpty(eventVos)) {
                 StringBuilder eventIds = new StringBuilder();
                 String substring = null;
+                StringBuilder title = new StringBuilder();
                 for (EventVo eventVo : eventVos) {
                     eventIds.append(eventVo.getId()).append(",");
                     if ((",".equals(eventIds.substring(eventIds.length() - 1)))) {
                         substring = eventIds.substring(0, eventIds.length() - 1);
                     }
+                    if (vo.getType() == 11){
+                        // 活动卡只有一个活动
+                       title.append(eventVo.getTitle());
+                    }
                 }
+                vo.setDetail(title.toString());
                 vo.setEventIds(substring);
             }
         }

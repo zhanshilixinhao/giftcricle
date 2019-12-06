@@ -45,10 +45,13 @@ public class CardEventController {
      */
     @PostMapping("add")
     public Response addCardEvent(MemberEvent event) {
-        if (StringUtils.isAnyBlank(event.getTitle(), event.getSummary()) || event.getRechargeMoney() == null || event.getType() == null) {
+        if (StringUtils.isBlank(event.getTitle()) || event.getRechargeMoney() == null || event.getType() == null || event.getStatus() == null) {
             return ResponseFactory.errMissingParameter();
         }
         if (event.getType() == 1 && event.getSendMoney() == null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        if (event.getStatus() == 10 && event.getScale() == null) {
             return ResponseFactory.errMissingParameter();
         }
         return cardEventService.addCardEvent(event);
@@ -75,12 +78,13 @@ public class CardEventController {
 
     /**
      * 删除活动
+     *
      * @param eventId 活动id
      * @return
      */
     @PostMapping("delete")
-    public Response deleteCardEvent(Integer eventId){
-        if (eventId == null){
+    public Response deleteCardEvent(Integer eventId) {
+        if (eventId == null) {
             return ResponseFactory.errMissingParameter();
         }
         return cardEventService.deleteCardEvent(eventId);
@@ -88,12 +92,13 @@ public class CardEventController {
 
     /**
      * 活动详情
+     *
      * @param eventId 活动id
      * @return
      */
     @PostMapping("detail")
-    public Response detailCardEvent(Integer eventId){
-        if (eventId == null){
+    public Response detailCardEvent(Integer eventId) {
+        if (eventId == null) {
             return ResponseFactory.errMissingParameter();
         }
         return cardEventService.detailCardEvent(eventId);
@@ -102,12 +107,13 @@ public class CardEventController {
 
     /**
      * 会员卡活动列表
+     *
      * @param cardId 会员卡id
      * @return
      */
     @PostMapping("all_event")
-    public Response cardEvent(Integer cardId){
-        if (cardId == null){
+    public Response cardEvent(Integer cardId) {
+        if (cardId == null) {
             return ResponseFactory.errMissingParameter();
         }
         return cardEventService.cardEvent(cardId);
@@ -115,14 +121,16 @@ public class CardEventController {
 
     /**
      * 门店会员卡活动列表
+     *
      * @return
      */
     @PostMapping("store_event")
-    public Response storeCardEvent(){
+    public Response storeCardEvent() {
         return cardEventService.storeCardEvent();
     }
 
- //****************************************会员卡等级***********************************************************/
+    //****************************************会员卡等级***********************************************************/
+
     /**
      * 获取会员卡等级列表
      *
@@ -131,7 +139,7 @@ public class CardEventController {
      */
     @PostMapping("grade_list")
     public Response getCardGradeList(Integer cardId) {
-        if (cardId == null){
+        if (cardId == null) {
             return ResponseFactory.errMissingParameter();
         }
         return cardEventService.getCardGradeList(cardId);
@@ -145,11 +153,11 @@ public class CardEventController {
      * @return
      */
     @PostMapping("grade_add")
-    public Response addCardGrade(CardGrade grade,Integer cardId) {
-        if (StringUtils.isAnyBlank(grade.getTitle(), grade.getSummary()) || grade.getGrade() == null ||cardId == null) {
+    public Response addCardGrade(CardGrade grade, Integer cardId) {
+        if (StringUtils.isAnyBlank(grade.getTitle(), grade.getSummary()) || grade.getGrade() == null || cardId == null) {
             return ResponseFactory.errMissingParameter();
         }
-        return cardEventService.addCardGrade(grade,cardId);
+        return cardEventService.addCardGrade(grade, cardId);
     }
 
 
@@ -161,7 +169,7 @@ public class CardEventController {
      */
     @PostMapping("grade_update")
     public Response updateCardGrade(CardGrade grade) {
-        if (StringUtils.isAnyBlank(grade.getTitle(), grade.getSummary()) || grade.getGrade() == null ||grade.getId() == null) {
+        if (StringUtils.isAnyBlank(grade.getTitle(), grade.getSummary()) || grade.getGrade() == null || grade.getId() == null) {
             return ResponseFactory.errMissingParameter();
         }
         return cardEventService.updateCardGrade(grade);
@@ -169,12 +177,13 @@ public class CardEventController {
 
     /**
      * 删除会员卡等级
+     *
      * @param gradeId 等级id
      * @return
      */
     @PostMapping("grade_delete")
-    public Response deleteCardGrade(Integer gradeId){
-        if (gradeId == null){
+    public Response deleteCardGrade(Integer gradeId) {
+        if (gradeId == null) {
             return ResponseFactory.errMissingParameter();
         }
         return cardEventService.deleteCardGrade(gradeId);

@@ -15,6 +15,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -96,18 +97,26 @@ public class CardEventServiceImpl implements CardEventService {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         MemberEvent ev = new MemberEvent();
         ev.setTitle(event.getTitle());
-        ev.setSummary(event.getSummary());
+        if (StringUtils.isEmpty(event.getSummary())) {
+            ev.setSummary(event.getTitle());
+        } else {
+            ev.setSummary(event.getSummary());
+        }
         ev.setRechargeMoney(event.getRechargeMoney());
         ev.setSendMoney(event.getSendMoney());
         ev.setTargetId(event.getTargetId());
         ev.setAdminId(webUserInfo.getSysAdmin().getId());
         ev.setType(event.getType());
-        ev.setStatus((byte) 1);
+        ev.setStatus(event.getStatus());
+        if (event.getScale() != null) {
+            float num = (float) (Math.round(event.getScale() * 0.01 * 1000)) / 1000;
+            ev.setScale(num);
+        }
         int insert = memberEventMapper.insert(ev);
         if (insert < 1) {
             return ResponseFactory.err("添加失败！");
         }
-        return ResponseFactory.sucMsg("添加成功");
+        return ResponseFactory.sucData(ev.getId());
     }
 
 
@@ -194,7 +203,7 @@ public class CardEventServiceImpl implements CardEventService {
             return ResponseFactory.sucData(list1);
         }
         // 公司和门店（公司创建和礼遇圈活动）
-        if (webUserInfo.getRoleId() == 3){
+        if (webUserInfo.getRoleId() == 3) {
             adminId = webUserInfo.getSysAdmin().getId();
         } else {
             adminId = webUserInfo.getSysAdmin().getCreateAdminId();
@@ -203,7 +212,7 @@ public class CardEventServiceImpl implements CardEventService {
         List<MembershipCard> cardList = membershipCardMapper.selectByAdminId(adminId);
         if (!CollectionUtils.isEmpty(cardList)) {
             for (MembershipCard card : cardList) {
-               list.add(card.getId());
+                list.add(card.getId());
             }
         }
         if (list.size() == 0) {

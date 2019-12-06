@@ -59,7 +59,7 @@ public class CardController {
         if (StringUtils.isAnyBlank(card.getTitle(),card.getColour(),card.getLogo(),card.getStoreIds(),eventIds)){
             return ResponseFactory.errMissingParameter();
         }
-        if (card.getSummary() == null){
+        if (card.getSummary() == null || card.getType() == null){
             return ResponseFactory.errMissingParameter();
         }
         return cardService.addCard(card,eventIds);

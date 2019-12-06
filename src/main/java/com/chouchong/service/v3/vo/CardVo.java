@@ -26,9 +26,15 @@ public class CardVo {
 
     private Integer adminId;
 
+    private Byte type;
+
     private Date created;
 
     private String summary;
+    /**
+     * 活动标题
+     */
+    private String detail;
 
     private List<StoreVo> storeVos;
 
@@ -129,5 +135,21 @@ public class CardVo {
 
     public void setEventIds(String eventIds) {
         this.eventIds = eventIds;
+    }
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 }
