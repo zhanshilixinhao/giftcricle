@@ -56,10 +56,16 @@ public class UserCardServiceImpl implements UserCardService {
     private MembershipCardMapper membershipCardMapper;
 
     @Autowired
+    private MemberEventMapper memberEventMapper;
+
+    @Autowired
     private AppUserMapper appUserMapper;
 
     @Autowired
     private StoreMemberChargeMapper storeMemberChargeMapper;
+
+    @Autowired
+    private StoreMemberEventMapper storeMemberEventMapper;
 
     @Autowired
     private MerchantMapper merchantMapper;
@@ -250,11 +256,39 @@ public class UserCardServiceImpl implements UserCardService {
         if (insert < 1) {
             return ResponseFactory.err("充值失败");
         }
+        // 判断是否是活动卡
         // 添加详细记录
-        Float scale = null;
-        scale = BigDecimalUtil.div(send.doubleValue(), total.doubleValue()).floatValue();
-        detailCharge(userId, merchant.getId(), storeId, recharge, cardId, send, new BigDecimal("0"), (byte) 1, explain,
-                total, scale, total, (byte) 1, eventId,record.getOrderNo());
+        MembershipCard membershipCard = membershipCardMapper.selectByPrimaryKey(cardId);
+        if  (membershipCard != null){
+            if (membershipCard.getType() == 11){
+                // 活动卡
+                if (eventId == null){
+                    return ResponseFactory.err("活动卡充值必须选择活动");
+                }
+                StoreMemberEvent ev = new StoreMemberEvent();
+                ev.setUserId(userId);
+                ev.setMembershipCardId(cardId);
+                ev.setStoreId(storeId);
+                ev.setMemberEventId(eventId);
+                ev.setOrderNo(record.getOrderNo());
+                ev.setCapitalMoney(recharge);
+                ev.setSendMoney(send);
+                ev.setTotalMoney(total);
+                ev.setExplain(explain);
+                ev.setType((byte) 1);
+                ev.setCapitalBalance(recharge);
+                ev.setSendBalance(send);
+                ev.setCapitalStatus((byte) 1);
+                ev.setSendStatus((byte) 1);
+                detailChargeEvent(ev);
+            }else {
+                // 普通储值卡
+                Float scale = null;
+                scale = BigDecimalUtil.div(send.doubleValue(), total.doubleValue()).floatValue();
+                detailCharge(userId, merchant.getId(), storeId, recharge, cardId, send, new BigDecimal("0"), (byte) 1, explain,
+                        total, scale, total, (byte) 1, eventId,record.getOrderNo());
+            }
+        }
         return ResponseFactory.sucMsg("充值成功");
     }
 
@@ -370,7 +404,10 @@ public class UserCardServiceImpl implements UserCardService {
         return card;
     }
 
-
+    /**
+     *添加详细记录（普通储值卡）
+     * @return
+     */
     private int detailCharge(Integer userId, Integer merchant, Integer storeId, BigDecimal re, Integer cardId, BigDecimal send, BigDecimal ex,
                              Byte type, String explain, BigDecimal total, Float scale, BigDecimal balance, Byte status, Integer eventId,Long orderNo) {
         StoreMemberCharge store = new StoreMemberCharge();
@@ -395,6 +432,38 @@ public class UserCardServiceImpl implements UserCardService {
         }
         return store.getId();
     }
+
+    /**
+     *添加详细记录（活动卡）
+     * @return
+     */
+    private int detailChargeEvent(StoreMemberEvent event){
+        StoreMemberEvent ev = new StoreMemberEvent();
+        ev.setUserId(event.getUserId());
+        ev.setMembershipCardId(event.getMembershipCardId());
+        ev.setStoreId(event.getStoreId());
+        ev.setMemberEventId(event.getMemberEventId());
+        ev.setOrderNo(event.getOrderNo());
+        ev.setCapitalMoney(event.getCapitalMoney());
+        ev.setSendMoney(event.getSendMoney());
+        ev.setTotalMoney(event.getTotalMoney());
+        ev.setExplain(event.getExplain());
+        ev.setType(event.getType());
+        ev.setCapitalBalance(event.getCapitalBalance());
+        ev.setSendBalance(event.getSendBalance());
+        ev.setCapitalStatus(event.getCapitalStatus());
+        ev.setSendStatus(event.getSendStatus());
+        MemberEvent memberEvent = memberEventMapper.selectByPrimaryKey(event.getMemberEventId());
+        if (memberEvent != null && memberEvent.getScale() != null){
+            ev.setScale(memberEvent.getScale());
+        }
+        int insert = storeMemberEventMapper.insert(ev);
+        if (insert < 1) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "失败");
+        }
+        return ev.getId();
+    }
+
 
     /**
      * 更新详细记录

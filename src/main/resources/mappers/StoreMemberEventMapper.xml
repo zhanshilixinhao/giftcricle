@@ -38,7 +38,7 @@
     delete from store_member_event
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.chouchong.entity.v3.StoreMemberEvent">
+  <insert id="insert" parameterType="com.chouchong.entity.v3.StoreMemberEvent" useGeneratedKeys="true" keyProperty="id">
     insert into store_member_event (id, user_id, membership_card_id,
       store_id, member_event_id, order_no,
       capital_money, send_money, total_money,
