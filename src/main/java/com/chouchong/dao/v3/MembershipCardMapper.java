@@ -32,4 +32,6 @@ public interface MembershipCardMapper {
 
     List<MembershipCard> selectByAdminId(Integer createdAdminId);
     List<MembershipCard> selectByAdminId1(Integer createdAdminId);
+
+    Byte selectTypeById(Integer membershipCardId);
 }

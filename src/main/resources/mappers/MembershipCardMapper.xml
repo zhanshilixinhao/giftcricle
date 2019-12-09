@@ -133,6 +133,12 @@ where admin_id = #{createdAdminId}
         </if>
         order by created DESC
     </select>
+    <select id="selectTypeById" resultType="java.lang.Byte">
+        select
+        type
+from membership_card
+where id = #{membershipCardId}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from membership_card
     where id = #{id,jdbcType=INTEGER}

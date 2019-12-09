@@ -42,6 +42,9 @@ public class TurnoverServiceImpl implements TurnoverService {
     private StoreMemberChargeMapper storeMemberChargeMapper;
 
     @Autowired
+    private StoreMemberEventMapper storeMemberEventMapper;
+
+    @Autowired
     private MemberChargeRecordMapper memberChargeRecordMapper;
 
     @Autowired
@@ -64,6 +67,9 @@ public class TurnoverServiceImpl implements TurnoverService {
 
     @Autowired
     private UserMemberCardMapper userMemberCardMapper;
+
+    @Autowired
+    private MembershipCardMapper membershipCardMapper;
 
     /**
      * 获取营业额统计列表
@@ -311,9 +317,16 @@ public class TurnoverServiceImpl implements TurnoverService {
         if (!store.getPassword().equals(s)) {
             return ResponseFactory.err("密码错误！");
         }
+        // 查询会员卡类型
+        Byte type = membershipCardMapper.selectTypeById(rebate.getMembershipCardId());
         // 退款
         // 退回门店金额详情表消费,并删除，删除营业额记录
-        rebateStoreMemberCharge(rebate.getMembershipCardId(),rebate.getUserId(),rebate.getOrderNo());
+        if (type == 11){
+            // 活动卡
+            rebateStoreMemberEvent(rebate.getMembershipCardId(),rebate.getUserId(),rebate.getOrderNo());
+        }else {
+            rebateStoreMemberCharge(rebate.getMembershipCardId(),rebate.getUserId(),rebate.getOrderNo());
+        }
         // 删除消费记录
         int i = memberExpenseRecordMapper.deleteByPrimaryKey(rebate.getExpenseRecordId());
         if (i < 1) {
@@ -336,7 +349,7 @@ public class TurnoverServiceImpl implements TurnoverService {
     }
 
     /**
-     * 退回门店金额详情表消费
+     * 退回门店金额详情表消费（储值卡）
      *
      * @param cardId  会员卡id
      * @param userId  用户id
@@ -348,7 +361,7 @@ public class TurnoverServiceImpl implements TurnoverService {
         if (charge == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "金额详情记录不存在");
         }
-        List<StoreTurnover> lists = storeTurnoverMapper.selectByStoreMId(charge.getId());
+        List<StoreTurnover> lists = storeTurnoverMapper.selectByStoreMId(charge.getId(),(byte)1);
         if (!CollectionUtils.isEmpty(lists)) {
             for (StoreTurnover list : lists) {
                 // 总扣款金额
@@ -378,6 +391,59 @@ public class TurnoverServiceImpl implements TurnoverService {
         }
         //删除门店详情扣款记录
         int i = storeMemberChargeMapper.deleteByPrimaryKey(charge.getId());
+        if (i < 1) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "删除门店详情扣款记录失败");
+        }
+    }
+
+    /**
+     * 退回门店金额详情表消费（活动卡）
+     *
+     * @param cardId  会员卡id
+     * @param userId  用户id
+     * @param orderNo 订单号
+     */
+    private void rebateStoreMemberEvent(Integer cardId, Integer userId, Long orderNo) {
+        // 查询消费详情记录
+        StoreMemberEvent event = storeMemberEventMapper.selectByUserIdCardIdOrderNo(cardId, userId, orderNo);
+        if (event == null) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "金额详情记录不存在");
+        }
+        List<StoreTurnover> lists = storeTurnoverMapper.selectByStoreMId(event.getId(),(byte)2);
+        if (!CollectionUtils.isEmpty(lists)) {
+            for (StoreTurnover list : lists) {
+                // 查询被扣款的记录并更新记录
+                StoreMemberEvent event1 = storeMemberEventMapper.selectByPrimaryKey(list.getStoreChargeId());
+                if (event1 != null) {
+                    // 退回余额
+                    BigDecimal ca = BigDecimalUtil.add(list.getBlagMoney().doubleValue(), event1.getCapitalBalance().doubleValue());
+                    BigDecimal se = BigDecimalUtil.add(list.getTurnoverMoney().doubleValue(), event1.getSendBalance().doubleValue());
+                    event1.setCapitalBalance(ca);
+                    event1.setSendBalance(se);
+                    if (ca.compareTo(event1.getCapitalMoney()) == 0) {
+                        event1.setCapitalStatus((byte) 1);
+                    } else {
+                        event1.setCapitalStatus((byte) 2);
+                    }
+                    if (se.compareTo(event1.getSendMoney()) == 0) {
+                        event1.setSendStatus((byte) 1);
+                    } else {
+                        event1.setSendStatus((byte) 2);
+                    }
+                    int i = storeMemberEventMapper.updateByPrimaryKeySelective(event1);
+                    if (i < 1) {
+                        throw new ServiceException(ErrorCode.ERROR.getCode(), "更新失败");
+                    }
+                }
+                // 删除营业额记录
+                int i = storeTurnoverMapper.deleteByPrimaryKey(list.getId());
+                if (i < 1) {
+                    throw new ServiceException(ErrorCode.ERROR.getCode(), "删除营业额记录失败");
+                }
+            }
+        }
+        //删除门店详情扣款记录
+        int i = storeMemberEventMapper.deleteByPrimaryKey(event.getId());
         if (i < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "删除门店详情扣款记录失败");
         }

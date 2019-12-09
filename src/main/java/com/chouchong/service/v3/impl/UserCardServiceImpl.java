@@ -444,14 +444,14 @@ public class UserCardServiceImpl implements UserCardService {
                     //判断此次充值还剩余的本金
                     if (event.getCapitalBalance().compareTo(capital1) == 0) {
                         updateDetailEvent(event.getId(), new BigDecimal("0"), (byte) 3, event.getSendBalance(), event.getSendStatus());
-                        addStoreTurnoverEvent(storeMemberId, capital1, new BigDecimal("0"), storeId, event.getStoreId(), event.getMemberEventId(), event.getId(), event.getId());
+                        addStoreTurnoverEvent(storeMemberId, capital1, new BigDecimal("0"), storeId, event.getStoreId(), event.getMemberEventId(), event.getId());
                         break;
                     } else if (event.getCapitalBalance().compareTo(capital1) > 0) {
                         //本金余额大于消费本金,
                         // 更新详细记录，添加消费营业额记录
                         BigDecimal ca = BigDecimalUtil.sub(event.getCapitalBalance().doubleValue(), capital1.doubleValue());
                         updateDetailEvent(event.getId(), ca, (byte) 2, event.getSendBalance(), event.getSendStatus());
-                        addStoreTurnoverEvent(storeMemberId, capital1, new BigDecimal("0"), storeId, event.getStoreId(), event.getMemberEventId(), event.getId(), event.getId());
+                        addStoreTurnoverEvent(storeMemberId, capital1, new BigDecimal("0"), storeId, event.getStoreId(), event.getMemberEventId(), event.getId());
                         break;
 
                     } else {
@@ -460,7 +460,7 @@ public class UserCardServiceImpl implements UserCardService {
                         //扣除第一次充值的余额后还不够的
                         BigDecimal ca = BigDecimalUtil.sub(capital1.doubleValue(), event.getCapitalBalance().doubleValue());
                         updateDetailEvent(event.getId(), new BigDecimal("0"), (byte) 3, event.getSendBalance(), event.getSendStatus());
-                        addStoreTurnoverEvent(storeMemberId, event.getCapitalBalance(), new BigDecimal("0"), storeId, event.getStoreId(), event.getMemberEventId(), event.getId(), event.getId());
+                        addStoreTurnoverEvent(storeMemberId, event.getCapitalBalance(), new BigDecimal("0"), storeId, event.getStoreId(), event.getMemberEventId(), event.getId());
                         capital1 = ca;
                     }
                 }
@@ -475,14 +475,14 @@ public class UserCardServiceImpl implements UserCardService {
                     // 赠送金额等于赠送金额剩余
                     // 更新详细记录，添加消费营业额记录
                     updateDetailEvent(store.getId(), store.getCapitalBalance(), store.getCapitalStatus(), new BigDecimal("0"), (byte) 3);
-                    addStoreTurnoverEvent(storeMemberId, new BigDecimal("0"), send1, storeId, store.getStoreId(), store.getMemberEventId(), store.getId(), store.getId());
+                    addStoreTurnoverEvent(storeMemberId, new BigDecimal("0"), send1, storeId, store.getStoreId(), store.getMemberEventId(), store.getId());
                     break;
                 } else if (store.getSendBalance().compareTo(send1) > 0) {
                     // 赠送金额大于赠送金额剩余
                     // 更新详细记录，添加消费营业额记录
                     BigDecimal se = BigDecimalUtil.sub(store.getSendBalance().doubleValue(), send1.doubleValue());
                     updateDetailEvent(store.getId(),store.getCapitalBalance(), store.getCapitalStatus(), se, (byte) 2);
-                    addStoreTurnoverEvent(storeMemberId, new BigDecimal("0"), send1, storeId, store.getStoreId(), store.getMemberEventId(), store.getId(), store.getId());
+                    addStoreTurnoverEvent(storeMemberId, new BigDecimal("0"), send1, storeId, store.getStoreId(), store.getMemberEventId(), store.getId());
                     break;
                 } else {
                     // 赠送金额小于赠送金额剩余
@@ -490,7 +490,7 @@ public class UserCardServiceImpl implements UserCardService {
                     //扣除第一次充值的余额后还不够的钱
                     BigDecimal se = BigDecimalUtil.sub(send1.doubleValue(), store.getSendBalance().doubleValue());
                     updateDetailEvent(store.getId(),store.getCapitalBalance(), store.getCapitalStatus(), new BigDecimal("0"), (byte) 3);
-                    addStoreTurnoverEvent(storeMemberId, new BigDecimal("0"), store.getSendBalance(), storeId, store.getStoreId(), store.getMemberEventId(), store.getId(), store.getId());
+                    addStoreTurnoverEvent(storeMemberId, new BigDecimal("0"), store.getSendBalance(), storeId, store.getStoreId(), store.getMemberEventId(), store.getId());
                     send1 = se;
                 }
             }
@@ -666,7 +666,7 @@ public class UserCardServiceImpl implements UserCardService {
      * 更新详细记录（活动卡）
      */
     private void addStoreTurnoverEvent(Integer storeMemberId, BigDecimal blag, BigDecimal turnoverMoney, Integer storeId,
-                                       Integer blagStoreId, Integer eventId, Integer storeChargeId, Integer storeSendId) {
+                                       Integer blagStoreId, Integer eventId, Integer storeChargeId) {
         StoreTurnover turnover = new StoreTurnover();
         turnover.setStoreMemberId(storeMemberId);
         turnover.setBlagMoney(blag);
@@ -677,7 +677,6 @@ public class UserCardServiceImpl implements UserCardService {
             turnover.setEventId(eventId);
         }
         turnover.setStoreChargeId(storeChargeId);
-        turnover.setStoreSendId(storeSendId);
         turnover.setType((byte) 2);
         int insert = storeTurnoverMapper.insert(turnover);
         if (insert < 1) {

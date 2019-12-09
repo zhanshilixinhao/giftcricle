@@ -24,7 +24,6 @@ public class StoreTurnover {
 
     private Integer storeChargeId;
 
-    private Integer storeSendId;
 
     private Byte type;
 
@@ -42,13 +41,6 @@ public class StoreTurnover {
         this.storeChargeId = storeChargeId;
     }
 
-    public Integer getStoreSendId() {
-        return storeSendId;
-    }
-
-    public void setStoreSendId(Integer storeSendId) {
-        this.storeSendId = storeSendId;
-    }
 
     public Byte getType() {
         return type;

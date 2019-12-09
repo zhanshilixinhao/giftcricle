@@ -112,6 +112,7 @@
         <include refid="Base_Column_List"/>
         from store_turnover
         where store_member_id = #{id}
+        and type = #{type}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from store_turnover
@@ -120,10 +121,10 @@
     <insert id="insert" parameterType="com.chouchong.entity.v3.StoreTurnover">
     insert into store_turnover (id, store_member_id, blag_money,
       turnover_money, store_id, blag_store_id,
-      updated, created,event_id,store_charge_id,store_send_id,`type`)
+      updated, created,event_id,store_charge_id,`type`)
     values (#{id,jdbcType=INTEGER}, #{storeMemberId,jdbcType=INTEGER}, #{blagMoney,jdbcType=DECIMAL},
       #{turnoverMoney,jdbcType=DECIMAL}, #{storeId,jdbcType=INTEGER}, #{blagStoreId,jdbcType=INTEGER},
-      now(), now(),#{eventId,jdbcType=INTEGER},#{storeChargeId,jdbcType=INTEGER},#{storeSendId,jdbcType=INTEGER},#{type,jdbcType=TINYINT})
+      now(), now(),#{eventId,jdbcType=INTEGER},#{storeChargeId,jdbcType=INTEGER},#{type,jdbcType=TINYINT})
   </insert>
     <insert id="insertSelective" parameterType="com.chouchong.entity.v3.StoreTurnover">
         insert into store_turnover

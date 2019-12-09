@@ -23,4 +23,6 @@ public interface StoreMemberEventMapper {
     List<StoreMemberEvent> selectByUserIdCardId(@Param("userId") Integer userId, @Param("cardId") Integer cardId);
 
     List<StoreMemberEvent> selectByUserIdCardId1(@Param("userId") Integer userId, @Param("cardId") Integer cardId);
+
+    StoreMemberEvent selectByUserIdCardIdOrderNo(@Param("cardId") Integer cardId, @Param("userId") Integer userId, @Param("orderNo") Long orderNo);
 }

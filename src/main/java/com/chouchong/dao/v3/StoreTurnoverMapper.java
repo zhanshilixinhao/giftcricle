@@ -31,5 +31,5 @@ public interface StoreTurnoverMapper {
                                       @Param("startTime") Long startTime, @Param("endTime") Long endTime, @Param("storeId") Integer storeId,
                                       @Param("merchantId") Integer merchantId,@Param("phone") String phone, @Param("storeName") String storeName);
 
-    List<StoreTurnover> selectByStoreMId(Integer id);
+    List<StoreTurnover> selectByStoreMId(@Param("id") Integer id, @Param("type") Byte type);
 }
