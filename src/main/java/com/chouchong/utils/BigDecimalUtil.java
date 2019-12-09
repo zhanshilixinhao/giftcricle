@@ -48,6 +48,12 @@ public class BigDecimalUtil {
         return b1.multiply(b2);
     }
 
+    public static BigDecimal multi(double arg1, float arg2) {
+        BigDecimal b1 = new BigDecimal(Double.toString(arg1));
+        BigDecimal b2 = new BigDecimal(String.valueOf(arg2));
+        return b1.multiply(b2);
+    }
+
     /**
      * 除法
      *

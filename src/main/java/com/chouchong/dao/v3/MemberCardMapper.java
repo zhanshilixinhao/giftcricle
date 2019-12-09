@@ -25,4 +25,6 @@ public interface MemberCardMapper {
     List<MemberEvent> selectByCardIds(List<Integer> list);
 
     List<MemberEvent> selectByCardId();
+
+    MemberEvent selectEventByCardId(Integer cardId);
 }

@@ -24,6 +24,10 @@ public class StoreTurnover {
 
     private Integer storeChargeId;
 
+    private Integer storeSendId;
+
+    private Byte type;
+
     public StoreTurnover(Integer id, Integer storeMemberId, BigDecimal blagMoney, BigDecimal turnoverMoney, Integer storeId, Integer blagStoreId, Date updated,
                          Date created,Integer eventId,Integer storeChargeId) {
         this.id = id;
@@ -36,6 +40,22 @@ public class StoreTurnover {
         this.created = created;
         this.eventId = eventId;
         this.storeChargeId = storeChargeId;
+    }
+
+    public Integer getStoreSendId() {
+        return storeSendId;
+    }
+
+    public void setStoreSendId(Integer storeSendId) {
+        this.storeSendId = storeSendId;
+    }
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
     }
 
     public Integer getStoreChargeId() {

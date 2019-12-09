@@ -58,6 +58,25 @@ from member_card a
          where  b.status = 1
          order by b.created desc
     </select>
+    <select id="selectEventByCardId" resultType="com.chouchong.entity.v3.MemberEvent">
+         select b.id,
+       b.title,
+       b.summary,
+       b.recharge_money,
+       b.send_money,
+       b.target_id,
+       b.admin_id,
+       b.type,
+       b.status,
+       b.updated,
+       b.created,
+       b.scale
+from member_card a
+         left join member_event b on a.members_event_id = b.id
+where b.status = 10
+and a.membership_card_id = #{cardId}
+
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from member_card

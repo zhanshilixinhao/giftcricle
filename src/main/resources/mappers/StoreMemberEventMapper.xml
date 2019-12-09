@@ -25,7 +25,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     id, user_id, membership_card_id, store_id, member_event_id, order_no, capital_money,
-    send_money, total_money, explain, scale, type, capital_balance, capital_status, send_balance,
+    send_money, total_money, `explain`, scale, type, capital_balance, capital_status, send_balance,
     send_status, updated, created
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -33,6 +33,26 @@
     <include refid="Base_Column_List" />
     from store_member_event
     where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectByUserIdCardId" resultType="com.chouchong.entity.v3.StoreMemberEvent">
+      select
+      <include refid="Base_Column_List" />
+      from store_member_event
+      where user_id = #{userId}
+      and membership_card_id = #{cardId}
+      and type != 2
+      and capital_status != 3
+      order by created ASC
+    </select>
+  <select id="selectByUserIdCardId1" resultType="com.chouchong.entity.v3.StoreMemberEvent">
+    select
+    <include refid="Base_Column_List" />
+    from store_member_event
+    where user_id = #{userId}
+    and membership_card_id = #{cardId}
+    and type != 2
+    and send_status != 3
+    order by created ASC
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from store_member_event
@@ -42,7 +62,7 @@
     insert into store_member_event (id, user_id, membership_card_id,
       store_id, member_event_id, order_no,
       capital_money, send_money, total_money,
-      explain, scale, type,
+      `explain`, scale, type,
       capital_balance, capital_status, send_balance,
       send_status, updated, created
       )
@@ -51,7 +71,7 @@
       #{capitalMoney,jdbcType=DECIMAL}, #{sendMoney,jdbcType=DECIMAL}, #{totalMoney,jdbcType=DECIMAL},
       #{explain,jdbcType=VARCHAR}, #{scale,jdbcType=REAL}, #{type,jdbcType=TINYINT},
       #{capitalBalance,jdbcType=DECIMAL}, #{capitalStatus,jdbcType=TINYINT}, #{sendBalance,jdbcType=DECIMAL},
-      #{sendStatus,jdbcType=TINYINT}, #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP}
+      #{sendStatus,jdbcType=TINYINT}, now(),now()
       )
   </insert>
   <insert id="insertSelective" parameterType="com.chouchong.entity.v3.StoreMemberEvent">
@@ -197,7 +217,7 @@
         total_money = #{totalMoney,jdbcType=DECIMAL},
       </if>
       <if test="explain != null">
-        explain = #{explain,jdbcType=VARCHAR},
+        `explain` = #{explain,jdbcType=VARCHAR},
       </if>
       <if test="scale != null">
         scale = #{scale,jdbcType=REAL},
