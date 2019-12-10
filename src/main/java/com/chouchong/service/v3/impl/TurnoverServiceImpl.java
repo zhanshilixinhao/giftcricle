@@ -119,6 +119,11 @@ public class TurnoverServiceImpl implements TurnoverService {
             PageHelper.startPage(page.getPageNum(), page.getPageSize());
         }
         List<TurnoverVo> turnoverVos = storeTurnoverMapper.selectBySearch(eventId, title, startTime, endTime, storeId, merchantId, phone, storeName);
+        if (!CollectionUtils.isEmpty(turnoverVos)){
+            for (TurnoverVo turnoverVo : turnoverVos) {
+                turnoverVo.setTotalMoney(BigDecimalUtil.add(turnoverVo.getBlagMoney().doubleValue(),turnoverVo.getTurnoverMoney().doubleValue()));
+            }
+        }
         PageInfo pageInfo = new PageInfo<>(turnoverVos);
         turnoverVos1.setTurnoverVo(turnoverVos);
         turnoverVos1.setTotalMoney(BigDecimalUtil.add(turnoverVos1.getTotalBlagMoney().doubleValue(), turnoverVos1.getTotalTurnoverMoney().doubleValue()));

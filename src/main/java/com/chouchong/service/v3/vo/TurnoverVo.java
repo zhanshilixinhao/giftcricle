@@ -32,6 +32,8 @@ public class TurnoverVo {
 
     private String title;
 
+    private Byte type;
+
     private Integer eventId;
 
     private String eventName;
@@ -41,6 +43,14 @@ public class TurnoverVo {
     private Long orderNo;
 
     private BigDecimal totalMoney;
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
+    }
 
     public Long getOrderNo() {
         return orderNo;

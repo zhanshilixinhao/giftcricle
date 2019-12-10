@@ -79,4 +79,20 @@ public interface UserCardService {
      * @return
      */
     Response updateCardGrade(Integer userId, Integer cardId, Integer gradeId);
+
+    /**
+     * 查询活动卡充值赠送金额的余额
+     * @param userId 用户id
+     * @param cardId 会员卡id
+     * @return
+     */
+    Response getEventCardDetail(Integer userId, Integer cardId);
+
+    /**
+     * 改变查询活动卡充值赠送金额状态
+     * @param userId 用户id
+     * @param cardId 会员卡id
+     * @return
+     */
+    Response getEventCardStatus(Integer storeMemberEventId);
 }

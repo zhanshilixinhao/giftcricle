@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import retrofit2.http.POST;
 
 import java.math.BigDecimal;
 
@@ -134,7 +135,32 @@ public class UserCardController {
         return userCardService.updateCardGrade(userId,cardId,gradeId);
     }
 
+    /**
+     * 查询活动卡充值赠送金额的余额
+     * @param userId 用户id
+     * @param cardId 会员卡id
+     * @return
+     */
+    @PostMapping("card_detail")
+    public Response getEventCardDetail(Integer userId, Integer cardId){
+        if (userId == null || cardId == null){
+            return ResponseFactory.errMissingParameter();
+        }
+        return userCardService.getEventCardDetail(userId,cardId);
+    }
 
+    /**
+     * 改变活动卡充值赠送金额状态
+     * @param storeMemberEventId 会员卡id
+     * @return
+     */
+    @PostMapping("card_status")
+    public Response getEventCardStatus(Integer storeMemberEventId){
+        if (storeMemberEventId == null){
+            return ResponseFactory.errMissingParameter();
+        }
+        return userCardService.getEventCardStatus(storeMemberEventId);
+    }
 
 
 }

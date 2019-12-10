@@ -26,6 +26,8 @@
         where id = #{id,jdbcType=INTEGER}
     </select>
     <select id="selectBySearch" resultType="com.chouchong.service.v3.vo.TurnoverVo">
+        select a.*
+        from (
         select a.id,
         a.blag_money,
         a.turnover_money,
@@ -33,10 +35,9 @@
         a.created,
         a.event_id,
         c.title,
+        c.type,
         b.membership_card_id,
         b.order_no,
-        b.expense_money as totalMoney,
-        c.card_no,
         d.nickname,
         d.phone,
         e.name as storeName,
@@ -48,24 +49,49 @@
         left join app_user d on d.id = b.user_id
         left join store e on a.store_id = e.id
         left join member_event f on a.event_id = f.id
-        where 1=1
+        where c.type = 10 or c.type = 1
+        union all
+        select a.id,
+        a.blag_money,
+        a.turnover_money,
+        a.store_id,
+        a.created,
+        a.event_id,
+        c.title,
+        c.type,
+        b.membership_card_id,
+        b.order_no,
+        d.nickname,
+        d.phone,
+        e.name as storeName,
+        f.title as eventName,
+        b.user_id
+        from store_turnover a
+        left join store_member_event b on a.store_member_id = b.id
+        left join membership_card c on b.membership_card_id = c.id
+        left join app_user d on d.id = b.user_id
+        left join store e on a.store_id = e.id
+        left join member_event f on a.event_id = f.id
+        where c.type = 11
+        ) a
+        where 1 = 1
         <if test="storeId != null ">
             and a.store_id = #{storeId}
         </if>
         <if test="merchantId != null ">
-            and b.merchant_id = #{merchantId}
+            and a.merchant_id = #{merchantId}
         </if>
         <if test="eventId != null">
             and a.event_id = #{eventId}
         </if>
         <if test="title != null and title != ''">
-            and c.title like concat('%',#{title},'%')
+            and a.title like concat('%',#{title},'%')
         </if>
         <if test="phone != null and phone != ''">
-            and d.phone like concat('%',#{phone},'%')
+            and a.phone like concat('%',#{phone},'%')
         </if>
         <if test="storeName != null and storeName != ''">
-            and e.name like concat('%',#{storeName},'%')
+            and a.name like concat('%',#{storeName},'%')
         </if>
         <if test="startTime != null and endTime != null">
             and unix_timestamp(a.created) &gt;= #{startTime}

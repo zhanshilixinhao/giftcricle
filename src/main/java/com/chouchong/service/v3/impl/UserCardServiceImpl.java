@@ -27,7 +27,9 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author linqin
@@ -704,5 +706,65 @@ public class UserCardServiceImpl implements UserCardService {
             return ResponseFactory.err("失败");
         }
         return ResponseFactory.sucMsg("成功");
+    }
+
+
+    /**
+     * 查询活动卡充值赠送金额的余额
+     * @param userId 用户id
+     * @param cardId 会员卡id
+     * @return
+     */
+    @Override
+    public Response getEventCardDetail(Integer userId, Integer cardId) {
+        BigDecimal capital1 = new BigDecimal("0");
+        BigDecimal send1 = new BigDecimal("0");
+        byte caStatus = 1;
+        byte seStatus = 1;
+        List<StoreMemberEvent> capitals = storeMemberEventMapper.selectByUserIdCardId(userId, cardId);
+        if (!CollectionUtils.isEmpty(capitals)){
+            for (StoreMemberEvent capital : capitals) {
+                capital1 = BigDecimalUtil.add(capital1.doubleValue(),capital.getCapitalBalance().doubleValue());
+            }
+        }
+        List<StoreMemberEvent> sends = storeMemberEventMapper.selectByUserIdCardId1(userId, cardId);
+        if (!CollectionUtils.isEmpty(sends)){
+            for (StoreMemberEvent send : sends) {
+                send1 = BigDecimalUtil.add(send1.doubleValue(),send.getSendBalance().doubleValue());
+            }
+        }
+        if (capital1.compareTo(new BigDecimal("0")) == 0){
+            caStatus = 2;
+        }
+        if (send1.compareTo(new BigDecimal("0")) == 0){
+            seStatus = 2;
+        }
+        List<StoreMemberEvent> list = storeMemberEventMapper.selectByUserIdCardIds(userId, cardId);
+        Map<String, Object> map = new HashMap<>();
+        map.put("capital1",capital1);
+        map.put("send1",send1);
+        map.put("caStatus",caStatus);
+        map.put("seStatus",seStatus);
+        map.put("list",list);
+        return ResponseFactory.sucData(map);
+    }
+
+    /**
+     * 改变查询活动卡充值赠送金额状态
+     * @param storeMemberEventId 用户id
+     * @return
+     */
+    @Override
+    public Response getEventCardStatus(Integer storeMemberEventId) {
+        StoreMemberEvent storeMemberEvent = storeMemberEventMapper.selectByPrimaryKey(storeMemberEventId);
+        if  (storeMemberEvent != null && storeMemberEvent.getSendStatus() == 3){
+            // 已返现
+            storeMemberEvent.setSendStatus((byte)5);
+            int i = storeMemberEventMapper.updateByPrimaryKeySelective(storeMemberEvent);
+            if (i == 1){
+                return ResponseFactory.suc();
+            }
+        }
+        return ResponseFactory.err("");
     }
 }

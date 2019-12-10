@@ -52,6 +52,17 @@
     and membership_card_id = #{cardId}
     and type != 2
     and send_status != 3
+    and send_status != 5
+    order by created ASC
+  </select>
+  <select id="selectByUserIdCardIds" resultType="com.chouchong.entity.v3.StoreMemberEvent">
+    select
+    <include refid="Base_Column_List" />
+    from store_member_event
+    where user_id = #{userId}
+    and membership_card_id = #{cardId}
+    and type != 2
+    and send_status != 5
     order by created ASC
   </select>
     <select id="selectByUserIdCardIdOrderNo" resultType="com.chouchong.entity.v3.StoreMemberEvent">
