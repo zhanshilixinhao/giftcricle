@@ -78,9 +78,6 @@
         <if test="storeId != null ">
             and a.store_id = #{storeId}
         </if>
-        <if test="merchantId != null ">
-            and a.merchant_id = #{merchantId}
-        </if>
         <if test="eventId != null">
             and a.event_id = #{eventId}
         </if>
