@@ -62,7 +62,6 @@
     where user_id = #{userId}
     and membership_card_id = #{cardId}
     and type != 2
-    and send_status != 5
     order by created ASC
   </select>
     <select id="selectByUserIdCardIdOrderNo" resultType="com.chouchong.entity.v3.StoreMemberEvent">
