@@ -40,16 +40,17 @@
         b.order_no,
         d.nickname,
         d.phone,
-        e.name as storeName,
+        e.name  as storeName,
         f.title as eventName,
-        b.user_id
+        b.user_id,
+        a.type as expenseType
         from store_turnover a
         left join store_member_charge b on a.store_member_id = b.id
         left join membership_card c on b.membership_card_id = c.id
         left join app_user d on d.id = b.user_id
         left join store e on a.store_id = e.id
         left join member_event f on a.event_id = f.id
-        where c.type = 10 or c.type = 1
+        where a.type = 1
         union all
         select a.id,
         a.blag_money,
@@ -63,16 +64,17 @@
         b.order_no,
         d.nickname,
         d.phone,
-        e.name as storeName,
+        e.name  as storeName,
         f.title as eventName,
-        b.user_id
+        b.user_id,
+        a.type as expenseType
         from store_turnover a
         left join store_member_event b on a.store_member_id = b.id
         left join membership_card c on b.membership_card_id = c.id
         left join app_user d on d.id = b.user_id
         left join store e on a.store_id = e.id
         left join member_event f on a.event_id = f.id
-        where c.type = 11
+        where a.type = 2
         ) a
         where 1 = 1
         <if test="storeId != null ">
@@ -94,7 +96,7 @@
             and unix_timestamp(a.created) &gt;= #{startTime}
             and unix_timestamp(a.created) &lt; #{endTime}
         </if>
-        order by a.created DESC
+        order by a.created DESC, a.order_no DESC
     </select>
     <select id="selectBySearch1" resultType="com.chouchong.service.v3.vo.TurnoverVos">
         select sum(a.blag_money) as totalBlagMoney,

@@ -33,6 +33,10 @@ public class TurnoverVo {
     private String title;
 
     private Byte type;
+    /**
+     * 1 普通卡消费 2 活动卡消费
+     */
+    private Byte expenseType;
 
     private Integer eventId;
 
@@ -43,6 +47,14 @@ public class TurnoverVo {
     private Long orderNo;
 
     private BigDecimal totalMoney;
+
+    public Byte getExpenseType() {
+        return expenseType;
+    }
+
+    public void setExpenseType(Byte expenseType) {
+        this.expenseType = expenseType;
+    }
 
     public Byte getType() {
         return type;
