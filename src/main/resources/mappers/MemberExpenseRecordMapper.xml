@@ -74,6 +74,9 @@ order by a.created DESC
         <if test="cardNo != null">
             and g.card_no like concat('%',#{cardNo},'%')
         </if>
+        <if test="orderNo != null">
+            and a.order_no like concat('%',#{orderNo},'%')
+        </if>
         <if test="startTime != null and endTime != null">
             and unix_timestamp(a.created) &gt;= #{startTime}
             and unix_timestamp(a.created) &lt; #{endTime}
@@ -113,6 +116,9 @@ order by a.created DESC
         <if test="cardNo != null">
             and g.card_no like concat('%',#{cardNo},'%')
         </if>
+        <if test="orderNo != null">
+            and a.order_no like concat('%',#{orderNo},'%')
+        </if>
         <if test="startTime != null and endTime != null">
             and unix_timestamp(a.created) &gt;= #{startTime}
             and unix_timestamp(a.created) &lt; #{endTime}
@@ -139,6 +145,9 @@ order by a.created DESC
         <if test="cardNo != null">
             and g.card_no like concat('%',#{cardNo},'%')
         </if>
+        <if test="orderNo != null">
+            and a.order_no like concat('%',#{orderNo},'%')
+        </if>
         <if test="startTime != null and endTime != null">
             and unix_timestamp(a.created) &gt;= #{startTime}
             and unix_timestamp(a.created) &lt; #{endTime}
@@ -164,6 +173,9 @@ order by a.created DESC
         </if>
         <if test="cardNo != null">
             and g.card_no like concat('%',#{cardNo},'%')
+        </if>
+        <if test="orderNo != null">
+            and a.order_no like concat('%',#{orderNo},'%')
         </if>
         <if test="startTime != null and endTime != null">
             and unix_timestamp(a.created) &gt;= #{startTime}

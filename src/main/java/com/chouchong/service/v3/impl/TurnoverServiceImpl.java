@@ -204,7 +204,7 @@ public class TurnoverServiceImpl implements TurnoverService {
      * @return
      */
     @Override
-    public Response getExpenseRecord(PageQuery page, String phone, String storeName, Long cardNo, Long startTime, Long endTime, Integer isExport) throws ParseException {
+    public Response getExpenseRecord(PageQuery page, String phone, String storeName, Long cardNo, Long orderNo, Long startTime, Long endTime, Integer isExport) throws ParseException {
         if (startTime != null) {
             startTime = TimeUtils.time(startTime);
         }
@@ -221,14 +221,14 @@ public class TurnoverServiceImpl implements TurnoverService {
             if (list.size() == 0) {
                 return ResponseFactory.suc();
             }
-            ExpenseReVos expenseRes1 = memberExpenseRecordMapper.selectBySearch1s(phone, storeName, cardNo, startTime, endTime, list);
+            ExpenseReVos expenseRes1 = memberExpenseRecordMapper.selectBySearch1s(phone, storeName, cardNo,orderNo, startTime, endTime, list);
             if (expenseRes1 == null) {
                 expenseRes1 = new ExpenseReVos();
             }
             if (isExport == null){
                 PageHelper.startPage(page.getPageNum(), page.getPageSize());
             }
-            List<ExpenseReVo> expenseRes = memberExpenseRecordMapper.selectBySearch1(phone, storeName, cardNo, startTime, endTime, list);
+            List<ExpenseReVo> expenseRes = memberExpenseRecordMapper.selectBySearch1(phone, storeName, cardNo,orderNo, startTime, endTime, list);
             PageInfo pageInfo = new PageInfo<>(expenseRes);
             expenseRes1.setExpenseReVo(expenseRes);
             return ResponseFactory.page(expenseRes1, pageInfo.getTotal(), pageInfo.getPages(),
@@ -236,14 +236,14 @@ public class TurnoverServiceImpl implements TurnoverService {
         } else if (webUserInfo.getRoleId() == 5) {
             adminId = webUserInfo.getSysAdmin().getId();
         }
-        ExpenseReVos expenseRes1 = memberExpenseRecordMapper.selectBySearchs(phone, storeName, cardNo, startTime, endTime, adminId);
+        ExpenseReVos expenseRes1 = memberExpenseRecordMapper.selectBySearchs(phone, storeName, cardNo,orderNo, startTime, endTime, adminId);
         if (expenseRes1 == null) {
             expenseRes1 = new ExpenseReVos();
         }
         if (isExport == null){
             PageHelper.startPage(page.getPageNum(), page.getPageSize());
         }
-        List<ExpenseReVo> expenseRes = memberExpenseRecordMapper.selectBySearch(phone, storeName, cardNo, startTime, endTime, adminId);
+        List<ExpenseReVo> expenseRes = memberExpenseRecordMapper.selectBySearch(phone, storeName, cardNo,orderNo, startTime, endTime, adminId);
         PageInfo pageInfo = new PageInfo<>(expenseRes);
         expenseRes1.setExpenseReVo(expenseRes);
         return ResponseFactory.page(expenseRes1, pageInfo.getTotal(), pageInfo.getPages(),

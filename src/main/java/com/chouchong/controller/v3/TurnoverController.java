@@ -162,9 +162,9 @@ public class TurnoverController {
      * @return
      */
     @RequestMapping("expense_list")
-    public Response getExpenseRecord(PageQuery page, String phone, String storeName, Long cardNo, Long startTime,
+    public Response getExpenseRecord(PageQuery page, String phone, String storeName, Long cardNo,Long orderNo, Long startTime,
                                      Long endTime, Integer isExport, HttpServletRequest request, HttpServletResponse respon) throws ParseException, IOException {
-        Response response = turnoverService.getExpenseRecord(page, phone, storeName, cardNo, startTime, endTime,isExport);
+        Response response = turnoverService.getExpenseRecord(page, phone, storeName, cardNo,orderNo, startTime, endTime,isExport);
         if (response.getData() instanceof ExpenseReVos && ((ExpenseReVos) response.getData()).getExpenseReVo() != null) {
             List<ExpenseReVo> vos = ((ExpenseReVos) response.getData()).getExpenseReVo();
             if (!CollectionUtils.isEmpty(vos) && isExport != null) {

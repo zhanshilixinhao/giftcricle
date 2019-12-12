@@ -5,10 +5,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.chouchong.common.*;
 import com.chouchong.dao.iwant.merchant.MerchantMapper;
+import com.chouchong.dao.v3.StoreMapper;
 import com.chouchong.dao.webUser.SysAdminMapper;
 import com.chouchong.dao.webUser.SysAdminRoleMapper;
 import com.chouchong.dao.webUser.SysRoleMapper;
 import com.chouchong.entity.iwant.merchant.Merchant;
+import com.chouchong.entity.v3.Store;
 import com.chouchong.entity.webUser.*;
 import com.chouchong.redis.MRedisTemplate;
 import com.chouchong.service.webUser.WebUserService;
@@ -52,6 +54,9 @@ public class WebUserServiceImpl implements WebUserService{
     private MerchantMapper merchantMapper;
 
     @Autowired
+    private StoreMapper storeMapper;
+
+    @Autowired
     private MRedisTemplate mRedisTemplate;
 
     @Autowired
@@ -84,6 +89,19 @@ public class WebUserServiceImpl implements WebUserService{
                     return ResponseFactory.err("该账号角色已被禁用!");
                 }
             }
+            // 查看平台商账号是否过审核
+            if (sysAdminRole.getRoleId() == 3){
+                Merchant merchant = merchantMapper.selectByAdminId(sysAdmin.getId());
+                if (merchant == null) {
+                    return ResponseFactory.err("该平台商账号还未审核!");
+                }
+            }else if (sysAdminRole.getRoleId() == 5){
+                // 查看门店账号是否与门店关联
+                Store store = storeMapper.selectByAdminId(sysAdmin.getId());
+                if (store == null) {
+                    return ResponseFactory.err("该门店账号还未与门店关联!");
+                }
+            }
         }
         sysAdmin.setLoginCount(sysAdmin.getLoginCount() + 1);
         sysAdminMapper.updateByPrimaryKey(sysAdmin);
@@ -108,8 +126,8 @@ public class WebUserServiceImpl implements WebUserService{
         // 重新生成token
         token = IDUtils.genUUID();
         // 重新保存token
-        // token有效期三十分钟
-        Date expire = DateUtils.addMinutes(new Date(), 30);
+        // token有效期120分钟
+        Date expire = DateUtils.addMinutes(new Date(), 120);
         mRedisTemplate.setString(tKey, token, expire.getTime());
         mRedisTemplate.set(token, webUserInfo, expire);
         return ResponseFactory.sucData(token);

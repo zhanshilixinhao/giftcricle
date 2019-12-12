@@ -24,15 +24,16 @@ public interface MemberExpenseRecordMapper {
 
     List<ExpenseVo> selectByUserIdCardId(@Param("userId") Integer userId, @Param("cardId") Integer cardId);
 
-    List<ExpenseReVo> selectBySearch(@Param("phone") String phone, @Param("storeName") String storeName, @Param("cardNo") Long cardNo,
+    List<ExpenseReVo> selectBySearch(@Param("phone") String phone, @Param("storeName") String storeName, @Param("cardNo") Long cardNo, @Param("orderNo") Long orderNo,
                                      @Param("startTime") Long startTime, @Param("endTime") Long endTime, @Param("adminId") Integer adminId);
 
-    List<ExpenseReVo> selectBySearch1(@Param("phone") String phone, @Param("storeName") String storeName, @Param("cardNo") Long cardNo, @Param("startTime") Long startTime, @Param("endTime") Long endTime, @Param("list") List<Integer> list);
+    List<ExpenseReVo> selectBySearch1(@Param("phone") String phone, @Param("storeName") String storeName, @Param("cardNo") Long cardNo,@Param("orderNo") Long orderNo,
+                                      @Param("startTime") Long startTime, @Param("endTime") Long endTime, @Param("list") List<Integer> list);
 
-    ExpenseReVos selectBySearchs(@Param("phone") String phone, @Param("storeName") String storeName, @Param("cardNo") Long cardNo,
+    ExpenseReVos selectBySearchs(@Param("phone") String phone, @Param("storeName") String storeName, @Param("cardNo") Long cardNo,@Param("orderNo") Long orderNo,
                                  @Param("startTime") Long startTime, @Param("endTime") Long endTime, @Param("adminId") Integer adminId);
 
-    ExpenseReVos selectBySearch1s(@Param("phone") String phone, @Param("storeName") String storeName, @Param("cardNo") Long cardNo,
+    ExpenseReVos selectBySearch1s(@Param("phone") String phone, @Param("storeName") String storeName, @Param("cardNo") Long cardNo,@Param("orderNo") Long orderNo,
                                   @Param("startTime") Long startTime, @Param("endTime") Long endTime, @Param("list") List<Integer> list);
 
 }
