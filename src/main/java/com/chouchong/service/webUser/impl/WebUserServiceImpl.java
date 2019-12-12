@@ -121,7 +121,8 @@ public class WebUserServiceImpl implements WebUserService{
         String tKey = IDUtils.genAgentTokenKey(sysAdmin.getId());
         String token = mRedisTemplate.getString(tKey);
         if (StringUtils.isNotBlank(token)) {
-            mRedisTemplate.del(token);
+//            mRedisTemplate.del(token);
+            return ResponseFactory.sucData(token);
         }
         // 重新生成token
         token = IDUtils.genUUID();
