@@ -128,8 +128,8 @@ public class WebUserServiceImpl implements WebUserService{
         token = IDUtils.genUUID();
         // 重新保存token
         // token有效期120分钟
-        Date expire = DateUtils.addMinutes(new Date(), 120);
-        mRedisTemplate.setString(tKey, token, expire.getTime());
+        long expire = 120*60;
+        mRedisTemplate.setString(tKey, token, expire);
         mRedisTemplate.set(token, webUserInfo, expire);
         return ResponseFactory.sucData(token);
     }
