@@ -1,5 +1,6 @@
 package com.chouchong.service.v3.impl;
 
+import com.alibaba.druid.sql.visitor.functions.If;
 import com.alibaba.fastjson.TypeReference;
 import com.chouchong.common.*;
 import com.chouchong.dao.iwant.merchant.MerchantMapper;
@@ -224,6 +225,7 @@ public class StoreServiceImpl implements StoreService {
      */
     @Override
     public Response bindStore(Integer storeId, String username) {
+        WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         Store store = storeMapper.selectByPrimaryKey(storeId);
         if (store == null) {
             return ResponseFactory.err("该门店不存在");
@@ -235,6 +237,10 @@ public class StoreServiceImpl implements StoreService {
         SysAdmin sysAdmin = sysAdminMapper.selectByUserName(username);
         if (sysAdmin == null) {
             return ResponseFactory.err("用户名不存在");
+        }else {
+            if (!sysAdmin.getCreateAdminId().equals(webUserInfo.getSysAdmin().getId())){
+                return ResponseFactory.err("该门店账号不是本公司添加的，不能绑定");
+            }
         }
         store.setAdminId(sysAdmin.getId());
         int i = storeMapper.updateByPrimaryKeySelective(store);

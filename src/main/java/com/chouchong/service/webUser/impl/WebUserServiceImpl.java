@@ -120,10 +120,10 @@ public class WebUserServiceImpl implements WebUserService{
         // 判断之前是否有缓存
         String tKey = IDUtils.genAgentTokenKey(sysAdmin.getId());
         String token = mRedisTemplate.getString(tKey);
-        if (StringUtils.isNotBlank(token)) {
+//        if (StringUtils.isNotBlank(token)) {
 //            mRedisTemplate.del(token);
-            return ResponseFactory.sucData(token);
-        }
+//            return ResponseFactory.sucData(token);
+//        }
         // 重新生成token
         token = IDUtils.genUUID();
         // 重新保存token
