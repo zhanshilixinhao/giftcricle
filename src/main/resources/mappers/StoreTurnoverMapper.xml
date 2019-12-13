@@ -38,6 +38,7 @@
         c.type,
         b.membership_card_id,
         b.order_no,
+        b.merchant_id,
         d.nickname,
         d.phone,
         e.name  as storeName,
@@ -62,6 +63,7 @@
         c.type,
         b.membership_card_id,
         b.order_no,
+        b.merchant_id,
         d.nickname,
         d.phone,
         e.name  as storeName,
@@ -83,6 +85,9 @@
         <if test="eventId != null">
             and a.event_id = #{eventId}
         </if>
+        <if test="merchantId != null">
+            and a.merchant_id = #{merchantId}
+        </if>
         <if test="title != null and title != ''">
             and a.title like concat('%',#{title},'%')
         </if>
@@ -90,7 +95,7 @@
             and a.phone like concat('%',#{phone},'%')
         </if>
         <if test="storeName != null and storeName != ''">
-            and a.name like concat('%',#{storeName},'%')
+            and a.storeName like concat('%',#{storeName},'%')
         </if>
         <if test="startTime != null and endTime != null">
             and unix_timestamp(a.created) &gt;= #{startTime}

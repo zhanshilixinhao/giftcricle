@@ -83,14 +83,14 @@
       capital_money, send_money, total_money,
       `explain`, scale, type,
       capital_balance, capital_status, send_balance,
-      send_status, updated, created
+      send_status, updated, created,merchant_id
       )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{membershipCardId,jdbcType=INTEGER},
       #{storeId,jdbcType=INTEGER}, #{memberEventId,jdbcType=INTEGER}, #{orderNo,jdbcType=BIGINT},
       #{capitalMoney,jdbcType=DECIMAL}, #{sendMoney,jdbcType=DECIMAL}, #{totalMoney,jdbcType=DECIMAL},
       #{explain,jdbcType=VARCHAR}, #{scale,jdbcType=REAL}, #{type,jdbcType=TINYINT},
       #{capitalBalance,jdbcType=DECIMAL}, #{capitalStatus,jdbcType=TINYINT}, #{sendBalance,jdbcType=DECIMAL},
-      #{sendStatus,jdbcType=TINYINT}, now(),now()
+      #{sendStatus,jdbcType=TINYINT}, now(),now(),#{merchantId,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.chouchong.entity.v3.StoreMemberEvent">
