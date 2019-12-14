@@ -285,7 +285,7 @@ public class UserCardServiceImpl implements UserCardService {
                 ev.setSendBalance(send);
                 ev.setCapitalStatus((byte) 1);
                 ev.setSendStatus((byte) 1);
-                ev.setMerchant_id(merchant.getId());
+                ev.setMerchantId(merchant.getId());
                 detailChargeEvent(ev);
             } else {
                 // 普通储值卡
@@ -374,7 +374,7 @@ public class UserCardServiceImpl implements UserCardService {
                 ev.setSendBalance(new BigDecimal("0"));
                 ev.setCapitalStatus((byte) 4);
                 ev.setSendStatus((byte) 4);
-                ev.setMerchant_id(merchant.getId());
+                ev.setMerchantId(merchant.getId());
                 int storeMemberId = detailChargeEvent(ev);
                 // 计算营业额
                 turnoverEventCard(userId, cardId, storeMemberId, capital, storeId, send);
@@ -586,7 +586,7 @@ public class UserCardServiceImpl implements UserCardService {
         ev.setSendBalance(event.getSendBalance());
         ev.setCapitalStatus(event.getCapitalStatus());
         ev.setSendStatus(event.getSendStatus());
-        ev.setMerchant_id(event.getMerchant_id());
+        ev.setMerchantId(event.getMerchantId());
         MemberEvent memberEvent = memberEventMapper.selectByPrimaryKey(event.getMemberEventId());
         if (memberEvent != null && memberEvent.getScale() != null) {
             ev.setScale(memberEvent.getScale());

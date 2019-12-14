@@ -7,7 +7,7 @@ public class StoreMemberEvent {
     private Integer id;
 
     private Integer userId;
-    private Integer merchant_id;
+    private Integer merchantId;
 
     private Integer membershipCardId;
 
@@ -62,12 +62,12 @@ public class StoreMemberEvent {
         this.created = created;
     }
 
-    public Integer getMerchant_id() {
-        return merchant_id;
+    public Integer getMerchantId() {
+        return merchantId;
     }
 
-    public void setMerchant_id(Integer merchant_id) {
-        this.merchant_id = merchant_id;
+    public void setMerchantId(Integer merchantId) {
+        this.merchantId = merchantId;
     }
 
     public StoreMemberEvent() {
