@@ -103,7 +103,7 @@
         </if>
         order by a.created DESC, a.order_no DESC
     </select>
-    <select id="selectBySearch1" resultType="com.chouchong.service.v3.vo.TurnoverVos">
+    <select id="selectBySearch1" resultType="com.chouchong.service.v3.vo.TurnoverMoney">
         select sum(a.blag_money) as totalBlagMoney,
         sum(a.turnover_money) as totalTurnoverMoney
         from store_turnover a
@@ -112,7 +112,7 @@
         left join app_user d on d.id = b.user_id
         left join store e on a.store_id = e.id
         left join member_event f on a.event_id = f.id
-        where 1=1
+        where a.type = 1
         <if test="storeId != null ">
             and a.store_id = #{storeId}
         </if>
@@ -135,7 +135,38 @@
             and unix_timestamp(a.created) &gt;= #{startTime}
             and unix_timestamp(a.created) &lt; #{endTime}
         </if>
-        order by a.created DESC
+        union all
+        select sum(a.blag_money) as totalBlagMoney,
+        sum(a.turnover_money) as totalTurnoverMoney
+        from store_turnover a
+        left join store_member_event b on a.store_member_id = b.id
+        left join membership_card c on b.membership_card_id = c.id
+        left join app_user d on d.id = b.user_id
+        left join store e on a.store_id = e.id
+        left join member_event f on a.event_id = f.id
+        where a.type = 2
+        <if test="storeId != null ">
+            and a.store_id = #{storeId}
+        </if>
+        <if test="merchantId != null ">
+            and b.merchant_id = #{merchantId}
+        </if>
+        <if test="eventId != null">
+            and a.event_id = #{eventId}
+        </if>
+        <if test="title != null and title != ''">
+            and c.title like concat('%',#{title},'%')
+        </if>
+        <if test="phone != null and phone != ''">
+            and d.phone like concat('%',#{phone},'%')
+        </if>
+        <if test="storeName != null and storeName != ''">
+            and e.name like concat('%',#{storeName},'%')
+        </if>
+        <if test="startTime != null and endTime != null">
+            and unix_timestamp(a.created) &gt;= #{startTime}
+            and unix_timestamp(a.created) &lt; #{endTime}
+        </if>
     </select>
     <select id="selectByStoreMId" resultType="com.chouchong.entity.v3.StoreTurnover">
         select

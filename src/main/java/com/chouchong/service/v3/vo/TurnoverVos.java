@@ -11,28 +11,8 @@ import java.util.List;
 public class TurnoverVos {
 
    private List<TurnoverVo> turnoverVo;
-    /**
-     * 总消费金额
-     */
-   private BigDecimal totalMoney ;
 
-    /**
-     * /总收入
-     */
-   private BigDecimal totalBlagMoney;
-
-    /**
-     * /总营业额
-     */
-   private BigDecimal totalTurnoverMoney;
-
-    public BigDecimal getTotalMoney() {
-        return totalMoney;
-    }
-
-    public void setTotalMoney(BigDecimal totalMoney) {
-        this.totalMoney = totalMoney;
-    }
+   private TurnoverMoney money;
 
     public List<TurnoverVo> getTurnoverVo() {
         return turnoverVo;
@@ -42,19 +22,11 @@ public class TurnoverVos {
         this.turnoverVo = turnoverVo;
     }
 
-    public BigDecimal getTotalBlagMoney() {
-        return totalBlagMoney;
+    public TurnoverMoney getMoney() {
+        return money;
     }
 
-    public void setTotalBlagMoney(BigDecimal totalBlagMoney) {
-        this.totalBlagMoney = totalBlagMoney;
-    }
-
-    public BigDecimal getTotalTurnoverMoney() {
-        return totalTurnoverMoney;
-    }
-
-    public void setTotalTurnoverMoney(BigDecimal totalTurnoverMoney) {
-        this.totalTurnoverMoney = totalTurnoverMoney;
+    public void setMoney(TurnoverMoney money) {
+        this.money = money;
     }
 }

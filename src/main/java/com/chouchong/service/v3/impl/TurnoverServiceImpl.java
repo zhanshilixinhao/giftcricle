@@ -105,29 +105,37 @@ public class TurnoverServiceImpl implements TurnoverService {
                 storeId = store.getId();
             }
         }
-        TurnoverVos turnoverVos1 = storeTurnoverMapper.selectBySearch1(eventId, title, startTime, endTime, storeId, merchantId, phone, storeName);
-        if (turnoverVos1 == null) {
-            turnoverVos1 = new TurnoverVos();
+        TurnoverVos vos = new TurnoverVos();
+        TurnoverMoney money = new TurnoverMoney();
+        List<TurnoverMoney> turnoverVo1 = storeTurnoverMapper.selectBySearch1(eventId, title, startTime, endTime, storeId, merchantId, phone, storeName);
+        if (!CollectionUtils.isEmpty(turnoverVo1)) {
+            for (TurnoverMoney turnoverMoney : turnoverVo1) {
+                if (turnoverMoney != null) {
+                    if (turnoverMoney.getTotalTurnoverMoney() == null) {
+                        turnoverMoney.setTotalTurnoverMoney(new BigDecimal("0"));
+                    }
+                    if (turnoverMoney.getTotalBlagMoney() == null) {
+                        turnoverMoney.setTotalBlagMoney(new BigDecimal("0"));
+                    }
+                    money.setTotalTurnoverMoney(BigDecimalUtil.add(money.getTotalTurnoverMoney().doubleValue(), turnoverMoney.getTotalTurnoverMoney().doubleValue()));
+                    money.setTotalBlagMoney(BigDecimalUtil.add(money.getTotalBlagMoney().doubleValue(), turnoverMoney.getTotalBlagMoney().doubleValue()));
+                }
+            }
         }
-        if (turnoverVos1.getTotalBlagMoney() == null) {
-            turnoverVos1.setTotalBlagMoney(new BigDecimal("0"));
-        }
-        if (turnoverVos1.getTotalTurnoverMoney() == null) {
-            turnoverVos1.setTotalTurnoverMoney(new BigDecimal("0"));
-        }
-        if (isExport == null){
+        money.setTotalMoney(BigDecimalUtil.add(money.getTotalBlagMoney().doubleValue(), money.getTotalTurnoverMoney().doubleValue()));
+        if (isExport == null) {
             PageHelper.startPage(page.getPageNum(), page.getPageSize());
         }
         List<TurnoverVo> turnoverVos = storeTurnoverMapper.selectBySearch(eventId, title, startTime, endTime, storeId, merchantId, phone, storeName);
-        if (!CollectionUtils.isEmpty(turnoverVos)){
+        if (!CollectionUtils.isEmpty(turnoverVos)) {
             for (TurnoverVo turnoverVo : turnoverVos) {
-                turnoverVo.setTotalMoney(BigDecimalUtil.add(turnoverVo.getBlagMoney().doubleValue(),turnoverVo.getTurnoverMoney().doubleValue()));
+                turnoverVo.setTotalMoney(BigDecimalUtil.add(turnoverVo.getBlagMoney().doubleValue(), turnoverVo.getTurnoverMoney().doubleValue()));
             }
         }
         PageInfo pageInfo = new PageInfo<>(turnoverVos);
-        turnoverVos1.setTurnoverVo(turnoverVos);
-        turnoverVos1.setTotalMoney(BigDecimalUtil.add(turnoverVos1.getTotalBlagMoney().doubleValue(), turnoverVos1.getTotalTurnoverMoney().doubleValue()));
-        return ResponseFactory.page(turnoverVos1, pageInfo.getTotal(), pageInfo.getPages(),
+        vos.setTurnoverVo(turnoverVos);
+        vos.setMoney(money);
+        return ResponseFactory.page(vos, pageInfo.getTotal(), pageInfo.getPages(),
                 pageInfo.getPageNum(), pageInfo.getPageSize());
     }
 
@@ -165,7 +173,7 @@ public class TurnoverServiceImpl implements TurnoverService {
             if (chargeRes1 == null) {
                 chargeRes1 = new ChargeReVos();
             }
-            if (isExport == null){
+            if (isExport == null) {
                 PageHelper.startPage(page.getPageNum(), page.getPageSize());
             }
             List<ChargeReVo> chargeRes = memberChargeRecordMapper.selectBySearch1(phone, storeName, cardNo, startTime, endTime, list);
@@ -181,7 +189,7 @@ public class TurnoverServiceImpl implements TurnoverService {
         if (chargeRes1 == null) {
             chargeRes1 = new ChargeReVos();
         }
-        if (isExport == null){
+        if (isExport == null) {
             PageHelper.startPage(page.getPageNum(), page.getPageSize());
         }
         List<ChargeReVo> chargeRes = memberChargeRecordMapper.selectBySearch(phone, storeName, cardNo, startTime, endTime, adminId);
@@ -221,14 +229,14 @@ public class TurnoverServiceImpl implements TurnoverService {
             if (list.size() == 0) {
                 return ResponseFactory.suc();
             }
-            ExpenseReVos expenseRes1 = memberExpenseRecordMapper.selectBySearch1s(phone, storeName, cardNo,orderNo, startTime, endTime, list);
+            ExpenseReVos expenseRes1 = memberExpenseRecordMapper.selectBySearch1s(phone, storeName, cardNo, orderNo, startTime, endTime, list);
             if (expenseRes1 == null) {
                 expenseRes1 = new ExpenseReVos();
             }
-            if (isExport == null){
+            if (isExport == null) {
                 PageHelper.startPage(page.getPageNum(), page.getPageSize());
             }
-            List<ExpenseReVo> expenseRes = memberExpenseRecordMapper.selectBySearch1(phone, storeName, cardNo,orderNo, startTime, endTime, list);
+            List<ExpenseReVo> expenseRes = memberExpenseRecordMapper.selectBySearch1(phone, storeName, cardNo, orderNo, startTime, endTime, list);
             PageInfo pageInfo = new PageInfo<>(expenseRes);
             expenseRes1.setExpenseReVo(expenseRes);
             return ResponseFactory.page(expenseRes1, pageInfo.getTotal(), pageInfo.getPages(),
@@ -236,14 +244,14 @@ public class TurnoverServiceImpl implements TurnoverService {
         } else if (webUserInfo.getRoleId() == 5) {
             adminId = webUserInfo.getSysAdmin().getId();
         }
-        ExpenseReVos expenseRes1 = memberExpenseRecordMapper.selectBySearchs(phone, storeName, cardNo,orderNo, startTime, endTime, adminId);
+        ExpenseReVos expenseRes1 = memberExpenseRecordMapper.selectBySearchs(phone, storeName, cardNo, orderNo, startTime, endTime, adminId);
         if (expenseRes1 == null) {
             expenseRes1 = new ExpenseReVos();
         }
-        if (isExport == null){
+        if (isExport == null) {
             PageHelper.startPage(page.getPageNum(), page.getPageSize());
         }
-        List<ExpenseReVo> expenseRes = memberExpenseRecordMapper.selectBySearch(phone, storeName, cardNo,orderNo, startTime, endTime, adminId);
+        List<ExpenseReVo> expenseRes = memberExpenseRecordMapper.selectBySearch(phone, storeName, cardNo, orderNo, startTime, endTime, adminId);
         PageInfo pageInfo = new PageInfo<>(expenseRes);
         expenseRes1.setExpenseReVo(expenseRes);
         return ResponseFactory.page(expenseRes1, pageInfo.getTotal(), pageInfo.getPages(),
@@ -263,7 +271,7 @@ public class TurnoverServiceImpl implements TurnoverService {
      * @return
      */
     @Override
-    public Response getRefundExpense(PageQuery page, String phone, String storeName, Long cardNo, Long startTime, Long endTime,Integer isExport) throws ParseException {
+    public Response getRefundExpense(PageQuery page, String phone, String storeName, Long cardNo, Long startTime, Long endTime, Integer isExport) throws ParseException {
         if (startTime != null) {
             startTime = TimeUtils.time(startTime);
         }
@@ -280,7 +288,7 @@ public class TurnoverServiceImpl implements TurnoverService {
             if (list.size() == 0) {
                 return ResponseFactory.suc();
             }
-            if (isExport == null){
+            if (isExport == null) {
                 PageHelper.startPage(page.getPageNum(), page.getPageSize());
             }
             List<RefundVo> refundVos = cardRebateMapper.selectBySearch1(phone, storeName, cardNo, startTime, endTime, list);
@@ -290,7 +298,7 @@ public class TurnoverServiceImpl implements TurnoverService {
         } else if (webUserInfo.getRoleId() == 5) {
             adminId = webUserInfo.getSysAdmin().getId();
         }
-        if (isExport == null){
+        if (isExport == null) {
             PageHelper.startPage(page.getPageNum(), page.getPageSize());
         }
         List<RefundVo> refundVos = cardRebateMapper.selectBySearch(phone, storeName, cardNo, startTime, endTime, adminId);
@@ -326,11 +334,11 @@ public class TurnoverServiceImpl implements TurnoverService {
         Byte type = membershipCardMapper.selectTypeById(rebate.getMembershipCardId());
         // 退款
         // 退回门店金额详情表消费,并删除，删除营业额记录
-        if (type == 11){
+        if (type == 11) {
             // 活动卡
-            rebateStoreMemberEvent(rebate.getMembershipCardId(),rebate.getUserId(),rebate.getOrderNo());
-        }else {
-            rebateStoreMemberCharge(rebate.getMembershipCardId(),rebate.getUserId(),rebate.getOrderNo());
+            rebateStoreMemberEvent(rebate.getMembershipCardId(), rebate.getUserId(), rebate.getOrderNo());
+        } else {
+            rebateStoreMemberCharge(rebate.getMembershipCardId(), rebate.getUserId(), rebate.getOrderNo());
         }
         // 删除消费记录
         int i = memberExpenseRecordMapper.deleteByPrimaryKey(rebate.getExpenseRecordId());
@@ -339,8 +347,8 @@ public class TurnoverServiceImpl implements TurnoverService {
         }
         // 退回用户余额
         UserMemberCard user = userMemberCardMapper.selectByUseridcardId(rebate.getUserId(), rebate.getMembershipCardId());
-        if (user != null){
-            user.setBalance(BigDecimalUtil.add(user.getBalance().doubleValue(),rebate.getMoney().doubleValue()));
+        if (user != null) {
+            user.setBalance(BigDecimalUtil.add(user.getBalance().doubleValue(), rebate.getMoney().doubleValue()));
             int i1 = userMemberCardMapper.updateByPrimaryKeySelective(user);
             if (i1 < 1) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "退回用户余额失败");
@@ -366,7 +374,7 @@ public class TurnoverServiceImpl implements TurnoverService {
         if (charge == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "金额详情记录不存在");
         }
-        List<StoreTurnover> lists = storeTurnoverMapper.selectByStoreMId(charge.getId(),(byte)1);
+        List<StoreTurnover> lists = storeTurnoverMapper.selectByStoreMId(charge.getId(), (byte) 1);
         if (!CollectionUtils.isEmpty(lists)) {
             for (StoreTurnover list : lists) {
                 // 总扣款金额
@@ -414,7 +422,7 @@ public class TurnoverServiceImpl implements TurnoverService {
         if (event == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "金额详情记录不存在");
         }
-        List<StoreTurnover> lists = storeTurnoverMapper.selectByStoreMId(event.getId(),(byte)2);
+        List<StoreTurnover> lists = storeTurnoverMapper.selectByStoreMId(event.getId(), (byte) 2);
         if (!CollectionUtils.isEmpty(lists)) {
             for (StoreTurnover list : lists) {
                 // 查询被扣款的记录并更新记录

@@ -2,6 +2,7 @@ package com.chouchong.dao.v3;
 
 
 import com.chouchong.entity.v3.StoreTurnover;
+import com.chouchong.service.v3.vo.TurnoverMoney;
 import com.chouchong.service.v3.vo.TurnoverVo;
 import com.chouchong.service.v3.vo.TurnoverVos;
 import org.apache.ibatis.annotations.Param;
@@ -27,9 +28,9 @@ public interface StoreTurnoverMapper {
                                     @Param("phone") String phone, @Param("storeName") String storeName);
 
 
-    TurnoverVos selectBySearch1(@Param("eventId") Integer eventId, @Param("title") String title,
-                                      @Param("startTime") Long startTime, @Param("endTime") Long endTime, @Param("storeId") Integer storeId,
-                                      @Param("merchantId") Integer merchantId,@Param("phone") String phone, @Param("storeName") String storeName);
+    List<TurnoverMoney> selectBySearch1(@Param("eventId") Integer eventId, @Param("title") String title,
+                                        @Param("startTime") Long startTime, @Param("endTime") Long endTime, @Param("storeId") Integer storeId,
+                                        @Param("merchantId") Integer merchantId, @Param("phone") String phone, @Param("storeName") String storeName);
 
     List<StoreTurnover> selectByStoreMId(@Param("id") Integer id, @Param("type") Byte type);
 }
