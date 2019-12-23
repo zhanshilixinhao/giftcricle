@@ -9,10 +9,7 @@ import com.chouchong.entity.iwant.merchant.Merchant;
 import com.chouchong.entity.v3.*;
 import com.chouchong.exception.ServiceException;
 import com.chouchong.service.v3.UserCardService;
-import com.chouchong.service.v3.vo.ChargeVo;
-import com.chouchong.service.v3.vo.ExpenseVo;
-import com.chouchong.service.v3.vo.RecordVo;
-import com.chouchong.service.v3.vo.UserCardVo;
+import com.chouchong.service.v3.vo.*;
 import com.chouchong.service.webUser.vo.WebUserInfo;
 import com.chouchong.utils.BigDecimalUtil;
 import com.github.pagehelper.PageHelper;
@@ -25,6 +22,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.crypto.Data;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -164,6 +162,10 @@ public class UserCardServiceImpl implements UserCardService {
                 pageInfo.getPageNum(), pageInfo.getPageSize());
 
     }
+
+
+
+
 
 
     /**
@@ -770,4 +772,109 @@ public class UserCardServiceImpl implements UserCardService {
         }
         return ResponseFactory.err("");
     }
+
+
+    /******************************************************小程序管理端*****************************************************/
+
+
+    /**
+     * 分店获取用户会员卡列表(小程序端)
+     * @param page
+     * @param phone 用户电话
+     * @return
+     */
+    @Override
+    public Response getUserCardListManage(PageQuery page, String phone) {
+        WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
+//        分店adminId
+        Integer adminId = webUserInfo.getSysAdmin().getId();
+        // 创建者adminId(商家adminId)
+        Integer createdAdminId = webUserInfo.getSysAdmin().getCreateAdminId();
+        // 查询门店id
+        Store store = storeMapper.selectByAdminId(adminId);
+        if (store == null) {
+            return ResponseFactory.suc();
+        }
+        List<Integer> list = new ArrayList<>();
+        List<MembershipCard> cardList = membershipCardMapper.selectByAdminId(createdAdminId);
+        if (!CollectionUtils.isEmpty(cardList)) {
+            for (MembershipCard card : cardList) {
+                String[] strings = card.getStoreIds().split(",");
+                for (String string : strings) {
+                    if (string.equals(store.getId().toString())) {
+                        list.add(card.getId());
+                    }
+                }
+            }
+        }
+        if (list.size() == 0) {
+            return ResponseFactory.suc();
+        }
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        List<UserCardVo1> list1 = userMemberCardMapper.selectUserCard(phone, list);
+        if (!CollectionUtils.isEmpty(list1)){
+            for (UserCardVo1 vo : list1) {
+                if (!StringUtils.isEmpty(vo.getAvatar()) && !vo.getAvatar().startsWith("http")){
+                    vo.setAvatar("https://liyuquan.cn/static"+vo.getAvatar());
+                }
+            }
+        }
+        PageInfo pageInfo = new PageInfo<>(list1);
+        return ResponseFactory.page(list1, pageInfo.getTotal(), pageInfo.getPages(),
+                pageInfo.getPageNum(), pageInfo.getPageSize());
+    }
+
+    /**
+     * 小程序管理端会员详情
+     * @return
+     */
+    @Override
+    public Response userCardDetail(Integer userId) {
+        WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
+//        分店adminId
+        Integer adminId = webUserInfo.getSysAdmin().getId();
+        // 创建者adminId(商家adminId)
+        Integer createdAdminId = webUserInfo.getSysAdmin().getCreateAdminId();
+        // 查询门店id
+        Store store = storeMapper.selectByAdminId(adminId);
+        if (store == null) {
+            return ResponseFactory.suc();
+        }
+        List<Integer> list = new ArrayList<>();
+        List<MembershipCard> cardList = membershipCardMapper.selectByAdminId(createdAdminId);
+        if (!CollectionUtils.isEmpty(cardList)) {
+            for (MembershipCard card : cardList) {
+                String[] strings = card.getStoreIds().split(",");
+                for (String string : strings) {
+                    if (string.equals(store.getId().toString())) {
+                        list.add(card.getId());
+                    }
+                }
+            }
+        }
+        if (list.size() == 0) {
+            return ResponseFactory.suc();
+        }
+        List<UserCardVo2> userCard = userMemberCardMapper.selectByUserId(userId,list);
+        if (!CollectionUtils.isEmpty(userCard)){
+            for (UserCardVo2 vo : userCard) {
+                if (!vo.getAvatar().startsWith("http")){
+                    vo.setAvatar("https://liyuquan.cn/static"+vo.getAvatar());
+                }
+                if (vo.getType() == 11){
+                    List<EventCardVo> list1 = storeMemberEventMapper.selectAll(userId,vo.getCardId());
+                    vo.setEventCards(list1);
+                    Response response = getEventCardDetail(userId, vo.getCardId());
+                    if (response.getErrCode() == 0){
+                        Map data = (Map) response.getData();
+                        vo.setCapital(new BigDecimal(data.get("capital1").toString()));
+                        vo.setSend(new BigDecimal(data.get("send1").toString()));
+                    }
+                }
+            }
+        }
+        return ResponseFactory.sucData(userCard);
+    }
+
+
 }

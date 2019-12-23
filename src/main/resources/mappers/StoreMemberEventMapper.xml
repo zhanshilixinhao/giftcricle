@@ -73,6 +73,18 @@
       and order_no = #{orderNo}
       and type = 2
     </select>
+    <select id="selectAll" resultType="com.chouchong.service.v3.vo.EventCardVo">
+      select
+      id as storeMemberEventId,
+      capital_balance,
+      send_balance,
+      send_status as status
+      from store_member_event
+      where user_id = #{userId}
+      and membership_card_id = #{cardId}
+      and type != 2
+      order by created ASC
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from store_member_event
     where id = #{id,jdbcType=INTEGER}

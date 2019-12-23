@@ -3,6 +3,8 @@ package com.chouchong.dao.v3;
 
 import com.chouchong.entity.v3.StoreMemberCharge;
 import com.chouchong.entity.v3.StoreMemberEvent;
+import com.chouchong.service.v3.vo.EventCardVo;
+import com.chouchong.service.v3.vo.UserCardVo2;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -27,4 +29,6 @@ public interface StoreMemberEventMapper {
     List<StoreMemberEvent> selectByUserIdCardIds(@Param("userId") Integer userId, @Param("cardId") Integer cardId);
 
     StoreMemberEvent selectByUserIdCardIdOrderNo(@Param("cardId") Integer cardId, @Param("userId") Integer userId, @Param("orderNo") Long orderNo);
+
+    List<EventCardVo> selectAll(@Param("userId") Integer userId, @Param("cardId") Integer cardId);
 }

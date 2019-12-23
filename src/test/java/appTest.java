@@ -87,6 +87,39 @@ public class appTest {
     }
 
 
+    @Test
+    public void list() throws IOException {
+
+        RequestParams params = new RequestParams();
+        params.put("token", "4e506c4f-5a3d-4b8f-bb34-da61bf39c15a");
+        params.put("phone", "15752400657");
+        Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
+                "http://localhost:8080/manage/v3/userCard/user_card", params);
+        System.out.println(response.body().string());
+    }
+
+    @Test
+    public void user_card_detail() throws IOException {
+
+        RequestParams params = new RequestParams();
+        params.put("token", "4e506c4f-5a3d-4b8f-bb34-da61bf39c15a");
+        params.put("userId", 7);
+        Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
+                "http://localhost:8080/manage/v3/userCard/user_card_detail", params);
+        System.out.println(response.body().string());
+    }
+    @Test
+    public void card_status() throws IOException {
+
+        RequestParams params = new RequestParams();
+        params.put("token", "4e506c4f-5a3d-4b8f-bb34-da61bf39c15a");
+        params.put("storeMemberEventId", 37);
+        Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
+                "http://localhost:8080/manage/v3/userCard/card_status", params);
+        System.out.println(response.body().string());
+    }
+
+
 
 
 

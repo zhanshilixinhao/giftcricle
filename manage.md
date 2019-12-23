@@ -561,5 +561,146 @@ http 常用错误码
   "pageSize": 14
 }
 
+```
 
+
+### 4.4 用户查询
+
+- 请求地址：manage/v3/userCard/user_card
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+| 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :------: | :------: | :------: | :----: | :------: |
+|  token   |  String  |    是    |   无   |      访问令牌   |
+|phone|string|否|无|用户电话|
+|pageNum|int|是|1|分页|
+|pageSize|int|是|14|分页大小|
+
+
+- 请求结果示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1577092118432,
+  "data": [
+    {
+      "userId": 2, //用户id
+      "phone": "15368224942", // 用户电话
+      "nickname": "淡水鱼", //用户昵称
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190729/1564386854932905-550-550.jpg" //用户头像
+    },
+    {
+      "userId": 5,
+      "phone": "18988074122",
+      "nickname": "年锐",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190731/1564561043231711-400-400.jpg"
+    }
+  ],
+  "total": 8,
+  "pages": 1,
+  "pageNum": 1,
+  "pageSize": 14
+}
+
+```
+
+### 4.5 会员详情
+
+- 请求地址：manage/v3/userCard/user_card_detail
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+| 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :------: | :------: | :------: | :----: | :------: |
+|  token   |  String  |    是    |   无   |      访问令牌   |
+|userId|int|是|无|会员用户id(表4.4userId)|
+
+
+
+- 请求结果示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1577093334533,
+  "data": [
+    {
+      "userId": 7, //会员用户id
+      "phone": "15752400657", // 用户电话
+      "nickname": "哈哈", //用户昵称
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190923/1569232138231132-600-600.jpg", // 用户头像
+      "cardId": 3, //会员卡id
+      "title": "外婆味道储值卡", // 会员卡标题
+      "cardNo": 7919121421128,//会员卡卡号
+      "balance": 90.00, //会员卡余额
+      "type": 10, // 1 礼遇圈卡 10 商家普通储值卡 11 商家活动卡
+      "capital": null,
+      "send": null,
+      "created": "2019-12-14T13:04:41.000+0000", //开卡时间
+      "eventCards": null
+    },
+    {
+      "userId": 7,
+      "phone": "15752400657",
+      "nickname": "哈哈",
+      "avatar": "https://liyuquan.cn/staticorder/comment/20190923/1569232138231132-600-600.jpg",
+      "cardId": 4,
+      "title": "外婆味道活动卡",
+      "cardNo": 7919121420122,
+      "balance": 3878.00,
+      "type": 11,
+      "capital": 1582.4, //剩余本金
+      "send": 1895.6, //剩余赠送
+      "created": "2019-12-14T12:57:08.000+0000", 
+      "eventCards": [ //活动卡使用详情（type =11 活动卡才有）
+        {
+          "storeMemberEventId":10 , // 会员卡使用记录详情
+          "capitalBalance": 0.00, //本金余额
+          "sendBalance": 95.60, //赠送余额
+          "status": 2 // 1,2 未完成 3 需返现 5 已返现
+        },
+        {
+          "storeMemberEventId":11 ,
+          "capitalBalance": 0.00,
+          "sendBalance": 200.00,
+          "status": 1
+        }
+      ]
+    }
+  ]
+}
+
+
+```
+
+
+
+### 4.6 商家活动卡返现操作
+
+- 请求地址：manage/v3/userCard/card_status
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+| 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :------: | :------: | :------: | :----: | :------: |
+|  token   |  String  |    是    |   无   |      访问令牌   |
+|storeMemberEventId|int|是|无| 会员卡使用记录详情（4.5接口storeMemberEventId字段）|
+
+
+- 请求结果示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "msg": "",
+  "time": 1577094365079
+}
 ```

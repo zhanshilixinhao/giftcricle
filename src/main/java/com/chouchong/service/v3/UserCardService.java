@@ -90,9 +90,27 @@ public interface UserCardService {
 
     /**
      * 改变查询活动卡充值赠送金额状态
-     * @param userId 用户id
-     * @param cardId 会员卡id
+     * @param storeMemberEventId 用户id
      * @return
      */
     Response getEventCardStatus(Integer storeMemberEventId);
+
+
+    /******************************************************小程序管理端*****************************************************/
+
+    /**
+     * 分店获取用户会员卡列表(小程序端)
+     * @param page
+     * @param phone 用户电话
+     * @return
+     */
+    Response getUserCardListManage(PageQuery page, String phone);
+
+
+    /**
+     * 小程序管理端会员详情
+     *
+     * @return
+     */
+    Response userCardDetail(Integer userId);
 }

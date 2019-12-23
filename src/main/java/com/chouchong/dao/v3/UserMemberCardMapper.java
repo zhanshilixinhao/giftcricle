@@ -2,6 +2,8 @@ package com.chouchong.dao.v3;
 
 import com.chouchong.entity.v3.UserMemberCard;
 import com.chouchong.service.v3.vo.UserCardVo;
+import com.chouchong.service.v3.vo.UserCardVo1;
+import com.chouchong.service.v3.vo.UserCardVo2;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -36,4 +38,7 @@ public interface UserMemberCardMapper {
 
     UserMemberCard selectByUseridcardId(@Param("userId") Integer userId, @Param("cardId") Integer cardId);
 
+    List<UserCardVo1> selectUserCard(@Param("phone") String phone, @Param("list") List<Integer> list);
+
+    List<UserCardVo2> selectByUserId(@Param("userId") Integer userId,@Param("list") List<Integer> list);
 }

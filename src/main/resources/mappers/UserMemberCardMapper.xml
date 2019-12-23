@@ -111,6 +111,47 @@
         and membership_card_id = #{cardId}
     </select>
 
+    <select id="selectUserCard" resultType="com.chouchong.service.v3.vo.UserCardVo1">
+        select a.user_id,
+        a.phone,
+        c.avatar,
+        c.nickname
+        from user_member_card a
+        left join app_user c on c.id = a.user_id
+        where a.status = 1
+        and a.membership_card_id in
+        <foreach collection="list" index="index" separator="," item="list" open="(" close=")">
+            #{list}
+        </foreach>
+        <if test="phone != null and phone != ''">
+            and a.phone like concat('%',#{phone},'%')
+        </if>
+        group by a.user_id
+    </select>
+    <select id="selectByUserId" resultType="com.chouchong.service.v3.vo.UserCardVo2">
+        select a.user_id,
+        a.membership_card_id as cardId,
+        a.phone,
+        a.balance,
+        a.created,
+        b.avatar,
+        b.nickname,
+        a.card_no,
+        c.title,
+        c.type
+        from user_member_card a
+        left join app_user b on b.id = a.user_id
+        left join membership_card c on a.membership_card_id = c.id
+        where a.status = 1
+        and b.status = 1
+        and a.user_id = #{userId}
+        and a.membership_card_id in
+        <foreach collection="list" index="index" separator="," item="list" open="(" close=")">
+            #{list}
+        </foreach>
+    </select>
+
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user_member_card
     where id = #{id,jdbcType=INTEGER}
