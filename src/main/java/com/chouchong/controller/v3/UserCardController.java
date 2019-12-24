@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import retrofit2.http.POST;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 /**
@@ -75,7 +76,7 @@ public class UserCardController {
      * @return
      */
     @PostMapping("add")
-    public Response addUserCard(UserMemberCard card) {
+    public Response addUserCard(UserMemberCard card) throws IOException {
         if (card.getMembershipCardId() == null || card.getPhone() == null) {
             return ResponseFactory.errMissingParameter();
         }
@@ -96,7 +97,7 @@ public class UserCardController {
      */
     @PostMapping("charge")
     public Response chargeCard(Integer userId, String phone, Integer cardId, BigDecimal recharge, String explain,
-                               BigDecimal send, Integer eventId) {
+                               BigDecimal send, Integer eventId) throws IOException {
         if (cardId == null || recharge == null) {
             return ResponseFactory.errMissingParameter();
         }
@@ -117,7 +118,7 @@ public class UserCardController {
      */
     @PostMapping("expense")
     public Response expenseCard(Integer userId, String phone, Integer cardId, BigDecimal expense,
-                                String explain,String password) {
+                                String explain,String password) throws IOException {
         if (cardId == null || expense == null || StringUtils.isBlank(password)) {
             return ResponseFactory.errMissingParameter();
         }

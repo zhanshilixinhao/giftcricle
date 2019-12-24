@@ -146,6 +146,17 @@ public class appTest {
         System.out.println(response.body().string());
     }
 
+    @Test
+    public void code() throws IOException {
+
+        RequestParams params = new RequestParams();
+//        params.put("token", "01bc341e-94c4-46db-b2ad-ee7b85c3905e");
+        params.put("phone", "15752400657");
+        Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
+                "http://localhost:8080/manage/ask/code", params);
+        System.out.println(response.body().string());
+    }
+
 
 
 

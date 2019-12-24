@@ -1,6 +1,8 @@
 package com.chouchong.utils.sms;
 
+import com.chouchong.common.ErrorCode;
 import com.chouchong.common.Utils;
+import com.chouchong.exception.ServiceException;
 import com.chouchong.service.order.kdapi.OkHttpUtil;
 import com.chouchong.service.order.kdapi.RequestParams;
 import okhttp3.Response;
@@ -22,7 +24,7 @@ public class SendUtil {
     private final static String username = "liyuquan666hy";
 
 
-    public static SmsSendResult smsSend(String mobile, String content) {
+    public static SmsSendResult smsSend(String mobile, String content) throws IOException {
         // 获取当前日期
         Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");//可以方便地修改日期格式
@@ -35,7 +37,8 @@ public class SendUtil {
         params.put("tkey", time);
         params.put("password", password);
         params.put("mobile", mobile);
-        params.put("content", "【礼遇圈】您的验证码是"+content+"如非本人操作，请忽略本信息。 ");
+        params.put("content", content);
+//        params.put("content", "【礼遇圈】您的验证码是"+content+"如非本人操作，请忽略本信息。 ");
         Response response = null;
         try {
             // 请求接口
@@ -52,11 +55,11 @@ public class SendUtil {
             if (StringUtils.equals(split[0],"1")){
                 return new SmsSendResult(0,"发送成功");
             }
-            return new SmsSendResult(1,"发送失败");
+            throw new ServiceException(ErrorCode.ERROR.getCode(),"发送失败");
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            return new SmsSendResult(1, e.getMessage());
+            throw e;
         }
 
     }

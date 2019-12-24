@@ -4,6 +4,7 @@ import com.chouchong.common.PageQuery;
 import com.chouchong.common.Response;
 import com.chouchong.entity.v3.UserMemberCard;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 /**
@@ -47,7 +48,7 @@ public interface UserCardService {
      * @param card
      * @return
      */
-    Response addUserCard(UserMemberCard card);
+    Response addUserCard(UserMemberCard card) throws IOException;
 
     /**
      * 分店会员卡充值
@@ -59,7 +60,7 @@ public interface UserCardService {
      * @param eventId 活动id
      * @return
      */
-    Response chargeCard(Integer userId, String phone, Integer cardId, BigDecimal recharge, String explain, BigDecimal send, Integer eventId);
+    Response chargeCard(Integer userId, String phone, Integer cardId, BigDecimal recharge, String explain, BigDecimal send, Integer eventId) throws IOException;
     /**
      * 分店消费（线下消费）
      * @param userId 用户id
@@ -68,7 +69,7 @@ public interface UserCardService {
      * @param explain 消费说明
      * @return
      */
-    Response expenseCard(Integer userId,String phone,  Integer cardId, BigDecimal expense, String explain,String password);
+    Response expenseCard(Integer userId,String phone,  Integer cardId, BigDecimal expense, String explain,String password) throws IOException;
 
 
     /**

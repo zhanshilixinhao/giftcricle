@@ -24,6 +24,7 @@ import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.crypto.Data;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -172,7 +173,7 @@ public class UserCardServiceImpl implements UserCardService {
      * @return
      */
     @Override
-    public Response addUserCard(UserMemberCard card) {
+    public Response addUserCard(UserMemberCard card) throws IOException {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         Integer adminId = webUserInfo.getSysAdmin().getId();
         Store store = storeMapper.selectByAdminId(adminId);
@@ -229,7 +230,7 @@ public class UserCardServiceImpl implements UserCardService {
      */
     @Override
     public Response chargeCard(Integer userId, String phone, Integer cardId, BigDecimal recharge,
-                               String explain, BigDecimal send, Integer eventId) {
+                               String explain, BigDecimal send, Integer eventId) throws IOException {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         Integer adminId = webUserInfo.getSysAdmin().getId();
         Store store = storeMapper.selectByAdminId(adminId);
@@ -326,7 +327,7 @@ public class UserCardServiceImpl implements UserCardService {
      * @return
      */
     @Override
-    public Response expenseCard(Integer userId, String phone, Integer cardId, BigDecimal expense, String explain, String password) {
+    public Response expenseCard(Integer userId, String phone, Integer cardId, BigDecimal expense, String explain, String password) throws IOException {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         Integer adminId = webUserInfo.getSysAdmin().getId();
         Store store = storeMapper.selectByAdminId(adminId);
