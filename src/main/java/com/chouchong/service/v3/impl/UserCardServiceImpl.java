@@ -12,6 +12,7 @@ import com.chouchong.service.v3.UserCardService;
 import com.chouchong.service.v3.vo.*;
 import com.chouchong.service.webUser.vo.WebUserInfo;
 import com.chouchong.utils.BigDecimalUtil;
+import com.chouchong.utils.sms.SendUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -164,10 +165,6 @@ public class UserCardServiceImpl implements UserCardService {
     }
 
 
-
-
-
-
     /**
      * 分店开卡
      *
@@ -202,6 +199,13 @@ public class UserCardServiceImpl implements UserCardService {
         if (insert < 1) {
             return ResponseFactory.err("开卡失败");
         }
+        // 给用户发送短信
+        String content = "会员卡";
+        MembershipCard membershipCard = membershipCardMapper.selectByPrimaryKey(card.getMembershipCardId());
+        if (membershipCard != null) {
+            content = membershipCard.getTitle();
+        }
+        SendUtil.smsSend(card.getPhone(), "尊敬的用户，您已成功开通" + content);
         return ResponseFactory.sucMsg("开卡成功");
     }
 
@@ -263,6 +267,7 @@ public class UserCardServiceImpl implements UserCardService {
         if (insert < 1) {
             return ResponseFactory.err("充值失败");
         }
+        String content = "会员卡";
         // 判断是否是活动卡
         // 添加详细记录
         MembershipCard membershipCard = membershipCardMapper.selectByPrimaryKey(cardId);
@@ -296,7 +301,10 @@ public class UserCardServiceImpl implements UserCardService {
                 detailCharge(userId, merchant.getId(), storeId, recharge, cardId, send, new BigDecimal("0"), (byte) 1, explain,
                         total, scale, total, (byte) 1, eventId, record.getOrderNo());
             }
+            content = membershipCard.getTitle();
         }
+        // 给用户发送短信
+        SendUtil.smsSend(card.getPhone(), "尊敬的用户，您在" + content + "成功充值" + recharge + "元，赠送" + send + "元");
         return ResponseFactory.sucMsg("充值成功");
     }
 
@@ -349,6 +357,7 @@ public class UserCardServiceImpl implements UserCardService {
         if (insert < 1) {
             return ResponseFactory.err("失败");
         }
+        String content = "会员卡";
         // 判断是否是活动卡
         // 添加详细记录
         MembershipCard membershipCard = membershipCardMapper.selectByPrimaryKey(cardId);
@@ -387,9 +396,10 @@ public class UserCardServiceImpl implements UserCardService {
                 // 计算营业额
                 turnover(userId, cardId, storeMemberId, expense, storeId);
             }
+            content = membershipCard.getTitle();
         }
-
-
+        // 给用户发送短信
+        SendUtil.smsSend(card.getPhone(), "尊敬的用户，您在" + content + "成功消费" + expense + "元");
         return ResponseFactory.sucMsg("成功");
     }
 
@@ -487,7 +497,7 @@ public class UserCardServiceImpl implements UserCardService {
                     // 赠送金额大于赠送金额剩余
                     // 更新详细记录，添加消费营业额记录
                     BigDecimal se = BigDecimalUtil.sub(store.getSendBalance().doubleValue(), send1.doubleValue());
-                    updateDetailEvent(store.getId(),store.getCapitalBalance(), store.getCapitalStatus(), se, (byte) 2);
+                    updateDetailEvent(store.getId(), store.getCapitalBalance(), store.getCapitalStatus(), se, (byte) 2);
                     addStoreTurnoverEvent(storeMemberId, new BigDecimal("0"), send1, storeId, store.getStoreId(), store.getMemberEventId(), store.getId());
                     break;
                 } else {
@@ -495,7 +505,7 @@ public class UserCardServiceImpl implements UserCardService {
                     // 更新详细记录，添加消费营业额记录
                     //扣除第一次充值的余额后还不够的钱
                     BigDecimal se = BigDecimalUtil.sub(send1.doubleValue(), store.getSendBalance().doubleValue());
-                    updateDetailEvent(store.getId(),store.getCapitalBalance(), store.getCapitalStatus(), new BigDecimal("0"), (byte) 3);
+                    updateDetailEvent(store.getId(), store.getCapitalBalance(), store.getCapitalStatus(), new BigDecimal("0"), (byte) 3);
                     addStoreTurnoverEvent(storeMemberId, new BigDecimal("0"), store.getSendBalance(), storeId, store.getStoreId(), store.getMemberEventId(), store.getId());
                     send1 = se;
                 }
@@ -716,6 +726,7 @@ public class UserCardServiceImpl implements UserCardService {
 
     /**
      * 查询活动卡充值赠送金额的余额
+     *
      * @param userId 用户id
      * @param cardId 会员卡id
      * @return
@@ -727,46 +738,47 @@ public class UserCardServiceImpl implements UserCardService {
         byte caStatus = 1;
         byte seStatus = 1;
         List<StoreMemberEvent> capitals = storeMemberEventMapper.selectByUserIdCardId(userId, cardId);
-        if (!CollectionUtils.isEmpty(capitals)){
+        if (!CollectionUtils.isEmpty(capitals)) {
             for (StoreMemberEvent capital : capitals) {
-                capital1 = BigDecimalUtil.add(capital1.doubleValue(),capital.getCapitalBalance().doubleValue());
+                capital1 = BigDecimalUtil.add(capital1.doubleValue(), capital.getCapitalBalance().doubleValue());
             }
         }
         List<StoreMemberEvent> sends = storeMemberEventMapper.selectByUserIdCardId1(userId, cardId);
-        if (!CollectionUtils.isEmpty(sends)){
+        if (!CollectionUtils.isEmpty(sends)) {
             for (StoreMemberEvent send : sends) {
-                send1 = BigDecimalUtil.add(send1.doubleValue(),send.getSendBalance().doubleValue());
+                send1 = BigDecimalUtil.add(send1.doubleValue(), send.getSendBalance().doubleValue());
             }
         }
-        if (capital1.compareTo(new BigDecimal("0")) == 0){
+        if (capital1.compareTo(new BigDecimal("0")) == 0) {
             caStatus = 2;
         }
-        if (send1.compareTo(new BigDecimal("0")) == 0){
+        if (send1.compareTo(new BigDecimal("0")) == 0) {
             seStatus = 2;
         }
         List<StoreMemberEvent> list = storeMemberEventMapper.selectByUserIdCardIds(userId, cardId);
         Map<String, Object> map = new HashMap<>();
-        map.put("capital1",capital1);
-        map.put("send1",send1);
-        map.put("caStatus",caStatus);
-        map.put("seStatus",seStatus);
-        map.put("list",list);
+        map.put("capital1", capital1);
+        map.put("send1", send1);
+        map.put("caStatus", caStatus);
+        map.put("seStatus", seStatus);
+        map.put("list", list);
         return ResponseFactory.sucData(map);
     }
 
     /**
      * 改变查询活动卡充值赠送金额状态
+     *
      * @param storeMemberEventId 用户id
      * @return
      */
     @Override
     public Response getEventCardStatus(Integer storeMemberEventId) {
         StoreMemberEvent storeMemberEvent = storeMemberEventMapper.selectByPrimaryKey(storeMemberEventId);
-        if  (storeMemberEvent != null && storeMemberEvent.getSendStatus() == 3){
+        if (storeMemberEvent != null && storeMemberEvent.getSendStatus() == 3) {
             // 已返现
-            storeMemberEvent.setSendStatus((byte)5);
+            storeMemberEvent.setSendStatus((byte) 5);
             int i = storeMemberEventMapper.updateByPrimaryKeySelective(storeMemberEvent);
-            if (i == 1){
+            if (i == 1) {
                 return ResponseFactory.suc();
             }
         }
@@ -779,6 +791,7 @@ public class UserCardServiceImpl implements UserCardService {
 
     /**
      * 分店获取用户会员卡列表(小程序端)
+     *
      * @param page
      * @param phone 用户电话
      * @return
@@ -812,10 +825,10 @@ public class UserCardServiceImpl implements UserCardService {
         }
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
         List<UserCardVo1> list1 = userMemberCardMapper.selectUserCard(phone, list);
-        if (!CollectionUtils.isEmpty(list1)){
+        if (!CollectionUtils.isEmpty(list1)) {
             for (UserCardVo1 vo : list1) {
-                if (!StringUtils.isEmpty(vo.getAvatar()) && !vo.getAvatar().startsWith("http")){
-                    vo.setAvatar("https://liyuquan.cn/static"+vo.getAvatar());
+                if (!StringUtils.isEmpty(vo.getAvatar()) && !vo.getAvatar().startsWith("http")) {
+                    vo.setAvatar("https://liyuquan.cn/static" + vo.getAvatar());
                 }
             }
         }
@@ -826,6 +839,7 @@ public class UserCardServiceImpl implements UserCardService {
 
     /**
      * 小程序管理端会员详情
+     *
      * @return
      */
     @Override
@@ -855,17 +869,17 @@ public class UserCardServiceImpl implements UserCardService {
         if (list.size() == 0) {
             return ResponseFactory.suc();
         }
-        List<UserCardVo2> userCard = userMemberCardMapper.selectByUserId(userId,list);
-        if (!CollectionUtils.isEmpty(userCard)){
+        List<UserCardVo2> userCard = userMemberCardMapper.selectByUserId(userId, list);
+        if (!CollectionUtils.isEmpty(userCard)) {
             for (UserCardVo2 vo : userCard) {
-                if (!vo.getAvatar().startsWith("http")){
-                    vo.setAvatar("https://liyuquan.cn/static"+vo.getAvatar());
+                if (!vo.getAvatar().startsWith("http")) {
+                    vo.setAvatar("https://liyuquan.cn/static" + vo.getAvatar());
                 }
-                if (vo.getType() == 11){
-                    List<EventCardVo> list1 = storeMemberEventMapper.selectAll(userId,vo.getCardId());
+                if (vo.getType() == 11) {
+                    List<EventCardVo> list1 = storeMemberEventMapper.selectAll(userId, vo.getCardId());
                     vo.setEventCards(list1);
                     Response response = getEventCardDetail(userId, vo.getCardId());
-                    if (response.getErrCode() == 0){
+                    if (response.getErrCode() == 0) {
                         Map data = (Map) response.getData();
                         vo.setCapital(new BigDecimal(data.get("capital1").toString()));
                         vo.setSend(new BigDecimal(data.get("send1").toString()));
