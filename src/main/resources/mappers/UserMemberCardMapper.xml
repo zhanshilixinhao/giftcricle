@@ -21,7 +21,7 @@
     </resultMap>
     <sql id="Base_Column_List">
     id, membership_card_id, user_id, balance, total_amount, consume_amount, updated,
-    created, status, store_id,phone,admin_id,grade_id,card_no
+    created, status, store_id,phone,admin_id,grade_id,card_no,password
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -160,11 +160,12 @@
     insert into user_member_card (id, membership_card_id, user_id,
       balance, total_amount, consume_amount,
       updated, created, status,
-      store_id,phone,admin_id,grade_id,card_no)
+      store_id,phone,admin_id,grade_id,card_no,password)
     values (#{id,jdbcType=INTEGER}, #{membershipCardId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
       #{balance,jdbcType=DECIMAL}, #{totalAmount,jdbcType=DECIMAL}, #{consumeAmount,jdbcType=DECIMAL},
       now(), now(), #{status,jdbcType=TINYINT},
-      #{storeId,jdbcType=INTEGER},#{phone,jdbcType=VARCHAR},#{adminId,jdbcType=INTEGER},#{gradeId,jdbcType=INTEGER},#{cardNo,jdbcType=BIGINT})
+      #{storeId,jdbcType=INTEGER},#{phone,jdbcType=VARCHAR},#{adminId,jdbcType=INTEGER},#{gradeId,jdbcType=INTEGER},
+      #{cardNo,jdbcType=BIGINT},#{password,jdbcType=VARCHAR})
   </insert>
     <insert id="insertSelective" parameterType="com.chouchong.entity.v3.UserMemberCard">
         insert into user_member_card
@@ -298,6 +299,9 @@
             </if>
             <if test="cardNo != null">
                 card_no = #{cardNo,jdbcType=BIGINT},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}

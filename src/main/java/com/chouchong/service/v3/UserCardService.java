@@ -68,7 +68,7 @@ public interface UserCardService {
      * @param explain 消费说明
      * @return
      */
-    Response expenseCard(Integer userId,String phone,  Integer cardId, BigDecimal expense, String explain);
+    Response expenseCard(Integer userId,String phone,  Integer cardId, BigDecimal expense, String explain,String password);
 
 
     /**

@@ -275,6 +275,7 @@ http 常用错误码
 |  token   |  String  |    是    |   无   |      访问令牌   |
 |phone|string|是|无|用户电话|
 |membershipCardId|int|是|无|会员卡id（3.2中id字段）|
+|password|string|否|号码后6位|密码（MD5加密）|
 
 - 请求结果示例
 
@@ -372,6 +373,7 @@ http 常用错误码
 |phone|string|是|无|用户电话|
 |cardId|int|是|无|会员卡id（3.2中id字段）|
 |expense|BigDecimal|是|无|消费金额|
+|password|string|是|无|密码（MD5加密）|
 
 
 - 请求结果示例

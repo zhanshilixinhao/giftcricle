@@ -195,6 +195,12 @@ public class UserCardServiceImpl implements UserCardService {
         ca.setPhone(card.getPhone());
         ca.setAdminId(adminId);
         ca.setCardNo(orderHelper.genOrderNo(7, 9));
+        String phone = card.getPhone();
+        if (StringUtils.isEmpty(card.getPassword())) {
+            ca.setPassword(Utils.toMD5(phone + Utils.toMD5(phone.substring(phone.length() - 6))));
+        } else {
+            ca.setPassword(Utils.toMD5(phone + card.getPassword()));
+        }
         int insert = userMemberCardMapper.insert(ca);
         if (insert < 1) {
             return ResponseFactory.err("开卡失败");
@@ -208,6 +214,7 @@ public class UserCardServiceImpl implements UserCardService {
         SendUtil.smsSend(card.getPhone(), "尊敬的用户，您已成功开通" + content);
         return ResponseFactory.sucMsg("开卡成功");
     }
+
 
     /**
      * 分店会员卡充值
@@ -319,7 +326,7 @@ public class UserCardServiceImpl implements UserCardService {
      * @return
      */
     @Override
-    public Response expenseCard(Integer userId, String phone, Integer cardId, BigDecimal expense, String explain) {
+    public Response expenseCard(Integer userId, String phone, Integer cardId, BigDecimal expense, String explain, String password) {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         Integer adminId = webUserInfo.getSysAdmin().getId();
         Store store = storeMapper.selectByAdminId(adminId);
@@ -335,6 +342,14 @@ public class UserCardServiceImpl implements UserCardService {
                 return ResponseFactory.err("号码不对，没有查到该用户");
             }
             userId = appUser.getId();
+        }
+        // 校验密码
+        UserMemberCard card1 = userMemberCardMapper.selectByUseridcardId(userId, cardId);
+        if (card1 == null) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "该用户会员卡不存在");
+        }
+        if (!card1.getPassword().equals(Utils.toMD5(card1.getPhone() + password))) {
+            return ResponseFactory.err("密码错误");
         }
         // 更新余额
         UserMemberCard card = updateBalance(userId, cardId, (byte) 2, expense, new BigDecimal("0"));
@@ -402,6 +417,7 @@ public class UserCardServiceImpl implements UserCardService {
         SendUtil.smsSend(card.getPhone(), "尊敬的用户，您在" + content + "成功消费" + expense + "元");
         return ResponseFactory.sucMsg("成功");
     }
+
 
 
     /**

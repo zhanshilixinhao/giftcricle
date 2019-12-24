@@ -57,7 +57,9 @@ public class DateUtil {
         long zero = current / (1000 * 3600 * 24) * (1000 * 3600 * 24) - TimeZone.getDefault().getRawOffset();
         // 明天0点
         long tom = zero + 24 * 60 * 60 * 1000;
-        return tom - current;
+        long dtime = tom - current;
+        dtime = dtime < 0 ? 24 * 60 * 60 * 1000 + dtime : dtime;
+        return dtime;
     }
 
     /**

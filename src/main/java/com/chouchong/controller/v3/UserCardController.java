@@ -116,14 +116,15 @@ public class UserCardController {
      * @return
      */
     @PostMapping("expense")
-    public Response expenseCard(Integer userId, String phone, Integer cardId, BigDecimal expense, String explain) {
-        if (cardId == null || expense == null) {
+    public Response expenseCard(Integer userId, String phone, Integer cardId, BigDecimal expense,
+                                String explain,String password) {
+        if (cardId == null || expense == null || StringUtils.isBlank(password)) {
             return ResponseFactory.errMissingParameter();
         }
         if (userId == null && StringUtils.isBlank(phone)) {
             return ResponseFactory.errMissingParameter();
         }
-        return userCardService.expenseCard(userId, phone, cardId, expense, explain);
+        return userCardService.expenseCard(userId, phone, cardId, expense, explain,password);
     }
 
     /**
