@@ -212,7 +212,7 @@ public class UserCardServiceImpl implements UserCardService {
         if (membershipCard != null) {
             content = membershipCard.getTitle();
         }
-        SendUtil.smsSend(card.getPhone(), "尊敬的用户，您已成功开通" + content);
+        SendUtil.smsSend(card.getPhone(), "【礼遇圈】尊敬的用户，您已成功开通"+content+"，如有问题请咨询客服人员。");
         return ResponseFactory.sucMsg("开卡成功");
     }
 
@@ -235,8 +235,10 @@ public class UserCardServiceImpl implements UserCardService {
         Integer adminId = webUserInfo.getSysAdmin().getId();
         Store store = storeMapper.selectByAdminId(adminId);
         Integer storeId = null;
+        String storeName = "门店";
         if (store != null && store.getId() != null) {
             storeId = store.getId();
+            storeName = store.getName();
         }
         if (send == null) {
             send = new BigDecimal("0");
@@ -312,7 +314,8 @@ public class UserCardServiceImpl implements UserCardService {
             content = membershipCard.getTitle();
         }
         // 给用户发送短信
-        SendUtil.smsSend(card.getPhone(), "尊敬的用户，您在" + content + "成功充值" + recharge + "元，赠送" + send + "元");
+        SendUtil.smsSend(card.getPhone(), "【礼遇圈】尊敬的用户，您的会员卡"+content+"在"+storeName+"成功充值"+recharge+"元，" +
+                "赠送"+store+"元，充值时间为"+record.getCreated()+"。如有问题请咨询客服人员。元");
         return ResponseFactory.sucMsg("充值成功");
     }
 
@@ -332,8 +335,10 @@ public class UserCardServiceImpl implements UserCardService {
         Integer adminId = webUserInfo.getSysAdmin().getId();
         Store store = storeMapper.selectByAdminId(adminId);
         Integer storeId = null;
+        String storeName = "门店";
         if (store != null && store.getId() != null) {
             storeId = store.getId();
+            storeName = store.getName();
         }
         Merchant merchant = merchantMapper.selectByAdminId(webUserInfo.getSysAdmin().getCreateAdminId());
         // 如果用户id为空
@@ -415,7 +420,8 @@ public class UserCardServiceImpl implements UserCardService {
             content = membershipCard.getTitle();
         }
         // 给用户发送短信
-        SendUtil.smsSend(card.getPhone(), "尊敬的用户，您在" + content + "成功消费" + expense + "元");
+        SendUtil.smsSend(card.getPhone(), "【礼遇圈】尊敬的用户，您的"+content+"在"+storeName+"成功消费"+expense
+                +"元，消费时间为"+re.getCreated()+"。如有问题请咨询客服人员。");
         return ResponseFactory.sucMsg("成功");
     }
 
