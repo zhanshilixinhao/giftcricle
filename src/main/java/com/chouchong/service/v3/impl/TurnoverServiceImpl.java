@@ -310,56 +310,105 @@ public class TurnoverServiceImpl implements TurnoverService {
     /**
      * 退回扣款
      *
-     * @param rebate
+     * @param orderNo
      * @return
      */
     @Override
-    public Response refundExpense(CardRebate rebate, String password) {
+    public Response refundExpense(Long orderNo, String phone) {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         Integer adminId = webUserInfo.getSysAdmin().getId();
-        // 查询门店信息
-        Store store = storeMapper.selectByAdminId(adminId);
-        if (store == null) {
-            return ResponseFactory.err("操作失败！");
-        }
-        if (StringUtils.isBlank(store.getPassword())) {
-            return ResponseFactory.err("未设置密码，请联系公司设置密码！");
-        }
-        // 校验密码
-        String s = Utils.toMD5(password + Constants.STOREPWD);
-        if (!store.getPassword().equals(s)) {
-            return ResponseFactory.err("密码错误！");
+        MemberExpenseRecord record = memberExpenseRecordMapper.selectByOrderNo(orderNo);
+        if (record == null){
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "消费记录不存在");
         }
         // 查询会员卡类型
-        Byte type = membershipCardMapper.selectTypeById(rebate.getMembershipCardId());
+        Byte type = membershipCardMapper.selectTypeById(record.getMembershipCardId());
         // 退款
         // 退回门店金额详情表消费,并删除，删除营业额记录
         if (type == 11) {
             // 活动卡
-            rebateStoreMemberEvent(rebate.getMembershipCardId(), rebate.getUserId(), rebate.getOrderNo());
+            rebateStoreMemberEvent(record.getMembershipCardId(), record.getUserId(), orderNo);
         } else {
-            rebateStoreMemberCharge(rebate.getMembershipCardId(), rebate.getUserId(), rebate.getOrderNo());
-        }
-        // 删除消费记录
-        int i = memberExpenseRecordMapper.deleteByPrimaryKey(rebate.getExpenseRecordId());
-        if (i < 1) {
-            throw new ServiceException(ErrorCode.ERROR.getCode(), "删除消费记录失败");
+            rebateStoreMemberCharge(record.getMembershipCardId(), record.getUserId(), orderNo);
         }
         // 退回用户余额
-        UserMemberCard user = userMemberCardMapper.selectByUseridcardId(rebate.getUserId(), rebate.getMembershipCardId());
+        UserMemberCard user = userMemberCardMapper.selectByUseridcardId(record.getUserId(), record.getMembershipCardId());
         if (user != null) {
-            user.setBalance(BigDecimalUtil.add(user.getBalance().doubleValue(), rebate.getMoney().doubleValue()));
+            user.setBalance(BigDecimalUtil.add(user.getBalance().doubleValue(), record.getExpenseMoney().doubleValue()));
             int i1 = userMemberCardMapper.updateByPrimaryKeySelective(user);
             if (i1 < 1) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "退回用户余额失败");
             }
         }
         // 添加退款记录
+        CardRebate rebate = new CardRebate();
+        rebate.setUserId(record.getUserId());
+        rebate.setMembershipCardId(record.getMembershipCardId());
+        rebate.setExplain("退款");
+        rebate.setExpenseRecordId(record.getId());
+        rebate.setMoney(record.getExpenseMoney());
+        rebate.setOrderNo(orderNo);
+        rebate.setAdminId(adminId);
         rebate.setStatus((byte) 1);
         rebate.setAdminId(adminId);
         addCardRebate(rebate);
+        // 删除消费记录
+        int i = memberExpenseRecordMapper.deleteByPrimaryKey(record.getId());
+        if (i < 1) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "删除消费记录失败");
+        }
         return ResponseFactory.sucMsg("退款成功");
     }
+
+
+//    public Response refundExpense(CardRebate rebate, String password) {
+//        WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
+//        Integer adminId = webUserInfo.getSysAdmin().getId();
+//        // 查询门店信息
+//        Store store = storeMapper.selectByAdminId(adminId);
+//        if (store == null) {
+//            return ResponseFactory.err("操作失败！");
+//        }
+//        if (StringUtils.isBlank(store.getPassword())) {
+//            return ResponseFactory.err("未设置密码，请联系公司设置密码！");
+//        }
+//        // 校验密码
+//        String s = Utils.toMD5(password + Constants.STOREPWD);
+//        if (!store.getPassword().equals(s)) {
+//            return ResponseFactory.err("密码错误！");
+//        }
+//        // 查询会员卡类型
+//        Byte type = membershipCardMapper.selectTypeById(rebate.getMembershipCardId());
+//        // 退款
+//        // 退回门店金额详情表消费,并删除，删除营业额记录
+//        if (type == 11) {
+//            // 活动卡
+//            rebateStoreMemberEvent(rebate.getMembershipCardId(), rebate.getUserId(), rebate.getOrderNo());
+//        } else {
+//            rebateStoreMemberCharge(rebate.getMembershipCardId(), rebate.getUserId(), rebate.getOrderNo());
+//        }
+//        // 删除消费记录
+//        int i = memberExpenseRecordMapper.deleteByPrimaryKey(rebate.getExpenseRecordId());
+//        if (i < 1) {
+//            throw new ServiceException(ErrorCode.ERROR.getCode(), "删除消费记录失败");
+//        }
+//        // 退回用户余额
+//        UserMemberCard user = userMemberCardMapper.selectByUseridcardId(rebate.getUserId(), rebate.getMembershipCardId());
+//        if (user != null) {
+//            user.setBalance(BigDecimalUtil.add(user.getBalance().doubleValue(), rebate.getMoney().doubleValue()));
+//            int i1 = userMemberCardMapper.updateByPrimaryKeySelective(user);
+//            if (i1 < 1) {
+//                throw new ServiceException(ErrorCode.ERROR.getCode(), "退回用户余额失败");
+//            }
+//        }
+//        // 添加退款记录
+//        rebate.setStatus((byte) 1);
+//        rebate.setAdminId(adminId);
+//        addCardRebate(rebate);
+//        return ResponseFactory.sucMsg("退款成功");
+//    }
+
+
 
     /**
      * 退回门店金额详情表消费（储值卡）

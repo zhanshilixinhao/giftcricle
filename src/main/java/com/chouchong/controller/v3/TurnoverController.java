@@ -262,17 +262,25 @@ public class TurnoverController {
     /**
      * 退回扣款
      *
-     * @param rebate
+     * @param orderNo
+     * @param phone
      * @return
      */
     @PostMapping("refund")
-    public Response refundExpense(CardRebate rebate, String password) {
-        if (rebate.getUserId() == null || rebate.getMembershipCardId() == null || rebate.getExpenseRecordId() == null ||
-                rebate.getMoney() == null || rebate.getOrderNo() == null || StringUtils.isAnyBlank(rebate.getExplain(), password)) {
+    public Response refundExpense(Long orderNo,String phone) {
+        if (orderNo == null) {
             return ResponseFactory.errMissingParameter();
         }
-        return turnoverService.refundExpense(rebate, password);
+        return turnoverService.refundExpense(orderNo,phone);
     }
+
+//    public Response refundExpense(CardRebate rebate, String password) {
+//        if (rebate.getUserId() == null || rebate.getMembershipCardId() == null || rebate.getExpenseRecordId() == null ||
+//                rebate.getMoney() == null || rebate.getOrderNo() == null || StringUtils.isAnyBlank(rebate.getExplain(), password)) {
+//            return ResponseFactory.errMissingParameter();
+//        }
+//        return turnoverService.refundExpense(rebate, password);
+//    }
 
 
 }

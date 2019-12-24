@@ -183,6 +183,12 @@ order by a.created DESC
         </if>
         order by a.created DESC
     </select>
+    <select id="selectByOrderNo" resultType="com.chouchong.entity.v3.MemberExpenseRecord">
+        select
+        <include refid="Base_Column_List"/>
+        from member_expense_record
+        where order_no = #{orderNo}
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from member_expense_record

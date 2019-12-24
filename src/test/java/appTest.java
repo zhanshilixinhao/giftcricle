@@ -134,6 +134,18 @@ public class appTest {
         System.out.println(response.body().string());
     }
 
+    @Test
+    public void refund() throws IOException {
+
+        RequestParams params = new RequestParams();
+        params.put("token", "01bc341e-94c4-46db-b2ad-ee7b85c3905e");
+        params.put("orderNo", 71119122415113L);
+        params.put("phone", 71119122415113L);
+        Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
+                "http://localhost:8080/manage/v3/turnover/refund", params);
+        System.out.println(response.body().string());
+    }
+
 
 
 

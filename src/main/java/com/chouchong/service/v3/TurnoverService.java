@@ -51,10 +51,11 @@ public interface TurnoverService {
 
     /**
      * 退回扣款
-     * @param rebate
+     * @param orderNo
      * @return
      */
-    Response refundExpense(CardRebate rebate, String password);
+    Response refundExpense(Long orderNo, String phone);
+//    Response refundExpense(CardRebate rebate, String password);
 
     /**
      * 退款记录
@@ -68,4 +69,6 @@ public interface TurnoverService {
      * @return
      */
     Response getRefundExpense(PageQuery page, String phone, String storeName, Long cardNo, Long startTime, Long endTime,Integer isExport) throws ParseException;
+
+
 }
