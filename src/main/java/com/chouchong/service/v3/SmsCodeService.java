@@ -12,9 +12,7 @@ import java.io.IOException;
 public interface SmsCodeService {
     /**
      * 短信验证
-     * @param phone
-     * @param type
      * @return
      */
-    Response sendSmsCode(String phone) throws IOException;
+    Response sendSmsCode() throws IOException;
 }

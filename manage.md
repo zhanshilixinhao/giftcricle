@@ -7,26 +7,12 @@
 [TOC]
 
 
-## 1 接口说明
+## 1 接口说明（不需要签名）
 ### 1.1 接口访问地址
 https://liyuquan.cn/web/
 
-### 1.2 接口签名
-apikey
-```java
-Android端：m0BKP^I^2NGH5y$kP3Ks38kN26VaGH%Z
-IOS端：%sX4H91PzuB7V^T4uefDnsiwzHDxOgrX
-小程序：mRrBzm9OiRCq&^frt7c#V$b3pQQLemRv
-```
-### 1.3 接口访问示例
-参数：userId:1 ,name:abc;
-则Android端sign的值为：
-MD5(name=abc&time=1507544919000&userId=1&key= YXgqgMk@RiPFxXi64hrRoA1JPd32wvz!4)
-最后访问：
-https://io.shanren.group/
-app/demoget/v1?sign= 24C9167E2E8E018749D0B984917AA71F&userId=1&name=abc&time=1507544919000
 
-### 1.4 接口响应 [↑](#m)
+### 1.2 接口响应 [↑](#m)
 
 ```javascript
 {
@@ -44,7 +30,7 @@ app/demoget/v1?sign= 24C9167E2E8E018749D0B984917AA71F&userId=1&name=abc&time=150
 | data | Object | 否 | 成功返回数据集 |
 | time | Long | 是 | 接口返回时服务器的时间戳 |
 
-### 1.5 接口错误码表
+### 1.3 接口错误码表
 
 | 错误码        | 错误描述       |
 | ------------- |:-------------:|
@@ -399,6 +385,7 @@ http 常用错误码
 |  token   |  String  |    是    |   无   |      访问令牌   |
 |phone|string|是|无|客户电话|
 |orderNo|long|是|无|消费订单号|
+|code|string|是|无|短信验证码|
 
 
 
@@ -413,7 +400,7 @@ http 常用错误码
 }
 ```
 
-### 3.8 短信认证
+### 3.8 发送短信
 
 - 请求地址：manage/ask/code
 - 服务协议：HTTP/POST
@@ -423,9 +410,6 @@ http 常用错误码
 | 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
 | :------: | :------: | :------: | :----: | :------: |
 |  token   |  String  |    是    |   无   |      访问令牌   |
-|phone|string|是|无|店长电话（3.1phone字段）|
-|type|int|是|无|验证码类型 5 退款|
-
 
 
 - 请求结果示例

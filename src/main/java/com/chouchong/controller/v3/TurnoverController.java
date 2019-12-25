@@ -47,16 +47,16 @@ public class TurnoverController {
      */
     @RequestMapping("list")
     public Response getTurnoverList(PageQuery page, Integer eventId, String title, Long startTime,
-                                    Long endTime, String phone, String storeName,Integer isExport,HttpServletRequest request,
+                                    Long endTime, String phone, String storeName, Integer isExport, HttpServletRequest request,
                                     HttpServletResponse respon) throws ParseException, IOException {
         Response response = turnoverService.getTurnoverList(page, eventId, title, startTime, endTime, phone, storeName, isExport);
-        if (response.getData() instanceof TurnoverVos && ((TurnoverVos) response.getData()).getTurnoverVo() != null){
+        if (response.getData() instanceof TurnoverVos && ((TurnoverVos) response.getData()).getTurnoverVo() != null) {
             List<TurnoverVo> vos = ((TurnoverVos) response.getData()).getTurnoverVo();
-            if (!CollectionUtils.isEmpty(vos) && isExport != null){
+            if (!CollectionUtils.isEmpty(vos) && isExport != null) {
                 List<Map<String, Object>> list = new ArrayList<>();
                 int i = 1;
                 for (TurnoverVo vo : vos) {
-                    Map<String ,Object> map = new HashMap<>();
+                    Map<String, Object> map = new HashMap<>();
                     map.put("index", i++);
                     map.put("totalMoney", vo.getTotalMoney());
                     map.put("blagMoney", vo.getBlagMoney());
@@ -104,15 +104,15 @@ public class TurnoverController {
      */
     @RequestMapping("record_list")
     public Response getChargeRecord(PageQuery page, String phone, String storeName, Long cardNo, Long startTime,
-                                    Long endTime,Integer isExport,HttpServletRequest request,HttpServletResponse respon) throws ParseException, IOException {
+                                    Long endTime, Integer isExport, HttpServletRequest request, HttpServletResponse respon) throws ParseException, IOException {
         Response response = turnoverService.getChargeRecord(page, phone, storeName, cardNo, startTime, endTime, isExport);
-        if (response.getData() instanceof ChargeReVos && ((ChargeReVos) response.getData()).getChargeReVo() != null){
+        if (response.getData() instanceof ChargeReVos && ((ChargeReVos) response.getData()).getChargeReVo() != null) {
             List<ChargeReVo> vos = ((ChargeReVos) response.getData()).getChargeReVo();
-            if (!CollectionUtils.isEmpty(vos) && isExport != null){
+            if (!CollectionUtils.isEmpty(vos) && isExport != null) {
                 List<Map<String, Object>> list = new ArrayList<>();
                 int i = 1;
                 for (ChargeReVo vo : vos) {
-                    Map<String ,Object> map = new HashMap<>();
+                    Map<String, Object> map = new HashMap<>();
                     map.put("index", i++);
                     map.put("nickname", vo.getNickname());
                     map.put("cardNo", vo.getCardNo());
@@ -162,9 +162,9 @@ public class TurnoverController {
      * @return
      */
     @RequestMapping("expense_list")
-    public Response getExpenseRecord(PageQuery page, String phone, String storeName, Long cardNo,Long orderNo, Long startTime,
+    public Response getExpenseRecord(PageQuery page, String phone, String storeName, Long cardNo, Long orderNo, Long startTime,
                                      Long endTime, Integer isExport, HttpServletRequest request, HttpServletResponse respon) throws ParseException, IOException {
-        Response response = turnoverService.getExpenseRecord(page, phone, storeName, cardNo,orderNo, startTime, endTime,isExport);
+        Response response = turnoverService.getExpenseRecord(page, phone, storeName, cardNo, orderNo, startTime, endTime, isExport);
         if (response.getData() instanceof ExpenseReVos && ((ExpenseReVos) response.getData()).getExpenseReVo() != null) {
             List<ExpenseReVo> vos = ((ExpenseReVos) response.getData()).getExpenseReVo();
             if (!CollectionUtils.isEmpty(vos) && isExport != null) {
@@ -267,11 +267,11 @@ public class TurnoverController {
      * @return
      */
     @PostMapping("refund")
-    public Response refundExpense(Long orderNo,String phone) {
-        if (orderNo == null) {
+    public Response refundExpense(Long orderNo, String phone, String code) {
+        if (orderNo == null || StringUtils.isBlank(code)) {
             return ResponseFactory.errMissingParameter();
         }
-        return turnoverService.refundExpense(orderNo,phone);
+        return turnoverService.refundExpense(orderNo, phone ,code);
     }
 
 //    public Response refundExpense(CardRebate rebate, String password) {

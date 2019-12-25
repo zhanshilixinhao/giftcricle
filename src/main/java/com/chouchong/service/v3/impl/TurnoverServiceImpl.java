@@ -12,6 +12,8 @@ import com.chouchong.service.v3.vo.*;
 import com.chouchong.service.webUser.vo.WebUserInfo;
 import com.chouchong.utils.BigDecimalUtil;
 import com.chouchong.utils.TimeUtils;
+import com.chouchong.utils.sms.VerifyCode;
+import com.chouchong.utils.sms.VerifyCodeRepository;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -70,6 +72,9 @@ public class TurnoverServiceImpl implements TurnoverService {
 
     @Autowired
     private MembershipCardMapper membershipCardMapper;
+
+    @Autowired
+    private VerifyCodeRepository verifyCodeRepository;
 
     /**
      * 获取营业额统计列表
@@ -314,9 +319,18 @@ public class TurnoverServiceImpl implements TurnoverService {
      * @return
      */
     @Override
-    public Response refundExpense(Long orderNo, String phone) {
+    public Response refundExpense(Long orderNo, String phone, String code) {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         Integer adminId = webUserInfo.getSysAdmin().getId();
+        Store store = storeMapper.selectByAdminId(webUserInfo.getSysAdmin().getId());
+        if (store == null) {
+            return ResponseFactory.err("校验失败");
+        }
+        VerifyCode verifyCode = verifyCodeRepository.get(store.getPhone(), 5);
+        if (verifyCode == null || StringUtils.equals(verifyCode.getCode(),code)) {
+            return ResponseFactory.err("验证码不存在或已过期");
+        }
+        verifyCodeRepository.remove(store.getPhone(), 5);
         MemberExpenseRecord record = memberExpenseRecordMapper.selectByOrderNo(orderNo);
         if (record == null){
             throw new ServiceException(ErrorCode.ERROR.getCode(), "消费记录不存在");

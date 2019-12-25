@@ -43,7 +43,7 @@ public class ManageInterceptor extends OncePerRequestFilter {
         hashSet.add("/manage/user/logout");
         hashSet.add("/manage/user/pas");
         hashSet.add("/manage/user/info");
-        hashSet.add("/manage/ask/code");
+//        hashSet.add("/manage/ask/code");
         /*hashSet.add("/manage/item/detail");*/
         // 不拦截图片上传，会不会有问题？
         hashSet.add("/manage/upload/image");

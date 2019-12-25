@@ -23,15 +23,11 @@ public class SmsCodeController {
     private SmsCodeService smsCodeService;
 
     /**
-     * 短信验证
-     * @param phone
+     * 发送验证码
      * @return
      */
     @PostMapping("ask/code")
-    public Response createSmsCode(String phone) throws IOException {
-        if (StringUtils.isBlank(phone) ) {
-            return ResponseFactory.errMissingParameter();
-        }
-        return smsCodeService.sendSmsCode(phone);
+    public Response createSmsCode() throws IOException {
+        return smsCodeService.sendSmsCode();
     }
 }
