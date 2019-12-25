@@ -13,7 +13,7 @@ public interface WebUserService {
      * @author: yy
      * @Date: 2018/7/20
      */
-    Response login(String username, String password);
+    Response login(String username, String password,Integer client);
 
     /**
      * 获取用户信息

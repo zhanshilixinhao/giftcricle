@@ -12,6 +12,7 @@ import com.chouchong.dao.webUser.SysRoleMapper;
 import com.chouchong.entity.iwant.merchant.Merchant;
 import com.chouchong.entity.v3.Store;
 import com.chouchong.entity.webUser.*;
+import com.chouchong.exception.ServiceException;
 import com.chouchong.redis.MRedisTemplate;
 import com.chouchong.service.webUser.WebUserService;
 import com.chouchong.service.webUser.vo.SysAdminVo;
@@ -40,7 +41,7 @@ import java.util.Map;
 
 @Service
 @Transactional(rollbackFor = Exception.class, isolation = Isolation.REPEATABLE_READ)
-public class WebUserServiceImpl implements WebUserService{
+public class WebUserServiceImpl implements WebUserService {
     @Autowired
     private SysAdminMapper sysAdminMapper;
 
@@ -71,7 +72,7 @@ public class WebUserServiceImpl implements WebUserService{
      * @Date: 2018/7/20
      */
     @Override
-    public Response login(String username, String password) {
+    public Response login(String username, String password, Integer client) {
         password = Utils.toMD5(password + Constants.ADMINPWD);
         SysAdmin sysAdmin = sysAdminMapper.selectByUsernameAndPwd(username, password);
         if (sysAdmin == null) {
@@ -82,27 +83,33 @@ public class WebUserServiceImpl implements WebUserService{
         }
         // 判断用户角色是否被禁用
         SysAdminRole sysAdminRole = sysAdminRoleMapper.selectByAdminId(sysAdmin.getId());
-        if (sysAdminRole != null) {
-            SysRole sysRole = sysRoleMapper.selectByPrimaryKey(sysAdminRole.getRoleId());
-            if (sysRole != null) {
-                if (sysRole.getActive() == (byte)2) {
-                    return ResponseFactory.err("该账号角色已被禁用!");
-                }
-            }
-            // 查看平台商账号是否过审核
-            if (sysAdminRole.getRoleId() == 3){
-                Merchant merchant = merchantMapper.selectByAdminId(sysAdmin.getId());
-                if (merchant == null) {
-                    return ResponseFactory.err("该平台商账号还未审核!");
-                }
-            }else if (sysAdminRole.getRoleId() == 5){
-                // 查看门店账号是否与门店关联
-                Store store = storeMapper.selectByAdminId(sysAdmin.getId());
-                if (store == null) {
-                    return ResponseFactory.err("该门店账号还未与门店关联!");
-                }
+        if (sysAdminRole == null) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "用户角色错误");
+        }
+        SysRole sysRole = sysRoleMapper.selectByPrimaryKey(sysAdminRole.getRoleId());
+        if (sysRole != null) {
+            if (sysRole.getActive() == (byte) 2) {
+                return ResponseFactory.err("该账号角色已被禁用!");
             }
         }
+        // 小程序管理端助手只能门店账号登录
+        if (client != null && sysAdminRole.getRoleId() != 5) {
+            return ResponseFactory.err("程序管理端助手只能门店账号登录!");
+        }
+        // 查看平台商账号是否过审核
+        if (sysAdminRole.getRoleId() == 3) {
+            Merchant merchant = merchantMapper.selectByAdminId(sysAdmin.getId());
+            if (merchant == null) {
+                return ResponseFactory.err("该平台商账号还未审核!");
+            }
+        } else if (sysAdminRole.getRoleId() == 5) {
+            // 查看门店账号是否与门店关联
+            Store store = storeMapper.selectByAdminId(sysAdmin.getId());
+            if (store == null) {
+                return ResponseFactory.err("该门店账号还未与门店关联!");
+            }
+        }
+
         sysAdmin.setLoginCount(sysAdmin.getLoginCount() + 1);
         sysAdminMapper.updateByPrimaryKey(sysAdmin);
         // 取出菜单列表
@@ -128,7 +135,7 @@ public class WebUserServiceImpl implements WebUserService{
         token = IDUtils.genUUID();
         // 重新保存token
         // token有效期120分钟
-        long expire = 120*60;
+        long expire = 120 * 60;
         mRedisTemplate.setString(tKey, token, expire);
         mRedisTemplate.set(token, webUserInfo, expire);
         return ResponseFactory.sucData(token);
@@ -173,8 +180,8 @@ public class WebUserServiceImpl implements WebUserService{
         }
         SysAdmin sysAdmin = webUserInfo.getSysAdmin();
         oldPassword = Utils.toMD5(oldPassword + Constants.ADMINPWD);
-        if(!oldPassword.equals(sysAdmin.getPassword())){
-            return  ResponseFactory.err("原密码不正确!");
+        if (!oldPassword.equals(sysAdmin.getPassword())) {
+            return ResponseFactory.err("原密码不正确!");
         }
         sysAdmin.setPassword(Utils.toMD5(newPassword + Constants.ADMINPWD));
         sysAdmin.setUpdateAdminId(sysAdmin.getId());
@@ -211,11 +218,11 @@ public class WebUserServiceImpl implements WebUserService{
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
         JSONObject jsonObject = JSON.parseObject(search);
         Map map = new HashMap();
-        map.put("username",jsonObject.getString("username"));
-        map.put("role",jsonObject.getInteger("role"));
-        map.put("phone",jsonObject.getString("phone"));
-        map.put("gender",jsonObject.getInteger("gender"));
-        map.put("status",jsonObject.getInteger("status"));
+        map.put("username", jsonObject.getString("username"));
+        map.put("role", jsonObject.getInteger("role"));
+        map.put("phone", jsonObject.getString("phone"));
+        map.put("gender", jsonObject.getInteger("gender"));
+        map.put("status", jsonObject.getInteger("status"));
         List<SysAdminVo> sysAdmins = sysAdminMapper.selectBySearch(map);
         PageInfo pageInfo = new PageInfo<>(sysAdmins);
         return ResponseFactory.page(sysAdmins, pageInfo.getTotal(),
@@ -237,13 +244,13 @@ public class WebUserServiceImpl implements WebUserService{
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         Integer roleId = null;
         Integer cAdminId = null;
-        if (webUserInfo.getRoleId() == 2){
+        if (webUserInfo.getRoleId() == 2) {
             roleId = webUserInfo.getRoleId();
         }
-        if (webUserInfo.getRoleId() == 3){
+        if (webUserInfo.getRoleId() == 3) {
             cAdminId = webUserInfo.getSysAdmin().getId();
         }
-        List<SysAdminVo> sysAdmins = sysAdminMapper.selectBySearch1(username,phone,gender,status,roleId,cAdminId);
+        List<SysAdminVo> sysAdmins = sysAdminMapper.selectBySearch1(username, phone, gender, status, roleId, cAdminId);
         PageInfo pageInfo = new PageInfo<>(sysAdmins);
         return ResponseFactory.page(sysAdmins, pageInfo.getTotal(),
                 pageInfo.getPages(), pageInfo.getPageNum(), pageInfo.getPageSize());
@@ -424,7 +431,7 @@ public class WebUserServiceImpl implements WebUserService{
      */
     private SysAdmin createVo(SysAdminVo sysAdminVo) {
         SysAdmin sysAdmin = new SysAdmin();
-        sysAdmin.setActive((byte)1);
+        sysAdmin.setActive((byte) 1);
         sysAdmin.setWechat(sysAdminVo.getWechat());
         sysAdmin.setRealName(sysAdminVo.getRealName());
         sysAdmin.setQq(sysAdminVo.getQq());

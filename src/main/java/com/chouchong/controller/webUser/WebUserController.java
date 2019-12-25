@@ -94,17 +94,17 @@ public class WebUserController {
     /**
      * 后台用户登录
      *
-     * @param: [username 用户名, password 密码]
+     * @param: [username 用户名, password 密码 client 1 小程序管理端]
      * @return: com.chouchong.common.Response
      * @author: yy
      * @Date: 2018/7/20
      */
     @PostMapping("login")
-    public Response login(String username, String password){
+    public Response login(String username, String password,Integer client){
         if (StringUtils.isAnyBlank(username, password)) {
             return ResponseFactory.errMissingParameter();
         }
-        return webUserService.login(username, password);
+        return webUserService.login(username, password,client);
     }
 
     /**
