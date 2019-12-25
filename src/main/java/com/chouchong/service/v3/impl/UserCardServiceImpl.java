@@ -15,6 +15,7 @@ import com.chouchong.utils.BigDecimalUtil;
 import com.chouchong.utils.sms.SendUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.poi.ss.formula.functions.Now;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -26,10 +27,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author linqin
@@ -212,7 +211,7 @@ public class UserCardServiceImpl implements UserCardService {
         if (membershipCard != null) {
             content = membershipCard.getTitle();
         }
-        SendUtil.smsSend(card.getPhone(), "【礼遇圈】尊敬的用户，您已成功开通"+content+"，如有问题请咨询客服人员。");
+        SendUtil.smsSend(card.getPhone(), "【礼遇圈】尊敬的用户，您已成功开通" + content + "，如有问题请咨询客服人员。");
         return ResponseFactory.sucMsg("开卡成功");
     }
 
@@ -314,11 +313,17 @@ public class UserCardServiceImpl implements UserCardService {
             content = membershipCard.getTitle();
         }
         // 给用户发送短信
-        SendUtil.smsSend(card.getPhone(), "【礼遇圈】尊敬的用户，您的会员卡"+content+"在"+storeName+"成功充值"+recharge+"元，" +
-                "赠送"+store+"元，充值时间为"+record.getCreated()+"。如有问题请咨询客服人员。元");
+        String time = time();
+        SendUtil.smsSend(card.getPhone(), "【礼遇圈】尊敬的用户，您的会员卡" + content + "在" + storeName + "成功充值" + recharge + "元，" +
+                "赠送" + store + "元，充值时间为" + time + "。如有问题请咨询客服人员。元");
         return ResponseFactory.sucMsg("充值成功");
     }
 
+    private String time() {
+        Date now = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:MM:ss");
+        return dateFormat.format(now);//日期
+    }
 
     /**
      * 分店消费（线下消费）
@@ -420,11 +425,11 @@ public class UserCardServiceImpl implements UserCardService {
             content = membershipCard.getTitle();
         }
         // 给用户发送短信
-        SendUtil.smsSend(card.getPhone(), "【礼遇圈】尊敬的用户，您的"+content+"在"+storeName+"成功消费"+expense
-                +"元，消费时间为"+re.getCreated()+"。如有问题请咨询客服人员。");
+        String time = time();
+        SendUtil.smsSend(card.getPhone(), "【礼遇圈】尊敬的用户，您的" + content + "在" + storeName + "成功消费" + expense
+                + "元，消费时间为" + time + "。如有问题请咨询客服人员。");
         return ResponseFactory.sucMsg("成功");
     }
-
 
 
     /**
