@@ -28,7 +28,7 @@ public interface VerifyCodeRepository {
      * @author yichenshanren
      * @date 2017/11/28
      */
-    VerifyCode get(String key, int type);
+    String get(String key, int type);
 
     /**
      * 移除验证码

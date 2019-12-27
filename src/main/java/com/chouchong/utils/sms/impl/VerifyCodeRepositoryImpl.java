@@ -2,9 +2,7 @@ package com.chouchong.utils.sms.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.chouchong.utils.sms.K;
-import com.chouchong.utils.sms.VerifyCode;
 import com.chouchong.utils.sms.VerifyCodeRepository;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
@@ -37,13 +35,9 @@ public class VerifyCodeRepositoryImpl implements VerifyCodeRepository {
      * @return
      */
     @Override
-    public VerifyCode get(String key, int type) {
+    public String get(String key, int type) {
         String code = stringRedisTemplate.opsForValue().get(K.genKey(key, type));
-        if (StringUtils.isNotBlank(code)) {
-            VerifyCode verifyCode = JSON.parseObject(code, VerifyCode.class);
-            return verifyCode;
-        }
-        return null;
+        return code;
     }
 
     /**

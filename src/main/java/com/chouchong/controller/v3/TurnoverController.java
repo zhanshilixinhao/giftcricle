@@ -267,11 +267,11 @@ public class TurnoverController {
      * @return
      */
     @PostMapping("refund")
-    public Response refundExpense(Long orderNo, String phone, String code) {
+    public Response refundExpense(Long orderNo, String phone, String code,String explain) {
         if (orderNo == null || StringUtils.isBlank(code)) {
             return ResponseFactory.errMissingParameter();
         }
-        return turnoverService.refundExpense(orderNo, phone ,code);
+        return turnoverService.refundExpense(orderNo, phone ,code,explain);
     }
 
 //    public Response refundExpense(CardRebate rebate, String password) {

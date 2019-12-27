@@ -319,15 +319,15 @@ public class TurnoverServiceImpl implements TurnoverService {
      * @return
      */
     @Override
-    public Response refundExpense(Long orderNo, String phone, String code) {
+    public Response refundExpense(Long orderNo, String phone, String code,String explain) {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         Integer adminId = webUserInfo.getSysAdmin().getId();
         Store store = storeMapper.selectByAdminId(webUserInfo.getSysAdmin().getId());
         if (store == null) {
             return ResponseFactory.err("校验失败");
         }
-        VerifyCode verifyCode = verifyCodeRepository.get(store.getPhone(), 5);
-        if (verifyCode == null || StringUtils.equals(verifyCode.getCode(),code)) {
+        String s = verifyCodeRepository.get(store.getPhone(), 5);
+        if (StringUtils.equals(s,code)) {
             return ResponseFactory.err("验证码不存在或已过期");
         }
         verifyCodeRepository.remove(store.getPhone(), 5);
@@ -358,7 +358,11 @@ public class TurnoverServiceImpl implements TurnoverService {
         CardRebate rebate = new CardRebate();
         rebate.setUserId(record.getUserId());
         rebate.setMembershipCardId(record.getMembershipCardId());
-        rebate.setExplain("退款");
+        if (StringUtils.isBlank(explain)){
+            rebate.setExplain("门店退款");
+        }else {
+            rebate.setExplain(explain);
+        }
         rebate.setExpenseRecordId(record.getId());
         rebate.setMoney(record.getExpenseMoney());
         rebate.setOrderNo(orderNo);
