@@ -68,6 +68,9 @@ public class TurnoverServiceImpl implements TurnoverService {
     private CardRebateMapper cardRebateMapper;
 
     @Autowired
+    private TransferSendMapper transferSendMapper;
+
+    @Autowired
     private UserMemberCardMapper userMemberCardMapper;
 
     @Autowired
@@ -307,6 +310,72 @@ public class TurnoverServiceImpl implements TurnoverService {
             PageHelper.startPage(page.getPageNum(), page.getPageSize());
         }
         List<RefundVo> refundVos = cardRebateMapper.selectBySearch(phone, storeName, cardNo, startTime, endTime, adminId);
+        PageInfo pageInfo = new PageInfo<>(refundVos);
+        return ResponseFactory.page(refundVos, pageInfo.getTotal(), pageInfo.getPages(),
+                pageInfo.getPageNum(), pageInfo.getPageSize());
+    }
+
+
+    /**
+     * 转赠记录
+     * @param page
+     * @param nickname 昵称
+     * @param title 卡标题
+     * @param status 状态
+     * @param startTime 开始时间
+     * @param endTime 结束时间
+     * @param isExport 是否导出
+     * @return
+     * @throws ParseException
+     * @throws
+     */
+    @Override
+    public Response getTransferSend(PageQuery page, String nickname, String title, Byte status, Long startTime, Long endTime, Integer isExport) throws ParseException {
+        if (startTime != null) {
+            startTime = TimeUtils.time(startTime);
+        }
+        if (endTime != null) {
+            endTime = TimeUtils.timeEnd(endTime);
+        }
+        // 角色
+        WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
+        List<Integer> list = new ArrayList<>();
+        // 商家
+        if (webUserInfo.getRoleId() == 3) {
+            //查询商家创建的所有会员卡
+            List<MembershipCard> cards = membershipCardMapper.selectByAdminId1(webUserInfo.getSysAdmin().getId());
+            if (!CollectionUtils.isEmpty(cards)){
+                for (MembershipCard card : cards) {
+                    list.add(card.getId());
+                }
+            }
+        } else if (webUserInfo.getRoleId() == 5) {
+            //        分店adminId
+            Integer adminId = webUserInfo.getSysAdmin().getId();
+            // 创建者adminId(商家adminId)
+            Integer createdAdminId = webUserInfo.getSysAdmin().getCreateAdminId();
+            // 查询门店id
+            Store store = storeMapper.selectByAdminId(adminId);
+            if (store == null) {
+                return ResponseFactory.suc();
+            }
+            List<MembershipCard> cardList = membershipCardMapper.selectByAdminId1(createdAdminId);
+            if (!CollectionUtils.isEmpty(cardList)) {
+                for (MembershipCard card : cardList) {
+                    // 分店卡
+                    String[] strings = card.getStoreIds().split(",");
+                    for (String string : strings) {
+                        if (string.equals(store.getId().toString())) {
+                            list.add(card.getId());
+                        }
+                    }
+                }
+            }
+        }
+        if (isExport == null) {
+            PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        }
+        List<TransferVo> refundVos = transferSendMapper.selectBySearch(nickname, title, status, startTime, endTime, list);
         PageInfo pageInfo = new PageInfo<>(refundVos);
         return ResponseFactory.page(refundVos, pageInfo.getTotal(), pageInfo.getPages(),
                 pageInfo.getPageNum(), pageInfo.getPageSize());

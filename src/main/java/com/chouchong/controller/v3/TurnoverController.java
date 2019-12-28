@@ -258,6 +258,63 @@ public class TurnoverController {
         return response;
     }
 
+    /**
+     * 转赠记录
+     * @param page
+     * @param nickname 昵称
+     * @param title 卡标题
+     * @param status 状态
+     * @param startTime 开始时间
+     * @param endTime 结束时间
+     * @param isExport 是否导出
+     * @return
+     * @throws ParseException
+     * @throws IOException
+     */
+    @RequestMapping("transfer_list")
+    public Response getTransferSend(PageQuery page, String nickname, String title, Byte status, Long startTime,
+                                     Long endTime, Integer isExport, HttpServletRequest request, HttpServletResponse respon) throws ParseException, IOException {
+        Response response = turnoverService.getTransferSend(page, nickname, title,status, startTime, endTime, isExport);
+        if (response.getData() != null) {
+            List<TransferVo> transferVo = (List<TransferVo>) response.getData();
+            if (!CollectionUtils.isEmpty(transferVo) && isExport != null) {
+                List<Map<String, Object>> list = new ArrayList<>();
+                int i = 1;
+                for (TransferVo vo : transferVo) {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("index", i++);
+                    map.put("nickname", vo.getNickname());
+                    map.put("phone", vo.getPhone());
+                    map.put("title", vo.getTitle());
+                    map.put("sendMoney", vo.getSendMoney());
+                    map.put("status", vo.getStatus());
+                    map.put("reNickname", vo.getReNickname());
+                    map.put("rePhone", vo.getRePhone());
+                    map.put("created", vo.getCreated());
+                    map.put("created1", vo.getCreated1());
+                    list.add(map);
+                }
+
+                ExcelUtils.preExport(request, respon, "转赠记录");
+                ExcelUtils.exportExcel2("转赠记录",
+                        new ExcelUtils.Header[]{
+                                ExcelUtils.Header.h("index", "序号"),
+                                ExcelUtils.Header.h("nickname", "赠送者昵称"),
+                                ExcelUtils.Header.h("phone", "赠送者电话"),
+                                ExcelUtils.Header.h("title", "卡标题"),
+                                ExcelUtils.Header.h("sendMoney", "转赠金额"),
+                                ExcelUtils.Header.h("status", "状态"),
+                                ExcelUtils.Header.h("reNickname", "领取者昵称"),
+                                ExcelUtils.Header.h("rePhone", "领取者电话"),
+                                ExcelUtils.Header.h("created", "转赠时间"),
+                                ExcelUtils.Header.h("created1", "领取时间"),
+                        }, list, respon.getOutputStream(), "yyyy-MM-dd HH:mm:ss");
+                return null;
+            }
+        }
+        return response;
+    }
+
 
     /**
      * 退回扣款

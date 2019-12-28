@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.v3.TransferSendDetailMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.v3.TransferSendDetail">
+    <constructor>
+      <arg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="transfer_send_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="membership_card_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="send_money" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <insert id="insert" parameterType="com.chouchong.entity.v3.TransferSendDetail">
+    insert into transfer_send_detail (id, user_id, transfer_send_id, 
+      membership_card_id, send_money, status, 
+      updated, created)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{transferSendId,jdbcType=INTEGER}, 
+      #{membershipCardId,jdbcType=INTEGER}, #{sendMoney,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, 
+      #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.v3.TransferSendDetail">
+    insert into transfer_send_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="transferSendId != null">
+        transfer_send_id,
+      </if>
+      <if test="membershipCardId != null">
+        membership_card_id,
+      </if>
+      <if test="sendMoney != null">
+        send_money,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="transferSendId != null">
+        #{transferSendId,jdbcType=INTEGER},
+      </if>
+      <if test="membershipCardId != null">
+        #{membershipCardId,jdbcType=INTEGER},
+      </if>
+      <if test="sendMoney != null">
+        #{sendMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>

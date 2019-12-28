@@ -70,5 +70,18 @@ public interface TurnoverService {
      */
     Response getRefundExpense(PageQuery page, String phone, String storeName, Long cardNo, Long startTime, Long endTime,Integer isExport) throws ParseException;
 
-
+    /**
+     * 转赠记录
+     * @param page
+     * @param nickname 昵称
+     * @param title 卡标题
+     * @param status 状态
+     * @param startTime 开始时间
+     * @param endTime 结束时间
+     * @param isExport 是否导出
+     * @return
+     * @throws ParseException
+     * @throws IOException
+     */
+    Response getTransferSend(PageQuery page, String nickname, String title, Byte status, Long startTime, Long endTime, Integer isExport) throws ParseException;
 }

@@ -70,10 +70,10 @@
 
 
 
-                <table tableName="card_grade" domainObjectName="CardGrade" enableCountByExample="false"
-                       enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-                       selectByExampleQueryId="false"></table>
-                <!--<table tableName="sys_admin_wallet_record" domainObjectName="SysAdminWalletRecord" enableCountByExample="false"-->
+                <!--<table tableName="transfer_send" domainObjectName="TransferSend" enableCountByExample="false"-->
+                       <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+                       <!--selectByExampleQueryId="false"></table>-->
+                <!--<table tableName="transfer_send_detail" domainObjectName="TransferSendDetail" enableCountByExample="false"-->
                        <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
                        <!--selectByExampleQueryId="false"></table>-->
 
