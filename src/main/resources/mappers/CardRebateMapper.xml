@@ -18,7 +18,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     id, user_id, membership_card_id, `explain`, status, record_id, money, order_no,
-    admin_id, updated, created
+    admin_id, updated, created,`type`
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
@@ -33,6 +33,7 @@
        a.`explain`,
        a.money,
        a.created,
+       a.type,
        c.title,
        d.nickname,
        d.phone,
@@ -69,6 +70,7 @@ from card_rebate a
        a.`explain`,
        a.money,
        a.created,
+       a.type,
        c.title,
        d.nickname,
        d.phone,
@@ -107,11 +109,11 @@ from card_rebate a
     insert into card_rebate (id, user_id, membership_card_id,
       `explain`, status, record_id,
       money, order_no, admin_id,
-      updated, created)
+      updated, created,`type`)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{membershipCardId,jdbcType=INTEGER},
       #{explain,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{recordId,jdbcType=INTEGER},
       #{money,jdbcType=DECIMAL}, #{orderNo,jdbcType=BIGINT}, #{adminId,jdbcType=INTEGER},
-      now(), now())
+      now(), now(), #{type,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.chouchong.entity.v3.CardRebate">
     insert into card_rebate

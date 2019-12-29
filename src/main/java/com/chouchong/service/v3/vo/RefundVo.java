@@ -32,6 +32,16 @@ public class RefundVo {
 
     private Date created;
 
+    private Byte type;
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
+    }
+
     public Integer getId() {
         return id;
     }

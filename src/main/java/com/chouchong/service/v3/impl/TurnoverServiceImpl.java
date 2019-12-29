@@ -524,11 +524,11 @@ public class TurnoverServiceImpl implements TurnoverService {
         if (store == null) {
             return ResponseFactory.err("校验失败");
         }
-//        String s = verifyCodeRepository.get(store.getPhone(), 5);
-//        if (StringUtils.equals(s, code)) {
-//            return ResponseFactory.err("验证码不存在或已过期");
-//        }
-//        verifyCodeRepository.remove(store.getPhone(), 5);
+        String s = verifyCodeRepository.get(store.getPhone(), 5);
+        if (StringUtils.equals(s, code)) {
+            return ResponseFactory.err("验证码不存在或已过期");
+        }
+        verifyCodeRepository.remove(store.getPhone(), 5);
         MemberChargeRecord record = memberChargeRecordMapper.selectByOrderNo(orderNo);
         if (record == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "消费记录不存在");

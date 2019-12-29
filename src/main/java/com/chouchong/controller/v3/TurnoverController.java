@@ -228,6 +228,7 @@ public class TurnoverController {
                 for (RefundVo vo : refundVos) {
                     Map<String, Object> map = new HashMap<>();
                     map.put("index", i++);
+                    map.put("type", vo.getType() == 1 ? "充值退款": "消费退款");
                     map.put("nickname", vo.getNickname());
                     map.put("cardNo", vo.getCardNo());
                     map.put("phone", vo.getPhone());
@@ -243,6 +244,7 @@ public class TurnoverController {
                 ExcelUtils.exportExcel2("退款记录",
                         new ExcelUtils.Header[]{
                                 ExcelUtils.Header.h("index", "序号"),
+                                ExcelUtils.Header.h("type", "退款类型"),
                                 ExcelUtils.Header.h("nickname", "用户昵称"),
                                 ExcelUtils.Header.h("cardNo", "卡号"),
                                 ExcelUtils.Header.h("phone", "用户电话"),
