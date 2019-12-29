@@ -22,7 +22,7 @@ public interface UserCardService {
      * @param phone 用户电话
      * @return
      */
-    Response getUserCardList(PageQuery page, String nickname, String phone,Byte type,String title);
+    Response getUserCardList(PageQuery page, String nickname, String phone,Byte type,String title,Integer isExport);
 
 
     /**
@@ -41,7 +41,8 @@ public interface UserCardService {
      * @param phone 用户电话
      * @return
      */
-    Response getUserCardList1(PageQuery page, String cardNo, String phone,String title);
+    Response getUserCardList1(PageQuery page, String cardNo, String phone,String title,
+                              Integer isExport);
 
     /**
      * 分店开卡

@@ -92,13 +92,15 @@ public class UserCardServiceImpl implements UserCardService {
      * @return
      */
     @Override
-    public Response getUserCardList(PageQuery page, String cardNo, String phone, Byte type, String title) {
+    public Response getUserCardList(PageQuery page, String cardNo, String phone, Byte type, String title,Integer isExport) {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         Integer adminId = null;
         if (webUserInfo.getRoleId() == 3) {
             adminId = webUserInfo.getSysAdmin().getId();
         }
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        if (isExport == null) {
+            PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        }
         List<UserCardVo> list = userMemberCardMapper.selectBySearch(cardNo, phone, adminId, type, title);
         PageInfo pageInfo = new PageInfo<>(list);
         return ResponseFactory.page(list, pageInfo.getTotal(), pageInfo.getPages(),
@@ -132,7 +134,7 @@ public class UserCardServiceImpl implements UserCardService {
      * @return
      */
     @Override
-    public Response getUserCardList1(PageQuery page, String cardNo, String phone, String title) {
+    public Response getUserCardList1(PageQuery page, String cardNo, String phone, String title,Integer isExport) {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
 //        分店adminId
         Integer adminId = webUserInfo.getSysAdmin().getId();
@@ -158,7 +160,9 @@ public class UserCardServiceImpl implements UserCardService {
         if (list.size() == 0) {
             return ResponseFactory.suc();
         }
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        if (isExport == null) {
+            PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        }
         List<UserCardVo> list1 = userMemberCardMapper.selectBySearch1(cardNo, phone, list, title);
         PageInfo pageInfo = new PageInfo<>(list1);
         return ResponseFactory.page(list1, pageInfo.getTotal(), pageInfo.getPages(),

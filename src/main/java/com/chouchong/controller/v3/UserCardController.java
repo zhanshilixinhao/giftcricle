@@ -3,17 +3,28 @@ package com.chouchong.controller.v3;
 import com.chouchong.common.PageQuery;
 import com.chouchong.common.Response;
 import com.chouchong.common.ResponseFactory;
+import com.chouchong.common.v3.ExcelUtils;
 import com.chouchong.entity.v3.UserMemberCard;
 import com.chouchong.service.v3.UserCardService;
+import com.chouchong.service.v3.vo.TransferVo;
+import com.chouchong.service.v3.vo.UserCardVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import retrofit2.http.POST;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author linqin
@@ -35,9 +46,46 @@ public class UserCardController {
      * @param title  卡标题
      * @return
      */
-    @PostMapping("list")
-    public Response getUserCardList(PageQuery page, String cardNo, String phone, Byte type, String title) {
-        return userCardService.getUserCardList(page, cardNo, phone, type, title);
+    @RequestMapping("list")
+    public Response getUserCardList(PageQuery page, String cardNo, String phone, Byte type, String title,
+                                    Integer isExport, HttpServletRequest request, HttpServletResponse respon) throws IOException {
+        Response response = userCardService.getUserCardList(page, cardNo, phone, type, title, isExport);
+        if (response.getData() != null) {
+            List<UserCardVo> userCardVo = (List<UserCardVo>) response.getData();
+            if (!CollectionUtils.isEmpty(userCardVo) && isExport != null) {
+                List<Map<String, Object>> list = new ArrayList<>();
+                int i = 1;
+                for (UserCardVo vo : userCardVo) {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("index", i++);
+                    map.put("nickname", vo.getNickname());
+                    map.put("phone", vo.getPhone());
+                    map.put("title", vo.getTitle());
+                    map.put("cardNo", vo.getCardNo());
+                    map.put("type", vo.getType() == 1 ?  "礼遇圈卡" : vo.getType() == 10 ?"企业储值卡": "企业活动卡");
+                    map.put("balance", vo.getBalance());
+                    map.put("storeName", vo.getStoreName());
+                    map.put("created", vo.getCreated());
+                    list.add(map);
+                }
+
+                ExcelUtils.preExport(request, respon, "会员卡信息");
+                ExcelUtils.exportExcel2("会员卡信息",
+                        new ExcelUtils.Header[]{
+                                ExcelUtils.Header.h("index", "序号"),
+                                ExcelUtils.Header.h("nickname", "用户昵称"),
+                                ExcelUtils.Header.h("phone", "用户电话"),
+                                ExcelUtils.Header.h("title", "卡标题"),
+                                ExcelUtils.Header.h("cardNo", "卡号"),
+                                ExcelUtils.Header.h("type", "会员卡类型"),
+                                ExcelUtils.Header.h("balance", "余额"),
+                                ExcelUtils.Header.h("storeName", "开卡门店"),
+                                ExcelUtils.Header.h("created", "开卡时间"),
+                        }, list, respon.getOutputStream(), "yyyy-MM-dd HH:mm:ss");
+                return null;
+            }
+        }
+        return response;
     }
 
     /**
@@ -63,9 +111,46 @@ public class UserCardController {
      * @param title  卡标题
      * @return
      */
-    @PostMapping("list_store")
-    public Response getUserCardList1(PageQuery page, String cardNo, String phone, String title) {
-        return userCardService.getUserCardList1(page, cardNo, phone, title);
+    @RequestMapping("list_store")
+    public Response getUserCardList1(PageQuery page, String cardNo, String phone, String title,
+                                     Integer isExport, HttpServletRequest request, HttpServletResponse respon) throws IOException {
+        Response response = userCardService.getUserCardList1(page, cardNo, phone, title, isExport);
+        if (response.getData() != null) {
+            List<UserCardVo> userCardVo = (List<UserCardVo>) response.getData();
+            if (!CollectionUtils.isEmpty(userCardVo) && isExport != null) {
+                List<Map<String, Object>> list = new ArrayList<>();
+                int i = 1;
+                for (UserCardVo vo : userCardVo) {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("index", i++);
+                    map.put("nickname", vo.getNickname());
+                    map.put("phone", vo.getPhone());
+                    map.put("title", vo.getTitle());
+                    map.put("cardNo", vo.getCardNo());
+                    map.put("type", vo.getType() == 1 ?  "礼遇圈卡" : vo.getType() == 10 ?"企业储值卡": "企业活动卡");
+                    map.put("balance", vo.getBalance());
+                    map.put("storeName", vo.getStoreName());
+                    map.put("created", vo.getCreated());
+                    list.add(map);
+                }
+
+                ExcelUtils.preExport(request, respon, "会员卡信息");
+                ExcelUtils.exportExcel2("会员卡信息",
+                        new ExcelUtils.Header[]{
+                                ExcelUtils.Header.h("index", "序号"),
+                                ExcelUtils.Header.h("nickname", "用户昵称"),
+                                ExcelUtils.Header.h("phone", "用户电话"),
+                                ExcelUtils.Header.h("title", "卡标题"),
+                                ExcelUtils.Header.h("cardNo", "卡号"),
+                                ExcelUtils.Header.h("type", "会员卡类型"),
+                                ExcelUtils.Header.h("balance", "余额"),
+                                ExcelUtils.Header.h("storeName", "开卡门店"),
+                                ExcelUtils.Header.h("created", "开卡时间"),
+                        }, list, respon.getOutputStream(), "yyyy-MM-dd HH:mm:ss");
+                return null;
+            }
+        }
+        return response;
     }
 
 
