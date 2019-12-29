@@ -14,7 +14,7 @@ public class CardRebate {
 
     private Byte status;
 
-    private Integer expenseRecordId;
+    private Integer recordId;
 
     private BigDecimal money;
 
@@ -26,13 +26,15 @@ public class CardRebate {
 
     private Date created;
 
-    public CardRebate(Integer id, Integer userId, Integer membershipCardId, String explain, Byte status, Integer expenseRecordId, BigDecimal money, Long orderNo, Integer adminId, Date updated, Date created) {
+    private Byte type;
+
+    public CardRebate(Integer id, Integer userId, Integer membershipCardId, String explain, Byte status, Integer recordId, BigDecimal money, Long orderNo, Integer adminId, Date updated, Date created) {
         this.id = id;
         this.userId = userId;
         this.membershipCardId = membershipCardId;
         this.explain = explain;
         this.status = status;
-        this.expenseRecordId = expenseRecordId;
+        this.recordId = recordId;
         this.money = money;
         this.orderNo = orderNo;
         this.adminId = adminId;
@@ -84,12 +86,20 @@ public class CardRebate {
         this.status = status;
     }
 
-    public Integer getExpenseRecordId() {
-        return expenseRecordId;
+    public Integer getRecordId() {
+        return recordId;
     }
 
-    public void setExpenseRecordId(Integer expenseRecordId) {
-        this.expenseRecordId = expenseRecordId;
+    public void setRecordId(Integer recordId) {
+        this.recordId = recordId;
+    }
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
     }
 
     public BigDecimal getMoney() {

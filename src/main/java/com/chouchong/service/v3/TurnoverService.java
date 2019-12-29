@@ -84,4 +84,13 @@ public interface TurnoverService {
      * @throws IOException
      */
     Response getTransferSend(PageQuery page, String nickname, String title, Byte status, Long startTime, Long endTime, Integer isExport) throws ParseException;
+
+    /**
+     * 充值退回扣款
+     *
+     * @param orderNo
+     * @param phone
+     * @return
+     */
+    Response refundCharge(Long orderNo, String phone, String code, String explain);
 }

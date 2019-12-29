@@ -318,7 +318,7 @@ public class TurnoverController {
 
 
     /**
-     * 退回扣款
+     * 消费退回扣款
      *
      * @param orderNo
      * @param phone
@@ -330,6 +330,21 @@ public class TurnoverController {
             return ResponseFactory.errMissingParameter();
         }
         return turnoverService.refundExpense(orderNo, phone, code, explain);
+    }
+
+    /**
+     * 充值退回扣款
+     *
+     * @param orderNo
+     * @param phone
+     * @return
+     */
+    @PostMapping("refund_charge")
+    public Response refundCharge(Long orderNo, String phone, String code, String explain) {
+        if (orderNo == null || StringUtils.isBlank(code)) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return turnoverService.refundCharge(orderNo, phone, code, explain);
     }
 
 //    public Response refundExpense(CardRebate rebate, String password) {

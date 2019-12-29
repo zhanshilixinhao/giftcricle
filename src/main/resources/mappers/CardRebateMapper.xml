@@ -8,7 +8,7 @@
       <arg column="membership_card_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="explain" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
-      <arg column="expense_record_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="record_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="money" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
       <arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
@@ -17,7 +17,7 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, membership_card_id, `explain`, status, expense_record_id, money, order_no,
+    id, user_id, membership_card_id, `explain`, status, record_id, money, order_no,
     admin_id, updated, created
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -105,11 +105,11 @@ from card_rebate a
   </delete>
   <insert id="insert" parameterType="com.chouchong.entity.v3.CardRebate">
     insert into card_rebate (id, user_id, membership_card_id,
-      `explain`, status, expense_record_id,
+      `explain`, status, record_id,
       money, order_no, admin_id,
       updated, created)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{membershipCardId,jdbcType=INTEGER},
-      #{explain,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{expenseRecordId,jdbcType=INTEGER},
+      #{explain,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{recordId,jdbcType=INTEGER},
       #{money,jdbcType=DECIMAL}, #{orderNo,jdbcType=BIGINT}, #{adminId,jdbcType=INTEGER},
       now(), now())
   </insert>
@@ -131,8 +131,8 @@ from card_rebate a
       <if test="status != null">
         status,
       </if>
-      <if test="expenseRecordId != null">
-        expense_record_id,
+      <if test="recordId != null">
+        record_id,
       </if>
       <if test="money != null">
         money,
@@ -166,8 +166,8 @@ from card_rebate a
       <if test="status != null">
         #{status,jdbcType=TINYINT},
       </if>
-      <if test="expenseRecordId != null">
-        #{expenseRecordId,jdbcType=INTEGER},
+      <if test="recordId != null">
+        #{recordId,jdbcType=INTEGER},
       </if>
       <if test="money != null">
         #{money,jdbcType=DECIMAL},
@@ -201,8 +201,8 @@ from card_rebate a
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
-      <if test="expenseRecordId != null">
-        expense_record_id = #{expenseRecordId,jdbcType=INTEGER},
+      <if test="recordId != null">
+        record_id = #{recordId,jdbcType=INTEGER},
       </if>
       <if test="money != null">
         money = #{money,jdbcType=DECIMAL},
@@ -228,7 +228,7 @@ from card_rebate a
       membership_card_id = #{membershipCardId,jdbcType=INTEGER},
       explain = #{explain,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
-      expense_record_id = #{expenseRecordId,jdbcType=INTEGER},
+      record_id = #{recordId,jdbcType=INTEGER},
       money = #{money,jdbcType=DECIMAL},
       order_no = #{orderNo,jdbcType=BIGINT},
       admin_id = #{adminId,jdbcType=INTEGER},

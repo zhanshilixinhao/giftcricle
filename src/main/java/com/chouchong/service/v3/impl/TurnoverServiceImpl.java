@@ -318,13 +318,14 @@ public class TurnoverServiceImpl implements TurnoverService {
 
     /**
      * 转赠记录
+     *
      * @param page
-     * @param nickname 昵称
-     * @param title 卡标题
-     * @param status 状态
+     * @param nickname  昵称
+     * @param title     卡标题
+     * @param status    状态
      * @param startTime 开始时间
-     * @param endTime 结束时间
-     * @param isExport 是否导出
+     * @param endTime   结束时间
+     * @param isExport  是否导出
      * @return
      * @throws ParseException
      * @throws
@@ -344,12 +345,12 @@ public class TurnoverServiceImpl implements TurnoverService {
         if (webUserInfo.getRoleId() == 3) {
             //查询商家创建的所有会员卡
             List<MembershipCard> cards = membershipCardMapper.selectByAdminId1(webUserInfo.getSysAdmin().getId());
-            if (!CollectionUtils.isEmpty(cards)){
+            if (!CollectionUtils.isEmpty(cards)) {
                 for (MembershipCard card : cards) {
                     list.add(card.getId());
                 }
             }
-            if (list.size() == 0){
+            if (list.size() == 0) {
                 List<TransferVo> refundVos = new ArrayList<>();
                 PageInfo pageInfo = new PageInfo<>(refundVos);
                 return ResponseFactory.page(refundVos, pageInfo.getTotal(), pageInfo.getPages(),
@@ -377,7 +378,7 @@ public class TurnoverServiceImpl implements TurnoverService {
                     }
                 }
             }
-            if (list.size() == 0){
+            if (list.size() == 0) {
                 List<TransferVo> refundVos = new ArrayList<>();
                 PageInfo pageInfo = new PageInfo<>(refundVos);
                 return ResponseFactory.page(refundVos, pageInfo.getTotal(), pageInfo.getPages(),
@@ -400,7 +401,7 @@ public class TurnoverServiceImpl implements TurnoverService {
      * @return
      */
     @Override
-    public Response refundExpense(Long orderNo, String phone, String code,String explain) {
+    public Response refundExpense(Long orderNo, String phone, String code, String explain) {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         Integer adminId = webUserInfo.getSysAdmin().getId();
         Store store = storeMapper.selectByAdminId(webUserInfo.getSysAdmin().getId());
@@ -408,13 +409,13 @@ public class TurnoverServiceImpl implements TurnoverService {
             return ResponseFactory.err("校验失败");
         }
         String s = verifyCodeRepository.get(store.getPhone(), 5);
-        if (StringUtils.equals(s,code)) {
+        if (StringUtils.equals(s, code)) {
             return ResponseFactory.err("验证码不存在或已过期");
         }
         verifyCodeRepository.remove(store.getPhone(), 5);
         MemberExpenseRecord record = memberExpenseRecordMapper.selectByOrderNo(orderNo);
-        if (record == null){
-            throw new ServiceException(ErrorCode.ERROR.getCode(), "消费记录不存在");
+        if (record == null) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "充值记录不存在");
         }
         // 查询会员卡类型
         Byte type = membershipCardMapper.selectTypeById(record.getMembershipCardId());
@@ -439,17 +440,17 @@ public class TurnoverServiceImpl implements TurnoverService {
         CardRebate rebate = new CardRebate();
         rebate.setUserId(record.getUserId());
         rebate.setMembershipCardId(record.getMembershipCardId());
-        if (StringUtils.isBlank(explain)){
-            rebate.setExplain("门店退款");
-        }else {
+        if (StringUtils.isBlank(explain)) {
+            rebate.setExplain("门店消费退款");
+        } else {
             rebate.setExplain(explain);
         }
-        rebate.setExpenseRecordId(record.getId());
+        rebate.setRecordId(record.getId());
         rebate.setMoney(record.getExpenseMoney());
         rebate.setOrderNo(orderNo);
-        rebate.setAdminId(adminId);
         rebate.setStatus((byte) 1);
         rebate.setAdminId(adminId);
+        rebate.setType((byte) 2);
         addCardRebate(rebate);
         // 删除消费记录
         int i = memberExpenseRecordMapper.deleteByPrimaryKey(record.getId());
@@ -507,6 +508,87 @@ public class TurnoverServiceImpl implements TurnoverService {
 //        return ResponseFactory.sucMsg("退款成功");
 //    }
 
+
+    /**
+     * 充值退回扣款
+     *
+     * @param orderNo
+     * @param phone
+     * @return
+     */
+    @Override
+    public Response refundCharge(Long orderNo, String phone, String code, String explain) {
+        WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
+        Integer adminId = webUserInfo.getSysAdmin().getId();
+        Store store = storeMapper.selectByAdminId(webUserInfo.getSysAdmin().getId());
+        if (store == null) {
+            return ResponseFactory.err("校验失败");
+        }
+//        String s = verifyCodeRepository.get(store.getPhone(), 5);
+//        if (StringUtils.equals(s, code)) {
+//            return ResponseFactory.err("验证码不存在或已过期");
+//        }
+//        verifyCodeRepository.remove(store.getPhone(), 5);
+        MemberChargeRecord record = memberChargeRecordMapper.selectByOrderNo(orderNo);
+        if (record == null) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "消费记录不存在");
+        }
+        BigDecimal add = BigDecimalUtil.add(record.getRechargeMoney().doubleValue(), record.getSendMoney().doubleValue());
+        // 查询会员卡类型
+        Byte type = membershipCardMapper.selectTypeById(record.getMembershipCardId());
+        // 退款
+        if (type == 11) {
+            // 活动卡
+            StoreMemberEvent event = storeMemberEventMapper.selectByUserIdCardIdOrderNo1(record.getMembershipCardId(), record.getUserId(), orderNo);
+            if (event == null) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "金额详情记录不存在1");
+            }
+            int i = storeMemberEventMapper.deleteByPrimaryKey(event.getId());
+            if (i < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "金额详情记录删除失败");
+            }
+        } else {
+            StoreMemberCharge charge = storeMemberChargeMapper.selectByUserIdCardIdOrderNo1(record.getMembershipCardId(), record.getUserId(), orderNo);
+            if (charge == null) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "金额详情记录不存在2");
+            }
+            int i = storeMemberChargeMapper.deleteByPrimaryKey(charge.getId());
+            if (i < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "金额详情记录删除失败");
+            }
+        }
+        // 退回用户余额
+        UserMemberCard user = userMemberCardMapper.selectByUseridcardId(record.getUserId(), record.getMembershipCardId());
+        if (user != null) {
+            user.setBalance(BigDecimalUtil.sub(user.getBalance().doubleValue(), add.doubleValue()));
+            int i1 = userMemberCardMapper.updateByPrimaryKeySelective(user);
+            if (i1 < 1) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "退回用户余额失败");
+            }
+        }
+        // 添加退款记录
+        CardRebate rebate = new CardRebate();
+        rebate.setUserId(record.getUserId());
+        rebate.setMembershipCardId(record.getMembershipCardId());
+        if (StringUtils.isBlank(explain)) {
+            rebate.setExplain("门店充值退款");
+        } else {
+            rebate.setExplain(explain);
+        }
+        rebate.setRecordId(record.getId());
+        rebate.setMoney(add);
+        rebate.setOrderNo(orderNo);
+        rebate.setStatus((byte) 1);
+        rebate.setAdminId(adminId);
+        rebate.setType((byte) 1);
+        addCardRebate(rebate);
+        // 删除充值记录
+        int i = memberChargeRecordMapper.deleteByPrimaryKey(record.getId());
+        if (i < 1) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "删除记录失败");
+        }
+        return ResponseFactory.sucMsg("退款成功");
+    }
 
 
     /**

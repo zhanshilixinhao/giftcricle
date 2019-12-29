@@ -73,6 +73,15 @@
       and order_no = #{orderNo}
       and type = 2
     </select>
+    <select id="selectByUserIdCardIdOrderNo1" resultType="com.chouchong.entity.v3.StoreMemberEvent">
+      select
+      <include refid="Base_Column_List"/>
+      from store_member_event
+      where user_id = #{userId}
+      and membership_card_id = #{cardId}
+      and order_no = #{orderNo}
+      and type = 1
+    </select>
     <select id="selectAll" resultType="com.chouchong.service.v3.vo.EventCardVo">
       select
       id as storeMemberEventId,

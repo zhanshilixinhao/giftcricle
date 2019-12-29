@@ -53,6 +53,15 @@
         and order_no = #{orderNo}
         and type = 2
     </select>
+    <select id="selectByUserIdCardIdOrderNo1" resultType="com.chouchong.entity.v3.StoreMemberCharge">
+        select
+        <include refid="Base_Column_List"/>
+        from store_member_charge
+        where user_id = #{userId}
+        and membership_card_id = #{cardId}
+        and order_no = #{orderNo}
+        and type = 1
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from store_member_charge
     where id = #{id,jdbcType=INTEGER}
