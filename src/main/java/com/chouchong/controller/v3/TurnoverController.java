@@ -260,21 +260,22 @@ public class TurnoverController {
 
     /**
      * 转赠记录
+     *
      * @param page
-     * @param nickname 昵称
-     * @param title 卡标题
-     * @param status 状态
+     * @param nickname  昵称
+     * @param title     卡标题
+     * @param status    状态
      * @param startTime 开始时间
-     * @param endTime 结束时间
-     * @param isExport 是否导出
+     * @param endTime   结束时间
+     * @param isExport  是否导出
      * @return
      * @throws ParseException
      * @throws IOException
      */
     @RequestMapping("transfer_list")
     public Response getTransferSend(PageQuery page, String nickname, String title, Byte status, Long startTime,
-                                     Long endTime, Integer isExport, HttpServletRequest request, HttpServletResponse respon) throws ParseException, IOException {
-        Response response = turnoverService.getTransferSend(page, nickname, title,status, startTime, endTime, isExport);
+                                    Long endTime, Integer isExport, HttpServletRequest request, HttpServletResponse respon) throws ParseException, IOException {
+        Response response = turnoverService.getTransferSend(page, nickname, title, status, startTime, endTime, isExport);
         if (response.getData() != null) {
             List<TransferVo> transferVo = (List<TransferVo>) response.getData();
             if (!CollectionUtils.isEmpty(transferVo) && isExport != null) {
@@ -287,7 +288,7 @@ public class TurnoverController {
                     map.put("phone", vo.getPhone());
                     map.put("title", vo.getTitle());
                     map.put("sendMoney", vo.getSendMoney());
-                    map.put("status", vo.getStatus());
+                    map.put("status", vo.getStatus() == 1 ? "未领取" : "已领取");
                     map.put("reNickname", vo.getReNickname());
                     map.put("rePhone", vo.getRePhone());
                     map.put("created", vo.getCreated());
@@ -324,11 +325,11 @@ public class TurnoverController {
      * @return
      */
     @PostMapping("refund")
-    public Response refundExpense(Long orderNo, String phone, String code,String explain) {
+    public Response refundExpense(Long orderNo, String phone, String code, String explain) {
         if (orderNo == null || StringUtils.isBlank(code)) {
             return ResponseFactory.errMissingParameter();
         }
-        return turnoverService.refundExpense(orderNo, phone ,code,explain);
+        return turnoverService.refundExpense(orderNo, phone, code, explain);
     }
 
 //    public Response refundExpense(CardRebate rebate, String password) {

@@ -349,6 +349,12 @@ public class TurnoverServiceImpl implements TurnoverService {
                     list.add(card.getId());
                 }
             }
+            if (list.size() == 0){
+                List<TransferVo> refundVos = new ArrayList<>();
+                PageInfo pageInfo = new PageInfo<>(refundVos);
+                return ResponseFactory.page(refundVos, pageInfo.getTotal(), pageInfo.getPages(),
+                        pageInfo.getPageNum(), pageInfo.getPageSize());
+            }
         } else if (webUserInfo.getRoleId() == 5) {
             //        分店adminId
             Integer adminId = webUserInfo.getSysAdmin().getId();
@@ -370,6 +376,12 @@ public class TurnoverServiceImpl implements TurnoverService {
                         }
                     }
                 }
+            }
+            if (list.size() == 0){
+                List<TransferVo> refundVos = new ArrayList<>();
+                PageInfo pageInfo = new PageInfo<>(refundVos);
+                return ResponseFactory.page(refundVos, pageInfo.getTotal(), pageInfo.getPages(),
+                        pageInfo.getPageNum(), pageInfo.getPageSize());
             }
         }
         if (isExport == null) {
