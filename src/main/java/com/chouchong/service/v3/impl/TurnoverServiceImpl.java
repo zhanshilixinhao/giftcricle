@@ -1,9 +1,11 @@
 package com.chouchong.service.v3.impl;
 
 import com.chouchong.common.*;
+import com.chouchong.dao.iwant.appUser.AppUserMapper;
 import com.chouchong.dao.iwant.merchant.MerchantMapper;
 import com.chouchong.dao.v3.*;
 import com.chouchong.dao.webUser.SysAdminMapper;
+import com.chouchong.entity.iwant.appUser.AppUser;
 import com.chouchong.entity.iwant.merchant.Merchant;
 import com.chouchong.entity.v3.*;
 import com.chouchong.exception.ServiceException;
@@ -78,6 +80,9 @@ public class TurnoverServiceImpl implements TurnoverService {
 
     @Autowired
     private VerifyCodeRepository verifyCodeRepository;
+
+    @Autowired
+    private AppUserMapper appUserMapper;
 
     /**
      * 获取营业额统计列表
@@ -415,7 +420,12 @@ public class TurnoverServiceImpl implements TurnoverService {
         verifyCodeRepository.remove(store.getPhone(), 5);
         MemberExpenseRecord record = memberExpenseRecordMapper.selectByOrderNo(orderNo);
         if (record == null) {
-            throw new ServiceException(ErrorCode.ERROR.getCode(), "充值记录不存在");
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "记录不存在或订单号输入错误");
+        }
+        // 校验手机号和用户
+        AppUser appUser = appUserMapper.selectByPhone1(phone);
+        if (appUser == null || !appUser.getId().equals(record.getUserId())){
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "号码或订单号输入错误");
         }
         // 查询会员卡类型
         Byte type = membershipCardMapper.selectTypeById(record.getMembershipCardId());

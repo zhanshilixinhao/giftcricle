@@ -328,7 +328,7 @@ public class TurnoverController {
      */
     @PostMapping("refund")
     public Response refundExpense(Long orderNo, String phone, String code, String explain) {
-        if (orderNo == null || StringUtils.isBlank(code)) {
+        if (orderNo == null || StringUtils.isAnyBlank(code,phone)) {
             return ResponseFactory.errMissingParameter();
         }
         return turnoverService.refundExpense(orderNo, phone, code, explain);
