@@ -525,7 +525,7 @@ public class TurnoverServiceImpl implements TurnoverService {
             return ResponseFactory.err("校验失败");
         }
         String s = verifyCodeRepository.get(store.getPhone(), 5);
-        if (StringUtils.equals(s, code)) {
+        if (StringUtils.isBlank(s) || !StringUtils.equals(s, code)) {
             return ResponseFactory.err("验证码不存在或已过期");
         }
         verifyCodeRepository.remove(store.getPhone(), 5);
@@ -543,6 +543,9 @@ public class TurnoverServiceImpl implements TurnoverService {
             if (event == null) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "金额详情记录不存在1");
             }
+            if (event.getCapitalStatus() !=  1 || event.getSendStatus() != 1){
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "您已消费过无法再退1");
+            }
             int i = storeMemberEventMapper.deleteByPrimaryKey(event.getId());
             if (i < 1) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "金额详情记录删除失败");
@@ -551,6 +554,9 @@ public class TurnoverServiceImpl implements TurnoverService {
             StoreMemberCharge charge = storeMemberChargeMapper.selectByUserIdCardIdOrderNo1(record.getMembershipCardId(), record.getUserId(), orderNo);
             if (charge == null) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "金额详情记录不存在2");
+            }
+            if (charge.getStatus() != 1){
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "您已消费过无法再退");
             }
             int i = storeMemberChargeMapper.deleteByPrimaryKey(charge.getId());
             if (i < 1) {
