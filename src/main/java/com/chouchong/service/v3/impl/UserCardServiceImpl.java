@@ -92,7 +92,7 @@ public class UserCardServiceImpl implements UserCardService {
      * @return
      */
     @Override
-    public Response getUserCardList(PageQuery page, String cardNo, String phone, Byte type, String title,Integer isExport) {
+    public Response getUserCardList(PageQuery page, String cardNo, String phone, Byte type, String title, Integer isExport) {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         Integer adminId = null;
         if (webUserInfo.getRoleId() == 3) {
@@ -134,7 +134,7 @@ public class UserCardServiceImpl implements UserCardService {
      * @return
      */
     @Override
-    public Response getUserCardList1(PageQuery page, String cardNo, String phone, String title,Integer isExport) {
+    public Response getUserCardList1(PageQuery page, String cardNo, String phone, String title, Integer isExport) {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
 //        分店adminId
         Integer adminId = webUserInfo.getSysAdmin().getId();
@@ -218,7 +218,7 @@ public class UserCardServiceImpl implements UserCardService {
             content = membershipCard.getTitle();
         }
         SmsSendResult smsSendResult = SendUtil.smsSend(card.getPhone(), "【礼遇圈】尊敬的用户，您已成功开通" + content + "，如有问题请咨询客服人员。");
-        if (smsSendResult.getCode() != 0){
+        if (smsSendResult.getCode() != 0) {
             return ResponseFactory.err(smsSendResult.getMsg());
         }
         return ResponseFactory.sucMsg("开卡成功");
@@ -325,7 +325,7 @@ public class UserCardServiceImpl implements UserCardService {
         String time = time();
         SmsSendResult smsSendResult = SendUtil.smsSend(card.getPhone(), "【礼遇圈】尊敬的用户，您的会员卡" + content + "在" + storeName + "成功充值" + recharge + "元，" +
                 "赠送" + send + "元，充值时间为" + time + "。如有问题请咨询客服人员。");
-        if (smsSendResult.getCode() != 0){
+        if (smsSendResult.getCode() != 0) {
             return ResponseFactory.err(smsSendResult.getMsg());
         }
         return ResponseFactory.sucMsg("充值成功");
@@ -333,14 +333,14 @@ public class UserCardServiceImpl implements UserCardService {
 
     private String time() {
         Date now = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:MM:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return dateFormat.format(now);//日期
     }
 
 //    public static void main(String[] args) throws IOException {
-//        SmsSendResult smsSendResult = SendUtil.smsSend("15752400657", "【礼遇圈】尊敬的用户，您的会员卡外婆味道会员卡" +
-//                "在南平店成功充值50元，赠送0元，充值时间2019年12月27日为如有问题请咨询客服人员。");
-//        System.out.println(smsSendResult);
+//        Date now = new Date();
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:MM:ss");
+//        System.out.println(dateFormat.format(now));
 //    }
 
     /**
@@ -446,7 +446,7 @@ public class UserCardServiceImpl implements UserCardService {
         String time = time();
         SmsSendResult smsSendResult = SendUtil.smsSend(card.getPhone(), "【礼遇圈】尊敬的用户，您的" + content + "在" + storeName + "成功消费" + expense
                 + "元，消费时间为" + time + "。如有问题请咨询客服人员。");
-        if (smsSendResult.getCode() != 0){
+        if (smsSendResult.getCode() != 0) {
             return ResponseFactory.err(smsSendResult.getMsg());
         }
         return ResponseFactory.sucMsg("成功");
