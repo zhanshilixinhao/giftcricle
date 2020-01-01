@@ -150,6 +150,54 @@
             #{list}
         </foreach>
     </select>
+    <select id="selectBySearchs" resultType="com.chouchong.service.v3.vo.UserCardVos">
+        select sum(a.balance) as totalMoney
+        from user_member_card a
+        left join membership_card b on a.membership_card_id = b.id
+        left join app_user c on c.id = a.user_id
+        left join store s on a.store_id = s.id
+        left join card_grade f on a.grade_id = f.id
+        where b.status = 1
+        and a.membership_card_id in
+        <foreach collection="list" index="index" separator="," item="list" open="(" close=")">
+            #{list}
+        </foreach>
+        <if test="phone != null and phone != ''">
+            and a.phone like concat('%',#{phone},'%')
+        </if>
+        <if test="cardNo != null and cardNo != ''">
+            and a.card_no like concat('%',#{cardNo},'%')
+        </if>
+        <if test="title != null and title != ''">
+            and b.title like concat('%',#{title},'%')
+        </if>
+        order by a.user_id DESC ,a.created DESC
+    </select>
+    <select id="selectBySearchs1" resultType="com.chouchong.service.v3.vo.UserCardVos">
+        select sum(a.balance) as totalMoney
+        from user_member_card a
+        left join membership_card b on a.membership_card_id = b.id
+        left join app_user c on c.id = a.user_id
+        left join store s on a.store_id = s.id
+        left join card_grade f on a.grade_id = f.id
+        where b.status = 1
+        <if test="adminId != null">
+            and b.admin_id = #{adminId}
+        </if>
+        <if test="type != null">
+            and b.type = #{type}
+        </if>
+        <if test="phone != null and phone != ''">
+            and a.phone like concat('%',#{phone},'%')
+        </if>
+        <if test="title != null and title != ''">
+            and b.title like concat('%',#{title},'%')
+        </if>
+        <if test="cardNo != null and cardNo != ''">
+            and a.card_no like concat('%',#{cardNo},'%')
+        </if>
+        order by a.user_id DESC ,a.created DESC
+    </select>
 
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

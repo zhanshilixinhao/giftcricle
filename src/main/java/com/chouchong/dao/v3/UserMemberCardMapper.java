@@ -4,6 +4,7 @@ import com.chouchong.entity.v3.UserMemberCard;
 import com.chouchong.service.v3.vo.UserCardVo;
 import com.chouchong.service.v3.vo.UserCardVo1;
 import com.chouchong.service.v3.vo.UserCardVo2;
+import com.chouchong.service.v3.vo.UserCardVos;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -41,4 +42,8 @@ public interface UserMemberCardMapper {
     List<UserCardVo1> selectUserCard(@Param("phone") String phone, @Param("list") List<Integer> list);
 
     List<UserCardVo2> selectByUserId(@Param("userId") Integer userId,@Param("list") List<Integer> list);
+
+    UserCardVos selectBySearchs(@Param("cardNo") String cardNo, @Param("phone") String phone, @Param("list") List<Integer> list, @Param("title") String title);
+
+    UserCardVos selectBySearchs1(@Param("cardNo") String cardNo, @Param("phone") String phone, @Param("adminId") Integer adminId, @Param("type") Byte type, @Param("title") String title);
 }

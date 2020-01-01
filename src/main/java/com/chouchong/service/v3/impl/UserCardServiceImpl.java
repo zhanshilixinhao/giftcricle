@@ -98,12 +98,17 @@ public class UserCardServiceImpl implements UserCardService {
         if (webUserInfo.getRoleId() == 3) {
             adminId = webUserInfo.getSysAdmin().getId();
         }
+        UserCardVos userCardVos = userMemberCardMapper.selectBySearchs1(cardNo, phone, adminId, type, title);
+        if (userCardVos == null){
+            userCardVos = new UserCardVos();
+        }
         if (isExport == null) {
             PageHelper.startPage(page.getPageNum(), page.getPageSize());
         }
         List<UserCardVo> list = userMemberCardMapper.selectBySearch(cardNo, phone, adminId, type, title);
         PageInfo pageInfo = new PageInfo<>(list);
-        return ResponseFactory.page(list, pageInfo.getTotal(), pageInfo.getPages(),
+        userCardVos.setUserCardVos(list);
+        return ResponseFactory.page(userCardVos, pageInfo.getTotal(), pageInfo.getPages(),
                 pageInfo.getPageNum(), pageInfo.getPageSize());
     }
 
@@ -160,12 +165,17 @@ public class UserCardServiceImpl implements UserCardService {
         if (list.size() == 0) {
             return ResponseFactory.suc();
         }
+        UserCardVos userCardVos = userMemberCardMapper.selectBySearchs(cardNo, phone, list, title);
+        if (userCardVos == null){
+            userCardVos = new UserCardVos();
+        }
         if (isExport == null) {
             PageHelper.startPage(page.getPageNum(), page.getPageSize());
         }
         List<UserCardVo> list1 = userMemberCardMapper.selectBySearch1(cardNo, phone, list, title);
         PageInfo pageInfo = new PageInfo<>(list1);
-        return ResponseFactory.page(list1, pageInfo.getTotal(), pageInfo.getPages(),
+        userCardVos.setUserCardVos(list1);
+        return ResponseFactory.page(userCardVos, pageInfo.getTotal(), pageInfo.getPages(),
                 pageInfo.getPageNum(), pageInfo.getPageSize());
 
     }

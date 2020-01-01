@@ -8,6 +8,7 @@ import com.chouchong.entity.v3.UserMemberCard;
 import com.chouchong.service.v3.UserCardService;
 import com.chouchong.service.v3.vo.TransferVo;
 import com.chouchong.service.v3.vo.UserCardVo;
+import com.chouchong.service.v3.vo.UserCardVos;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
@@ -50,8 +51,8 @@ public class UserCardController {
     public Response getUserCardList(PageQuery page, String cardNo, String phone, Byte type, String title,
                                     Integer isExport, HttpServletRequest request, HttpServletResponse respon) throws IOException {
         Response response = userCardService.getUserCardList(page, cardNo, phone, type, title, isExport);
-        if (response.getData() != null) {
-            List<UserCardVo> userCardVo = (List<UserCardVo>) response.getData();
+        if (response.getData() instanceof UserCardVos && ((UserCardVos) response.getData()).getUserCardVos() != null) {
+            List<UserCardVo> userCardVo =  ((UserCardVos) response.getData()).getUserCardVos();
             if (!CollectionUtils.isEmpty(userCardVo) && isExport != null) {
                 List<Map<String, Object>> list = new ArrayList<>();
                 int i = 1;
@@ -115,8 +116,8 @@ public class UserCardController {
     public Response getUserCardList1(PageQuery page, String cardNo, String phone, String title,
                                      Integer isExport, HttpServletRequest request, HttpServletResponse respon) throws IOException {
         Response response = userCardService.getUserCardList1(page, cardNo, phone, title, isExport);
-        if (response.getData() != null) {
-            List<UserCardVo> userCardVo = (List<UserCardVo>) response.getData();
+        if (response.getData() instanceof UserCardVos && ((UserCardVos) response.getData()).getUserCardVos() != null) {
+            List<UserCardVo> userCardVo =  ((UserCardVos) response.getData()).getUserCardVos();
             if (!CollectionUtils.isEmpty(userCardVo) && isExport != null) {
                 List<Map<String, Object>> list = new ArrayList<>();
                 int i = 1;
