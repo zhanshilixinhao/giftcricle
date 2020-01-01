@@ -414,7 +414,7 @@ public class TurnoverServiceImpl implements TurnoverService {
             return ResponseFactory.err("校验失败");
         }
         String s = verifyCodeRepository.get(store.getPhone(), 5);
-        if (StringUtils.equals(s, code)) {
+        if (StringUtils.isBlank(s) || !StringUtils.equals(s, code)) {
             return ResponseFactory.err("验证码不存在或已过期");
         }
         verifyCodeRepository.remove(store.getPhone(), 5);

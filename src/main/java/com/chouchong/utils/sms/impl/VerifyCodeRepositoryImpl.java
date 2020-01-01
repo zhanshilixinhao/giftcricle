@@ -26,7 +26,7 @@ public class VerifyCodeRepositoryImpl implements VerifyCodeRepository {
     @Override
     public void save(String code, String phone) {
         stringRedisTemplate.opsForValue().set(K.genKey(phone,5),
-                JSON.toJSONString(code), 300, TimeUnit.SECONDS);
+               code, 300, TimeUnit.SECONDS);
     }
 
     /**
