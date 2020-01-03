@@ -138,12 +138,12 @@ public class appTest {
     public void refund() throws IOException {
 
         RequestParams params = new RequestParams();
-        params.put("token", "a88cdce8-10b1-4bd4-9afb-4dfadfde1a50");
-        params.put("orderNo",71119121421138L);
-        params.put("phone", "18510454067");
-        params.put("code", "18510454067");
+        params.put("token", "7acc8c34-02e9-4ca7-99ed-69d351006585");
+//        params.put("orderNo",71119121421138L);
+//        params.put("phone", "18510454067");
+//        params.put("code", "18510454067");
         Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
-                "http://localhost:8080/manage/v3/turnover/refund", params);
+                "http://localhost:8080/manage/v3/turnover/record_list", params);
         System.out.println(response.body().string());
     }
 

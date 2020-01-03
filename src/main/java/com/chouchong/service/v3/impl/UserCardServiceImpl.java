@@ -29,6 +29,7 @@ import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Time;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -269,6 +270,16 @@ public class UserCardServiceImpl implements UserCardService {
             }
             userId = appUser.getId();
         }
+        // 判断活动
+        if (eventId != null){
+            MemberEvent memberEvent = memberEventMapper.selectByPrimaryKey(eventId);
+            if (memberEvent == null){
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "该活动不存在，请选择其他活动");
+            }
+            if (memberEvent.getRechargeMoney().compareTo(recharge) != 0 || memberEvent.getSendMoney().compareTo(send) != 0){
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "充值金额或赠送金额与活动金额不符");
+            }
+        }
         Merchant merchant = merchantMapper.selectByAdminId(webUserInfo.getSysAdmin().getCreateAdminId());
         // 更新余额
         UserMemberCard card = updateBalance(userId, cardId, (byte) 1, recharge, send);
@@ -347,10 +358,13 @@ public class UserCardServiceImpl implements UserCardService {
         return dateFormat.format(now);//日期
     }
 
-//    public static void main(String[] args) throws IOException {
-//        Date now = new Date();
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:MM:ss");
-//        System.out.println(dateFormat.format(now));
+//    public static void main(String[] args) throws IOException, ParseException {
+//
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//
+//        Date parse = dateFormat.parse("2020-01-03T06:28:08.000+0000");  //时间戳
+//        String format = dateFormat.format(parse);//日期
+//        System.out.println(format);
 //    }
 
     /**
