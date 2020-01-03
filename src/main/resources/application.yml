@@ -25,8 +25,8 @@ spring:
     useGlobalDataSourceStat: true
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
   jackson:
-    serialization:
-      write-dates-as-timestamps: true
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
   # redis
   ## Redis数据库索引（默认为0）
   redis:
