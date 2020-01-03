@@ -117,7 +117,7 @@ public class appTest {
     public void user_card_detail() throws IOException {
 
         RequestParams params = new RequestParams();
-        params.put("token", "4e506c4f-5a3d-4b8f-bb34-da61bf39c15a");
+        params.put("token", "c7f11710-8c13-4cd4-a572-93687dd58f8c");
         params.put("userId", 7);
         Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
                 "http://localhost:8080/manage/v3/userCard/user_card_detail", params);

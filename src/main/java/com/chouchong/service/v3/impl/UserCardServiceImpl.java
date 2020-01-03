@@ -99,7 +99,7 @@ public class UserCardServiceImpl implements UserCardService {
             adminId = webUserInfo.getSysAdmin().getId();
         }
         UserCardVos userCardVos = userMemberCardMapper.selectBySearchs1(cardNo, phone, adminId, type, title);
-        if (userCardVos == null){
+        if (userCardVos == null) {
             userCardVos = new UserCardVos();
         }
         if (isExport == null) {
@@ -166,7 +166,7 @@ public class UserCardServiceImpl implements UserCardService {
             return ResponseFactory.suc();
         }
         UserCardVos userCardVos = userMemberCardMapper.selectBySearchs(cardNo, phone, list, title);
-        if (userCardVos == null){
+        if (userCardVos == null) {
             userCardVos = new UserCardVos();
         }
         if (isExport == null) {
@@ -504,43 +504,45 @@ public class UserCardServiceImpl implements UserCardService {
                                    Integer storeId, BigDecimal send) {
         //取出之前充值的本金记录
         List<StoreMemberEvent> events = storeMemberEventMapper.selectByUserIdCardId(userId, cardId);
-        if (!CollectionUtils.isEmpty(events)) {
-            BigDecimal capital1 = capital;
+        if (CollectionUtils.isEmpty(events)) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "充值余额不足!");
+        }
+        BigDecimal capital1 = capital;
 //            BigDecimal send1 = send;
-            BigDecimal balance = new BigDecimal("0");
+        BigDecimal balance = new BigDecimal("0");
+        for (StoreMemberEvent event : events) {
+            // 判断充值的余额是否足够
+            balance = BigDecimalUtil.add(balance.doubleValue(), event.getCapitalBalance().doubleValue());
+        }
+        if (balance.compareTo(capital) < 0) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "充值余额不足");
+        } else {
             for (StoreMemberEvent event : events) {
-                // 判断充值的余额是否足够
-                balance = BigDecimalUtil.add(balance.doubleValue(), event.getCapitalBalance().doubleValue());
-            }
-            if (balance.compareTo(capital) < 0) {
-                throw new ServiceException(ErrorCode.ERROR.getCode(), "充值余额不足");
-            } else {
-                for (StoreMemberEvent event : events) {
-                    //判断此次充值还剩余的本金
-                    if (event.getCapitalBalance().compareTo(capital1) == 0) {
-                        updateDetailEvent(event.getId(), new BigDecimal("0"), (byte) 3, event.getSendBalance(), event.getSendStatus());
-                        addStoreTurnoverEvent(storeMemberId, capital1, new BigDecimal("0"), storeId, event.getStoreId(), event.getMemberEventId(), event.getId());
-                        break;
-                    } else if (event.getCapitalBalance().compareTo(capital1) > 0) {
-                        //本金余额大于消费本金,
-                        // 更新详细记录，添加消费营业额记录
-                        BigDecimal ca = BigDecimalUtil.sub(event.getCapitalBalance().doubleValue(), capital1.doubleValue());
-                        updateDetailEvent(event.getId(), ca, (byte) 2, event.getSendBalance(), event.getSendStatus());
-                        addStoreTurnoverEvent(storeMemberId, capital1, new BigDecimal("0"), storeId, event.getStoreId(), event.getMemberEventId(), event.getId());
-                        break;
+                //判断此次充值还剩余的本金
+                if (event.getCapitalBalance().compareTo(capital1) == 0) {
+                    updateDetailEvent(event.getId(), new BigDecimal("0"), (byte) 3, event.getSendBalance(), event.getSendStatus());
+                    addStoreTurnoverEvent(storeMemberId, capital1, new BigDecimal("0"), storeId, event.getStoreId(), event.getMemberEventId(), event.getId());
+                    break;
+                } else if (event.getCapitalBalance().compareTo(capital1) > 0) {
+                    //本金余额大于消费本金,
+                    // 更新详细记录，添加消费营业额记录
+                    BigDecimal ca = BigDecimalUtil.sub(event.getCapitalBalance().doubleValue(), capital1.doubleValue());
+                    updateDetailEvent(event.getId(), ca, (byte) 2, event.getSendBalance(), event.getSendStatus());
+                    addStoreTurnoverEvent(storeMemberId, capital1, new BigDecimal("0"), storeId, event.getStoreId(), event.getMemberEventId(), event.getId());
+                    break;
 
-                    } else {
-                        //本金余额小于消费本金,
-                        // 更新详细记录，添加消费营业额记录
-                        //扣除第一次充值的余额后还不够的
-                        BigDecimal ca = BigDecimalUtil.sub(capital1.doubleValue(), event.getCapitalBalance().doubleValue());
-                        updateDetailEvent(event.getId(), new BigDecimal("0"), (byte) 3, event.getSendBalance(), event.getSendStatus());
-                        addStoreTurnoverEvent(storeMemberId, event.getCapitalBalance(), new BigDecimal("0"), storeId, event.getStoreId(), event.getMemberEventId(), event.getId());
-                        capital1 = ca;
-                    }
+                } else {
+                    //本金余额小于消费本金,
+                    // 更新详细记录，添加消费营业额记录
+                    //扣除第一次充值的余额后还不够的
+                    BigDecimal ca = BigDecimalUtil.sub(capital1.doubleValue(), event.getCapitalBalance().doubleValue());
+                    updateDetailEvent(event.getId(), new BigDecimal("0"), (byte) 3, event.getSendBalance(), event.getSendStatus());
+                    addStoreTurnoverEvent(storeMemberId, event.getCapitalBalance(), new BigDecimal("0"), storeId, event.getStoreId(), event.getMemberEventId(), event.getId());
+                    capital1 = ca;
                 }
             }
         }
+
         // 取出之前充值的赠送记录
         List<StoreMemberEvent> sends = storeMemberEventMapper.selectByUserIdCardId1(userId, cardId);
         if (!CollectionUtils.isEmpty(sends)) {

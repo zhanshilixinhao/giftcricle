@@ -159,6 +159,7 @@ public class WebUserServiceImpl implements WebUserService {
         }
         // 该权限集合数据量大，对前端无用, 设置为null传值
         webUserInfo.setPermissionList(null);
+        webUserInfo.getSysAdmin().setAvatar("https://liyuquan.cn/static"+webUserInfo.getSysAdmin().getAvatar());
         return ResponseFactory.sucData(webUserInfo);
     }
 
