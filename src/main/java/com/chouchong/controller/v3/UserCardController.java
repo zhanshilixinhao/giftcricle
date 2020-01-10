@@ -52,7 +52,7 @@ public class UserCardController {
                                     Integer isExport, HttpServletRequest request, HttpServletResponse respon) throws IOException {
         Response response = userCardService.getUserCardList(page, cardNo, phone, type, title, isExport);
         if (response.getData() instanceof UserCardVos && ((UserCardVos) response.getData()).getUserCardVos() != null) {
-            List<UserCardVo> userCardVo =  ((UserCardVos) response.getData()).getUserCardVos();
+            List<UserCardVo> userCardVo = ((UserCardVos) response.getData()).getUserCardVos();
             if (!CollectionUtils.isEmpty(userCardVo) && isExport != null) {
                 List<Map<String, Object>> list = new ArrayList<>();
                 int i = 1;
@@ -63,7 +63,7 @@ public class UserCardController {
                     map.put("phone", vo.getPhone());
                     map.put("title", vo.getTitle());
                     map.put("cardNo", vo.getCardNo());
-                    map.put("type", vo.getType() == 1 ?  "礼遇圈卡" : vo.getType() == 10 ?"企业储值卡": "企业活动卡");
+                    map.put("type", vo.getType() == 1 ? "礼遇圈卡" : vo.getType() == 10 ? "企业储值卡" : "企业活动卡");
                     map.put("balance", vo.getBalance());
                     map.put("storeName", vo.getStoreName());
                     map.put("created", vo.getCreated());
@@ -117,7 +117,7 @@ public class UserCardController {
                                      Integer isExport, HttpServletRequest request, HttpServletResponse respon) throws IOException {
         Response response = userCardService.getUserCardList1(page, cardNo, phone, title, isExport);
         if (response.getData() instanceof UserCardVos && ((UserCardVos) response.getData()).getUserCardVos() != null) {
-            List<UserCardVo> userCardVo =  ((UserCardVos) response.getData()).getUserCardVos();
+            List<UserCardVo> userCardVo = ((UserCardVos) response.getData()).getUserCardVos();
             if (!CollectionUtils.isEmpty(userCardVo) && isExport != null) {
                 List<Map<String, Object>> list = new ArrayList<>();
                 int i = 1;
@@ -128,7 +128,7 @@ public class UserCardController {
                     map.put("phone", vo.getPhone());
                     map.put("title", vo.getTitle());
                     map.put("cardNo", vo.getCardNo());
-                    map.put("type", vo.getType() == 1 ?  "礼遇圈卡" : vo.getType() == 10 ?"企业储值卡": "企业活动卡");
+                    map.put("type", vo.getType() == 1 ? "礼遇圈卡" : vo.getType() == 10 ? "企业储值卡" : "企业活动卡");
                     map.put("balance", vo.getBalance());
                     map.put("storeName", vo.getStoreName());
                     map.put("created", vo.getCreated());
@@ -187,6 +187,9 @@ public class UserCardController {
         if (cardId == null || recharge == null) {
             return ResponseFactory.errMissingParameter();
         }
+        if (recharge.equals(new BigDecimal(0)) && (send == null || send.compareTo(new BigDecimal(0)) <= 0)) {
+            return ResponseFactory.err("充值金额为0,赠送金额必填并且大于0");
+        }
         if (userId == null && StringUtils.isBlank(phone)) {
             return ResponseFactory.errMissingParameter();
         }
@@ -204,14 +207,14 @@ public class UserCardController {
      */
     @PostMapping("expense")
     public Response expenseCard(Integer userId, String phone, Integer cardId, BigDecimal expense,
-                                String explain,String password) throws IOException {
+                                String explain, String password) throws IOException {
         if (cardId == null || expense == null || StringUtils.isBlank(password)) {
             return ResponseFactory.errMissingParameter();
         }
         if (userId == null && StringUtils.isBlank(phone)) {
             return ResponseFactory.errMissingParameter();
         }
-        return userCardService.expenseCard(userId, phone, cardId, expense, explain,password);
+        return userCardService.expenseCard(userId, phone, cardId, expense, explain, password);
     }
 
     /**
