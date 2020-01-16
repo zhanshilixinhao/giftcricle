@@ -32,10 +32,12 @@ public interface UserMemberCardMapper {
      * @return
      */
     List<UserCardVo> selectBySearch(@Param("cardNo") String cardNo, @Param("phone") String phone,
-                                    @Param("adminId") Integer adminId, @Param("type") Byte type, @Param("title") String title);
+                                    @Param("adminId") Integer adminId, @Param("type") Byte type,
+                                    @Param("title") String title,@Param("storeName") String storeName);
 
     List<UserCardVo> selectBySearch1(@Param("cardNo") String cardNo, @Param("phone") String phone,
-                                     @Param("list") List<Integer> list, @Param("title") String title);
+                                     @Param("list") List<Integer> list, @Param("title") String title ,
+                                     @Param("storeName") String storeName);
 
     UserMemberCard selectByUseridcardId(@Param("userId") Integer userId, @Param("cardId") Integer cardId);
 
@@ -43,7 +45,9 @@ public interface UserMemberCardMapper {
 
     List<UserCardVo2> selectByUserId(@Param("userId") Integer userId,@Param("list") List<Integer> list);
 
-    UserCardVos selectBySearchs(@Param("cardNo") String cardNo, @Param("phone") String phone, @Param("list") List<Integer> list, @Param("title") String title);
+    UserCardVos selectBySearchs(@Param("cardNo") String cardNo, @Param("phone") String phone, @Param("list") List<Integer> list,
+                                @Param("title") String title, @Param("storeName") String storeName);
 
-    UserCardVos selectBySearchs1(@Param("cardNo") String cardNo, @Param("phone") String phone, @Param("adminId") Integer adminId, @Param("type") Byte type, @Param("title") String title);
+    UserCardVos selectBySearchs1(@Param("cardNo") String cardNo, @Param("phone") String phone, @Param("adminId") Integer adminId,
+                                 @Param("type") Byte type, @Param("title") String title,@Param("storeName") String storeName);
 }

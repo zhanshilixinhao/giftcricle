@@ -93,20 +93,20 @@ public class UserCardServiceImpl implements UserCardService {
      * @return
      */
     @Override
-    public Response getUserCardList(PageQuery page, String cardNo, String phone, Byte type, String title, Integer isExport) {
+    public Response getUserCardList(PageQuery page, String cardNo, String phone, Byte type, String title,String storeName, Integer isExport) {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         Integer adminId = null;
         if (webUserInfo.getRoleId() == 3) {
             adminId = webUserInfo.getSysAdmin().getId();
         }
-        UserCardVos userCardVos = userMemberCardMapper.selectBySearchs1(cardNo, phone, adminId, type, title);
+        UserCardVos userCardVos = userMemberCardMapper.selectBySearchs1(cardNo, phone, adminId, type, title,storeName);
         if (userCardVos == null) {
             userCardVos = new UserCardVos();
         }
         if (isExport == null) {
             PageHelper.startPage(page.getPageNum(), page.getPageSize());
         }
-        List<UserCardVo> list = userMemberCardMapper.selectBySearch(cardNo, phone, adminId, type, title);
+        List<UserCardVo> list = userMemberCardMapper.selectBySearch(cardNo, phone, adminId, type, title,storeName);
         PageInfo pageInfo = new PageInfo<>(list);
         userCardVos.setUserCardVos(list);
         return ResponseFactory.page(userCardVos, pageInfo.getTotal(), pageInfo.getPages(),
@@ -140,7 +140,7 @@ public class UserCardServiceImpl implements UserCardService {
      * @return
      */
     @Override
-    public Response getUserCardList1(PageQuery page, String cardNo, String phone, String title, Integer isExport) {
+    public Response getUserCardList1(PageQuery page, String cardNo, String phone, String title,String storeName, Integer isExport) {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
 //        分店adminId
         Integer adminId = webUserInfo.getSysAdmin().getId();
@@ -166,14 +166,14 @@ public class UserCardServiceImpl implements UserCardService {
         if (list.size() == 0) {
             return ResponseFactory.suc();
         }
-        UserCardVos userCardVos = userMemberCardMapper.selectBySearchs(cardNo, phone, list, title);
+        UserCardVos userCardVos = userMemberCardMapper.selectBySearchs(cardNo, phone, list, title,storeName);
         if (userCardVos == null) {
             userCardVos = new UserCardVos();
         }
         if (isExport == null) {
             PageHelper.startPage(page.getPageNum(), page.getPageSize());
         }
-        List<UserCardVo> list1 = userMemberCardMapper.selectBySearch1(cardNo, phone, list, title);
+        List<UserCardVo> list1 = userMemberCardMapper.selectBySearch1(cardNo, phone, list, title,storeName);
         PageInfo pageInfo = new PageInfo<>(list1);
         userCardVos.setUserCardVos(list1);
         return ResponseFactory.page(userCardVos, pageInfo.getTotal(), pageInfo.getPages(),

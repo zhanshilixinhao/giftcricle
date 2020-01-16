@@ -65,6 +65,9 @@
         <if test="cardNo != null and cardNo != ''">
             and a.card_no like concat('%',#{cardNo},'%')
         </if>
+        <if test="storeName != null and storeName != ''">
+            and s.name like concat('%',#{storeName},'%')
+        </if>
         order by a.user_id DESC ,a.created DESC
     </select>
     <select id="selectBySearch1" resultType="com.chouchong.service.v3.vo.UserCardVo">
@@ -100,6 +103,9 @@
         </if>
         <if test="title != null and title != ''">
             and b.title like concat('%',#{title},'%')
+        </if>
+        <if test="storeName != null and storeName != ''">
+            and s.name like concat('%',#{storeName},'%')
         </if>
         order by a.user_id DESC ,a.created DESC
     </select>
@@ -171,6 +177,9 @@
         <if test="title != null and title != ''">
             and b.title like concat('%',#{title},'%')
         </if>
+        <if test="storeName != null and storeName != ''">
+            and s.name like concat('%',#{storeName},'%')
+        </if>
         order by a.user_id DESC ,a.created DESC
     </select>
     <select id="selectBySearchs1" resultType="com.chouchong.service.v3.vo.UserCardVos">
@@ -195,6 +204,9 @@
         </if>
         <if test="cardNo != null and cardNo != ''">
             and a.card_no like concat('%',#{cardNo},'%')
+        </if>
+        <if test="storeName != null and storeName != ''">
+            and s.name like concat('%',#{storeName},'%')
         </if>
         order by a.user_id DESC ,a.created DESC
     </select>

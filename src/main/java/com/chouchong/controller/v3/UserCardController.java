@@ -48,9 +48,9 @@ public class UserCardController {
      * @return
      */
     @RequestMapping("list")
-    public Response getUserCardList(PageQuery page, String cardNo, String phone, Byte type, String title,
+    public Response getUserCardList(PageQuery page, String cardNo, String phone, Byte type, String title,String storeName,
                                     Integer isExport, HttpServletRequest request, HttpServletResponse respon) throws IOException {
-        Response response = userCardService.getUserCardList(page, cardNo, phone, type, title, isExport);
+        Response response = userCardService.getUserCardList(page, cardNo, phone, type, title,storeName, isExport);
         if (response.getData() instanceof UserCardVos && ((UserCardVos) response.getData()).getUserCardVos() != null) {
             List<UserCardVo> userCardVo = ((UserCardVos) response.getData()).getUserCardVos();
             if (!CollectionUtils.isEmpty(userCardVo) && isExport != null) {
@@ -113,9 +113,9 @@ public class UserCardController {
      * @return
      */
     @RequestMapping("list_store")
-    public Response getUserCardList1(PageQuery page, String cardNo, String phone, String title,
+    public Response getUserCardList1(PageQuery page, String cardNo, String phone, String title,String storeName,
                                      Integer isExport, HttpServletRequest request, HttpServletResponse respon) throws IOException {
-        Response response = userCardService.getUserCardList1(page, cardNo, phone, title, isExport);
+        Response response = userCardService.getUserCardList1(page, cardNo, phone, title,storeName, isExport);
         if (response.getData() instanceof UserCardVos && ((UserCardVos) response.getData()).getUserCardVos() != null) {
             List<UserCardVo> userCardVo = ((UserCardVos) response.getData()).getUserCardVos();
             if (!CollectionUtils.isEmpty(userCardVo) && isExport != null) {
