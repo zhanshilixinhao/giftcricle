@@ -423,10 +423,10 @@ public class TurnoverServiceImpl implements TurnoverService {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "记录不存在或订单号输入错误");
         }
         // 校验手机号和用户
-        AppUser appUser = appUserMapper.selectByPhone1(phone);
-        if (appUser == null || !appUser.getId().equals(record.getUserId())){
-            throw new ServiceException(ErrorCode.ERROR.getCode(), "号码或订单号输入错误");
-        }
+//        AppUser appUser = appUserMapper.selectByPhone1(phone);
+//        if (appUser == null || !appUser.getId().equals(record.getUserId())){
+//            throw new ServiceException(ErrorCode.ERROR.getCode(), "号码或订单号输入错误");
+//        }
         // 查询会员卡类型
         Byte type = membershipCardMapper.selectTypeById(record.getMembershipCardId());
         // 退款
@@ -541,9 +541,11 @@ public class TurnoverServiceImpl implements TurnoverService {
         verifyCodeRepository.remove(store.getPhone(), 5);
         MemberChargeRecord record = memberChargeRecordMapper.selectByOrderNo(orderNo);
         if (record == null) {
-            throw new ServiceException(ErrorCode.ERROR.getCode(), "消费记录不存在");
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "充值记录不存在");
         }
-        BigDecimal add = BigDecimalUtil.add(record.getRechargeMoney().doubleValue(), record.getSendMoney().doubleValue());
+        BigDecimal recharge = new BigDecimal("0");
+        BigDecimal send = new BigDecimal("0");
+        BigDecimal add = new BigDecimal("0");
         // 查询会员卡类型
         Byte type = membershipCardMapper.selectTypeById(record.getMembershipCardId());
         // 退款
@@ -553,9 +555,12 @@ public class TurnoverServiceImpl implements TurnoverService {
             if (event == null) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "金额详情记录不存在1");
             }
-            if (event.getCapitalStatus() !=  1 || event.getSendStatus() != 1){
-                throw new ServiceException(ErrorCode.ERROR.getCode(), "您已消费过无法再退1");
+            if (event.getCapitalStatus() !=  1 && event.getCapitalStatus() != 2){
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "本金已使用完，无法再退");
             }
+            recharge = event.getCapitalBalance();
+            send = event.getSendBalance();
+            add = BigDecimalUtil.add(recharge.doubleValue(),send.doubleValue());
             int i = storeMemberEventMapper.deleteByPrimaryKey(event.getId());
             if (i < 1) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "金额详情记录删除失败");
@@ -565,9 +570,10 @@ public class TurnoverServiceImpl implements TurnoverService {
             if (charge == null) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "金额详情记录不存在2");
             }
-            if (charge.getStatus() != 1){
-                throw new ServiceException(ErrorCode.ERROR.getCode(), "您已消费过无法再退");
+            if (charge.getStatus() == 3){
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "您已全部消费无法再退");
             }
+            add = charge.getBalance();
             int i = storeMemberChargeMapper.deleteByPrimaryKey(charge.getId());
             if (i < 1) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "金额详情记录删除失败");
@@ -575,12 +581,13 @@ public class TurnoverServiceImpl implements TurnoverService {
         }
         // 退回用户余额
         UserMemberCard user = userMemberCardMapper.selectByUseridcardId(record.getUserId(), record.getMembershipCardId());
-        if (user != null) {
-            user.setBalance(BigDecimalUtil.sub(user.getBalance().doubleValue(), add.doubleValue()));
-            int i1 = userMemberCardMapper.updateByPrimaryKeySelective(user);
-            if (i1 < 1) {
-                throw new ServiceException(ErrorCode.ERROR.getCode(), "退回用户余额失败");
-            }
+        if (user == null) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "用户余额不存在");
+        }
+        user.setBalance(BigDecimalUtil.sub(user.getBalance().doubleValue(), add.doubleValue()));
+        int i1 = userMemberCardMapper.updateByPrimaryKeySelective(user);
+        if (i1 < 1) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "退回用户余额失败");
         }
         // 添加退款记录
         CardRebate rebate = new CardRebate();
