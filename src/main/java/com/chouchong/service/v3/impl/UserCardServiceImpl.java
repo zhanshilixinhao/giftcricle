@@ -249,7 +249,7 @@ public class UserCardServiceImpl implements UserCardService {
      */
     @Override
     public Response chargeCard(Integer userId, String phone, Integer cardId, BigDecimal recharge,
-                               String explain, BigDecimal send, Integer eventId) throws IOException {
+                               String explain, BigDecimal send, Integer eventId,String image) throws IOException {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         Integer adminId = webUserInfo.getSysAdmin().getId();
         Store store = storeMapper.selectByAdminId(adminId);
@@ -284,8 +284,7 @@ public class UserCardServiceImpl implements UserCardService {
         // 更新余额
         UserMemberCard card = updateBalance(userId, cardId, (byte) 1, recharge, send);
         // 添加充值记录
-        BigDecimal total = recharge;
-        total = BigDecimalUtil.add(recharge.doubleValue(), send.doubleValue());
+        BigDecimal total =  BigDecimalUtil.add(recharge.doubleValue(), send.doubleValue());
         MemberChargeRecord record = new MemberChargeRecord();
         record.setMembershipCardId(cardId);
         record.setUserId(userId);
@@ -302,6 +301,7 @@ public class UserCardServiceImpl implements UserCardService {
         }
         record.setOrderNo(orderHelper.genOrderNo(7, 10));
         record.setBeforeMoney(BigDecimalUtil.sub(card.getBalance().doubleValue(), total.doubleValue()));
+        record.setImage(image);
         int insert = memberChargeRecordMapper.insert(record);
         if (insert < 1) {
             return ResponseFactory.err("充值失败");

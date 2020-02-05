@@ -32,6 +32,8 @@ public class MemberChargeRecord {
 
     private BigDecimal beforeMoney;
 
+    private String image;
+
     public MemberChargeRecord(Integer id, Integer membershipCardId, Integer userId, Integer memberEventId, BigDecimal rechargeMoney, BigDecimal sendMoney, Byte type, Integer storeId, Integer adminId, String explain, Date updated, Date created,Long orderNo) {
         this.id = id;
         this.membershipCardId = membershipCardId;
@@ -162,5 +164,13 @@ public class MemberChargeRecord {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

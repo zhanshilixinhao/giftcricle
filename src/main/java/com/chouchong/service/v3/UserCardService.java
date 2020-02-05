@@ -61,7 +61,8 @@ public interface UserCardService {
      * @param eventId 活动id
      * @return
      */
-    Response chargeCard(Integer userId, String phone, Integer cardId, BigDecimal recharge, String explain, BigDecimal send, Integer eventId) throws IOException;
+    Response chargeCard(Integer userId, String phone, Integer cardId, BigDecimal recharge,
+                        String explain, BigDecimal send, Integer eventId,String image) throws IOException;
     /**
      * 分店消费（线下消费）
      * @param userId 用户id

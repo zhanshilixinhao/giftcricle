@@ -101,6 +101,19 @@ public class appTest {
         System.out.println(response.body().string());
     }
 
+    @Test
+    public void refund1() throws IOException {
+
+        RequestParams params = new RequestParams();
+        params.put("token", "2f91090e-8598-4b93-a7f0-6aec406b523b");
+        params.put("orderNo",71020020515106L);
+        params.put("phone", "15752400657");
+        params.put("code", "123456");
+        Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
+                "http://localhost:8080/manage/v3/turnover/refund_charge", params);
+        System.out.println(response.body().string());
+    }
+
 
     @Test
     public void list() throws IOException {
@@ -155,6 +168,23 @@ public class appTest {
         params.put("phone", "15752400657");
         Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
                 "http://localhost:8080/manage/ask/code", params);
+        System.out.println(response.body().string());
+    }
+
+    @Test
+    public void charge1() throws IOException {
+
+        RequestParams params = new RequestParams();
+        params.put("token", "2f91090e-8598-4b93-a7f0-6aec406b523b");
+        params.put("phone", "15752400657");
+        params.put("cardId", 3);
+        params.put("recharge", 100);
+        params.put("send", 100);
+        params.put("eventId", 23);
+        params.put("image", "avatar.jpg");
+
+        Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
+                "http://localhost:8080/manage/v3/userCard/charge", params);
         System.out.println(response.body().string());
     }
 

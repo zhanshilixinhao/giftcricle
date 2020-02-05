@@ -183,7 +183,7 @@ public class UserCardController {
      */
     @PostMapping("charge")
     public Response chargeCard(Integer userId, String phone, Integer cardId, BigDecimal recharge, String explain,
-                               BigDecimal send, Integer eventId) throws IOException {
+                               BigDecimal send, Integer eventId,String image) throws IOException {
         if (cardId == null || recharge == null) {
             return ResponseFactory.errMissingParameter();
         }
@@ -193,7 +193,7 @@ public class UserCardController {
         if (userId == null && StringUtils.isBlank(phone)) {
             return ResponseFactory.errMissingParameter();
         }
-        return userCardService.chargeCard(userId, phone, cardId, recharge, explain, send, eventId);
+        return userCardService.chargeCard(userId, phone, cardId, recharge, explain, send, eventId,image);
     }
 
     /**
