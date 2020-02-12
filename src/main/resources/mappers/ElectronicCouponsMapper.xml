@@ -24,7 +24,7 @@
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR},
       #{logo,jdbcType=VARCHAR}, #{storeIds,jdbcType=VARCHAR}, #{adminId,jdbcType=INTEGER},
       #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{date,jdbcType=TIMESTAMP},
-      #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP})
+     now(),now())
   </insert>
     <insert id="insertSelective" parameterType="com.chouchong.entity.v3.ElectronicCoupons">
         insert into electronic_coupons
@@ -127,7 +127,7 @@
                 date = #{date,jdbcType=TIMESTAMP},
             </if>
             <if test="updated != null">
-                updated = #{updated,jdbcType=TIMESTAMP},
+                updated = now(),
             </if>
             <if test="created != null">
                 created = #{created,jdbcType=TIMESTAMP},

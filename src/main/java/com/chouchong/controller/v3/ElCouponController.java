@@ -24,55 +24,65 @@ public class ElCouponController {
 
     /**
      * 获取优惠券列表(优惠券部分只有平台商有)
+     *
      * @param title 标题
      * @param page
      * @return
      */
     @PostMapping("list")
-    public Response getElCouponList(String title, PageQuery page){
-        return elCouponService.getElCouponList(title,page);
+    public Response getElCouponList(String title, PageQuery page) {
+        return elCouponService.getElCouponList(title, page);
     }
 
     /**
      * 添加平台商优惠券
+     *
      * @param coupon
      * @return
      */
     @PostMapping("add")
-    public Response addElCoupon(ElectronicCoupons coupon){
-        if (StringUtils.isAnyBlank(coupon.getTitle(),coupon.getSummary(),coupon.getStoreIds())){
+    public Response addElCoupon(ElectronicCoupons coupon) {
+        if (StringUtils.isAnyBlank(coupon.getTitle(), coupon.getSummary(), coupon.getStoreIds())) {
             return ResponseFactory.errMissingParameter();
         }
-        if (coupon.getDate() == null){
+        if (coupon.getDate() == null) {
             return ResponseFactory.errMissingParameter();
+        }
+        if (coupon.getDate().getTime() < System.currentTimeMillis()) {
+            return ResponseFactory.err("最后有效期必须大于现在时间");
         }
         return elCouponService.addElCoupon(coupon);
     }
 
     /**
      * 修改平台商优惠券
+     *
      * @param coupon
      * @return
      */
     @PostMapping("update")
-    public Response updateElCoupon(ElectronicCoupons coupon){
-        if (StringUtils.isAnyBlank(coupon.getTitle(),coupon.getSummary(),coupon.getStoreIds())){
+    public Response updateElCoupon(ElectronicCoupons coupon) {
+        if (StringUtils.isAnyBlank(coupon.getTitle(), coupon.getSummary(), coupon.getStoreIds())) {
             return ResponseFactory.errMissingParameter();
         }
-        if (coupon.getDate() == null || coupon.getId() == null){
+        if (coupon.getDate() == null || coupon.getId() == null) {
             return ResponseFactory.errMissingParameter();
+        }
+        if (coupon.getDate().getTime() < System.currentTimeMillis()) {
+            return ResponseFactory.err("最后有效期必须大于现在时间");
         }
         return elCouponService.updateElCoupon(coupon);
     }
 
     /**
      * 删除平台商优惠券
+     *
      * @param couponId 优惠券id
      * @return
      */
     @PostMapping("delete")
-    public Response deleteElCoupon(Integer couponId){
-        if (couponId == null){
+    public Response deleteElCoupon(Integer couponId) {
+        if (couponId == null) {
             return ResponseFactory.errMissingParameter();
         }
         return elCouponService.deleteElCoupon(couponId);
@@ -80,22 +90,22 @@ public class ElCouponController {
 
     /**
      * 门店给用户发优惠券
-     * @param phone 用户号码
+     *
+     * @param phone    用户号码
      * @param couponId 优惠券id
      * @param quantity 优惠券数量
      * @return
      */
     @PostMapping("forUser")
-    public Response addCouponForUser(String phone,Integer couponId,Integer quantity){
-        if (StringUtils.isBlank(phone)){
+    public Response addCouponForUser(String phone, Integer couponId, Integer quantity) {
+        if (StringUtils.isBlank(phone)) {
             return ResponseFactory.errMissingParameter();
         }
-        if (couponId == null || quantity == null){
+        if (couponId == null || quantity == null) {
             return ResponseFactory.errMissingParameter();
         }
-        return elCouponService.addCouponForUser(phone,couponId,quantity);
+        return elCouponService.addCouponForUser(phone, couponId, quantity);
     }
-
 
 
 }
