@@ -16,5 +16,5 @@ public interface ElectronicCouponsMapper {
 
     int updateByPrimaryKeySelective(ElectronicCoupons elCoupon);
 
-    List<ElectronicCoupons> selectByAdminId(Integer adminId);
+    List<ElectronicCoupons> selectByAdminId(@Param("adminId") Integer adminId);
 }

@@ -75,4 +75,11 @@ public interface ElCouponService {
      * @return
      */
     Response getSendCouponList(PageQuery page, String nickname, String title, Byte status, Long startTime, Long endTime) throws ParseException;
+
+    /**
+     * 获取优惠券所有列表(优惠券部分只有平台商有)
+     *
+     * @return
+     */
+    Response getElCouponAllList();
 }

@@ -25,7 +25,7 @@ public class ElCouponController {
     private ElCouponService elCouponService;
 
     /**
-     * 获取优惠券列表(优惠券部分只有平台商有)
+     * 获取优惠券列表(优惠券只有平台商和门店可看)
      *
      * @param title 标题
      * @param page
@@ -34,6 +34,16 @@ public class ElCouponController {
     @PostMapping("list")
     public Response getElCouponList(String title, PageQuery page) {
         return elCouponService.getElCouponList(title, page);
+    }
+
+    /**
+     * 获取优惠券所有列表(优惠券部分只有平台商有)
+     *
+     * @return
+     */
+    @PostMapping("all_list")
+    public Response getElCouponAllList() {
+        return elCouponService.getElCouponAllList();
     }
 
     /**

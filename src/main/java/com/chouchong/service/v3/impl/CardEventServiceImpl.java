@@ -18,6 +18,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,6 +104,9 @@ public class CardEventServiceImpl implements CardEventService {
             ev.setSummary(event.getSummary());
         }
         ev.setRechargeMoney(event.getRechargeMoney());
+        if (event.getSendMoney() == null){
+            event.setSendMoney(new BigDecimal("0"));
+        }
         ev.setSendMoney(event.getSendMoney());
         ev.setTargetId(event.getTargetId());
         ev.setAdminId(webUserInfo.getSysAdmin().getId());
@@ -135,6 +139,9 @@ public class CardEventServiceImpl implements CardEventService {
         ev.setTitle(event.getTitle());
         ev.setSummary(event.getSummary());
         ev.setRechargeMoney(event.getRechargeMoney());
+        if (event.getSendMoney() == null){
+            event.setSendMoney(new BigDecimal("0"));
+        }
         ev.setSendMoney(event.getSendMoney());
         ev.setTargetId(event.getTargetId());
         ev.setType(event.getType());

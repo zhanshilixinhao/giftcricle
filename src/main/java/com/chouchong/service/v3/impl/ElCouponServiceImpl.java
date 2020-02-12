@@ -74,26 +74,74 @@ public class ElCouponServiceImpl implements ElCouponService {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         // 平台商登录
         Integer adminId = webUserInfo.getSysAdmin().getId();
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
-        List<ElectronicCoupons> coupons = electronicCouponsMapper.selectBySearch(adminId, title);
-        if (!CollectionUtils.isEmpty(coupons)) {
-            for (ElectronicCoupons coupon : coupons) {
-                List<StoreVo> stores = new ArrayList<>();
-                if (!StringUtils.isEmpty(coupon.getStoreIds())) {
-                    String[] split = coupon.getStoreIds().split(",");
-                    for (String s : split) {
-                        StoreVo store = storeMapper.selectById(Integer.parseInt(s));
-                        stores.add(store);
+        if (webUserInfo.getRoleId() == 3) {
+            PageHelper.startPage(page.getPageNum(), page.getPageSize());
+            List<ElectronicCoupons> coupons = electronicCouponsMapper.selectBySearch(adminId, title);
+            if (!CollectionUtils.isEmpty(coupons)) {
+                for (ElectronicCoupons coupon : coupons) {
+                    List<StoreVo> stores = new ArrayList<>();
+                    if (!StringUtils.isEmpty(coupon.getStoreIds())) {
+                        String[] split = coupon.getStoreIds().split(",");
+                        for (String s : split) {
+                            StoreVo store = storeMapper.selectById(Integer.parseInt(s));
+                            stores.add(store);
+                        }
+                    }
+                    coupon.setStoreVos(stores);
+                }
+            }
+            PageInfo pageInfo = new PageInfo<>(coupons);
+            return ResponseFactory.page(coupons, pageInfo.getTotal(), pageInfo.getPages(),
+                    pageInfo.getPageNum(), pageInfo.getPageSize());
+        } else {
+            // 门店
+            // 创建者adminId(商家adminId)
+            Integer createdAdminId = webUserInfo.getSysAdmin().getCreateAdminId();
+            // 查询门店id
+            Store store = storeMapper.selectByAdminId(adminId);
+            if (store == null) {
+                return ResponseFactory.suc();
+            }
+            List<ElectronicCoupons> list = new ArrayList<>();
+            PageHelper.startPage(page.getPageNum(), page.getPageSize());
+            List<ElectronicCoupons> coupons = electronicCouponsMapper.selectBySearch(createdAdminId, title);
+            if (!CollectionUtils.isEmpty(coupons)) {
+                for (ElectronicCoupons coupon : coupons) {
+                    List<StoreVo> stores = new ArrayList<>();
+                    if (!StringUtils.isEmpty(coupon.getStoreIds())) {
+                        String[] split = coupon.getStoreIds().split(",");
+                        for (String s : split) {
+                            StoreVo store1 = storeMapper.selectById(Integer.parseInt(s));
+                            stores.add(store1);
+                        }
+                    }
+                    coupon.setStoreVos(stores);
+                    // 分店优惠券
+                    String[] strings = coupon.getStoreIds().split(",");
+                    for (String string : strings) {
+                        if (string.equals(store.getId().toString())) {
+                            list.add(coupon);
+                        }
                     }
                 }
-                coupon.setStoreVos(stores);
             }
+            PageInfo pageInfo = new PageInfo<>(list);
+            return ResponseFactory.page(list, pageInfo.getTotal(), pageInfo.getPages(),
+                    pageInfo.getPageNum(), pageInfo.getPageSize());
         }
-        PageInfo pageInfo = new PageInfo<>(coupons);
-        return ResponseFactory.page(coupons, pageInfo.getTotal(), pageInfo.getPages(),
-                pageInfo.getPageNum(), pageInfo.getPageSize());
     }
 
+    /**
+     * 获取优惠券所有列表(优惠券部分只有平台商有)
+     *
+     * @return
+     */
+    @Override
+    public Response getElCouponAllList() {
+        WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
+        List<ElectronicCoupons> list = electronicCouponsMapper.selectByAdminId(webUserInfo.getSysAdmin().getId());
+        return ResponseFactory.sucData(list);
+    }
 
     /**
      * 添加平台商优惠券

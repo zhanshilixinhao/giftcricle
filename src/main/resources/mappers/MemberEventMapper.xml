@@ -42,7 +42,7 @@
         created,
         null as targetName
         from member_event
-        where type = 1 or type = 2
+        where type = 1 or type = 3 or type = 4
         union all
         select a.id,
         a.title,
@@ -56,23 +56,8 @@
         a.created,
         b.title as targetName
         from member_event a
-        left join item_sku b on a.target_id = b.id
-        where type = 3
-        union all
-        select a.id,
-        a.title,
-        a.summary,
-        a.recharge_money,
-        a.send_money,
-        a.target_id,
-        a.admin_id,
-        a.type,
-        a.status,
-        a.created,
-        b.name as targetName
-        from member_event a
-        left join virtual_item b on a.target_id = b.id
-        where type = 4
+        left join electronic_coupons b on a.target_id = b.id
+        where a.type = 2 or a.type = 5
         ) a
         where a.status = 1
         <if test="adminId != null">
@@ -86,6 +71,65 @@
         </if>
         order by a.created DESC
     </select>
+<!--    <select id="selectByAll" resultType="com.chouchong.service.v3.vo.EventVo">-->
+<!--        select a.*-->
+<!--        from (-->
+<!--        select id,-->
+<!--        title,-->
+<!--        summary,-->
+<!--        recharge_money,-->
+<!--        send_money,-->
+<!--        target_id,-->
+<!--        admin_id,-->
+<!--        type,-->
+<!--        status,-->
+<!--        created,-->
+<!--        null as targetName-->
+<!--        from member_event-->
+<!--        where type = 1 or type = 2-->
+<!--        union all-->
+<!--        select a.id,-->
+<!--        a.title,-->
+<!--        a.summary,-->
+<!--        a.recharge_money,-->
+<!--        a.send_money,-->
+<!--        a.target_id,-->
+<!--        a.admin_id,-->
+<!--        a.type,-->
+<!--        a.status,-->
+<!--        a.created,-->
+<!--        b.title as targetName-->
+<!--        from member_event a-->
+<!--        left join item_sku b on a.target_id = b.id-->
+<!--        where type = 3-->
+<!--        union all-->
+<!--        select a.id,-->
+<!--        a.title,-->
+<!--        a.summary,-->
+<!--        a.recharge_money,-->
+<!--        a.send_money,-->
+<!--        a.target_id,-->
+<!--        a.admin_id,-->
+<!--        a.type,-->
+<!--        a.status,-->
+<!--        a.created,-->
+<!--        b.name as targetName-->
+<!--        from member_event a-->
+<!--        left join virtual_item b on a.target_id = b.id-->
+<!--        where type = 4-->
+<!--        ) a-->
+<!--        where a.status = 1-->
+<!--        <if test="adminId != null">-->
+<!--            and a.admin_id = #{adminId}-->
+<!--        </if>-->
+<!--        <if test="type != null">-->
+<!--            and a.type = #{type}-->
+<!--        </if>-->
+<!--        <if test="title != null and title != ''">-->
+<!--            and a.title like concat('%',#{title},'%')-->
+<!--        </if>-->
+<!--        order by a.created DESC-->
+<!--    </select>-->
     <select id="selectAllByAdminIds" resultType="com.chouchong.service.v3.vo.EventVo">
         select a.*
         from (

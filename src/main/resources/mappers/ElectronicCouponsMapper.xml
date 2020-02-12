@@ -179,12 +179,15 @@ select id,
        logo,
        store_ids,
        admin_id,
-       type,
+       `type`,
        status,
-       date,
+       `date`,
        updated,
        created
 from electronic_coupons
-where admin_id = #{adminId}
+where status = 1
+<if test="adminId != null">
+   and admin_id = #{adminId}
+</if>
     </select>
 </mapper>
