@@ -15,4 +15,6 @@ public interface ElectronicCouponsMapper {
     ElectronicCoupons selectByKey(Integer id);
 
     int updateByPrimaryKeySelective(ElectronicCoupons elCoupon);
+
+    List<ElectronicCoupons> selectByAdminId(Integer adminId);
 }

@@ -172,4 +172,19 @@
         where status = 1
         and id = #{id}
     </select>
+    <select id="selectByAdminId" resultType="com.chouchong.entity.v3.ElectronicCoupons">
+select id,
+       title,
+       summary,
+       logo,
+       store_ids,
+       admin_id,
+       type,
+       status,
+       date,
+       updated,
+       created
+from electronic_coupons
+where admin_id = #{adminId}
+    </select>
 </mapper>

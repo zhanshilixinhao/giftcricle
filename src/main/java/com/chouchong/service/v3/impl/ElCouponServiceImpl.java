@@ -2,17 +2,21 @@ package com.chouchong.service.v3.impl;
 
 import com.chouchong.common.*;
 import com.chouchong.dao.iwant.appUser.AppUserMapper;
+import com.chouchong.dao.v3.ElCouponSendMapper;
 import com.chouchong.dao.v3.ElUserCouponMapper;
 import com.chouchong.dao.v3.ElectronicCouponsMapper;
 import com.chouchong.dao.v3.StoreMapper;
+import com.chouchong.dao.webUser.SysAdminMapper;
 import com.chouchong.entity.iwant.appUser.AppUser;
 import com.chouchong.entity.v3.ElUserCoupon;
 import com.chouchong.entity.v3.ElectronicCoupons;
+import com.chouchong.entity.v3.MembershipCard;
 import com.chouchong.entity.v3.Store;
 import com.chouchong.exception.ServiceException;
 import com.chouchong.service.v3.ElCouponService;
-import com.chouchong.service.v3.vo.StoreVo;
+import com.chouchong.service.v3.vo.*;
 import com.chouchong.service.webUser.vo.WebUserInfo;
+import com.chouchong.utils.TimeUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +27,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +55,12 @@ public class ElCouponServiceImpl implements ElCouponService {
 
     @Autowired
     private ElUserCouponMapper elUserCouponMapper;
+
+    @Autowired
+    private ElCouponSendMapper elCouponSendMapper;
+
+    @Autowired
+    private SysAdminMapper sysAdminMapper;
 
     /**
      * 获取优惠券列表
@@ -199,4 +210,119 @@ public class ElCouponServiceImpl implements ElCouponService {
     }
 
 
+    /**
+     * 商家给用户赠送优惠券记录
+     *
+     * @param page
+     * @param title     优惠券标题
+     * @param phone     用户电话
+     * @param store     赠送门店
+     * @param startTime 开始时间
+     * @param endTime   结束时间
+     * @return
+     */
+    @Override
+    public Response getForUserList(PageQuery page, String title, String phone, String store,
+                                   Long startTime, Long endTime) throws ParseException {
+        if (startTime != null) {
+            startTime = TimeUtils.time(startTime);
+        }
+        if (endTime != null) {
+            endTime = TimeUtils.timeEnd(endTime);
+        }
+        // 角色
+        WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
+        Integer adminId = null;
+        // 商家
+        if (webUserInfo.getRoleId() == 3) {
+            Integer cAdminId = webUserInfo.getSysAdmin().getId();
+            List<Integer> list = sysAdminMapper.selectIdByCreatedId(cAdminId);
+            if (list.size() == 0) {
+                return ResponseFactory.suc();
+            }
+            List<ForUserVo> userVos = elUserCouponMapper.selectBySearch1(title, phone, store, startTime, endTime, list);
+            PageInfo pageInfo = new PageInfo<>(userVos);
+            return ResponseFactory.page(userVos, pageInfo.getTotal(), pageInfo.getPages(),
+                    pageInfo.getPageNum(), pageInfo.getPageSize());
+        } else if (webUserInfo.getRoleId() == 5) {
+            adminId = webUserInfo.getSysAdmin().getId();
+        }
+        List<ForUserVo> userVoList = elUserCouponMapper.selectBySearch(title, phone, store, startTime, endTime, adminId);
+        PageInfo pageInfo = new PageInfo<>(userVoList);
+        return ResponseFactory.page(userVoList, pageInfo.getTotal(), pageInfo.getPages(),
+                pageInfo.getPageNum(), pageInfo.getPageSize());
+    }
+
+    /**
+     * 优惠券转赠记录
+     *
+     * @param page
+     * @param nickname  赠送者昵称
+     * @param title     优惠券
+     * @param status    状态
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @Override
+    public Response getSendCouponList(PageQuery page, String nickname, String title, Byte status, Long startTime, Long endTime) throws ParseException {
+        if (startTime != null) {
+            startTime = TimeUtils.time(startTime);
+        }
+        if (endTime != null) {
+            endTime = TimeUtils.timeEnd(endTime);
+        }
+        // 角色
+        WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
+        // 所有优惠券id
+        List<Integer> list = new ArrayList<>();
+        // 商家
+        if (webUserInfo.getRoleId() == 3) {
+            //查询商家创建的所有优惠券
+            List<ElectronicCoupons> coupons = electronicCouponsMapper.selectByAdminId(webUserInfo.getSysAdmin().getId());
+            if (!CollectionUtils.isEmpty(coupons)) {
+                for (ElectronicCoupons coupon : coupons) {
+                    list.add(coupon.getId());
+                }
+            }
+            if (list.size() == 0) {
+                List<SendFriendVo> sendFriendVos = new ArrayList<>();
+                PageInfo pageInfo = new PageInfo<>(sendFriendVos);
+                return ResponseFactory.page(sendFriendVos, pageInfo.getTotal(), pageInfo.getPages(),
+                        pageInfo.getPageNum(), pageInfo.getPageSize());
+            }
+        } else if (webUserInfo.getRoleId() == 5) {
+            //        分店adminId
+            Integer adminId = webUserInfo.getSysAdmin().getId();
+            // 创建者adminId(商家adminId)
+            Integer createdAdminId = webUserInfo.getSysAdmin().getCreateAdminId();
+            // 查询门店id
+            Store store = storeMapper.selectByAdminId(adminId);
+            if (store == null) {
+                return ResponseFactory.suc();
+            }
+            List<ElectronicCoupons> coupons = electronicCouponsMapper.selectByAdminId(createdAdminId);
+            if (!CollectionUtils.isEmpty(coupons)) {
+                for (ElectronicCoupons coupon : coupons) {
+                    // 分店优惠券
+                    String[] strings = coupon.getStoreIds().split(",");
+                    for (String string : strings) {
+                        if (string.equals(store.getId().toString())) {
+                            list.add(coupon.getId());
+                        }
+                    }
+                }
+            }
+            if (list.size() == 0) {
+                List<SendFriendVo> sendFriendVos = new ArrayList<>();
+                PageInfo pageInfo = new PageInfo<>(sendFriendVos);
+                return ResponseFactory.page(sendFriendVos, pageInfo.getTotal(), pageInfo.getPages(),
+                        pageInfo.getPageNum(), pageInfo.getPageSize());
+            }
+        }
+        List<SendFriendVo> sendFriendVos = elCouponSendMapper.selectBySearch(nickname, title, status, startTime, endTime, list);
+        PageInfo pageInfo = new PageInfo<>(sendFriendVos);
+        return ResponseFactory.page(sendFriendVos, pageInfo.getTotal(), pageInfo.getPages(),
+                pageInfo.getPageNum(), pageInfo.getPageSize());
+    }
 }

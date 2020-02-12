@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
+
 /**
  * @author linqin
  * @date 2020/2/11 16:13
@@ -107,5 +109,37 @@ public class ElCouponController {
         return elCouponService.addCouponForUser(phone, couponId, quantity);
     }
 
+
+    /**
+     * 商家给用户赠送优惠券记录
+     * @param page
+     * @param title 优惠券标题
+     * @param phone 用户电话
+     * @param store 赠送门店
+     * @param startTime 开始时间
+     * @param endTime 结束时间
+     * @return
+     */
+    @PostMapping("user_list")
+    public Response getForUserList(PageQuery page,String title,String phone,String store,
+                                   Long startTime,Long endTime) throws ParseException {
+        return elCouponService.getForUserList(page,title,phone,store,startTime,endTime);
+    }
+
+    /**
+     * 优惠券转赠记录
+     * @param page
+     * @param nickname 赠送者昵称
+     * @param title 优惠券
+     * @param status 状态
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @PostMapping("send_friend")
+    public Response getSendCouponList(PageQuery page,String nickname, String title, Byte status,
+                                      Long startTime, Long endTime) throws ParseException {
+        return elCouponService.getSendCouponList(page,nickname,title,status,startTime,endTime);
+    }
 
 }
