@@ -24,7 +24,7 @@
     values (#{id,jdbcType=BIGINT}, #{couponId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
       #{totalQuantity,jdbcType=INTEGER}, #{quantity,jdbcType=INTEGER}, #{status,jdbcType=TINYINT},
       #{code,jdbcType=VARCHAR}, #{storeId,jdbcType=INTEGER}, #{adminId,jdbcType=INTEGER},
-      #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP})
+      now(), now())
   </insert>
     <insert id="insertSelective" parameterType="com.chouchong.entity.v3.ElUserCoupon">
         insert into el_user_coupon

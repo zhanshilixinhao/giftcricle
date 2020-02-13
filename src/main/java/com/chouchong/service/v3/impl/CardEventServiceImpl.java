@@ -105,13 +105,15 @@ public class CardEventServiceImpl implements CardEventService {
         }
         ev.setRechargeMoney(event.getRechargeMoney());
         if (event.getSendMoney() == null){
-            event.setSendMoney(new BigDecimal("0"));
+            ev.setSendMoney(new BigDecimal("0"));
+        }else {
+            ev.setSendMoney(event.getSendMoney());
         }
-        ev.setSendMoney(event.getSendMoney());
         ev.setTargetId(event.getTargetId());
         ev.setAdminId(webUserInfo.getSysAdmin().getId());
         ev.setType(event.getType());
         ev.setStatus(event.getStatus());
+        ev.setQuantity(event.getQuantity());
         if (event.getScale() != null) {
             float num = (float) (Math.round(event.getScale() * 0.01 * 1000)) / 1000;
             ev.setScale(num);
@@ -136,16 +138,23 @@ public class CardEventServiceImpl implements CardEventService {
         if (ev == null) {
             return ResponseFactory.err("该活动不存在");
         }
+        ev.setId(ev.getId());
         ev.setTitle(event.getTitle());
         ev.setSummary(event.getSummary());
         ev.setRechargeMoney(event.getRechargeMoney());
         if (event.getSendMoney() == null){
-            event.setSendMoney(new BigDecimal("0"));
+            ev.setSendMoney(new BigDecimal("0"));
+        }else {
+            ev.setSendMoney(event.getSendMoney());
         }
-        ev.setSendMoney(event.getSendMoney());
         ev.setTargetId(event.getTargetId());
+        ev.setAdminId(ev.getAdminId());
         ev.setType(event.getType());
-        int i = memberEventMapper.updateByPrimaryKeySelective(ev);
+        ev.setStatus(ev.getStatus());
+        ev.setCreated(ev.getCreated());
+        ev.setScale(ev.getScale());
+        ev.setQuantity(event.getQuantity());
+        int i = memberEventMapper.updateByPrimaryKey(ev);
         if (i < 1) {
             return ResponseFactory.err("修改失败！");
         }

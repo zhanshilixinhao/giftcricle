@@ -28,6 +28,8 @@ public class MemberEvent {
 
     private Float scale;
 
+    private Integer quantity;
+
     public MemberEvent(Integer id, String title, String summary, BigDecimal rechargeMoney, BigDecimal sendMoney, Integer targetId, Integer adminId, Byte type, Byte status, Date updated, Date created, Float scale) {
         this.id = id;
         this.title = title;
@@ -41,6 +43,14 @@ public class MemberEvent {
         this.updated = updated;
         this.created = created;
         this.scale = scale;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     public MemberEvent() {
