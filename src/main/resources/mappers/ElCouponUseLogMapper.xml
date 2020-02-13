@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.v3.ElCouponUseLogMapper">
+
+    <select id="selectList" resultType="com.chouchong.entity.v3.ElCouponUseLog">
+        select a.id,
+        a.store_id,
+        a.user_id,
+        a.quantity,
+        a.detail,
+        a.created,
+        b.nickname,
+        b.phone,
+        c.name as store_name
+        from el_coupon_use_log a
+        left join app_user b on a.user_id = b.id
+        left join store c on c.id = a.store_id
+        <where>
+            <trim suffixOverrides="and">
+                <if test="storeName!=null and storeName != ''">
+                    c.name like concat('%', #{storeName}, '%') and
+                </if>
+                <if test="phone != null and phone != ''">
+                    b.phone like concat('%', #{phone}, '%') and
+                </if>
+                <if test="title != null and title != ''">
+                    a.detail like concat('%', #{title}, '%') and
+                </if>
+            </trim>
+        </where>
+        order by a.created DESC
+    </select>
+</mapper>

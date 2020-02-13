@@ -15,4 +15,9 @@ public class ElCouponUseLog {
     private Integer adminId;
     private Integer quantity;
     private Date created;
+
+    private String nickname;
+    private String phone;
+    private String storeName;
+    private String title;
 }
