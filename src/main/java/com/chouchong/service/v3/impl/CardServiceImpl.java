@@ -6,23 +6,18 @@ import com.chouchong.common.Response;
 import com.chouchong.common.ResponseFactory;
 import com.chouchong.dao.iwant.appUser.AppUserMapper;
 import com.chouchong.dao.iwant.merchant.MerchantMapper;
-import com.chouchong.dao.v3.MemberCardMapper;
-import com.chouchong.dao.v3.MemberEventMapper;
-import com.chouchong.dao.v3.MembershipCardMapper;
-import com.chouchong.dao.v3.StoreMapper;
+import com.chouchong.dao.v3.*;
 import com.chouchong.dao.webUser.SysAdminRoleMapper;
-import com.chouchong.entity.iwant.appUser.AppUser;
 import com.chouchong.entity.iwant.merchant.Merchant;
-import com.chouchong.entity.v3.MemberCard;
-import com.chouchong.entity.v3.MemberEvent;
-import com.chouchong.entity.v3.MembershipCard;
-import com.chouchong.entity.v3.Store;
-import com.chouchong.entity.webUser.SysAdminRole;
+import com.chouchong.entity.v3.*;
 import com.chouchong.service.v3.CardService;
 import com.chouchong.service.v3.vo.CardVo;
 import com.chouchong.service.v3.vo.EventVo;
 import com.chouchong.service.v3.vo.StoreVo;
 import com.chouchong.service.webUser.vo.WebUserInfo;
+import com.chouchong.utils.AESUtils;
+import com.chouchong.utils.BigDecimalUtil;
+import com.chouchong.utils.properties.ServiceProperties;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +26,8 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -68,6 +63,15 @@ public class CardServiceImpl implements CardService {
 
     @Autowired
     private AppUserMapper appUserMapper;
+
+    @Autowired
+    private UserMemberCardMapper userMemberCardMapper;
+
+    @Autowired
+    private ServiceProperties serviceProperties;
+
+    @Autowired
+    private StoreMemberEventMapper storeMemberEventMapper;
 
     /**
      * 获取会员卡列表
@@ -177,6 +181,52 @@ public class CardServiceImpl implements CardService {
         } else {
             return ResponseFactory.sucData(cardVos);
         }
+    }
+
+    @Override
+    public Response detailByQrcode(Integer id) {
+        CardVo vo = userMemberCardMapper.selectByKey(id);
+        if (vo != null) {
+//            List<Store> stores = new ArrayList<>();
+//            if (org.apache.commons.lang3.StringUtils.isNotBlank(vo.getStoreIds())) {
+//                String[] split = vo.getStoreIds().split(",");
+//                for (String s : split) {
+//                    Store store = storeMapper.selectByPrimaryKey(Integer.parseInt(s));
+//                    if (store != null) {
+//                        String s1 = store.getArea().replaceAll(",", "");
+//                        store.setArea(s1);
+//                    }
+//                    stores.add(store);
+//                }
+//            }
+//            vo.setStores(stores);
+            vo.setSummary(serviceProperties.getCardDetail() + vo.getMembershipCardId());
+            BigDecimal capital1 = new BigDecimal("0");
+            BigDecimal send1 = new BigDecimal("0");
+            if (vo.getType() == 11) {
+                // 活动卡本金和赠送金额
+                List<StoreMemberEvent> capitals = storeMemberEventMapper.selectByUserIdCardId(
+                        Integer.parseInt(vo.getUserId()), Integer.parseInt(vo.getMembershipCardId()));
+                if (!CollectionUtils.isEmpty(capitals)) {
+                    for (StoreMemberEvent capital : capitals) {
+                        capital1 = BigDecimalUtil.add(capital1.doubleValue(), capital.getCapitalBalance().doubleValue());
+                    }
+                }
+                List<StoreMemberEvent> sends = storeMemberEventMapper.selectByUserIdCardId1(
+                        Integer.parseInt(vo.getUserId()), Integer.parseInt(vo.getMembershipCardId()));
+                if (!CollectionUtils.isEmpty(sends)) {
+                    for (StoreMemberEvent send : sends) {
+                        send1 = BigDecimalUtil.add(send1.doubleValue(), send.getSendBalance().doubleValue());
+                    }
+                }
+            }
+            vo.setCapital(capital1);
+            vo.setSend(send1);
+            vo.setQrcodeType(1);
+            return ResponseFactory.sucData(vo);
+        }
+        return ResponseFactory.err("會員卡不存在!");
+
     }
 
 
@@ -314,9 +364,9 @@ public class CardServiceImpl implements CardService {
                     if ((",".equals(eventIds.substring(eventIds.length() - 1)))) {
                         substring = eventIds.substring(0, eventIds.length() - 1);
                     }
-                    if (vo.getType() == 11){
+                    if (vo.getType() == 11) {
                         // 活动卡只有一个活动
-                       title.append(eventVo.getTitle());
+                        title.append(eventVo.getTitle());
                     }
                 }
                 vo.setDetail(title.toString());

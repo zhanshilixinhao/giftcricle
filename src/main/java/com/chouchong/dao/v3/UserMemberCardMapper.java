@@ -1,10 +1,7 @@
 package com.chouchong.dao.v3;
 
 import com.chouchong.entity.v3.UserMemberCard;
-import com.chouchong.service.v3.vo.UserCardVo;
-import com.chouchong.service.v3.vo.UserCardVo1;
-import com.chouchong.service.v3.vo.UserCardVo2;
-import com.chouchong.service.v3.vo.UserCardVos;
+import com.chouchong.service.v3.vo.*;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -50,4 +47,11 @@ public interface UserMemberCardMapper {
 
     UserCardVos selectBySearchs1(@Param("cardNo") String cardNo, @Param("phone") String phone, @Param("adminId") Integer adminId,
                                  @Param("type") Byte type, @Param("title") String title,@Param("storeName") String storeName);
+
+    /**
+     * 会员卡详情
+     * @param id
+     * @return
+     */
+    CardVo selectByKey(Integer id);
 }

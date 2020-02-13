@@ -99,6 +99,26 @@
             </if>
         </trim>
     </insert>
+    <insert id="insertUseLog">
+insert into el_coupon_use_log(num, coupon_id, user_id,
+                              store_id, detail, admin_id, quantity, created)
+VALUES (
+#{num}, #{couponId}, #{userId}, #{storeId}, #{detail}, #{adminId},
+#{quantity}, now()
+       )
+    </insert>
+    <update id="updateQuantity">
+update el_user_coupon
+set quantity = quantity - 1
+where id = #{id}
+  and status = 1
+  and quantity > 1
+    </update>
+    <delete id="deleteById">
+update el_user_coupon
+set status = -1, quantity=0
+where id = #{id}
+    </delete>
     <select id="selectBySearch1" resultType="com.chouchong.service.v3.vo.ForUserVo">
         select a.id as num,
         a.coupon_id,
@@ -171,5 +191,25 @@
             and unix_timestamp(a.created) &lt; #{endTime}
         </if>
         order by a.created DESC
+    </select>
+    <select id="selectDetailById" resultType="com.chouchong.entity.v3.ElCouponVo">
+        select a.id as num,
+       a.coupon_id,
+       a.user_id,
+       a.quantity,
+       a.code,
+       a.created,
+       b.title,
+       b.summary,
+       b.logo,
+       b.store_ids,
+       b.date
+from el_user_coupon a
+         left join electronic_coupons b on a.coupon_id = b.id
+where a.status = 1
+  and b.status = 1
+  and b.type = 1
+  and a.id = #{id}
+order by a.created DESC
     </select>
 </mapper>

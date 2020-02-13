@@ -84,4 +84,8 @@ public interface ElCouponService {
      * @return
      */
     Response getElCouponAllList();
+
+    Response detailByQrcode(Long id);
+
+    Response useCoupon(Long num);
 }

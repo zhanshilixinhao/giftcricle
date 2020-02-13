@@ -76,4 +76,5 @@ public interface CardService {
     Response getCardList1(Long cardNo, String title, PageQuery page, Integer type);
 
 
+    Response detailByQrcode(Integer id);
 }

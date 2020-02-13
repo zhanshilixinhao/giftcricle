@@ -37,6 +37,34 @@ public class ElCouponController {
     }
 
     /**
+     * 用户优惠券核销
+     *
+     * @param num 二维码
+     * @return
+     */
+    @PostMapping("use")
+    public Response useCoupon(Long num) {
+        if (num == null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return elCouponService.useCoupon(num);
+    }
+
+//    /**
+//     * 通过二维码获取用户的优惠券详情
+//     *
+//     * @param qrcode 二维码
+//     * @return
+//     */
+//    @PostMapping("detailByQrcode")
+//    public Response detailByQrcode(String qrcode) {
+//        if (StringUtils.isBlank(qrcode)) {
+//            return ResponseFactory.errMissingParameter();
+//        }
+//        return elCouponService.detailByQrcode(qrcode);
+//    }
+
+    /**
      * 获取优惠券所有列表(优惠券部分只有平台商有)
      *
      * @return
@@ -122,34 +150,36 @@ public class ElCouponController {
 
     /**
      * 商家给用户赠送优惠券记录
+     *
      * @param page
-     * @param title 优惠券标题
-     * @param phone 用户电话
-     * @param store 赠送门店
+     * @param title     优惠券标题
+     * @param phone     用户电话
+     * @param store     赠送门店
      * @param startTime 开始时间
-     * @param endTime 结束时间
+     * @param endTime   结束时间
      * @return
      */
     @PostMapping("user_list")
-    public Response getForUserList(PageQuery page,String title,String phone,String store,
-                                   Long startTime,Long endTime) throws ParseException {
-        return elCouponService.getForUserList(page,title,phone,store,startTime,endTime);
+    public Response getForUserList(PageQuery page, String title, String phone, String store,
+                                   Long startTime, Long endTime) throws ParseException {
+        return elCouponService.getForUserList(page, title, phone, store, startTime, endTime);
     }
 
     /**
      * 优惠券转赠记录
+     *
      * @param page
-     * @param nickname 赠送者昵称
-     * @param title 优惠券
-     * @param status 状态
+     * @param nickname  赠送者昵称
+     * @param title     优惠券
+     * @param status    状态
      * @param startTime
      * @param endTime
      * @return
      */
     @PostMapping("send_friend")
-    public Response getSendCouponList(PageQuery page,String nickname, String title, Byte status,
+    public Response getSendCouponList(PageQuery page, String nickname, String title, Byte status,
                                       Long startTime, Long endTime) throws ParseException {
-        return elCouponService.getSendCouponList(page,nickname,title,status,startTime,endTime);
+        return elCouponService.getSendCouponList(page, nickname, title, status, startTime, endTime);
     }
 
 }

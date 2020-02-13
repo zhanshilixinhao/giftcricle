@@ -8,15 +8,13 @@ import com.chouchong.dao.v3.ElectronicCouponsMapper;
 import com.chouchong.dao.v3.StoreMapper;
 import com.chouchong.dao.webUser.SysAdminMapper;
 import com.chouchong.entity.iwant.appUser.AppUser;
-import com.chouchong.entity.v3.ElUserCoupon;
-import com.chouchong.entity.v3.ElectronicCoupons;
-import com.chouchong.entity.v3.MembershipCard;
-import com.chouchong.entity.v3.Store;
+import com.chouchong.entity.v3.*;
 import com.chouchong.exception.ServiceException;
 import com.chouchong.service.v3.ElCouponService;
 import com.chouchong.service.v3.vo.*;
 import com.chouchong.service.webUser.vo.WebUserInfo;
 import com.chouchong.utils.TimeUtils;
+import com.gexin.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -144,6 +142,94 @@ public class ElCouponServiceImpl implements ElCouponService {
     }
 
     /**
+     * 通过二维码获取活动xiangqin
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public Response detailByQrcode(Long id) {
+        ElCouponVo vo = elUserCouponMapper.selectDetailById(id);
+        if (vo != null && org.apache.commons.lang3.StringUtils.isNotBlank(vo.getStoreIds())) {
+            StringBuilder titles = new StringBuilder();
+            String[] split = vo.getStoreIds().split(",");
+            for (String s : split) {
+                Store store = storeMapper.selectByPrimaryKey(Integer.parseInt(s));
+                if (store != null) {
+                    titles.append(store.getName()).append("/");
+                }
+            }
+            vo.setQrcodeType(2);
+            vo.setStoreName(titles.toString());
+            return ResponseFactory.sucData(vo);
+        }
+        return ResponseFactory.err("優惠券不存在!");
+    }
+
+    /**
+     * 用户优惠券核销
+     *
+     * @param num
+     * @return
+     */
+    @Override
+    public Response useCoupon(Long num) {
+        WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
+        Store store = storeMapper.selectByAdminId(webUserInfo.getSysAdmin().getId());
+        if (store == null) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "门店发优惠券出错");
+        }
+        // 判断优惠券是否存在
+        ElCouponVo vo = elUserCouponMapper.selectDetailById(num);
+        if (vo == null) {
+            return ResponseFactory.err("优惠券不存在!");
+        }
+        // 优惠券是否已过期
+        if (vo.getDate().getTime() < System.currentTimeMillis()) {
+            return ResponseFactory.err("优惠券已过期!");
+        }
+        // 判断门店是否匹配
+        String[] split = vo.getStoreIds().split(",");
+        boolean isMatch = false;
+        for (String id : split) {
+            if (id.equals(String.valueOf(store.getId()))) {
+                isMatch = true;
+                break;
+            }
+        }
+        if (!isMatch) {
+            return ResponseFactory.err("无权核销!");
+        }
+        // 用户的优惠券数量-1
+        int quantity = vo.getQuantity();
+        if (quantity == 0) {
+            return ResponseFactory.err("優惠券已使用！");
+        }
+        quantity -= 1;
+        if (quantity <= 0) {
+            // 如果数量用完，直接删除
+            elUserCouponMapper.deleteById(num);
+        } else {
+            // 数量减-1
+            int count = elUserCouponMapper.updateQuantity(num);
+            if (count == 0) {
+                return ResponseFactory.err("优惠券已用完!");
+            }
+        }
+        // 保存核销记录
+        ElCouponUseLog log = new ElCouponUseLog();
+        log.setCouponId(vo.getCouponId());
+        log.setNum(vo.getNum());
+        log.setUserId(vo.getUserId());
+        log.setStoreId(store.getId());
+        log.setDetail(JSON.toJSONString(vo));
+        log.setAdminId(webUserInfo.getSysAdmin().getId());
+        log.setQuantity(1);
+        elUserCouponMapper.insertUseLog(log);
+        return ResponseFactory.sucData(log);
+    }
+
+    /**
      * 添加平台商优惠券
      *
      * @param coupon
@@ -235,13 +321,13 @@ public class ElCouponServiceImpl implements ElCouponService {
         if (appUser == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "注册礼遇圈才可以送优惠券哦");
         }
-        addCoupon(couponId,quantity,store.getId(),appUser.getId(),webUserInfo.getSysAdmin().getId());
+        addCoupon(couponId, quantity, store.getId(), appUser.getId(), webUserInfo.getSysAdmin().getId());
         return ResponseFactory.sucMsg("赠送成功");
     }
 
     @Override
-    public void addCoupon(Integer couponId,Integer quantity,Integer storeId,
-                          Integer userId,Integer adminId){
+    public void addCoupon(Integer couponId, Integer quantity, Integer storeId,
+                          Integer userId, Integer adminId) {
         ElectronicCoupons coupons = electronicCouponsMapper.selectByKey(couponId);
         if (coupons == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "该优惠券不存在或已被删除");

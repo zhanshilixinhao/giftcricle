@@ -210,6 +210,30 @@
         </if>
         order by a.user_id DESC ,a.created DESC
     </select>
+    <select id="selectByKey" resultType="com.chouchong.service.v3.vo.CardVo">
+      select a.id,
+       a.membership_card_id,
+       a.user_id,
+       a.phone,
+       a.balance,
+       a.created,
+       a.card_no,
+       b.title,
+       b.summary,
+       b.colour,
+       b.logo,
+       b.store_ids,
+       b.type,
+       c.title as grade,
+       c.summary as summaryGrade,
+       u.nickname,
+       u.avatar
+from user_member_card a
+         left join membership_card b on a.membership_card_id = b.id
+         left join card_grade c on a.grade_id = c.id
+         left join app_user u on u.id = a.user_id
+where a.id = #{id}
+    </select>
 
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

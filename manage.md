@@ -793,3 +793,74 @@ http 常用错误码
 | 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
 | :------: | :------: | :------: | :----: | :------: |
 | module | int | 是 | 无 | 模块（目前传1） |
+
+
+## 6 二維碼掃描
+
+### 6.1 二維碼掃描
+
+- 请求地址：manage/tool/scan
+- 服务协议：HTTP/POST
+- 是否需要身份认证：否
+- 作者：linqin
+
+| 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :------: | :------: | :------: | :----: | :------: |
+| qrcode | string | 是 | 無 | 二維碼内容 |
+
+- 請求結果示例
+
+```js
+// 掃描優惠券
+{
+	"errCode": 0,
+	"result": 0,
+	"time": 1581598043440,
+	"data": {
+		"num": 1,
+		"qrcodeType": 2, // 二維碼類型 1 會員卡 2 優惠券
+		"couponId": 1,
+		"userId": 7,
+		"quantity": 4,
+		"code": "",
+		"created": "2020-02-10 14:16:51",
+		"title": "20 元优惠券",
+		"summary": "使用说明，简介",
+		"logo": "/item/200212/a1f46021-dcd2-44d0-802a-66aad94bbd23.png",
+		"storeIds": "5,4,3",
+		"date": "2020-02-29 00:00:00",
+		"storeName": "外婆味道大观店/外婆味道吾悦店/外婆味道南屏店/",
+		"status": null
+	}
+}
+
+// 掃描會員卡
+{
+	"errCode": 0,
+	"result": 0,
+	"time": 1581598602315,
+	"data": {
+		"id": 5,
+		"cardNo": 7919121420109,
+		"title": "小二老坛子酸菜鱼开业活动卡",
+		"colour": "#F4AB0F",
+		"logo": "/item/191212/71236aa0-71f7-444d-811f-a581a2329569.jpg",
+		"storeIds": "2",
+		"eventIds": null,
+		"adminId": null,
+		"type": 11,
+		"created": "2019-12-14 20:37:33",
+		"summary": "null2",
+		"membershipCardId": "2",
+		"detail": null,
+		"storeVos": null,
+		"eventVos": null,
+		"userId": "349",
+		"capital": 1000.0,
+		"send": 1000.0,
+		"qrcodeType": 1,
+		"nickname": "筱筱",
+		"avatar": "https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLcT62xfK1U6q6ia8Dic1ciaRZw9YXqRhUibof7Pt0XR7MJrqDTJxibuukBxQhj1daEW34RCZtibsEGnPag/132"
+	}
+}
+```

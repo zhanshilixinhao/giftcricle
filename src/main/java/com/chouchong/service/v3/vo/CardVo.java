@@ -1,5 +1,8 @@
 package com.chouchong.service.v3.vo;
 
+import lombok.Data;
+
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -8,6 +11,7 @@ import java.util.List;
  * @date 2019/11/6
  */
 
+@Data
 public class CardVo {
 
     private Integer id;
@@ -31,6 +35,8 @@ public class CardVo {
     private Date created;
 
     private String summary;
+
+    private String membershipCardId;
     /**
      * 活动标题
      */
@@ -40,116 +46,13 @@ public class CardVo {
 
     private List<EventVo> eventVos;
 
-    public Integer getId() {
-        return id;
-    }
+    private String userId;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    private BigDecimal capital;
+    private BigDecimal send;
 
-    public Long getCardNo() {
-        return cardNo;
-    }
+    private Integer qrcodeType;
 
-    public void setCardNo(Long cardNo) {
-        this.cardNo = cardNo;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getColour() {
-        return colour;
-    }
-
-    public void setColour(String colour) {
-        this.colour = colour;
-    }
-
-    public String getLogo() {
-        return logo;
-    }
-
-    public void setLogo(String logo) {
-        this.logo = logo;
-    }
-
-    public String getStoreIds() {
-        return storeIds;
-    }
-
-    public void setStoreIds(String storeIds) {
-        this.storeIds = storeIds;
-    }
-
-    public Integer getAdminId() {
-        return adminId;
-    }
-
-    public void setAdminId(Integer adminId) {
-        this.adminId = adminId;
-    }
-
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
-    public List<StoreVo> getStoreVos() {
-        return storeVos;
-    }
-
-    public void setStoreVos(List<StoreVo> storeVos) {
-        this.storeVos = storeVos;
-    }
-
-    public List<EventVo> getEventVos() {
-        return eventVos;
-    }
-
-    public void setEventVos(List<EventVo> eventVos) {
-        this.eventVos = eventVos;
-    }
-
-    public String getEventIds() {
-        return eventIds;
-    }
-
-    public void setEventIds(String eventIds) {
-        this.eventIds = eventIds;
-    }
-
-    public Byte getType() {
-        return type;
-    }
-
-    public void setType(Byte type) {
-        this.type = type;
-    }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
+    private String nickname;
+    private String avatar;
 }

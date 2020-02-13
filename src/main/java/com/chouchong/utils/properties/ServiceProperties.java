@@ -26,6 +26,8 @@ public class ServiceProperties {
 
     private String aliUrl = "noauth/pay/aliv2";
 
+    private String cardDetail;
+
     public String getArticleDetail() {
         return articleDetail;
     }
@@ -72,5 +74,13 @@ public class ServiceProperties {
 
     public void setHost(String host) {
         this.host = host;
+    }
+
+    public String getCardDetail() {
+        return cardDetail;
+    }
+
+    public void setCardDetail(String cardDetail) {
+        this.cardDetail = cardDetail;
     }
 }

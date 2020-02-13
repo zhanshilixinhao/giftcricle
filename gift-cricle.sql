@@ -26,3 +26,25 @@ CREATE TABLE `sys_admin`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `username`(`username`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COMMENT = '后台用户表';
+
+
+/*==============================================================*/
+/* Table: el_coupon_use_log                                               */
+/*==============================================================*/
+DROP TABLE IF EXISTS `el_coupon_use_log`;
+CREATE TABLE `el_coupon_use_log`  (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+  `num` bigint(20) comment '用户优惠券id',
+  coupon_id int(10) comment '优惠券id',
+  `user_id` int(10) comment '用户id',
+  `store_id` int(10) comment '核销门店id',
+  detail varchar(1000) comment '优惠券信息',
+  admin_id int(10) comment '管理员id',
+  quantity int(10) comment '使用熟练',
+  created datetime,
+  PRIMARY KEY (`id`) USING BTREE,
+  key num (`num`),
+  key user_id (`user_id`),
+  key coupon_id (`coupon_id`),
+  key store_id (`store_id`)
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COMMENT = '优惠券核销记录';

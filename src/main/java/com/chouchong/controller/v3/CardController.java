@@ -24,73 +24,87 @@ public class CardController {
 
     /**
      * 获取会员卡列表
+     *
      * @param cardNo 卡号
-     * @param title 标题
+     * @param title  标题
      * @param page
      * @return
      */
     @PostMapping("list")
-    public Response getCardList(Long cardNo, String title, PageQuery page){
-        return cardService.getCardList(cardNo,title,page);
+    public Response getCardList(Long cardNo, String title, PageQuery page) {
+        return cardService.getCardList(cardNo, title, page);
     }
+//
+//    /**
+//     * 扫码获取会员卡详情
+//     *
+//     * @param qrcode 二维码
+//     * @return
+//     */
+//    @PostMapping("detailByQrcode")
+//    public Response detailByQrcode(String qrcode) {
+//        return cardService.detailByQrcode(qrcode);
+//    }
 
     /**
      * 获取会员卡列表(分店)
+     *
      * @param cardNo 卡号
-     * @param title 标题
-     * @param type 1 不分页
+     * @param title  标题
+     * @param type   1 不分页
      * @param page
      * @return
      */
     @PostMapping("store_card")
-    public Response getCardList1(Long cardNo, String title, PageQuery page,Integer type){
-        return cardService.getCardList1(cardNo,title,page,type);
+    public Response getCardList1(Long cardNo, String title, PageQuery page, Integer type) {
+        return cardService.getCardList1(cardNo, title, page, type);
     }
-
 
 
     /**
      * 添加会员卡
+     *
      * @param card
      * @return
      */
     @PostMapping("add")
-    public Response addCard(MembershipCard card,String eventIds){
-        if (StringUtils.isAnyBlank(card.getTitle(),card.getColour(),card.getLogo(),card.getStoreIds(),eventIds)){
+    public Response addCard(MembershipCard card, String eventIds) {
+        if (StringUtils.isAnyBlank(card.getTitle(), card.getColour(), card.getLogo(), card.getStoreIds(), eventIds)) {
             return ResponseFactory.errMissingParameter();
         }
-        if (card.getSummary() == null || card.getType() == null){
+        if (card.getSummary() == null || card.getType() == null) {
             return ResponseFactory.errMissingParameter();
         }
-        return cardService.addCard(card,eventIds);
+        return cardService.addCard(card, eventIds);
     }
-
 
 
     /**
      * 修改会员卡
+     *
      * @param card
      * @return
      */
     @PostMapping("update")
-    public Response updateCard(MembershipCard card,String eventIds){
-        if (StringUtils.isAnyBlank(card.getTitle(),card.getColour(),card.getLogo(),card.getStoreIds(),eventIds)){
+    public Response updateCard(MembershipCard card, String eventIds) {
+        if (StringUtils.isAnyBlank(card.getTitle(), card.getColour(), card.getLogo(), card.getStoreIds(), eventIds)) {
             return ResponseFactory.errMissingParameter();
         }
-        if (card.getSummary() == null || card.getId() == null){
+        if (card.getSummary() == null || card.getId() == null) {
             return ResponseFactory.errMissingParameter();
         }
-        return cardService.updateCard(card,eventIds);
+        return cardService.updateCard(card, eventIds);
     }
 
     /**
      * 删除会员卡
+     *
      * @param cardId 会员卡id
      * @return
      */
     @PostMapping("delete")
-    public Response deleteCard(Integer cardId){
-        if (cardId == null){
+    public Response deleteCard(Integer cardId) {
+        if (cardId == null) {
             return ResponseFactory.errMissingParameter();
         }
         return cardService.deleteCard(cardId);
@@ -99,12 +113,13 @@ public class CardController {
 
     /**
      * 会员卡详情
+     *
      * @param cardId 会员卡id
      * @return
      */
     @PostMapping("detail")
-    public Response detailCard(Integer cardId){
-        if (cardId == null){
+    public Response detailCard(Integer cardId) {
+        if (cardId == null) {
             return ResponseFactory.errMissingParameter();
         }
         return cardService.detailCard(cardId);
@@ -112,16 +127,18 @@ public class CardController {
 
     /**
      * 获取所有可选门店
+     *
      * @return
      */
     @PostMapping("all_store")
-    public Response allStoreList(){
+    public Response allStoreList() {
         return cardService.allStoreList();
     }
 
 
     /**
      * 获取自己创建的所有活动
+     *
      * @return
      */
     @PostMapping("all_event")

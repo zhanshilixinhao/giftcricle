@@ -3,7 +3,9 @@ import com.chouchong.common.Utils;
 import com.chouchong.service.order.kdapi.OkHttpManager;
 import com.chouchong.service.order.kdapi.OkHttpUtil;
 import com.chouchong.service.order.kdapi.RequestParams;
+import com.chouchong.utils.AESUtils;
 import com.chouchong.utils.ApiSignUtil;
+import okhttp3.OkHttpClient;
 import okhttp3.Response;
 import org.junit.Test;
 import org.springframework.web.client.RestTemplate;
@@ -21,18 +23,37 @@ public class appTest {
 
     @Test
     public void login() throws IOException {
-
         RequestParams params = new RequestParams();
-        params.put("username", "admin");
+        params.put("username", "test");
         params.put("password", "123456");
-        Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
-                "http://localhost:8080/manage/user/add", params);
+        Response response = OkHttpUtil.post(new OkHttpClient(),
+                "http://localhost:8080/manage/user/login", params);
+        System.out.println(response.body().string());
+    }
+
+    @Test
+    public void couponDetailByQrcode() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("token", "97676eb1-fad4-4772-bf75-b59002826cbf");
+        params.put("qrcode", AESUtils.encrypt("zheshishenmemima",
+                String.format("1,%s,%s", 5, System.currentTimeMillis())));
+        Response response = OkHttpUtil.post(new OkHttpClient(),
+                "http://localhost:8080/manage/tool/scan", params);
+        System.out.println(response.body().string());
+    }
+
+    @Test
+    public void useCoupon() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("token", "97676eb1-fad4-4772-bf75-b59002826cbf");
+        params.put("num", 1);
+        Response response = OkHttpUtil.post(new OkHttpClient(),
+                "http://localhost:8080/manage/v3/coupon/use", params);
         System.out.println(response.body().string());
     }
 
     @Test
     public void info() throws IOException {
-
         RequestParams params = new RequestParams();
         params.put("token", "7171d718-0c30-4fd0-9a6b-53a865be71a5");
         Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
