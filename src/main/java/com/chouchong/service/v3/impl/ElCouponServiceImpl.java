@@ -379,6 +379,7 @@ public class ElCouponServiceImpl implements ElCouponService {
             if (list.size() == 0) {
                 return ResponseFactory.suc();
             }
+            PageHelper.startPage(page.getPageNum(), page.getPageSize());
             List<ForUserVo> userVos = elUserCouponMapper.selectBySearch1(title, phone, store, startTime, endTime, list);
             PageInfo pageInfo = new PageInfo<>(userVos);
             return ResponseFactory.page(userVos, pageInfo.getTotal(), pageInfo.getPages(),
@@ -386,6 +387,7 @@ public class ElCouponServiceImpl implements ElCouponService {
         } else if (webUserInfo.getRoleId() == 5) {
             adminId = webUserInfo.getSysAdmin().getId();
         }
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
         List<ForUserVo> userVoList = elUserCouponMapper.selectBySearch(title, phone, store, startTime, endTime, adminId);
         PageInfo pageInfo = new PageInfo<>(userVoList);
         return ResponseFactory.page(userVoList, pageInfo.getTotal(), pageInfo.getPages(),
@@ -459,6 +461,7 @@ public class ElCouponServiceImpl implements ElCouponService {
                         pageInfo.getPageNum(), pageInfo.getPageSize());
             }
         }
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
         List<SendFriendVo> sendFriendVos = elCouponSendMapper.selectBySearch(nickname, title, status, startTime, endTime, list);
         PageInfo pageInfo = new PageInfo<>(sendFriendVos);
         return ResponseFactory.page(sendFriendVos, pageInfo.getTotal(), pageInfo.getPages(),

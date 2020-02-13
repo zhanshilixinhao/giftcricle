@@ -68,7 +68,7 @@
         </javaClientGenerator>
 
 
-<!--        <table tableName="electronic_coupons" domainObjectName="ElectronicCoupons" enableCountByExample="false"-->
+<!--        <table tableName="invoice_record" domainObjectName="InvoiceRecord" enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
 <!--        <table tableName="el_user_coupon" domainObjectName="ElUserCoupon" enableCountByExample="false"-->
