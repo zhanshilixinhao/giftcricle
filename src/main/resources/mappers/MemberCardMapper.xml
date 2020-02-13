@@ -77,6 +77,13 @@ where b.status = 10
 and a.membership_card_id = #{cardId}
 
     </select>
+    <select id="selectEventIdByCardId" resultType="com.chouchong.entity.v3.MemberCard">
+        select
+        <include refid="Base_Column_List"/>
+        from member_card
+        where membership_card_id = #{cardId}
+        and members_event_id = #{eventId}
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from member_card

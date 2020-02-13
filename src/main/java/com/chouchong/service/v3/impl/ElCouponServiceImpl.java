@@ -235,6 +235,13 @@ public class ElCouponServiceImpl implements ElCouponService {
         if (appUser == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "注册礼遇圈才可以送优惠券哦");
         }
+        addCoupon(couponId,quantity,store.getId(),appUser.getId(),webUserInfo.getSysAdmin().getId());
+        return ResponseFactory.sucMsg("赠送成功");
+    }
+
+    @Override
+    public void addCoupon(Integer couponId,Integer quantity,Integer storeId,
+                          Integer userId,Integer adminId){
         ElectronicCoupons coupons = electronicCouponsMapper.selectByKey(couponId);
         if (coupons == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "该优惠券不存在或已被删除");
@@ -243,20 +250,18 @@ public class ElCouponServiceImpl implements ElCouponService {
         ElUserCoupon elUserCoupon = new ElUserCoupon();
         elUserCoupon.setId(orderHelper.genOrderNo(4, 12));
         elUserCoupon.setCouponId(couponId);
-        elUserCoupon.setUserId(appUser.getId());
+        elUserCoupon.setUserId(userId);
         elUserCoupon.setTotalQuantity(quantity);
         elUserCoupon.setQuantity(quantity);
         elUserCoupon.setStatus((byte) 1);
         elUserCoupon.setCode("");
-        elUserCoupon.setStoreId(store.getId());
-        elUserCoupon.setAdminId(webUserInfo.getSysAdmin().getId());
+        elUserCoupon.setStoreId(storeId);
+        elUserCoupon.setAdminId(adminId);
         int insert = elUserCouponMapper.insert(elUserCoupon);
         if (insert < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "赠送失败");
         }
-        return ResponseFactory.sucMsg("赠送成功");
     }
-
 
     /**
      * 商家给用户赠送优惠券记录

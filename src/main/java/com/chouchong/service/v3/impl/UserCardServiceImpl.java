@@ -8,6 +8,7 @@ import com.chouchong.entity.iwant.appUser.AppUser;
 import com.chouchong.entity.iwant.merchant.Merchant;
 import com.chouchong.entity.v3.*;
 import com.chouchong.exception.ServiceException;
+import com.chouchong.service.v3.ElCouponService;
 import com.chouchong.service.v3.UserCardService;
 import com.chouchong.service.v3.vo.*;
 import com.chouchong.service.webUser.vo.WebUserInfo;
@@ -82,6 +83,9 @@ public class UserCardServiceImpl implements UserCardService {
 
     @Autowired
     private MemberCardMapper memberCardMapper;
+
+    @Autowired
+    private ElCouponService elCouponService;
 
 
     /**
@@ -278,6 +282,16 @@ public class UserCardServiceImpl implements UserCardService {
             }
             if (memberEvent.getRechargeMoney().compareTo(recharge) != 0 || memberEvent.getSendMoney().compareTo(send) != 0){
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "充值金额或赠送金额与活动金额不符");
+            }
+            // 判断该卡是否有此类活动
+           MemberCard cardEvent =  memberCardMapper.selectEventIdByCardId(cardId,eventId);
+            if (cardEvent == null){
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "该会员卡没用此类活动");
+            }
+            // 给用户添加优惠券
+            if ((memberEvent.getType() == 2 || memberEvent.getType() == 5)  && memberEvent.getTargetId() != null){
+                elCouponService.addCoupon(memberEvent.getTargetId(),memberEvent.getQuantity(),
+                        store.getId(),userId,adminId);
             }
         }
         Merchant merchant = merchantMapper.selectByAdminId(webUserInfo.getSysAdmin().getCreateAdminId());

@@ -51,6 +51,8 @@ public interface ElCouponService {
      */
     Response addCouponForUser(String phone, Integer couponId, Integer quantity);
 
+    void addCoupon(Integer couponId,Integer quantity,Integer storeId,
+                   Integer userId,Integer adminId);
     /**
      * 商家给用户赠送优惠券记录
      * @param page

@@ -3,6 +3,7 @@ package com.chouchong.dao.v3;
 
 import com.chouchong.entity.v3.MemberCard;
 import com.chouchong.entity.v3.MemberEvent;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -27,4 +28,6 @@ public interface MemberCardMapper {
     List<MemberEvent> selectByCardId();
 
     MemberEvent selectEventByCardId(Integer cardId);
+
+    MemberCard selectEventIdByCardId(@Param("cardId") Integer cardId, @Param("eventId") Integer eventId);
 }
