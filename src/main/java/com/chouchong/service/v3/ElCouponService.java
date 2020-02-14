@@ -88,4 +88,11 @@ public interface ElCouponService {
     Response detailByQrcode(Long id);
 
     Response useCoupon(Long num);
+
+    /**
+     * 获取优惠券列表(小程序商家端)(优惠券只有平台商和门店可看)
+     *
+     * @return
+     */
+    Response getElCouponListXcx();
 }

@@ -37,6 +37,17 @@ public class ElCouponController {
     }
 
     /**
+     * 获取优惠券列表(小程序商家端)(优惠券只有平台商和门店可看)
+     *
+     * @return
+     */
+    @PostMapping("xcx_list")
+    public Response getElCouponListXcx() {
+        return elCouponService.getElCouponListXcx();
+    }
+
+
+    /**
      * 用户优惠券核销
      *
      * @param num 二维码

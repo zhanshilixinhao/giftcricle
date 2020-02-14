@@ -130,6 +130,51 @@ public class ElCouponServiceImpl implements ElCouponService {
     }
 
     /**
+     * 获取优惠券列表(小程序商家端)(优惠券只有平台商和门店可看)
+     *
+     * @return
+     */
+    @Override
+    public Response getElCouponListXcx() {
+        // 门店
+        WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
+        if (webUserInfo.getRoleId() != 5){
+            return ResponseFactory.err("门店账号登陆才可以使用");
+        }
+        Integer adminId = webUserInfo.getSysAdmin().getId();
+        // 创建者adminId(商家adminId)
+        Integer createdAdminId = webUserInfo.getSysAdmin().getCreateAdminId();
+        // 查询门店id
+        Store store = storeMapper.selectByAdminId(adminId);
+        if (store == null) {
+            return ResponseFactory.suc();
+        }
+        List<ElectronicCoupons> list = new ArrayList<>();
+        List<ElectronicCoupons> coupons = electronicCouponsMapper.selectBySearch(createdAdminId,null);
+        if (!CollectionUtils.isEmpty(coupons)) {
+            for (ElectronicCoupons coupon : coupons) {
+                List<StoreVo> stores = new ArrayList<>();
+                if (!StringUtils.isEmpty(coupon.getStoreIds())) {
+                    String[] split = coupon.getStoreIds().split(",");
+                    for (String s : split) {
+                        StoreVo store1 = storeMapper.selectById(Integer.parseInt(s));
+                        stores.add(store1);
+                    }
+                }
+                coupon.setStoreVos(stores);
+                // 分店优惠券
+                String[] strings = coupon.getStoreIds().split(",");
+                for (String string : strings) {
+                    if (string.equals(store.getId().toString())) {
+                        list.add(coupon);
+                    }
+                }
+            }
+        }
+        return ResponseFactory.sucData(list);
+    }
+
+    /**
      * 获取优惠券所有列表(优惠券部分只有平台商有)
      *
      * @return

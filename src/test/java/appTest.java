@@ -45,7 +45,7 @@ public class appTest {
     @Test
     public void useCoupon() throws IOException {
         RequestParams params = new RequestParams();
-        params.put("token", "97676eb1-fad4-4772-bf75-b59002826cbf");
+        params.put("token", "1b79f2dd-cb37-4a85-93bc-40fc49185f47");
         params.put("num", 1);
         Response response = OkHttpUtil.post(new OkHttpClient(),
                 "http://localhost:8080/manage/v3/coupon/use", params);
@@ -189,6 +189,50 @@ public class appTest {
         params.put("phone", "15752400657");
         Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
                 "http://localhost:8080/manage/ask/code", params);
+        System.out.println(response.body().string());
+    }
+
+    @Test
+    public void e() throws IOException {
+
+        RequestParams params = new RequestParams();
+        params.put("token", "5ab93fe0-d36c-4a86-a4ff-e6617511d8d9");
+        params.put("eventId",43);
+        Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
+                "http://localhost:8080/manage/v3/cardEvent/detail", params);
+        System.out.println(response.body().string());
+    }
+
+    @Test
+    public void u() throws IOException {
+
+        RequestParams params = new RequestParams();
+        params.put("token", "2e3f6417-ed3b-4ebf-a3b3-aa5776e8d6f8");
+        params.put("phone","15752400657");
+        params.put("couponId","2");
+        params.put("quantity","1");
+        Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
+                "http://localhost:8080/manage/v3/coupon/forUser", params);
+        System.out.println(response.body().string());
+    }
+
+    @Test
+    public void lu() throws IOException {
+
+        RequestParams params = new RequestParams();
+        params.put("token", "2e3f6417-ed3b-4ebf-a3b3-aa5776e8d6f8");
+        Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
+                "http://localhost:8080/manage/v3/coupon/all_list", params);
+        System.out.println(response.body().string());
+    }
+
+    @Test
+    public void xcx() throws IOException {
+
+        RequestParams params = new RequestParams();
+        params.put("token", "871fbd5d-b26c-4d65-a6fb-06004fb8740d");
+        Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
+                "http://localhost:8080/manage/v3/coupon/xcx_list", params);
         System.out.println(response.body().string());
     }
 

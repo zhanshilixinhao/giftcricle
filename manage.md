@@ -11,6 +11,10 @@
 >  1. 修改消费回退接口，修改参数   （3.7接口）
 >  2. 增加充值退款接口 （ 3.9接口）
 >  3. 修改充值接口（3.5接口）
+>  4. 扫描功能6
+>  5. 增加3.10 获取活动详情（充值时查看优惠券可以用到）
+>  6. 优惠券功能7
+
 
 
 ## 目录
@@ -462,6 +466,44 @@ http 常用错误码
 }
 ```
 
+### 3.10 获取活动详情（充值时查看优惠券可以用到）
+
+- 请求地址：manage/v3/cardEvent/detail
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+| 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :------: | :------: | :------: | :----: | :------: |
+|  token   |  String  |    是    |   无   |      访问令牌   |
+|eventId|int|是|无|活动id|
+
+- 请求结果示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1581648311812,
+  "data": {
+    "id": 43, //活动id
+    "title": "充100 送2 张50元优惠券", //标题
+    "summary": "充100 送2 张50元优惠券",
+    "rechargeMoney": 100.00,
+    "sendMoney": 0.00,
+    "targetId": 2,
+    "adminId": 19,
+    "type": 2,
+    "status": 1,
+    "updated": "2020-02-13 13:38:53",
+    "created": "2020-02-13 13:38:53",
+    "scale": null,
+    "quantity": 2 //数量
+  }
+}
+
+```
+
 ## 4 查询
 ### 4.1 充值记录
 
@@ -806,6 +848,7 @@ http 常用错误码
 
 | 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
 | :------: | :------: | :------: | :----: | :------: |
+|  token   |  String  |    是    |   无   |      访问令牌   |
 | qrcode | string | 是 | 無 | 二維碼内容 |
 
 - 請求結果示例
@@ -817,19 +860,19 @@ http 常用错误码
 	"result": 0,
 	"time": 1581598043440,
 	"data": {
-		"num": 1,
+		"num": 1, //优惠券编码
 		"qrcodeType": 2, // 二維碼類型 1 會員卡 2 優惠券
-		"couponId": 1,
-		"userId": 7,
-		"quantity": 4,
-		"code": "",
-		"created": "2020-02-10 14:16:51",
-		"title": "20 元优惠券",
+		"couponId": 1, //优惠券id
+		"userId": 7, //用户id
+		"quantity": 4, //总数量
+		"code": "", 
+		"created": "2020-02-10 14:16:51", 
+		"title": "20 元优惠券", //标题
 		"summary": "使用说明，简介",
 		"logo": "/item/200212/a1f46021-dcd2-44d0-802a-66aad94bbd23.png",
 		"storeIds": "5,4,3",
-		"date": "2020-02-29 00:00:00",
-		"storeName": "外婆味道大观店/外婆味道吾悦店/外婆味道南屏店/",
+		"date": "2020-02-29 00:00:00", //有效期
+		"storeName": "外婆味道大观店/外婆味道吾悦店/外婆味道南屏店/", //适用店铺
 		"status": null
 	}
 }
@@ -840,27 +883,167 @@ http 常用错误码
 	"result": 0,
 	"time": 1581598602315,
 	"data": {
-		"id": 5,
-		"cardNo": 7919121420109,
-		"title": "小二老坛子酸菜鱼开业活动卡",
-		"colour": "#F4AB0F",
-		"logo": "/item/191212/71236aa0-71f7-444d-811f-a581a2329569.jpg",
+		"id": 5, // 会员卡用户关联表id
+		"cardNo": 7919121420109, //会员卡号ID
+		"title": "小二老坛子酸菜鱼开业活动卡",//标题
+		"colour": "#F4AB0F", //会员卡颜色
+		"logo": "/item/191212/71236aa0-71f7-444d-811f-a581a2329569.jpg", 
 		"storeIds": "2",
 		"eventIds": null,
 		"adminId": null,
-		"type": 11,
-		"created": "2019-12-14 20:37:33",
+		"type": 11, 
+		"created": "2019-12-14 20:37:33", //开卡时间
 		"summary": "null2",
-		"membershipCardId": "2",
+		"membershipCardId": "2",  //会员卡id
 		"detail": null,
 		"storeVos": null,
 		"eventVos": null,
 		"userId": "349",
-		"capital": 1000.0,
-		"send": 1000.0,
-		"qrcodeType": 1,
-		"nickname": "筱筱",
-		"avatar": "https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLcT62xfK1U6q6ia8Dic1ciaRZw9YXqRhUibof7Pt0XR7MJrqDTJxibuukBxQhj1daEW34RCZtibsEGnPag/132"
+		"capital": 1000.0, //本金
+		"send": 1000.0, //赠送
+		"qrcodeType": 1, // 二維碼類型 1 會員卡 2 優惠券
+		"nickname": "筱筱", //用户昵称
+		"avatar": "https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLcT62xfK1U6q6ia8Dic1ciaRZw9YXqRhUibof7Pt0XR7MJrqDTJxibuukBxQhj1daEW34RCZtibsEGnPag/132" //用户头像
 	}
 }
 ```
+
+
+### 6.2 优惠券核销
+
+- 请求地址：manage/v3/coupon/use
+- 服务协议：HTTP/POST
+- 是否需要身份认证：否
+- 作者：linqin
+
+| 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :------: | :------: | :------: | :----: | :------: |
+|  token   |  String  |    是    |   无   |      访问令牌   |
+| num | Long | 是 | 无 | 优惠券编码 |
+
+- 請求結果示例
+
+```js
+{
+  "errCode": 0, // 核销成功
+  "result": 0,
+  "time": 1581647765999,
+  "data": {
+    "id": null,
+    "num": 1,
+    "couponId": 1,
+    "userId": 7,
+    "storeId": 3,
+    "detail": "{\"code\":\"\",\"couponId\":1,\"created\":1581315411000,\"date\":1582905600000,\"logo\":\"/item/200212/a1f46021-dcd2-44d0-802a-66aad94bbd23.png\",\"num\":1,\"quantity\":5,\"storeIds\":\"5,4,3\",\"summary\":\"使用说明，简介\",\"title\":\"20 元优惠券\",\"userId\":7}",
+    "adminId": 21,
+    "quantity": 1,
+    "created": null,
+    "nickname": null,
+    "phone": null,
+    "storeName": null,
+    "title": null
+  }
+}
+```
+
+
+## 7 优惠券
+### 7.1 赠送优惠券
+
+- 请求地址：manage/v3/coupon/use
+- 服务协议：HTTP/POST
+- 是否需要身份认证：否
+- 作者：linqin
+
+| 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :------: | :------: | :------: | :----: | :------: |
+|  token   |  String  |    是    |   无   |      访问令牌   |
+| phone | String | 是 | 无 | 用户电话 |
+|couponId|int|是|无|优惠券id|
+|quantity|int|是|无|数量|
+
+- 請求結果示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "msg": "赠送成功",
+  "time": 1581648875666
+}
+
+```
+
+### 7.2 优惠券列表（可选择的优惠券）
+
+- 请求地址：manage/v3/coupon/use
+- 服务协议：HTTP/POST
+- 是否需要身份认证：否
+- 作者：linqin
+
+| 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :------: | :------: | :------: | :----: | :------: |
+|  token   |  String  |    是    |   无   |      访问令牌   |
+| phone | String | 是 | 无 | 用户电话 |
+|couponId|int|是|无|优惠券id|
+|quantity|int|是|无|数量|
+
+- 請求結果示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1581649977170,
+  "data": [
+    {
+      "id": 2, //优惠券id
+      "title": "50 元优惠券", //优惠券标题
+      "summary": "使用",
+      "logo": null,
+      "storeIds": "4,3",
+      "adminId": 19,
+      "type": 1,
+      "status": 1,
+      "date": "2020-04-30 00:00:00",
+      "updated": "2020-02-12 22:46:37",
+      "created": "2020-02-11 17:52:50",
+      "storeVos": [
+        {
+          "id": 4,
+          "name": "外婆味道吾悦店",
+          "address": "吾悦广场",
+          "area": "云南,昆明市,西山区",
+          "phone": "15368224942",
+          "linkman": "吴家"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "title": "20 元优惠券",
+      "summary": "使用说明，简介",
+      "logo": "/item/200212/a1f46021-dcd2-44d0-802a-66aad94bbd23.png",
+      "storeIds": "5,4,3",
+      "adminId": 19,
+      "type": 1,
+      "status": 1,
+      "date": "2020-02-29 00:00:00",
+      "updated": "2020-02-10 14:16:05",
+      "created": "2020-02-10 14:16:08",
+      "storeVos": [
+        {
+          "id": 5,
+          "name": "外婆味道大观店",
+          "address": "大观商业城",
+          "area": "云南,昆明市,五华区",
+          "phone": "45353",
+          "linkman": "大观"
+        }
+      ]
+    }
+  ]
+}
+
+```
+
