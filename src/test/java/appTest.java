@@ -34,9 +34,9 @@ public class appTest {
     @Test
     public void couponDetailByQrcode() throws IOException {
         RequestParams params = new RequestParams();
-        params.put("token", "97676eb1-fad4-4772-bf75-b59002826cbf");
+        params.put("token", "6018ddd5-3ef3-45eb-af89-532ba817e3ca");
         params.put("qrcode", AESUtils.encrypt("zheshishenmemima",
-                String.format("1,%s,%s", 5, System.currentTimeMillis())));
+                String.format("1,%s,%s", 7, System.currentTimeMillis())));
         Response response = OkHttpUtil.post(new OkHttpClient(),
                 "http://localhost:8080/manage/tool/scan", params);
         System.out.println(response.body().string());

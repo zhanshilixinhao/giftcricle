@@ -12,6 +12,7 @@ import com.chouchong.entity.iwant.merchant.Merchant;
 import com.chouchong.entity.v3.*;
 import com.chouchong.service.v3.CardService;
 import com.chouchong.service.v3.vo.CardVo;
+import com.chouchong.service.v3.vo.CardVo1;
 import com.chouchong.service.v3.vo.EventVo;
 import com.chouchong.service.v3.vo.StoreVo;
 import com.chouchong.service.webUser.vo.WebUserInfo;
@@ -185,7 +186,7 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public Response detailByQrcode(Integer id) {
-        CardVo vo = userMemberCardMapper.selectByKey(id);
+        CardVo1 vo = userMemberCardMapper.selectByKey(id);
         if (vo != null) {
 //            List<Store> stores = new ArrayList<>();
 //            if (org.apache.commons.lang3.StringUtils.isNotBlank(vo.getStoreIds())) {
@@ -203,23 +204,23 @@ public class CardServiceImpl implements CardService {
             vo.setSummary(serviceProperties.getCardDetail() + vo.getMembershipCardId());
             BigDecimal capital1 = new BigDecimal("0");
             BigDecimal send1 = new BigDecimal("0");
-            if (vo.getType() == 11) {
-                // 活动卡本金和赠送金额
-                List<StoreMemberEvent> capitals = storeMemberEventMapper.selectByUserIdCardId(
-                        Integer.parseInt(vo.getUserId()), Integer.parseInt(vo.getMembershipCardId()));
-                if (!CollectionUtils.isEmpty(capitals)) {
-                    for (StoreMemberEvent capital : capitals) {
-                        capital1 = BigDecimalUtil.add(capital1.doubleValue(), capital.getCapitalBalance().doubleValue());
-                    }
-                }
-                List<StoreMemberEvent> sends = storeMemberEventMapper.selectByUserIdCardId1(
-                        Integer.parseInt(vo.getUserId()), Integer.parseInt(vo.getMembershipCardId()));
-                if (!CollectionUtils.isEmpty(sends)) {
-                    for (StoreMemberEvent send : sends) {
-                        send1 = BigDecimalUtil.add(send1.doubleValue(), send.getSendBalance().doubleValue());
-                    }
-                }
-            }
+//            if (vo.getType() == 11) {
+//                // 活动卡本金和赠送金额
+//                List<StoreMemberEvent> capitals = storeMemberEventMapper.selectByUserIdCardId(
+//                       vo.getUserId(), vo.getMembershipCardId());
+//                if (!CollectionUtils.isEmpty(capitals)) {
+//                    for (StoreMemberEvent capital : capitals) {
+//                        capital1 = BigDecimalUtil.add(capital1.doubleValue(), capital.getCapitalBalance().doubleValue());
+//                    }
+//                }
+//                List<StoreMemberEvent> sends = storeMemberEventMapper.selectByUserIdCardId1(
+//                        vo.getUserId(), vo.getMembershipCardId());
+//                if (!CollectionUtils.isEmpty(sends)) {
+//                    for (StoreMemberEvent send : sends) {
+//                        send1 = BigDecimalUtil.add(send1.doubleValue(), send.getSendBalance().doubleValue());
+//                    }
+//                }
+//            }
             vo.setCapital(capital1);
             vo.setSend(send1);
             vo.setQrcodeType(1);

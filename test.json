@@ -1,77 +1,28 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1581649977170,
-  "data": [
-    {
-      "id": 2,
-      "title": "50 元优惠券",
-      "summary": "使用",
-      "logo": null,
-      "storeIds": "4,3",
-      "adminId": 19,
-      "type": 1,
-      "status": 1,
-      "date": "2020-04-30 00:00:00",
-      "updated": "2020-02-12 22:46:37",
-      "created": "2020-02-11 17:52:50",
-      "storeVos": [
-        {
-          "id": 4,
-          "name": "外婆味道吾悦店",
-          "address": "吾悦广场",
-          "area": "云南,昆明市,西山区",
-          "phone": "15368224942",
-          "linkman": "吴家"
-        },
-        {
-          "id": 3,
-          "name": "外婆味道南屏店",
-          "address": "南屏街",
-          "area": "云南,昆明市,五华区",
-          "phone": "15752400657",
-          "linkman": "小明"
-        }
-      ]
-    },
-    {
-      "id": 1,
-      "title": "20 元优惠券",
-      "summary": "使用说明，简介",
-      "logo": "/item/200212/a1f46021-dcd2-44d0-802a-66aad94bbd23.png",
-      "storeIds": "5,4,3",
-      "adminId": 19,
-      "type": 1,
-      "status": 1,
-      "date": "2020-02-29 00:00:00",
-      "updated": "2020-02-10 14:16:05",
-      "created": "2020-02-10 14:16:08",
-      "storeVos": [
-        {
-          "id": 5,
-          "name": "外婆味道大观店",
-          "address": "大观商业城",
-          "area": "云南,昆明市,五华区",
-          "phone": "45353",
-          "linkman": "大观"
-        },
-        {
-          "id": 4,
-          "name": "外婆味道吾悦店",
-          "address": "吾悦广场",
-          "area": "云南,昆明市,西山区",
-          "phone": "15368224942",
-          "linkman": "吴家"
-        },
-        {
-          "id": 3,
-          "name": "外婆味道南屏店",
-          "address": "南屏街",
-          "area": "云南,昆明市,五华区",
-          "phone": "15752400657",
-          "linkman": "小明"
-        }
-      ]
-    }
-  ]
+  "time": 1581652087162,
+  "data": {
+    "id": 8,
+    "membershipCardId": 3,
+    "userId": 7,
+    "qrcodeType": 1,
+    "phone": "15752400657",
+    "balance": 810.00,
+    "created": "2019-12-14 21:04:41",
+    "cardNo": 7919121421128,
+    "title": "外婆味道储值卡",
+    "summary": "null3",
+    "colour": "#34988E",
+    "logo": "/item/191213/b711eb02-ceb0-4f52-b141-a45eb4f813dc.jpeg",
+    "type": 10,
+    "storeIds": "3,4",
+    "grade": "黄金会员",
+    "summaryGrade": "1",
+    "capital": 0,
+    "send": 0,
+    "code": null,
+    "avatar": "https://wx.qlogo.cn/order/comment/20190923/1569232138231132-600-600.jpg",
+    "nickname": "路遥\uD83D\uDE34\uD83D\uDE34"
+  }
 }

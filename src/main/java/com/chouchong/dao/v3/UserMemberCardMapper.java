@@ -53,5 +53,5 @@ public interface UserMemberCardMapper {
      * @param id
      * @return
      */
-    CardVo selectByKey(Integer id);
+    CardVo1 selectByKey(Integer id);
 }

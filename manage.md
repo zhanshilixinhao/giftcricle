@@ -879,33 +879,34 @@ http 常用错误码
 
 // 掃描會員卡
 {
-	"errCode": 0,
-	"result": 0,
-	"time": 1581598602315,
-	"data": {
-		"id": 5, // 会员卡用户关联表id
-		"cardNo": 7919121420109, //会员卡号ID
-		"title": "小二老坛子酸菜鱼开业活动卡",//标题
-		"colour": "#F4AB0F", //会员卡颜色
-		"logo": "/item/191212/71236aa0-71f7-444d-811f-a581a2329569.jpg", 
-		"storeIds": "2",
-		"eventIds": null,
-		"adminId": null,
-		"type": 11, 
-		"created": "2019-12-14 20:37:33", //开卡时间
-		"summary": "null2",
-		"membershipCardId": "2",  //会员卡id
-		"detail": null,
-		"storeVos": null,
-		"eventVos": null,
-		"userId": "349",
-		"capital": 1000.0, //本金
-		"send": 1000.0, //赠送
-		"qrcodeType": 1, // 二維碼類型 1 會員卡 2 優惠券
-		"nickname": "筱筱", //用户昵称
-		"avatar": "https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLcT62xfK1U6q6ia8Dic1ciaRZw9YXqRhUibof7Pt0XR7MJrqDTJxibuukBxQhj1daEW34RCZtibsEGnPag/132" //用户头像
-	}
+  "errCode": 0,
+  "result": 0,
+  "time": 1581652087162,
+  "data": {
+    "id": 8, //用户会员卡关联表Id
+    "membershipCardId": 3, //会员卡id
+    "userId": 7, //用户id 
+    "qrcodeType": 1,// 二維碼類型 1 會員卡 2 優惠券
+    "phone": "15752400657", //绑定号码
+    "balance": 810.00, //余额
+    "created": "2019-12-14 21:04:41", //开卡时间
+    "cardNo": 7919121421128, //ID
+    "title": "外婆味道储值卡", //会员卡标题
+    "summary": "null3",
+    "colour": "#34988E", //颜色
+    "logo": "/item/191213/b711eb02-ceb0-4f52-b141-a45eb4f813dc.jpeg",
+    "type": 10,
+    "storeIds": "3,4",
+    "grade": "黄金会员",
+    "summaryGrade": "1",
+    "capital": 0,
+    "send": 0,
+    "code": null,
+    "avatar": "https://wx.qlogo.cn/order/comment/20190923/1569232138231132-600-600.jpg", //用户头像
+    "nickname": "路遥\uD83D\uDE34\uD83D\uDE34"//用户昵称
+  }
 }
+
 ```
 
 
