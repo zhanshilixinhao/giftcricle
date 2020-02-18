@@ -406,7 +406,7 @@ public class UserCardServiceImpl implements UserCardService {
         if (userId == null && !StringUtils.isEmpty(phone)) {
             AppUser appUser = appUserMapper.selectByPhone1(phone);
             if (appUser == null) {
-                return ResponseFactory.err("号码不对，没有查到该用户");
+                throw new ServiceException(ErrorCode.ERROR.getCode(),"号码不对，没有查到该用户");
             }
             userId = appUser.getId();
         }
@@ -416,7 +416,7 @@ public class UserCardServiceImpl implements UserCardService {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "该用户会员卡不存在");
         }
         if (!card1.getPassword().equals(Utils.toMD5(card1.getPhone() + password))) {
-            return ResponseFactory.err("密码错误");
+            throw new ServiceException(ErrorCode.ERROR.getCode(),"密码错误");
         }
         // 更新余额
         UserMemberCard card = updateBalance(userId, cardId, (byte) 2, expense, new BigDecimal("0"));
@@ -437,7 +437,7 @@ public class UserCardServiceImpl implements UserCardService {
         re.setBeforeMoney(BigDecimalUtil.add(card.getBalance().doubleValue(), expense.doubleValue()));
         int insert = memberExpenseRecordMapper.insert(re);
         if (insert < 1) {
-            return ResponseFactory.err("失败");
+            throw new ServiceException(ErrorCode.ERROR.getCode(),"失败");
         }
         String content = "会员卡";
         // 判断是否是活动卡
@@ -448,7 +448,7 @@ public class UserCardServiceImpl implements UserCardService {
                 // 查询该活动卡的活动
                 MemberEvent events = memberCardMapper.selectEventByCardId(cardId);
                 if (events == null || events.getScale() == null) {
-                    return ResponseFactory.err("活动卡消费失败");
+                    throw new ServiceException(ErrorCode.ERROR.getCode(),"活动卡消费失败");
                 }
                 BigDecimal send = BigDecimalUtil.multi(expense.doubleValue(), events.getScale());
                 BigDecimal capital = BigDecimalUtil.sub(expense.doubleValue(), send.doubleValue());
