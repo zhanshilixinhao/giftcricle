@@ -951,7 +951,7 @@ http 常用错误码
 ## 7 优惠券
 ### 7.1 赠送优惠券
 
-- 请求地址：manage/v3/coupon/use
+- 请求地址：manage/v3/coupon/forUser
 - 服务协议：HTTP/POST
 - 是否需要身份认证：是
 - 作者：linqin
