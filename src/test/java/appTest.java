@@ -172,10 +172,10 @@ public class appTest {
     public void refund() throws IOException {
 
         RequestParams params = new RequestParams();
-        params.put("token", "7acc8c34-02e9-4ca7-99ed-69d351006585");
-//        params.put("orderNo",71119121421138L);
-//        params.put("phone", "18510454067");
-//        params.put("code", "18510454067");
+        params.put("token", "c4a76eda-3c52-4f99-826d-f8a90e57de5c");
+        params.put("keywords","15");
+        params.put("startTime", 1582041600000L);
+        params.put("endTime", 1582473600000L);
         Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
                 "http://localhost:8080/manage/v3/turnover/record_list", params);
         System.out.println(response.body().string());
@@ -240,12 +240,12 @@ public class appTest {
     public void charge1() throws IOException {
 
         RequestParams params = new RequestParams();
-        params.put("token", "2f91090e-8598-4b93-a7f0-6aec406b523b");
-        params.put("phone", "15752400657");
+        params.put("token", "26131c48-6818-460e-8669-908325e13b15");
+        params.put("phone", "13669776047");
         params.put("cardId", 3);
         params.put("recharge", 100);
-        params.put("send", 100);
-        params.put("eventId", 23);
+        params.put("send", 10);
+        params.put("eventId", 2);
         params.put("image", "avatar.jpg");
 
         Response response = OkHttpUtil.post(OkHttpManager.create(null, null),

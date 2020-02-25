@@ -103,9 +103,9 @@ public class TurnoverController {
      * @return
      */
     @RequestMapping("record_list")
-    public Response getChargeRecord(PageQuery page, String phone, String storeName, Long cardNo, Long startTime,
+    public Response getChargeRecord(PageQuery page,String keywords, String phone, String storeName, Long cardNo, Long startTime,
                                     Long endTime, Integer isExport, HttpServletRequest request, HttpServletResponse respon) throws ParseException, IOException {
-        Response response = turnoverService.getChargeRecord(page, phone, storeName, cardNo, startTime, endTime, isExport);
+        Response response = turnoverService.getChargeRecord(page,keywords, phone, storeName, cardNo, startTime, endTime, isExport);
         if (response.getData() instanceof ChargeReVos && ((ChargeReVos) response.getData()).getChargeReVo() != null) {
             List<ChargeReVo> vos = ((ChargeReVos) response.getData()).getChargeReVo();
             if (!CollectionUtils.isEmpty(vos) && isExport != null) {

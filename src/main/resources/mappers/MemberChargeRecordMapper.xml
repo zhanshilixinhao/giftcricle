@@ -80,6 +80,9 @@ order by a.created DESC
         <if test="cardNo != null">
             and g.card_no like concat('%',#{cardNo},'%')
         </if>
+        <if test="keywords != null and keywords != ''">
+            and d.nickname like concat('%',#{keywords},'%') or d.phone like concat('%',#{keywords},'%')
+        </if>
         <if test="startTime != null and endTime != null">
             and unix_timestamp(a.created) &gt;= #{startTime}
             and unix_timestamp(a.created) &lt; #{endTime}
@@ -123,6 +126,9 @@ order by a.created DESC
         <if test="cardNo != null">
             and g.card_no like concat('%',#{cardNo},'%')
         </if>
+        <if test="keywords != null and keywords != ''">
+            and d.nickname like concat('%',#{keywords},'%') or d.phone like concat('%',#{keywords},'%')
+        </if>
         <if test="startTime != null and endTime != null">
             and unix_timestamp(a.created) &gt;= #{startTime}
             and unix_timestamp(a.created) &lt; #{endTime}
@@ -151,6 +157,9 @@ order by a.created DESC
         <if test="cardNo != null">
             and g.card_no like concat('%',#{cardNo},'%')
         </if>
+        <if test="keywords != null and keywords != ''">
+            and d.nickname like concat('%',#{keywords},'%') or d.phone like concat('%',#{keywords},'%')
+        </if>
         <if test="startTime != null and endTime != null">
             and unix_timestamp(a.created) &gt;= #{startTime}
             and unix_timestamp(a.created) &lt; #{endTime}
@@ -178,6 +187,9 @@ order by a.created DESC
         </if>
         <if test="cardNo != null">
             and g.card_no like concat('%',#{cardNo},'%')
+        </if>
+        <if test="keywords != null and keywords != ''">
+            and d.nickname like concat('%',#{keywords},'%') or d.phone like concat('%',#{keywords},'%')
         </if>
         <if test="startTime != null and endTime != null">
             and unix_timestamp(a.created) &gt;= #{startTime}

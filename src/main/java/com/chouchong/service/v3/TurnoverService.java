@@ -35,7 +35,7 @@ public interface TurnoverService {
      * @param endTime 结束时间
      * @return
      */
-    Response getChargeRecord(PageQuery page, String phone, String storeName, Long cardNo, Long startTime, Long endTime,Integer isExport) throws ParseException;
+    Response getChargeRecord(PageQuery page,String keywords, String phone, String storeName, Long cardNo, Long startTime, Long endTime,Integer isExport) throws ParseException;
 
     /**
      * 扣款记录

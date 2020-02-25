@@ -165,7 +165,7 @@ public class TurnoverServiceImpl implements TurnoverService {
      * @return
      */
     @Override
-    public Response getChargeRecord(PageQuery page, String phone, String storeName, Long cardNo, Long startTime, Long endTime, Integer isExport) throws ParseException {
+    public Response getChargeRecord(PageQuery page,String keywords, String phone, String storeName, Long cardNo, Long startTime, Long endTime, Integer isExport) throws ParseException {
         if (startTime != null) {
             startTime = TimeUtils.time(startTime);
         }
@@ -182,14 +182,14 @@ public class TurnoverServiceImpl implements TurnoverService {
             if (list.size() == 0) {
                 return ResponseFactory.suc();
             }
-            ChargeReVos chargeRes1 = memberChargeRecordMapper.selectBySearch1s(phone, storeName, cardNo, startTime, endTime, list);
+            ChargeReVos chargeRes1 = memberChargeRecordMapper.selectBySearch1s(phone,keywords, storeName, cardNo, startTime, endTime, list);
             if (chargeRes1 == null) {
                 chargeRes1 = new ChargeReVos();
             }
             if (isExport == null) {
                 PageHelper.startPage(page.getPageNum(), page.getPageSize());
             }
-            List<ChargeReVo> chargeRes = memberChargeRecordMapper.selectBySearch1(phone, storeName, cardNo, startTime, endTime, list);
+            List<ChargeReVo> chargeRes = memberChargeRecordMapper.selectBySearch1(phone,keywords, storeName, cardNo, startTime, endTime, list);
             PageInfo pageInfo = new PageInfo<>(chargeRes);
             chargeRes1.setChargeReVo(chargeRes);
             return ResponseFactory.page(chargeRes1, pageInfo.getTotal(), pageInfo.getPages(),
@@ -198,14 +198,14 @@ public class TurnoverServiceImpl implements TurnoverService {
         } else if (webUserInfo.getRoleId() == 5) {
             adminId = webUserInfo.getSysAdmin().getId();
         }
-        ChargeReVos chargeRes1 = memberChargeRecordMapper.selectBySearchs(phone, storeName, cardNo, startTime, endTime, adminId);
+        ChargeReVos chargeRes1 = memberChargeRecordMapper.selectBySearchs(phone,keywords, storeName, cardNo, startTime, endTime, adminId);
         if (chargeRes1 == null) {
             chargeRes1 = new ChargeReVos();
         }
         if (isExport == null) {
             PageHelper.startPage(page.getPageNum(), page.getPageSize());
         }
-        List<ChargeReVo> chargeRes = memberChargeRecordMapper.selectBySearch(phone, storeName, cardNo, startTime, endTime, adminId);
+        List<ChargeReVo> chargeRes = memberChargeRecordMapper.selectBySearch(phone,keywords, storeName, cardNo, startTime, endTime, adminId);
         PageInfo pageInfo = new PageInfo<>(chargeRes);
         chargeRes1.setChargeReVo(chargeRes);
         return ResponseFactory.page(chargeRes1, pageInfo.getTotal(), pageInfo.getPages(),
