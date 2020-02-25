@@ -543,9 +543,7 @@ public class TurnoverServiceImpl implements TurnoverService {
         if (record == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "充值记录不存在");
         }
-        BigDecimal recharge = new BigDecimal("0");
-        BigDecimal send = new BigDecimal("0");
-        BigDecimal add = new BigDecimal("0");
+        BigDecimal add = BigDecimalUtil.add(record.getRechargeMoney().doubleValue(), record.getSendMoney().doubleValue());
         // 查询会员卡类型
         Byte type = membershipCardMapper.selectTypeById(record.getMembershipCardId());
         // 退款
@@ -555,12 +553,9 @@ public class TurnoverServiceImpl implements TurnoverService {
             if (event == null) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "金额详情记录不存在1");
             }
-            if (event.getCapitalStatus() !=  1 && event.getCapitalStatus() != 2){
-                throw new ServiceException(ErrorCode.ERROR.getCode(), "本金已使用完，无法再退");
+            if (event.getCapitalStatus() !=  1 || event.getSendStatus() != 1){
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "您已消费过无法再退1");
             }
-            recharge = event.getCapitalBalance();
-            send = event.getSendBalance();
-            add = BigDecimalUtil.add(recharge.doubleValue(),send.doubleValue());
             int i = storeMemberEventMapper.deleteByPrimaryKey(event.getId());
             if (i < 1) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "金额详情记录删除失败");
@@ -570,10 +565,9 @@ public class TurnoverServiceImpl implements TurnoverService {
             if (charge == null) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "金额详情记录不存在2");
             }
-            if (charge.getStatus() == 3){
-                throw new ServiceException(ErrorCode.ERROR.getCode(), "您已全部消费无法再退");
+            if (charge.getStatus() != 1){
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "您已消费过无法再退");
             }
-            add = charge.getBalance();
             int i = storeMemberChargeMapper.deleteByPrimaryKey(charge.getId());
             if (i < 1) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "金额详情记录删除失败");
