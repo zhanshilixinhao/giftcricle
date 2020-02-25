@@ -6,6 +6,7 @@ import com.chouchong.common.Utils;
 import com.chouchong.redis.MRedisTemplate;
 import com.gexin.fastjson.JSON;
 import io.lettuce.core.dynamic.annotation.Command;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  * @date 2020/1/3 21:32
  */
 @Component
+@Slf4j
 public class RepeatInterceptor extends HandlerInterceptorAdapter {
 
     @Autowired
@@ -40,10 +42,11 @@ public class RepeatInterceptor extends HandlerInterceptorAdapter {
         return false;
     }
 
+
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         String key = Utils.toMD5(request.getParameter("token")+ request.getRequestURI()) ;
         mRedisTemplate.del(key);
+        log.info("afterCompletion{}",request.getRequestURI());
     }
-
 }

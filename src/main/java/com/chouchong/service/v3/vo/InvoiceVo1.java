@@ -11,8 +11,8 @@ import java.util.List;
  */
 @Data
 public class InvoiceVo1 {
-// 总消费
-    private BigDecimal totalExpense;
+// 总充值
+    private BigDecimal totalCharge;
     // 总开票
     private BigDecimal totalInvoice;
     // 剩余

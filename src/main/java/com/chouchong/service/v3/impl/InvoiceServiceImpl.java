@@ -5,9 +5,11 @@ import com.chouchong.common.PageQuery;
 import com.chouchong.common.Response;
 import com.chouchong.common.ResponseFactory;
 import com.chouchong.dao.v3.InvoiceRecordMapper;
+import com.chouchong.dao.v3.MemberChargeRecordMapper;
 import com.chouchong.dao.v3.MemberExpenseRecordMapper;
 import com.chouchong.dao.v3.StoreMapper;
 import com.chouchong.entity.v3.InvoiceRecord;
+import com.chouchong.entity.v3.MemberChargeRecord;
 import com.chouchong.entity.v3.MemberExpenseRecord;
 import com.chouchong.entity.v3.Store;
 import com.chouchong.exception.ServiceException;
@@ -42,7 +44,8 @@ public class InvoiceServiceImpl implements InvoiceService {
     private InvoiceRecordMapper invoiceRecordMapper;
 
     @Autowired
-    private MemberExpenseRecordMapper memberExpenseRecordMapper;
+    private MemberChargeRecordMapper memberChargeRecordMapper;
+
     /**
      * 添加发票记录
      *
@@ -55,6 +58,12 @@ public class InvoiceServiceImpl implements InvoiceService {
         Store store = storeMapper.selectByAdminId(webUserInfo.getSysAdmin().getId());
         if (store == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "添加发票记录出错");
+        }
+        // 校验开票金额是否正确
+        Response response = getInvoice(invoice.getCardId(), invoice.getUserId());
+        BigDecimal amount = ((InvoiceVo1) response.getData()).getAmount();
+        if (amount == null || amount.compareTo(invoice.getAmount()) < 0) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "发票金额最多可填" + amount + "元");
         }
         InvoiceRecord record = new InvoiceRecord();
         record.setCardId(invoice.getCardId());
@@ -73,33 +82,33 @@ public class InvoiceServiceImpl implements InvoiceService {
     /**
      * 获取发票列表
      *
-     * @param page
+     * @param
      * @return
      */
     @Override
-    public Response getInvoice(Integer cardId,Integer userId) {
+    public Response getInvoice(Integer cardId, Integer userId) {
         InvoiceVo1 vo1 = new InvoiceVo1();
-        // 查询总消费
-        BigDecimal ex = new BigDecimal("0");
-        List<ExpenseVo> expenseVos = memberExpenseRecordMapper.selectByUserIdCardId(userId, cardId);
-        if (!CollectionUtils.isEmpty(expenseVos)){
-            for (ExpenseVo expenseVo : expenseVos) {
-                ex = BigDecimalUtil.add(ex.doubleValue(),expenseVo.getExpenseMoney().doubleValue());
+        // 查询总充值
+        BigDecimal ch = new BigDecimal("0");
+        List<ChargeVo> chargeVos = memberChargeRecordMapper.selectByUserIdCardId(userId, cardId);
+        if (!CollectionUtils.isEmpty(chargeVos)) {
+            for (ChargeVo chargeVo : chargeVos) {
+                ch = BigDecimalUtil.add(ch.doubleValue(), chargeVo.getRechargeMoney().doubleValue());
             }
         }
-        vo1.setTotalExpense(ex);
+        vo1.setTotalCharge(ch);
         // 总开票
         BigDecimal ni = new BigDecimal("0");
         // 查询开票列表
-        List<InvoiceVo> invoiceVos = invoiceRecordMapper.selectByUserIdCardId(userId,cardId);
-        if (!CollectionUtils.isEmpty(invoiceVos)){
+        List<InvoiceVo> invoiceVos = invoiceRecordMapper.selectByUserIdCardId(userId, cardId);
+        if (!CollectionUtils.isEmpty(invoiceVos)) {
             for (InvoiceVo invoiceVo : invoiceVos) {
-                ni = BigDecimalUtil.add(ni.doubleValue(),invoiceVo.getAmount().doubleValue());
+                ni = BigDecimalUtil.add(ni.doubleValue(), invoiceVo.getAmount().doubleValue());
             }
         }
         vo1.setTotalInvoice(ni);
         vo1.setInvoiceVos(invoiceVos);
-        vo1.setAmount(BigDecimalUtil.sub(ex.doubleValue(),ni.doubleValue()));
+        vo1.setAmount(BigDecimalUtil.sub(ch.doubleValue(), ni.doubleValue()));
         return ResponseFactory.sucData(vo1);
     }
 

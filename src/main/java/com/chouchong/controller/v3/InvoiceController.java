@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
+
 /**
  * @author linqin
  * @date 2020/2/13 17:16
@@ -32,6 +34,9 @@ public class InvoiceController {
         if (invoice.getCardId() == null ||invoice.getUserId() == null||
                 invoice.getAmount() == null){
             return ResponseFactory.errMissingParameter();
+        }
+        if (invoice.getAmount().compareTo(new BigDecimal("0")) == 0){
+            return ResponseFactory.err("开票金额必须大于0");
         }
         return invoiceService.addInvoice(invoice);
     }
