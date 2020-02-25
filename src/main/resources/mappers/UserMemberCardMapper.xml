@@ -50,6 +50,7 @@
         left join store s on a.store_id = s.id
         left join card_grade f on a.grade_id = f.id
         where b.status = 1
+        and a.status = 1
         <if test="adminId != null">
             and b.admin_id = #{adminId}
         </if>
@@ -91,6 +92,7 @@
         left join store s on a.store_id = s.id
         left join card_grade f on a.grade_id = f.id
         where b.status = 1
+        and a.status = 1
         and a.membership_card_id in
         <foreach collection="list" index="index" separator="," item="list" open="(" close=")">
             #{list}
@@ -115,6 +117,7 @@
         from user_member_card
         where user_id = #{userId}
         and membership_card_id = #{cardId}
+        and status = 1
     </select>
 
     <select id="selectUserCard" resultType="com.chouchong.service.v3.vo.UserCardVo1">
@@ -164,6 +167,7 @@
         left join store s on a.store_id = s.id
         left join card_grade f on a.grade_id = f.id
         where b.status = 1
+        and a.status = 1
         and a.membership_card_id in
         <foreach collection="list" index="index" separator="," item="list" open="(" close=")">
             #{list}
@@ -190,6 +194,7 @@
         left join store s on a.store_id = s.id
         left join card_grade f on a.grade_id = f.id
         where b.status = 1
+        and a.status = 1
         <if test="adminId != null">
             and b.admin_id = #{adminId}
         </if>
@@ -233,6 +238,7 @@ from user_member_card a
          left join card_grade c on a.grade_id = c.id
          left join app_user u on u.id = a.user_id
 where a.id = #{id}
+and a.status = 1
     </select>
 
 
