@@ -552,6 +552,7 @@ http 常用错误码
         "explain": "余额充值", //充值说明
         "created": "2019-12-20T08:43:19.000+0000",//充值时间
         "orderNo": 71019122016110 //订单号
+        "image": "https://liyuquan.cn/static/avatar" //充值图片
       },
       {
         "id": 49,
@@ -571,6 +572,7 @@ http 常用错误码
         "explain": "余额充值",
         "created": "2019-12-20T08:42:46.000+0000",
         "orderNo": 71019122016109
+         "image": "https://liyuquan.cn/static/avatar" //充值图片
       }
     ]
   },

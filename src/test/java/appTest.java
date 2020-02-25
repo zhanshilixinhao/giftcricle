@@ -172,10 +172,10 @@ public class appTest {
     public void refund() throws IOException {
 
         RequestParams params = new RequestParams();
-        params.put("token", "c4a76eda-3c52-4f99-826d-f8a90e57de5c");
-        params.put("keywords","15");
-        params.put("startTime", 1582041600000L);
-        params.put("endTime", 1582473600000L);
+        params.put("token", "40473b4f-7047-4312-b22b-dc8613ee839b");
+//        params.put("keywords","15");
+//        params.put("startTime", 1582041600000L);
+//        params.put("endTime", 1582473600000L);
         Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
                 "http://localhost:8080/manage/v3/turnover/record_list", params);
         System.out.println(response.body().string());
