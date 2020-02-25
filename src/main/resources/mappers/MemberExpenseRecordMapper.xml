@@ -189,6 +189,25 @@ order by a.created DESC
         from member_expense_record
         where order_no = #{orderNo}
     </select>
+    <select id="selectByKey">
+        insert into member_expense_record_delete(id, membership_card_id, user_id, expense_money, type, store_id, target_id,
+                                         admin_id, `explain`, updated, created, order_no, before_money)
+select id,
+       membership_card_id,
+       user_id,
+       expense_money,
+       type,
+       store_id,
+       target_id,
+       admin_id,
+       `explain`,
+       now(),
+       created,
+       order_no,
+       before_money
+from member_expense_record
+where id = #{id}
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from member_expense_record

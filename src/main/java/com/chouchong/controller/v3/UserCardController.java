@@ -9,6 +9,7 @@ import com.chouchong.service.v3.UserCardService;
 import com.chouchong.service.v3.vo.TransferVo;
 import com.chouchong.service.v3.vo.UserCardVo;
 import com.chouchong.service.v3.vo.UserCardVos;
+import com.chouchong.utils.BigDecimalUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
@@ -249,6 +250,38 @@ public class UserCardController {
     }
 
     /**
+     * 查询所有会员卡充值赠送金额的余额
+     *
+     * @param userId 用户id
+     * @param cardId 会员卡id
+     * @return
+     */
+    @PostMapping("all_card_detail")
+    public Response getCardDetail(Integer userId, Integer cardId) {
+        if (userId == null || cardId == null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return userCardService.getCardDetail(userId, cardId);
+    }
+
+
+    /**
+     * 退卡
+     *
+     * @param userId 用户id
+     * @param cardId 会员卡id
+     * @return
+     */
+    @PostMapping("back_card")
+    public Response backCard(Integer userId, Integer cardId, BigDecimal capital,BigDecimal send) {
+        if (userId == null || cardId == null || capital == null ||send == null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return userCardService.backCard(userId, cardId,capital,send);
+    }
+
+
+    /**
      * 改变活动卡充值赠送金额状态
      *
      * @param storeMemberEventId 会员卡id
@@ -289,5 +322,7 @@ public class UserCardController {
         }
         return userCardService.userCardDetail(userId);
     }
+
+
 
 }

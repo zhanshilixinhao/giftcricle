@@ -38,4 +38,5 @@ public interface MemberExpenseRecordMapper {
 
     MemberExpenseRecord selectByOrderNo(Long orderNo);
 
+    void selectByKey(Integer id);
 }

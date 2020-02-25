@@ -97,20 +97,20 @@ public class UserCardServiceImpl implements UserCardService {
      * @return
      */
     @Override
-    public Response getUserCardList(PageQuery page, String cardNo, String phone, Byte type, String title,String storeName, Integer isExport) {
+    public Response getUserCardList(PageQuery page, String cardNo, String phone, Byte type, String title, String storeName, Integer isExport) {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         Integer adminId = null;
         if (webUserInfo.getRoleId() == 3) {
             adminId = webUserInfo.getSysAdmin().getId();
         }
-        UserCardVos userCardVos = userMemberCardMapper.selectBySearchs1(cardNo, phone, adminId, type, title,storeName);
+        UserCardVos userCardVos = userMemberCardMapper.selectBySearchs1(cardNo, phone, adminId, type, title, storeName);
         if (userCardVos == null) {
             userCardVos = new UserCardVos();
         }
         if (isExport == null) {
             PageHelper.startPage(page.getPageNum(), page.getPageSize());
         }
-        List<UserCardVo> list = userMemberCardMapper.selectBySearch(cardNo, phone, adminId, type, title,storeName);
+        List<UserCardVo> list = userMemberCardMapper.selectBySearch(cardNo, phone, adminId, type, title, storeName);
         PageInfo pageInfo = new PageInfo<>(list);
         userCardVos.setUserCardVos(list);
         return ResponseFactory.page(userCardVos, pageInfo.getTotal(), pageInfo.getPages(),
@@ -144,7 +144,7 @@ public class UserCardServiceImpl implements UserCardService {
      * @return
      */
     @Override
-    public Response getUserCardList1(PageQuery page, String cardNo, String phone, String title,String storeName, Integer isExport) {
+    public Response getUserCardList1(PageQuery page, String cardNo, String phone, String title, String storeName, Integer isExport) {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
 //        分店adminId
         Integer adminId = webUserInfo.getSysAdmin().getId();
@@ -170,14 +170,14 @@ public class UserCardServiceImpl implements UserCardService {
         if (list.size() == 0) {
             return ResponseFactory.suc();
         }
-        UserCardVos userCardVos = userMemberCardMapper.selectBySearchs(cardNo, phone, list, title,storeName);
+        UserCardVos userCardVos = userMemberCardMapper.selectBySearchs(cardNo, phone, list, title, storeName);
         if (userCardVos == null) {
             userCardVos = new UserCardVos();
         }
         if (isExport == null) {
             PageHelper.startPage(page.getPageNum(), page.getPageSize());
         }
-        List<UserCardVo> list1 = userMemberCardMapper.selectBySearch1(cardNo, phone, list, title,storeName);
+        List<UserCardVo> list1 = userMemberCardMapper.selectBySearch1(cardNo, phone, list, title, storeName);
         PageInfo pageInfo = new PageInfo<>(list1);
         userCardVos.setUserCardVos(list1);
         return ResponseFactory.page(userCardVos, pageInfo.getTotal(), pageInfo.getPages(),
@@ -253,7 +253,7 @@ public class UserCardServiceImpl implements UserCardService {
      */
     @Override
     public Response chargeCard(Integer userId, String phone, Integer cardId, BigDecimal recharge,
-                               String explain, BigDecimal send, Integer eventId,String image) throws IOException {
+                               String explain, BigDecimal send, Integer eventId, String image) throws IOException {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         Integer adminId = webUserInfo.getSysAdmin().getId();
         Store store = storeMapper.selectByAdminId(adminId);
@@ -275,30 +275,30 @@ public class UserCardServiceImpl implements UserCardService {
             userId = appUser.getId();
         }
         // 判断活动
-        if (eventId != null){
+        if (eventId != null) {
             MemberEvent memberEvent = memberEventMapper.selectByPrimaryKey(eventId);
-            if (memberEvent == null){
+            if (memberEvent == null) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "该活动不存在，请选择其他活动");
             }
-            if (memberEvent.getRechargeMoney().compareTo(recharge) != 0 || memberEvent.getSendMoney().compareTo(send) != 0){
+            if (memberEvent.getRechargeMoney().compareTo(recharge) != 0 || memberEvent.getSendMoney().compareTo(send) != 0) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "充值金额或赠送金额与活动金额不符");
             }
             // 判断该卡是否有此类活动
-           MemberCard cardEvent =  memberCardMapper.selectEventIdByCardId(cardId,eventId);
-            if (cardEvent == null){
+            MemberCard cardEvent = memberCardMapper.selectEventIdByCardId(cardId, eventId);
+            if (cardEvent == null) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "该会员卡没用此类活动");
             }
             // 给用户添加优惠券
-            if ((memberEvent.getType() == 2 || memberEvent.getType() == 5)  && memberEvent.getTargetId() != null){
-                elCouponService.addCoupon(memberEvent.getTargetId(),memberEvent.getQuantity(),
-                        store.getId(),userId,adminId);
+            if ((memberEvent.getType() == 2 || memberEvent.getType() == 5) && memberEvent.getTargetId() != null) {
+                elCouponService.addCoupon(memberEvent.getTargetId(), memberEvent.getQuantity(),
+                        store.getId(), userId, adminId);
             }
         }
         Merchant merchant = merchantMapper.selectByAdminId(webUserInfo.getSysAdmin().getCreateAdminId());
         // 更新余额
         UserMemberCard card = updateBalance(userId, cardId, (byte) 1, recharge, send);
         // 添加充值记录
-        BigDecimal total =  BigDecimalUtil.add(recharge.doubleValue(), send.doubleValue());
+        BigDecimal total = BigDecimalUtil.add(recharge.doubleValue(), send.doubleValue());
         MemberChargeRecord record = new MemberChargeRecord();
         record.setMembershipCardId(cardId);
         record.setUserId(userId);
@@ -406,7 +406,7 @@ public class UserCardServiceImpl implements UserCardService {
         if (userId == null && !StringUtils.isEmpty(phone)) {
             AppUser appUser = appUserMapper.selectByPhone1(phone);
             if (appUser == null) {
-                throw new ServiceException(ErrorCode.ERROR.getCode(),"号码不对，没有查到该用户");
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "号码不对，没有查到该用户");
             }
             userId = appUser.getId();
         }
@@ -416,7 +416,7 @@ public class UserCardServiceImpl implements UserCardService {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "该用户会员卡不存在");
         }
         if (!card1.getPassword().equals(Utils.toMD5(card1.getPhone() + password))) {
-            throw new ServiceException(ErrorCode.ERROR.getCode(),"密码错误");
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "密码错误");
         }
         // 更新余额
         UserMemberCard card = updateBalance(userId, cardId, (byte) 2, expense, new BigDecimal("0"));
@@ -437,7 +437,7 @@ public class UserCardServiceImpl implements UserCardService {
         re.setBeforeMoney(BigDecimalUtil.add(card.getBalance().doubleValue(), expense.doubleValue()));
         int insert = memberExpenseRecordMapper.insert(re);
         if (insert < 1) {
-            throw new ServiceException(ErrorCode.ERROR.getCode(),"失败");
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "失败");
         }
         String content = "会员卡";
         // 判断是否是活动卡
@@ -448,7 +448,7 @@ public class UserCardServiceImpl implements UserCardService {
                 // 查询该活动卡的活动
                 MemberEvent events = memberCardMapper.selectEventByCardId(cardId);
                 if (events == null || events.getScale() == null) {
-                    throw new ServiceException(ErrorCode.ERROR.getCode(),"活动卡消费失败");
+                    throw new ServiceException(ErrorCode.ERROR.getCode(), "活动卡消费失败");
                 }
                 BigDecimal send = BigDecimalUtil.multi(expense.doubleValue(), events.getScale());
                 BigDecimal capital = BigDecimalUtil.sub(expense.doubleValue(), send.doubleValue());
@@ -852,6 +852,92 @@ public class UserCardServiceImpl implements UserCardService {
         map.put("seStatus", seStatus);
         map.put("list", list);
         return ResponseFactory.sucData(map);
+    }
+
+    /**
+     * 查询所有会员卡充值赠送金额的余额
+     *
+     * @param userId 用户id
+     * @param cardId 会员卡id
+     * @return
+     */
+    @Override
+    public Response getCardDetail(Integer userId, Integer cardId) {
+        BigDecimal capital1 = new BigDecimal("0");
+        BigDecimal send1 = new BigDecimal("0");
+        // 查询会员卡
+        MembershipCard membershipCard = membershipCardMapper.selectByPrimaryKey(cardId);
+        if (membershipCard == null) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "该会员卡不存在");
+        }
+        if (membershipCard.getType() == 1) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "礼遇圈卡不能退卡");
+        } else if (membershipCard.getType() == 11) {
+            //活动卡
+            Response response = getEventCardDetail(userId, cardId);
+            if (response.getData() != null) {
+                capital1 = (BigDecimal) ((Map) response.getData()).get("capital1");
+                send1 = (BigDecimal) ((Map) response.getData()).get("send1");
+            }
+        } else {
+            // 普通储值卡
+            List<StoreMemberCharge> charges = storeMemberChargeMapper.selectByUserIdCardId(userId, cardId);
+            if (!CollectionUtils.isEmpty(charges)) {
+                for (StoreMemberCharge charge : charges) {
+                    BigDecimal multi = BigDecimalUtil.multi(charge.getBalance().doubleValue(), charge.getScale());
+                    BigDecimal sub = BigDecimalUtil.sub(charge.getBalance().doubleValue(), multi.doubleValue());
+                    send1 = BigDecimalUtil.add(send1.doubleValue(), multi.doubleValue());
+                    capital1 = BigDecimalUtil.add(capital1.doubleValue(), sub.doubleValue());
+                }
+            }
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("capital1", capital1);
+        map.put("send1", send1);
+        return ResponseFactory.sucData(map);
+    }
+
+
+    /**
+     * 退卡
+     *
+     * @param userId 用户id
+     * @param cardId 会员卡id
+     * @return
+     */
+    @Override
+    public Response backCard(Integer userId, Integer cardId, BigDecimal capital, BigDecimal send) {
+        UserMemberCard user = userMemberCardMapper.selectByUseridcardId(userId, cardId);
+        if (user == null) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "该用户会员卡不存在");
+        }
+        BigDecimal add = BigDecimalUtil.add(capital.doubleValue(), send.doubleValue());
+        if (user.getBalance().compareTo(add) != 0) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "退款金额不正确");
+        }
+        // 删除充值记录
+        List<ChargeVo> chargeVos = memberChargeRecordMapper.selectByUserIdCardId(userId, cardId);
+        if (!CollectionUtils.isEmpty(chargeVos)) {
+            for (ChargeVo chargeVo : chargeVos) {
+                memberChargeRecordMapper.selectByKey(chargeVo.getId());
+                memberChargeRecordMapper.deleteByPrimaryKey(chargeVo.getId());
+            }
+        }
+        // 删除消费记录
+        List<ExpenseVo> expenseVos = memberExpenseRecordMapper.selectByUserIdCardId(userId, cardId);
+        if (!CollectionUtils.isEmpty(expenseVos)){
+            for (ExpenseVo expenseVo : expenseVos) {
+                memberExpenseRecordMapper.selectByKey(expenseVo.getId());
+                memberExpenseRecordMapper.deleteByPrimaryKey(expenseVo.getId());
+            }
+        }
+        user.setBalance(new BigDecimal("0"));
+        user.setStatus((byte) -1);
+        int i = userMemberCardMapper.updateByPrimaryKeySelective(user);
+        if (i < 1) {
+            return ResponseFactory.err("退卡失败");
+        }
+        return ResponseFactory.sucMsg("退卡成功");
     }
 
     /**

@@ -116,4 +116,23 @@ public interface UserCardService {
      * @return
      */
     Response userCardDetail(Integer userId);
+
+
+    /**
+     * 查询所有会员卡充值赠送金额的余额
+     *
+     * @param userId 用户id
+     * @param cardId 会员卡id
+     * @return
+     */
+    Response getCardDetail(Integer userId, Integer cardId);
+
+    /**
+     * 退卡
+     *
+     * @param userId 用户id
+     * @param cardId 会员卡id
+     * @return
+     */
+    Response backCard(Integer userId, Integer cardId, BigDecimal capital,BigDecimal send);
 }

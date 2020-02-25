@@ -38,4 +38,6 @@ public interface MemberChargeRecordMapper {
                                 @Param("startTime") Long startTime, @Param("endTime") Long endTime, @Param("adminId") Integer adminId);
 
     MemberChargeRecord selectByOrderNo(Long orderNo);
+
+    void selectByKey(Integer id);
 }
