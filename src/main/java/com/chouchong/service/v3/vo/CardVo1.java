@@ -59,6 +59,7 @@ public class CardVo1 {
     private String avatar;
 
     private String nickname;
+    private String storeName;
 
 
 }

@@ -377,6 +377,19 @@ public class CardServiceImpl implements CardService {
         return ResponseFactory.sucData(vo);
     }
 
+    /**
+     * 用户会员卡详情
+     *
+     * @param cardId 会员卡id
+     * @param userId 用户id
+     * @return
+     */
+    @Override
+    public Response detailUserCard(Integer cardId, Integer userId) {
+       CardVo1 vo1 = userMemberCardMapper.selectDetailByUserIdcardId(userId,cardId);
+       return ResponseFactory.sucData(vo1);
+    }
+
 
     /**
      * 获取所有可选门店

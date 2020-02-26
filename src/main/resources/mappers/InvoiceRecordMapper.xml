@@ -17,11 +17,11 @@
     <insert id="insert" parameterType="com.chouchong.entity.v3.InvoiceRecord">
     insert into invoice_record (id, card_id, user_id,
       amount, summary, admin_id,
-      store_id, updated, created
+      store_id, updated, created,image
       )
     values (#{id,jdbcType=INTEGER}, #{cardId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
       #{amount,jdbcType=DECIMAL}, #{summary,jdbcType=VARCHAR}, #{adminId,jdbcType=INTEGER},
-      #{storeId,jdbcType=INTEGER}, now(),now()
+      #{storeId,jdbcType=INTEGER}, now(),now(), #{image,jdbcType=VARCHAR}
       )
   </insert>
     <insert id="insertSelective" parameterType="com.chouchong.entity.v3.InvoiceRecord">
@@ -91,6 +91,7 @@
        a.summary,
        a.store_id,
        a.created,
+       a.image,
        s.name as storeName
 from invoice_record a
 left join store s on a.store_id = s.id

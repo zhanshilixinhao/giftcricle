@@ -77,4 +77,13 @@ public interface CardService {
 
 
     Response detailByQrcode(Integer id);
+
+    /**
+     * 用户会员卡详情
+     *
+     * @param cardId 会员卡id
+     * @param userId 用户id
+     * @return
+     */
+    Response detailUserCard(Integer cardId, Integer userId);
 }

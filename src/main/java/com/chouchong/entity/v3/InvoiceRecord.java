@@ -25,6 +25,7 @@ public class InvoiceRecord {
 
     private Date created;
 
+    private String image;
 
 
 }

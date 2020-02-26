@@ -126,6 +126,21 @@ public class CardController {
     }
 
     /**
+     * 用户会员卡详情
+     *
+     * @param cardId 会员卡id
+     * @param userId 用户id
+     * @return
+     */
+    @PostMapping("card_detail")
+    public Response detailUserCard(Integer cardId,Integer userId) {
+        if (cardId == null || userId == null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return cardService.detailUserCard(cardId,userId);
+    }
+
+    /**
      * 获取所有可选门店
      *
      * @return

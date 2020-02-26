@@ -22,6 +22,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
@@ -72,6 +73,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         record.setSummary(invoice.getSummary());
         record.setStoreId(store.getId());
         record.setAdminId(webUserInfo.getSysAdmin().getId());
+        record.setImage(invoice.getImage());
         int insert = invoiceRecordMapper.insert(record);
         if (insert < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "添加失败");
@@ -104,6 +106,9 @@ public class InvoiceServiceImpl implements InvoiceService {
         if (!CollectionUtils.isEmpty(invoiceVos)) {
             for (InvoiceVo invoiceVo : invoiceVos) {
                 ni = BigDecimalUtil.add(ni.doubleValue(), invoiceVo.getAmount().doubleValue());
+                if (!StringUtils.isEmpty(invoiceVo.getImage())){
+                    invoiceVo.setImage("https://liyuquan.cn/static" + invoiceVo.getImage());
+                }
             }
         }
         vo1.setTotalInvoice(ni);

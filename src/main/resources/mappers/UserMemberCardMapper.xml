@@ -240,6 +240,31 @@ from user_member_card a
 where a.id = #{id}
 and a.status = 1
     </select>
+    <select id="selectDetailByUserIdcardId" resultType="com.chouchong.service.v3.vo.CardVo1">
+        select a.id,
+       a.membership_card_id,
+       a.user_id,
+       a.phone,
+       a.balance,
+       a.created,
+       a.card_no,
+       b.title,
+       b.summary,
+       b.colour,
+       b.logo,
+       b.store_ids,
+       b.type,
+       c.name as storeName,
+       u.nickname,
+       u.avatar
+from user_member_card a
+         left join membership_card b on a.membership_card_id = b.id
+         left join app_user u on u.id = a.user_id
+         left join store c on c.id = a.store_id
+where a.membership_card_id = #{cardId}
+and user_id = #{userId}
+and a.status = 1
+    </select>
 
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

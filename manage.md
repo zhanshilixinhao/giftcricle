@@ -1049,3 +1049,129 @@ http 常用错误码
 
 ```
 
+
+## 8 发票
+### 7.1 发票列表
+
+- 请求地址：manage/v3/invoice/list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+| 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :------: | :------: | :------: | :----: | :------: |
+|  token   |  String  |    是    |   无   |      访问令牌   |
+|userId|int|是|无|用户id|
+|cardId|int|是|无|会员卡id|
+
+- 請求結果示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1582682730109,
+  "data": {
+    "totalCharge": 100.0,
+    "totalInvoice": 100.0,
+    "amount": 0.0,
+    "invoiceVos": [
+      {
+        "id": 2, //发票列表id
+        "amount": 90.00, //开票金额
+        "summary": "",
+        "storeId": 3, 
+        "storeName": "外婆味道南屏店", //开票门店
+        "created": "2020-02-25 12:46:31", //开票时间
+        "image": null //发票图片
+      },
+      {
+        "id": 1,
+        "amount": 10.00,
+        "summary": "",
+        "storeId": 3,
+        "storeName": "外婆味道南屏店",
+        "created": "2020-02-25 12:46:20",
+        "image": null
+      }
+    ]
+  }
+}
+
+```
+
+### 7.2 开发票
+
+- 请求地址：manage/v3/invoice/add
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+| 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :------: | :------: | :------: | :----: | :------: |
+|  token   |  String  |    是    |   无   |      访问令牌   |
+|userId|int|是|无|用户id|
+|cardId|int|是|无|会员卡id|
+|amount|BigDecimal|是|无|开票金额|
+|image|string|是|无|发票图片|
+
+- 請求結果示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "msg": "添加成功",
+  "time": 1582683071521
+}
+
+```
+
+### 7.3 用户会员详情
+
+- 请求地址：manage/v3/card/card_detail
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+| 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :------: | :------: | :------: | :----: | :------: |
+|  token   |  String  |    是    |   无   |      访问令牌   |
+|userId|int|是|无|用户id|
+|cardId|int|是|无|会员卡id|
+
+
+- 請求結果示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1582684903520,
+  "data": {
+    "id": 7, //用户会员关联表id
+    "membershipCardId": 4, //会员卡id
+    "userId": 7, //用户id
+    "qrcodeType": null,
+    "phone": "15752400657", //电话
+    "balance": 3748.00, //余额
+    "created": "2019-12-14 20:57:08", //开卡时间
+    "cardNo": 7919121420122, //卡号 ID
+    "title": "外婆味道活动卡", //卡标题
+    "summary": "<p>活动卡活动卡</p>",
+    "colour": "#E43B19", //卡颜色
+    "logo": "/item/191213/747d5de2-5415-4c70-812f-e1a87ff27184.jpeg",
+    "type": 11, 
+    "storeIds": "3,4",
+    "grade": null,
+    "summaryGrade": null,
+    "capital": null,
+    "send": null,
+    "code": null,
+    "avatar": "https://wx.qlogo.cn/order/comment/20190923/1569232138231132-600-600.jpg", //用户头像
+    "nickname": "路遥\uD83D\uDE34\uD83D\uDE34" //用户昵称
+    "storeName": "外婆味道南屏店" //开卡门店
+  }
+}
+
+```

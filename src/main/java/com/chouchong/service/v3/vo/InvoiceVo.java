@@ -23,4 +23,5 @@ public class InvoiceVo {
 
     private Date created;
 
+    private String image;
 }

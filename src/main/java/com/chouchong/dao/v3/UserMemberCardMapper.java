@@ -54,4 +54,6 @@ public interface UserMemberCardMapper {
      * @return
      */
     CardVo1 selectByKey(Integer id);
+
+    CardVo1 selectDetailByUserIdcardId(@Param("userId") Integer userId, @Param("cardId") Integer cardId);
 }

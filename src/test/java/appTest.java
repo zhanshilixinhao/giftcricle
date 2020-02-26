@@ -254,7 +254,41 @@ public class appTest {
     }
 
 
+    @Test
+    public void xcxd() throws IOException {
 
+        RequestParams params = new RequestParams();
+        params.put("token", "20ba981d-5741-4d3b-ad57-0bcaf88e487a");
+        params.put("userId", "353");
+        params.put("cardId", "3");
+        Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
+                "http://localhost:8080/manage/v3/invoice/list", params);
+        System.out.println(response.body().string());
+    }
+    @Test
+    public void add() throws IOException {
+
+        RequestParams params = new RequestParams();
+        params.put("token", "20ba981d-5741-4d3b-ad57-0bcaf88e487a");
+        params.put("userId", "7");
+        params.put("cardId", "4");
+        params.put("amount", 4);
+        params.put("image", "avatar.jpg");
+        Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
+                "http://localhost:8080/manage/v3/invoice/add", params);
+        System.out.println(response.body().string());
+    }
+  @Test
+    public void d() throws IOException {
+
+        RequestParams params = new RequestParams();
+        params.put("token", "89d411e4-cc11-45f9-acbe-3ca909899023");
+        params.put("userId", "7");
+        params.put("cardId", "4");
+        Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
+                "http://localhost:8080/manage/v3/card/card_detail", params);
+        System.out.println(response.body().string());
+    }
 
 
 
