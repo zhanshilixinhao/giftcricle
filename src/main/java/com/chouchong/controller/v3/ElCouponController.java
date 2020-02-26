@@ -96,7 +96,7 @@ public class ElCouponController {
         if (StringUtils.isAnyBlank(coupon.getTitle(), coupon.getSummary(), coupon.getStoreIds())) {
             return ResponseFactory.errMissingParameter();
         }
-        if (coupon.getDate() == null) {
+        if (coupon.getDate() == null || coupon.getStartTime() == null) {
             return ResponseFactory.errMissingParameter();
         }
         if (coupon.getDate().getTime() < System.currentTimeMillis()) {

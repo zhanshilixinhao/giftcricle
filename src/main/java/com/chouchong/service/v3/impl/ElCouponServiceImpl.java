@@ -233,6 +233,9 @@ public class ElCouponServiceImpl implements ElCouponService {
         if (vo.getDate().getTime() < System.currentTimeMillis()) {
             return ResponseFactory.err("优惠券已过期!");
         }
+        if (vo.getStartTime().getTime() > System.currentTimeMillis()) {
+            return ResponseFactory.err("优惠券活动还未开始!");
+        }
         // 判断门店是否匹配
         String[] split = vo.getStoreIds().split(",");
         boolean isMatch = false;
@@ -292,6 +295,7 @@ public class ElCouponServiceImpl implements ElCouponService {
         elCoupon.setType((byte) 1);
         elCoupon.setStatus((byte) 1);
         elCoupon.setDate(coupon.getDate());
+        elCoupon.setStartTime(coupon.getStartTime());
         int insert = electronicCouponsMapper.insert(elCoupon);
         if (insert < 1) {
             return ResponseFactory.err("添加失败");

@@ -20,11 +20,11 @@
     insert into electronic_coupons (id, title, summary,
       logo, store_ids, admin_id,
       `type`, status, `date`,
-      updated, created)
+      updated, created,start_time)
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR},
       #{logo,jdbcType=VARCHAR}, #{storeIds,jdbcType=VARCHAR}, #{adminId,jdbcType=INTEGER},
       #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{date,jdbcType=TIMESTAMP},
-     now(),now())
+     now(),now(),#{startTime,jdbcType=TIMESTAMP})
   </insert>
     <insert id="insertSelective" parameterType="com.chouchong.entity.v3.ElectronicCoupons">
         insert into electronic_coupons
@@ -126,6 +126,9 @@
             <if test="date != null">
                 date = #{date,jdbcType=TIMESTAMP},
             </if>
+            <if test="startTime != null">
+                start_time = #{startTime,jdbcType=TIMESTAMP},
+            </if>
             <if test="updated != null">
                 updated = now(),
             </if>
@@ -147,7 +150,8 @@
         status,
         `date`,
         updated,
-        created
+        created,
+        start_time
         from electronic_coupons
         where status = 1
         and admin_id = #{adminId}

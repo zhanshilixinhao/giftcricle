@@ -23,6 +23,7 @@ public class ElectronicCoupons {
     private Byte status;
 
     private Date date;
+    private Date startTime;
 
     private Date updated;
 
@@ -45,6 +46,14 @@ public class ElectronicCoupons {
         this.date = date;
         this.updated = updated;
         this.created = created;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
     public ElectronicCoupons() {

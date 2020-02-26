@@ -33,6 +33,7 @@ public class ElCouponVo {
     private String storeIds;
 
     private Date date;
+    private Date startTime;
 
     private String storeName;
 
