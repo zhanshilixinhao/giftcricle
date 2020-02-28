@@ -29,4 +29,6 @@ public interface StoreMemberChargeMapper {
                                                   @Param("orderNo") Long orderNo);
 
     void selectByKey(Integer id);
+
+
 }

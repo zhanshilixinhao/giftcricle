@@ -26,6 +26,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.Max;
 import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -857,7 +858,7 @@ public class UserCardServiceImpl implements UserCardService {
     }
 
     /**
-     * 查询所有会员卡充值赠送金额的余额
+     * 查询所有会员卡充值消费金额
      *
      * @param userId 用户id
      * @param cardId 会员卡id
@@ -865,8 +866,9 @@ public class UserCardServiceImpl implements UserCardService {
      */
     @Override
     public Response getCardDetail(Integer userId, Integer cardId) {
-        BigDecimal capital1 = new BigDecimal("0");
-        BigDecimal send1 = new BigDecimal("0");
+        BigDecimal charge = new BigDecimal("0");
+        BigDecimal expense = new BigDecimal("0");
+        BigDecimal amount = new BigDecimal("0");
         // 查询会员卡
         MembershipCard membershipCard = membershipCardMapper.selectByPrimaryKey(cardId);
         if (membershipCard == null) {
@@ -874,28 +876,31 @@ public class UserCardServiceImpl implements UserCardService {
         }
         if (membershipCard.getType() == 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "礼遇圈卡不能退卡");
-        } else if (membershipCard.getType() == 11) {
-            //活动卡
-            Response response = getEventCardDetail(userId, cardId);
-            if (response.getData() != null) {
-                capital1 = (BigDecimal) ((Map) response.getData()).get("capital1");
-                send1 = (BigDecimal) ((Map) response.getData()).get("send1");
-            }
-        } else {
-            // 普通储值卡
-            List<StoreMemberCharge> charges = storeMemberChargeMapper.selectByUserIdCardId(userId, cardId);
-            if (!CollectionUtils.isEmpty(charges)) {
-                for (StoreMemberCharge charge : charges) {
-                    BigDecimal multi = BigDecimalUtil.multi(charge.getBalance().doubleValue(), charge.getScale());
-                    BigDecimal sub = BigDecimalUtil.sub(charge.getBalance().doubleValue(), multi.doubleValue());
-                    send1 = BigDecimalUtil.add(send1.doubleValue(), multi.doubleValue());
-                    capital1 = BigDecimalUtil.add(capital1.doubleValue(), sub.doubleValue());
-                }
+        }
+        // 总充值
+        List<ChargeVo> chargeVos = memberChargeRecordMapper.selectByUserIdCardId(userId, cardId);
+        if (!CollectionUtils.isEmpty(chargeVos)){
+            for (ChargeVo chargeVo : chargeVos) {
+                charge = BigDecimalUtil.add(chargeVo.getRechargeMoney().doubleValue(),charge.doubleValue());
             }
         }
+        // 总消费
+        List<ExpenseVo> expenseVos = memberExpenseRecordMapper.selectByUserIdCardId(userId, cardId);
+        if (!CollectionUtils.isEmpty(expenseVos)){
+            for (ExpenseVo expenseVo : expenseVos) {
+                expense = BigDecimalUtil.add(expense.doubleValue(),expenseVo.getExpenseMoney().doubleValue());
+            }
+        }
+        BigDecimal sub = BigDecimalUtil.sub(charge.doubleValue(), expense.doubleValue());
+        if (sub.compareTo(new BigDecimal("0")) < 0){
+            amount = new BigDecimal("0");
+        }else {
+            amount = sub;
+        }
         Map<String, Object> map = new HashMap<>();
-        map.put("capital1", capital1);
-        map.put("send1", send1);
+        map.put("charge", charge);
+        map.put("expense", expense);
+        map.put("amount", amount);
         return ResponseFactory.sucData(map);
     }
 
