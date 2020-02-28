@@ -62,6 +62,31 @@
         and order_no = #{orderNo}
         and type = 1
     </select>
+    <select id="selectByKey">
+insert into store_member_charge_delete(id, user_id, merchant_id, store_id, recharge_money, send_money, expense_money,
+                                       type, `explain`, updated, created, total_money, scale, membership_card_id,
+                                       balance, status, member_event_id, order_no)
+select id,
+       user_id,
+       merchant_id,
+       store_id,
+       recharge_money,
+       send_money,
+       expense_money,
+       type,
+       `explain`,
+       now(),
+       created,
+       total_money,
+       scale,
+       membership_card_id,
+       balance,
+       status,
+       member_event_id,
+       order_no
+from store_member_charge
+where id = #{id}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from store_member_charge
     where id = #{id,jdbcType=INTEGER}

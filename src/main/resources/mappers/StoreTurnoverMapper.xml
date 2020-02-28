@@ -17,13 +17,14 @@
     </resultMap>
     <sql id="Base_Column_List">
     id, store_member_id, blag_money, turnover_money, store_id, blag_store_id, updated,
-    created,event_id,store_charge_id
+    created,event_id,store_charge_id,status
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from store_turnover
         where id = #{id,jdbcType=INTEGER}
+        and status = 1
     </select>
     <select id="selectBySearch" resultType="com.chouchong.service.v3.vo.TurnoverVo">
         select a.*
@@ -52,6 +53,7 @@
         left join store e on a.store_id = e.id
         left join member_event f on a.event_id = f.id
         where a.type = 1
+        and a.status = 1
         union all
         select a.id,
         a.blag_money,
@@ -77,6 +79,7 @@
         left join store e on a.store_id = e.id
         left join member_event f on a.event_id = f.id
         where a.type = 2
+        and a.status = 1
         ) a
         where 1 = 1
         <if test="storeId != null ">
@@ -113,6 +116,7 @@
         left join store e on a.store_id = e.id
         left join member_event f on a.event_id = f.id
         where a.type = 1
+        and a.status = 1
         <if test="storeId != null ">
             and a.store_id = #{storeId}
         </if>
@@ -145,6 +149,7 @@
         left join store e on a.store_id = e.id
         left join member_event f on a.event_id = f.id
         where a.type = 2
+        and a.status = 1
         <if test="storeId != null ">
             and a.store_id = #{storeId}
         </if>
@@ -174,6 +179,7 @@
         from store_turnover
         where store_member_id = #{id}
         and type = #{type}
+        and status = 1
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from store_turnover
@@ -182,10 +188,10 @@
     <insert id="insert" parameterType="com.chouchong.entity.v3.StoreTurnover">
     insert into store_turnover (id, store_member_id, blag_money,
       turnover_money, store_id, blag_store_id,
-      updated, created,event_id,store_charge_id,`type`)
+      updated, created,event_id,store_charge_id,`type`,status)
     values (#{id,jdbcType=INTEGER}, #{storeMemberId,jdbcType=INTEGER}, #{blagMoney,jdbcType=DECIMAL},
       #{turnoverMoney,jdbcType=DECIMAL}, #{storeId,jdbcType=INTEGER}, #{blagStoreId,jdbcType=INTEGER},
-      now(), now(),#{eventId,jdbcType=INTEGER},#{storeChargeId,jdbcType=INTEGER},#{type,jdbcType=TINYINT})
+      now(), now(),#{eventId,jdbcType=INTEGER},#{storeChargeId,jdbcType=INTEGER},#{type,jdbcType=TINYINT},#{status,jdbcType=TINYINT})
   </insert>
     <insert id="insertSelective" parameterType="com.chouchong.entity.v3.StoreTurnover">
         insert into store_turnover
@@ -283,6 +289,9 @@
             </if>
             <if test="storeChargeId != null">
                 store_charge_id = #{storeChargeId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{type,jdbcType=TINYINT},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}

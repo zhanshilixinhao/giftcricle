@@ -32,4 +32,6 @@ public interface StoreMemberEventMapper {
     StoreMemberEvent selectByUserIdCardIdOrderNo1(@Param("cardId") Integer cardId, @Param("userId") Integer userId, @Param("orderNo") Long orderNo);
 
     List<EventCardVo> selectAll(@Param("userId") Integer userId, @Param("cardId") Integer cardId);
+
+    void selectByKey(Integer id);
 }

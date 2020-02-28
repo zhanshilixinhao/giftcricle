@@ -24,6 +24,7 @@ public class StoreTurnover {
 
     private Integer storeChargeId;
 
+    private Byte status;
 
     private Byte type;
 
@@ -41,6 +42,13 @@ public class StoreTurnover {
         this.storeChargeId = storeChargeId;
     }
 
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
+    }
 
     public Byte getType() {
         return type;

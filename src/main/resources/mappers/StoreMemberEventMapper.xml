@@ -94,6 +94,32 @@
       and type != 2
       order by created ASC
     </select>
+    <select id="selectByKey">
+        insert into store_member_event_delete(id, user_id, membership_card_id, store_id, member_event_id, order_no,
+                                      capital_money, send_money, total_money, `explain`, scale, type, capital_balance,
+                                      capital_status, send_balance, send_status, updated, created, merchant_id)
+select id,
+       user_id,
+       membership_card_id,
+       store_id,
+       member_event_id,
+       order_no,
+       capital_money,
+       send_money,
+       total_money,
+       `explain`,
+       scale,
+       type,
+       capital_balance,
+       capital_status,
+       send_balance,
+       send_status,
+       now(),
+       created,
+       merchant_id
+from store_member_event
+where id = #{id}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from store_member_event
     where id = #{id,jdbcType=INTEGER}

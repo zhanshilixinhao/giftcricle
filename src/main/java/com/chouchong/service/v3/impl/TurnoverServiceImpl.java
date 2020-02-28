@@ -165,7 +165,7 @@ public class TurnoverServiceImpl implements TurnoverService {
      * @return
      */
     @Override
-    public Response getChargeRecord(PageQuery page,String keywords, String phone, String storeName, Long cardNo, Long startTime, Long endTime, Integer isExport) throws ParseException {
+    public Response getChargeRecord(PageQuery page, String keywords, String phone, String storeName, Long cardNo, Long startTime, Long endTime, Integer isExport) throws ParseException {
         if (startTime != null) {
             startTime = TimeUtils.time(startTime);
         }
@@ -182,15 +182,15 @@ public class TurnoverServiceImpl implements TurnoverService {
             if (list.size() == 0) {
                 return ResponseFactory.suc();
             }
-            ChargeReVos chargeRes1 = memberChargeRecordMapper.selectBySearch1s(phone,keywords, storeName, cardNo, startTime, endTime, list);
+            ChargeReVos chargeRes1 = memberChargeRecordMapper.selectBySearch1s(phone, keywords, storeName, cardNo, startTime, endTime, list);
             if (chargeRes1 == null) {
                 chargeRes1 = new ChargeReVos();
             }
             if (isExport == null) {
                 PageHelper.startPage(page.getPageNum(), page.getPageSize());
             }
-            List<ChargeReVo> chargeRes = memberChargeRecordMapper.selectBySearch1(phone,keywords, storeName, cardNo, startTime, endTime, list);
-            if (!CollectionUtils.isEmpty(chargeRes)){
+            List<ChargeReVo> chargeRes = memberChargeRecordMapper.selectBySearch1(phone, keywords, storeName, cardNo, startTime, endTime, list);
+            if (!CollectionUtils.isEmpty(chargeRes)) {
 //                for (ChargeReVo chargeRe : chargeRes) {
 //                    if (StringUtils.isNotBlank(chargeRe.getImage())){
 //                        chargeRe.setImage("https://liyuquan.cn/static"+chargeRe.getImage());
@@ -205,15 +205,15 @@ public class TurnoverServiceImpl implements TurnoverService {
         } else if (webUserInfo.getRoleId() == 5) {
             adminId = webUserInfo.getSysAdmin().getId();
         }
-        ChargeReVos chargeRes1 = memberChargeRecordMapper.selectBySearchs(phone,keywords, storeName, cardNo, startTime, endTime, adminId);
+        ChargeReVos chargeRes1 = memberChargeRecordMapper.selectBySearchs(phone, keywords, storeName, cardNo, startTime, endTime, adminId);
         if (chargeRes1 == null) {
             chargeRes1 = new ChargeReVos();
         }
         if (isExport == null) {
             PageHelper.startPage(page.getPageNum(), page.getPageSize());
         }
-        List<ChargeReVo> chargeRes = memberChargeRecordMapper.selectBySearch(phone,keywords, storeName, cardNo, startTime, endTime, adminId);
-        if (!CollectionUtils.isEmpty(chargeRes)){
+        List<ChargeReVo> chargeRes = memberChargeRecordMapper.selectBySearch(phone, keywords, storeName, cardNo, startTime, endTime, adminId);
+        if (!CollectionUtils.isEmpty(chargeRes)) {
 //            for (ChargeReVo chargeRe : chargeRes) {
 //                if (StringUtils.isNotBlank(chargeRe.getImage())){
 //                    chargeRe.setImage("https://liyuquan.cn/static"+chargeRe.getImage());
@@ -455,6 +455,7 @@ public class TurnoverServiceImpl implements TurnoverService {
         UserMemberCard user = userMemberCardMapper.selectByUseridcardId(record.getUserId(), record.getMembershipCardId());
         if (user != null) {
             user.setBalance(BigDecimalUtil.add(user.getBalance().doubleValue(), record.getExpenseMoney().doubleValue()));
+            user.setConsumeAmount(BigDecimalUtil.add(user.getConsumeAmount().doubleValue(), record.getExpenseMoney().doubleValue()));
             int i1 = userMemberCardMapper.updateByPrimaryKeySelective(user);
             if (i1 < 1) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "退回用户余额失败");
@@ -477,6 +478,7 @@ public class TurnoverServiceImpl implements TurnoverService {
         rebate.setType((byte) 2);
         addCardRebate(rebate);
         // 删除消费记录
+        memberExpenseRecordMapper.selectByKey(record.getId());
         int i = memberExpenseRecordMapper.deleteByPrimaryKey(record.getId());
         if (i < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "删除消费记录失败");
@@ -567,32 +569,29 @@ public class TurnoverServiceImpl implements TurnoverService {
             if (event == null) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "金额详情记录不存在1");
             }
-            if (event.getCapitalStatus() !=  1 || event.getSendStatus() != 1){
+            if (event.getCapitalStatus() != 1 || event.getSendStatus() != 1) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "您已消费过无法再退1");
             }
-            int i = storeMemberEventMapper.deleteByPrimaryKey(event.getId());
-            if (i < 1) {
-                throw new ServiceException(ErrorCode.ERROR.getCode(), "金额详情记录删除失败");
-            }
+            storeMemberEventMapper.selectByKey(event.getId());
+            storeMemberEventMapper.deleteByPrimaryKey(event.getId());
         } else {
             StoreMemberCharge charge = storeMemberChargeMapper.selectByUserIdCardIdOrderNo1(record.getMembershipCardId(), record.getUserId(), orderNo);
             if (charge == null) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "金额详情记录不存在2");
             }
-            if (charge.getStatus() != 1){
+            if (charge.getStatus() != 1) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "您已消费过无法再退");
             }
-            int i = storeMemberChargeMapper.deleteByPrimaryKey(charge.getId());
-            if (i < 1) {
-                throw new ServiceException(ErrorCode.ERROR.getCode(), "金额详情记录删除失败");
-            }
+            storeMemberChargeMapper.selectByKey(charge.getId());
+            storeMemberChargeMapper.deleteByPrimaryKey(charge.getId());
         }
-        // 退回用户余额
+        // 扣除用户余额
         UserMemberCard user = userMemberCardMapper.selectByUseridcardId(record.getUserId(), record.getMembershipCardId());
         if (user == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "用户余额不存在");
         }
         user.setBalance(BigDecimalUtil.sub(user.getBalance().doubleValue(), add.doubleValue()));
+        user.setTotalAmount(BigDecimalUtil.sub(user.getTotalAmount().doubleValue(), add.doubleValue()));
         int i1 = userMemberCardMapper.updateByPrimaryKeySelective(user);
         if (i1 < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "退回用户余额失败");
@@ -614,6 +613,7 @@ public class TurnoverServiceImpl implements TurnoverService {
         rebate.setType((byte) 1);
         addCardRebate(rebate);
         // 删除充值记录
+        memberChargeRecordMapper.selectByKey(record.getId());
         int i = memberChargeRecordMapper.deleteByPrimaryKey(record.getId());
         if (i < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "删除记录失败");
@@ -656,14 +656,16 @@ public class TurnoverServiceImpl implements TurnoverService {
                         throw new ServiceException(ErrorCode.ERROR.getCode(), "更新失败");
                     }
                 }
-                // 删除营业额记录
-                int i = storeTurnoverMapper.deleteByPrimaryKey(list.getId());
+                // 更新营业额记录状态
+                list.setStatus((byte)-1);
+                int i = storeTurnoverMapper.updateByPrimaryKeySelective(list);
                 if (i < 1) {
                     throw new ServiceException(ErrorCode.ERROR.getCode(), "删除营业额记录失败");
                 }
             }
         }
         //删除门店详情扣款记录
+        storeMemberChargeMapper.selectByKey(charge.getId());
         int i = storeMemberChargeMapper.deleteByPrimaryKey(charge.getId());
         if (i < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "删除门店详情扣款记录失败");
@@ -709,14 +711,16 @@ public class TurnoverServiceImpl implements TurnoverService {
                         throw new ServiceException(ErrorCode.ERROR.getCode(), "更新失败");
                     }
                 }
-                // 删除营业额记录
-                int i = storeTurnoverMapper.deleteByPrimaryKey(list.getId());
+                // 更新营业额记录状态
+                list.setStatus((byte)-1);
+                int i = storeTurnoverMapper.updateByPrimaryKeySelective(list);
                 if (i < 1) {
                     throw new ServiceException(ErrorCode.ERROR.getCode(), "删除营业额记录失败");
                 }
             }
         }
         //删除门店详情扣款记录
+        storeMemberEventMapper.selectByKey(event.getId());
         int i = storeMemberEventMapper.deleteByPrimaryKey(event.getId());
         if (i < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "删除门店详情扣款记录失败");

@@ -762,6 +762,7 @@ public class UserCardServiceImpl implements UserCardService {
         }
         turnover.setStoreChargeId(storeChargeId);
         turnover.setType((byte) 1);
+        turnover.setStatus((byte) 1);
         int insert = storeTurnoverMapper.insert(turnover);
         if (insert < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "失败");
@@ -784,6 +785,7 @@ public class UserCardServiceImpl implements UserCardService {
         }
         turnover.setStoreChargeId(storeChargeId);
         turnover.setType((byte) 2);
+        turnover.setStatus((byte) 1);
         int insert = storeTurnoverMapper.insert(turnover);
         if (insert < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "失败");
