@@ -1,20 +1,16 @@
 package com.chouchong.service.v3.impl;
 
-import com.chouchong.common.OrderHelper;
-import com.chouchong.common.PageQuery;
-import com.chouchong.common.Response;
-import com.chouchong.common.ResponseFactory;
+import com.chouchong.common.*;
 import com.chouchong.dao.iwant.appUser.AppUserMapper;
 import com.chouchong.dao.iwant.merchant.MerchantMapper;
 import com.chouchong.dao.v3.*;
 import com.chouchong.dao.webUser.SysAdminRoleMapper;
 import com.chouchong.entity.iwant.merchant.Merchant;
 import com.chouchong.entity.v3.*;
+import com.chouchong.exception.ServiceException;
 import com.chouchong.service.v3.CardService;
-import com.chouchong.service.v3.vo.CardVo;
-import com.chouchong.service.v3.vo.CardVo1;
-import com.chouchong.service.v3.vo.EventVo;
-import com.chouchong.service.v3.vo.StoreVo;
+import com.chouchong.service.v3.InvoiceService;
+import com.chouchong.service.v3.vo.*;
 import com.chouchong.service.webUser.vo.WebUserInfo;
 import com.chouchong.utils.AESUtils;
 import com.chouchong.utils.BigDecimalUtil;
@@ -73,6 +69,9 @@ public class CardServiceImpl implements CardService {
 
     @Autowired
     private StoreMemberEventMapper storeMemberEventMapper;
+
+    @Autowired
+    private InvoiceService invoiceService;
 
     /**
      * 获取会员卡列表
@@ -386,8 +385,14 @@ public class CardServiceImpl implements CardService {
      */
     @Override
     public Response detailUserCard(Integer cardId, Integer userId) {
-       CardVo1 vo1 = userMemberCardMapper.selectDetailByUserIdcardId(userId,cardId);
-       return ResponseFactory.sucData(vo1);
+        CardVo1 vo1 = userMemberCardMapper.selectDetailByUserIdcardId(userId, cardId);
+        // 查询开票余额
+        Response response = invoiceService.getInvoice(cardId, userId);
+        BigDecimal amount = ((InvoiceVo1) response.getData()).getAmount();
+        if (vo1 != null) {
+            vo1.setBalance(amount);
+        }
+        return ResponseFactory.sucData(vo1);
     }
 
 

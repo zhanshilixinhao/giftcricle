@@ -106,9 +106,9 @@ public class InvoiceServiceImpl implements InvoiceService {
         if (!CollectionUtils.isEmpty(invoiceVos)) {
             for (InvoiceVo invoiceVo : invoiceVos) {
                 ni = BigDecimalUtil.add(ni.doubleValue(), invoiceVo.getAmount().doubleValue());
-                if (!StringUtils.isEmpty(invoiceVo.getImage())){
-                    invoiceVo.setImage("https://liyuquan.cn/static" + invoiceVo.getImage());
-                }
+//                if (!StringUtils.isEmpty(invoiceVo.getImage())){
+//                    invoiceVo.setImage("https://liyuquan.cn/static" + invoiceVo.getImage());
+//                }
             }
         }
         vo1.setTotalInvoice(ni);

@@ -191,11 +191,11 @@ public class TurnoverServiceImpl implements TurnoverService {
             }
             List<ChargeReVo> chargeRes = memberChargeRecordMapper.selectBySearch1(phone,keywords, storeName, cardNo, startTime, endTime, list);
             if (!CollectionUtils.isEmpty(chargeRes)){
-                for (ChargeReVo chargeRe : chargeRes) {
-                    if (StringUtils.isNotBlank(chargeRe.getImage())){
-                        chargeRe.setImage("https://liyuquan.cn/static"+chargeRe.getImage());
-                    }
-                }
+//                for (ChargeReVo chargeRe : chargeRes) {
+//                    if (StringUtils.isNotBlank(chargeRe.getImage())){
+//                        chargeRe.setImage("https://liyuquan.cn/static"+chargeRe.getImage());
+//                    }
+//                }
             }
             PageInfo pageInfo = new PageInfo<>(chargeRes);
             chargeRes1.setChargeReVo(chargeRes);
@@ -214,11 +214,11 @@ public class TurnoverServiceImpl implements TurnoverService {
         }
         List<ChargeReVo> chargeRes = memberChargeRecordMapper.selectBySearch(phone,keywords, storeName, cardNo, startTime, endTime, adminId);
         if (!CollectionUtils.isEmpty(chargeRes)){
-            for (ChargeReVo chargeRe : chargeRes) {
-                if (StringUtils.isNotBlank(chargeRe.getImage())){
-                    chargeRe.setImage("https://liyuquan.cn/static"+chargeRe.getImage());
-                }
-            }
+//            for (ChargeReVo chargeRe : chargeRes) {
+//                if (StringUtils.isNotBlank(chargeRe.getImage())){
+//                    chargeRe.setImage("https://liyuquan.cn/static"+chargeRe.getImage());
+//                }
+//            }
         }
         PageInfo pageInfo = new PageInfo<>(chargeRes);
         chargeRes1.setChargeReVo(chargeRes);

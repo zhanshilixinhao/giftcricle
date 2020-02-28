@@ -245,7 +245,6 @@ and a.status = 1
        a.membership_card_id,
        a.user_id,
        a.phone,
-       a.balance,
        a.created,
        a.card_no,
        b.title,
