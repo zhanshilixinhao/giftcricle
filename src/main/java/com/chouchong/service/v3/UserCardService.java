@@ -134,5 +134,5 @@ public interface UserCardService {
      * @param cardId 会员卡id
      * @return
      */
-    Response backCard(Integer userId, Integer cardId, BigDecimal capital,BigDecimal send);
+    Response backCard(Integer userId, Integer cardId);
 }

@@ -273,11 +273,11 @@ public class UserCardController {
      * @return
      */
     @PostMapping("back_card")
-    public Response backCard(Integer userId, Integer cardId, BigDecimal capital,BigDecimal send) {
-        if (userId == null || cardId == null || capital == null ||send == null) {
+    public Response backCard(Integer userId, Integer cardId) {
+        if (userId == null || cardId == null ) {
             return ResponseFactory.errMissingParameter();
         }
-        return userCardService.backCard(userId, cardId,capital,send);
+        return userCardService.backCard(userId, cardId);
     }
 
 

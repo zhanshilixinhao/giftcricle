@@ -111,4 +111,19 @@
         </if>
         order by a.created DESC
     </select>
+    <select id="selectByUserIdCardId" resultType="com.chouchong.entity.v3.TransferSend">
+        select id,
+       id,
+       user_id,
+       membership_card_id,
+       send_money,
+       status,
+       updated,
+       created
+from transfer_send
+where user_id = #{userId}
+  and membership_card_id = #{cardId}
+  and status = 2
+
+    </select>
 </mapper>

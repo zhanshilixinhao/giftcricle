@@ -14,4 +14,6 @@ public interface TransferSendMapper {
     List<TransferVo> selectBySearch(@Param("nickname") String nickname, @Param("title") String title,
                                     @Param("status") Byte status, @Param("startTime") Long startTime,
                                     @Param("endTime") Long endTime, @Param("list") List<Integer> list);
+
+    List<TransferSend> selectByUserIdCardId(@Param("userId") Integer userId, @Param("cardId") Integer cardId);
 }

@@ -15,6 +15,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashSet;
 
 /**
  * @author linqin
@@ -23,23 +24,31 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 @Slf4j
 public class RepeatInterceptor extends HandlerInterceptorAdapter {
+    private static HashSet<String> hashSet = new HashSet<>();
+
+    static {
+        hashSet.add("/manage/order/item/orderCount");
+    }
 
     @Autowired
     private MRedisTemplate mRedisTemplate;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String key = Utils.toMD5(request.getParameter("token")+ request.getRequestURI()) ;
-        String string = mRedisTemplate.getString(key);
-        if (StringUtils.isBlank(string)){
-            mRedisTemplate.setString(key,"a",60);
-            return true;
-        }
-        response.setContentType("application/json;charset=UTF-8");
-        ResponseImpl s = ResponseFactory.err("请勿重复请求");
-        response.getWriter().write(JSON.toJSONString(s));
+        if (!hashSet.contains(request.getRequestURI())) {
+            String key = Utils.toMD5(request.getParameter("token") + request.getRequestURI());
+            String string = mRedisTemplate.getString(key);
+            if (StringUtils.isBlank(string)) {
+                mRedisTemplate.setString(key, "a", 60);
+                return true;
+            }
+            response.setContentType("application/json;charset=UTF-8");
+            ResponseImpl s = ResponseFactory.err("请勿重复请求");
+            response.getWriter().write(JSON.toJSONString(s));
 
-        return false;
+            return false;
+        }
+        return true;
     }
 
 

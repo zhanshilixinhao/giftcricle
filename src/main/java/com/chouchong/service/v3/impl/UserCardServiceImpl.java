@@ -56,6 +56,9 @@ public class UserCardServiceImpl implements UserCardService {
     private MemberExpenseRecordMapper memberExpenseRecordMapper;
 
     @Autowired
+    private TransferSendMapper transferSendMapper;
+
+    @Autowired
     private StoreMapper storeMapper;
 
     @Autowired
@@ -868,6 +871,7 @@ public class UserCardServiceImpl implements UserCardService {
     public Response getCardDetail(Integer userId, Integer cardId) {
         BigDecimal charge = new BigDecimal("0");
         BigDecimal expense = new BigDecimal("0");
+        BigDecimal send = new BigDecimal("0");
         BigDecimal amount = new BigDecimal("0");
         // 查询会员卡
         MembershipCard membershipCard = membershipCardMapper.selectByPrimaryKey(cardId);
@@ -891,16 +895,25 @@ public class UserCardServiceImpl implements UserCardService {
                 expense = BigDecimalUtil.add(expense.doubleValue(),expenseVo.getExpenseMoney().doubleValue());
             }
         }
+        // 总赠送
+        List<TransferSend> sends = transferSendMapper.selectByUserIdCardId(userId,cardId);
+        if (!CollectionUtils.isEmpty(sends)){
+            for (TransferSend transferSend : sends) {
+                send = BigDecimalUtil.add(send.doubleValue(),transferSend.getSendMoney().doubleValue());
+            }
+        }
         BigDecimal sub = BigDecimalUtil.sub(charge.doubleValue(), expense.doubleValue());
-        if (sub.compareTo(new BigDecimal("0")) < 0){
+        BigDecimal sub1 = BigDecimalUtil.sub(sub.doubleValue(), send.doubleValue());
+        if (sub1.compareTo(new BigDecimal("0")) < 0){
             amount = new BigDecimal("0");
         }else {
-            amount = sub;
+            amount = sub1;
         }
         Map<String, Object> map = new HashMap<>();
         map.put("charge", charge);
         map.put("expense", expense);
         map.put("amount", amount);
+        map.put("send", send);
         return ResponseFactory.sucData(map);
     }
 
@@ -913,14 +926,10 @@ public class UserCardServiceImpl implements UserCardService {
      * @return
      */
     @Override
-    public Response backCard(Integer userId, Integer cardId, BigDecimal capital, BigDecimal send) {
+    public Response backCard(Integer userId, Integer cardId) {
         UserMemberCard user = userMemberCardMapper.selectByUseridcardId(userId, cardId);
         if (user == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "该用户会员卡不存在");
-        }
-        BigDecimal add = BigDecimalUtil.add(capital.doubleValue(), send.doubleValue());
-        if (user.getBalance().compareTo(add) != 0) {
-            throw new ServiceException(ErrorCode.ERROR.getCode(), "退款金额不正确");
         }
         // 删除充值记录
         List<ChargeVo> chargeVos = memberChargeRecordMapper.selectByUserIdCardId(userId, cardId);
