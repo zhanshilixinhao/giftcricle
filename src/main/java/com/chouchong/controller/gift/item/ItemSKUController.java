@@ -5,7 +5,6 @@ import com.chouchong.common.Response;
 import com.chouchong.common.ResponseFactory;
 import com.chouchong.entity.gift.item.ItemSku;
 import com.chouchong.service.gift.item.ItemSKUService;
-import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

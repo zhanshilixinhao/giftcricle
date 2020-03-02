@@ -1,7 +1,5 @@
 package com.chouchong.service.v3.vo;
 
-import org.omg.PortableInterceptor.INACTIVE;
-
 import java.math.BigDecimal;
 import java.util.Date;
 

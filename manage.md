@@ -488,6 +488,7 @@ http 常用错误码
   "data": {
     "id": 43, //活动id
     "title": "充100 送2 张50元优惠券", //标题
+    "couponTitle": "啤酒券" // 优惠券标题
     "summary": "充100 送2 张50元优惠券",
     "rechargeMoney": 100.00,
     "sendMoney": 0.00,

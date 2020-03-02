@@ -203,6 +203,7 @@ where id = #{id}
        b.summary,
        b.logo,
        b.store_ids,
+       b.start_time,
        b.date
 from el_user_coupon a
          left join electronic_coupons b on a.coupon_id = b.id

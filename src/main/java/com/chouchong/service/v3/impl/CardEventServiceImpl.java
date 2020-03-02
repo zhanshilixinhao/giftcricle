@@ -53,6 +53,9 @@ public class CardEventServiceImpl implements CardEventService {
     @Autowired
     private MemberCardMapper memberCardMapper;
 
+    @Autowired
+    private ElectronicCouponsMapper electronicCouponsMapper;
+
     /**
      * 获取活动列表
      *
@@ -187,6 +190,14 @@ public class CardEventServiceImpl implements CardEventService {
     @Override
     public Response detailCardEvent(Integer eventId) {
         MemberEvent ev = memberEventMapper.selectByPrimaryKey(eventId);
+        if (ev != null ){
+            if ((ev.getType() == 2 || ev.getType() == 5) && ev.getTargetId() != null){
+                ElectronicCoupons coupons = electronicCouponsMapper.selectByKey(ev.getTargetId());
+                if (coupons != null){
+                    ev.setCouponTitle(coupons.getTitle());
+                }
+            }
+        }
         return ResponseFactory.sucData(ev);
     }
 

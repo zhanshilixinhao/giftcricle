@@ -197,7 +197,7 @@ public class appTest {
 
         RequestParams params = new RequestParams();
         params.put("token", "5ab93fe0-d36c-4a86-a4ff-e6617511d8d9");
-        params.put("eventId",43);
+        params.put("eventId",2);
         Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
                 "http://localhost:8080/manage/v3/cardEvent/detail", params);
         System.out.println(response.body().string());
