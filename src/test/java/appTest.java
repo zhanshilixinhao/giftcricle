@@ -45,8 +45,8 @@ public class appTest {
     @Test
     public void useCoupon() throws IOException {
         RequestParams params = new RequestParams();
-        params.put("token", "1b79f2dd-cb37-4a85-93bc-40fc49185f47");
-        params.put("num", 1);
+        params.put("token", "2b7d3182-33da-4f0e-b519-42c18e65c4b2");
+        params.put("num", 8820030214108L);
         Response response = OkHttpUtil.post(new OkHttpClient(),
                 "http://localhost:8080/manage/v3/coupon/use", params);
         System.out.println(response.body().string());
