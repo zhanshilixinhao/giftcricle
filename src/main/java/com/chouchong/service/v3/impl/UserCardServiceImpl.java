@@ -939,14 +939,14 @@ public class UserCardServiceImpl implements UserCardService {
                 memberChargeRecordMapper.deleteByPrimaryKey(chargeVo.getId());
             }
         }
-        // 删除消费记录
-        List<ExpenseVo> expenseVos = memberExpenseRecordMapper.selectByUserIdCardId(userId, cardId);
-        if (!CollectionUtils.isEmpty(expenseVos)){
-            for (ExpenseVo expenseVo : expenseVos) {
-                memberExpenseRecordMapper.selectByKey(expenseVo.getId());
-                memberExpenseRecordMapper.deleteByPrimaryKey(expenseVo.getId());
-            }
-        }
+//        // 删除消费记录
+//        List<ExpenseVo> expenseVos = memberExpenseRecordMapper.selectByUserIdCardId(userId, cardId);
+//        if (!CollectionUtils.isEmpty(expenseVos)){
+//            for (ExpenseVo expenseVo : expenseVos) {
+//                memberExpenseRecordMapper.selectByKey(expenseVo.getId());
+//                memberExpenseRecordMapper.deleteByPrimaryKey(expenseVo.getId());
+//            }
+//        }
         user.setBalance(new BigDecimal("0"));
         user.setStatus((byte) -1);
         int i = userMemberCardMapper.updateByPrimaryKeySelective(user);
