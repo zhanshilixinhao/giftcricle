@@ -939,7 +939,7 @@ public class UserCardServiceImpl implements UserCardService {
                 memberChargeRecordMapper.deleteByPrimaryKey(chargeVo.getId());
             }
         }
-//        // 删除消费记录
+//        // 删除消费记录,目前不需要删除
 //        List<ExpenseVo> expenseVos = memberExpenseRecordMapper.selectByUserIdCardId(userId, cardId);
 //        if (!CollectionUtils.isEmpty(expenseVos)){
 //            for (ExpenseVo expenseVo : expenseVos) {
