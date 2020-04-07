@@ -1,5 +1,6 @@
 package com.chouchong.service.v3.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.chouchong.common.*;
 import com.chouchong.dao.iwant.appUser.AppUserMapper;
 import com.chouchong.dao.v3.ElCouponSendMapper;
@@ -14,7 +15,7 @@ import com.chouchong.service.v3.ElCouponService;
 import com.chouchong.service.v3.vo.*;
 import com.chouchong.service.webUser.vo.WebUserInfo;
 import com.chouchong.utils.TimeUtils;
-import com.gexin.fastjson.JSON;
+
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
