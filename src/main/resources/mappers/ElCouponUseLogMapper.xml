@@ -17,17 +17,48 @@
         left join store c on c.id = a.store_id
         <where>
             <trim suffixOverrides="and">
+                <if test="adminId != null">
+                    a.admin_id = #{adminId} and
+                </if>
                 <if test="storeName!=null and storeName != ''">
-                    c.name like concat('%', #{storeName}, '%') and
+                    c.name like concat('%', #{log.storeName}, '%') and
                 </if>
                 <if test="phone != null and phone != ''">
-                    b.phone like concat('%', #{phone}, '%') and
+                    b.phone like concat('%', #{log.phone}, '%') and
                 </if>
                 <if test="title != null and title != ''">
-                    a.detail like concat('%', #{title}, '%') and
+                    a.detail like concat('%', #{log.title}, '%') and
                 </if>
             </trim>
         </where>
+        order by a.created DESC
+    </select>
+    <select id="selectList1" resultType="com.chouchong.entity.v3.ElCouponUseLog">
+        select a.id,
+        a.store_id,
+        a.user_id,
+        a.quantity,
+        a.detail,
+        a.created,
+        b.nickname,
+        b.phone,
+        c.name as store_name
+        from el_coupon_use_log a
+        left join app_user b on a.user_id = b.id
+        left join store c on c.id = a.store_id
+        where a.admin_id in
+        <foreach collection="list" open="(" close=")" item="list" separator="," index="index">
+            #{list}
+        </foreach>
+        <if test="storeName!=null and storeName != ''">
+            and c.name like concat('%', #{log.storeName}, '%')
+        </if>
+        <if test="phone != null and phone != ''">
+            and b.phone like concat('%', #{log.phone}, '%')
+        </if>
+        <if test="title != null and title != ''">
+            and a.detail like concat('%', #{log.title}, '%')
+        </if>
         order by a.created DESC
     </select>
 </mapper>
