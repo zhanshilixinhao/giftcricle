@@ -20,13 +20,13 @@
                 <if test="adminId != null">
                     a.admin_id = #{adminId} and
                 </if>
-                <if test="storeName!=null and storeName != ''">
+                <if test="log.storeName!=null and log.storeName != ''">
                     c.name like concat('%', #{log.storeName}, '%') and
                 </if>
-                <if test="phone != null and phone != ''">
+                <if test="log.phone != null and log.phone != ''">
                     b.phone like concat('%', #{log.phone}, '%') and
                 </if>
-                <if test="title != null and title != ''">
+                <if test="log.title != null and log.title != ''">
                     a.detail like concat('%', #{log.title}, '%') and
                 </if>
             </trim>
@@ -50,13 +50,13 @@
         <foreach collection="list" open="(" close=")" item="list" separator="," index="index">
             #{list}
         </foreach>
-        <if test="storeName!=null and storeName != ''">
+        <if test="log.storeName!=null and log.storeName != ''">
             and c.name like concat('%', #{log.storeName}, '%')
         </if>
-        <if test="phone != null and phone != ''">
+        <if test="log.phone != null and log.phone != ''">
             and b.phone like concat('%', #{log.phone}, '%')
         </if>
-        <if test="title != null and title != ''">
+        <if test="log.title != null and log.title != ''">
             and a.detail like concat('%', #{log.title}, '%')
         </if>
         order by a.created DESC

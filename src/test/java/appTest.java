@@ -53,6 +53,16 @@ public class appTest {
     }
 
     @Test
+    public void useCoupn() throws IOException {
+        RequestParams params = new RequestParams();
+        params.put("token", "89722ab9-b957-4ded-ab52-0437f0e030d8");
+//        params.put("num", 8820030214108L);
+        Response response = OkHttpUtil.post(new OkHttpClient(),
+                "http://localhost:8080/manage/v3/coupon/log/list", params);
+        System.out.println(response.body().string());
+    }
+
+    @Test
     public void info() throws IOException {
         RequestParams params = new RequestParams();
         params.put("token", "7171d718-0c30-4fd0-9a6b-53a865be71a5");
