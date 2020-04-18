@@ -5,13 +5,13 @@ import com.chouchong.common.Response;
 import com.chouchong.common.ResponseFactory;
 import com.chouchong.entity.v3.InvoiceRecord;
 import com.chouchong.service.v3.InvoiceService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 
 /**
  * @author linqin
@@ -51,6 +51,21 @@ public class InvoiceController {
             return ResponseFactory.errMissingParameter();
         }
         return invoiceService.getInvoice(cardId,userId);
+    }
+
+
+    /**
+     * 发票记录列表查询
+     * @param page
+     * @param phone 号码
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @RequestMapping("all_list")
+    public Response getChargeRecord(PageQuery page, String phone,Long startTime,
+                                    Long endTime) throws ParseException {
+       return invoiceService.getInvoiceList(page,phone,startTime,endTime);
     }
 
 }

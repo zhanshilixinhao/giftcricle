@@ -292,11 +292,24 @@ public class appTest {
     public void d() throws IOException {
 
         RequestParams params = new RequestParams();
-        params.put("token", "89d411e4-cc11-45f9-acbe-3ca909899023");
-        params.put("userId", "7");
-        params.put("cardId", "4");
+        params.put("token", "39748313-aaf5-4ff0-bf61-c59f9e102e87");
+        params.put("userId", "13");
+        params.put("cardId", "10");
         Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
                 "http://localhost:8080/manage/v3/card/card_detail", params);
+        System.out.println(response.body().string());
+    }
+
+    @Test
+    public void ds() throws IOException {
+
+        RequestParams params = new RequestParams();
+        params.put("token", "6ea6f2e5-9b89-4760-bd45-b11b3373502a");
+        params.put("phone", "15752400657");
+//        params.put("startTime", 1587210021212L);
+//        params.put("endTime", 1587210021212L);
+        Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
+                "http://localhost:8080/manage/v3/invoice/all_list", params);
         System.out.println(response.body().string());
     }
 

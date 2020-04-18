@@ -24,4 +24,10 @@ public class InvoiceVo {
     private Date created;
 
     private String image;
+
+    private Integer userId;
+
+    private String phone;
+
+    private String nickname;
 }

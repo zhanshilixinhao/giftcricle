@@ -1052,7 +1052,7 @@ http 常用错误码
 
 
 ## 8 发票
-### 7.1 发票列表
+### 8.1 发票列表
 
 - 请求地址：manage/v3/invoice/list
 - 服务协议：HTTP/POST
@@ -1101,7 +1101,7 @@ http 常用错误码
 
 ```
 
-### 7.2 开发票
+### 8.2 开发票
 
 - 请求地址：manage/v3/invoice/add
 - 服务协议：HTTP/POST
@@ -1128,7 +1128,7 @@ http 常用错误码
 
 ```
 
-### 7.3 用户会员详情
+### 8.3 用户会员详情
 
 - 请求地址：manage/v3/card/card_detail
 - 服务协议：HTTP/POST
@@ -1174,5 +1174,52 @@ http 常用错误码
     "storeName": "外婆味道南屏店" //开卡门店
   }
 }
+
+```
+
+### 8.4 发票记录查询
+
+- 请求地址：manage/v3/invoice/all_list
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+| 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :------: | :------: | :------: | :----: | :------: |
+|  token   |  String  |    是    |   无   |      访问令牌   |
+|phone|string|否|无|用户电话（模糊查询）|
+|startTime|Long|否|无|开始时间（13位时间戳）|
+|endTime|Long|否|无|结束时间（13位时间戳）|
+|pageNum|int|是|1|分页|
+|pageSize|int|是|14|分页大小|
+
+
+- 請求結果示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1587210254396,
+  "data": [
+    {
+     "id": 2, //发票列表id
+      "amount": 90.00, //开票金额
+      "summary": "", //简介/备注
+      "storeId": 3, 
+       "storeName": "外婆味道南屏店", //开票门店
+      "created": "2020-02-25 12:46:31", //开票时间
+      "image": null //发票图片
+      "userId": 7, //用户id
+      "phone": "15752400657",//用户待你好
+      "nickname": "路遥\uD83D\uDE34\uD83D\uDE34"//用户昵称
+    }
+  ],
+  "total": 3,
+  "pages": 1,
+  "pageNum": 1,
+  "pageSize": 14
+}
+
 
 ```

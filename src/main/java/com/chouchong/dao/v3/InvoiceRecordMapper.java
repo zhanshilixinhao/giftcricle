@@ -12,4 +12,10 @@ public interface InvoiceRecordMapper {
     int insertSelective(InvoiceRecord record);
 
     List<InvoiceVo> selectByUserIdCardId(@Param("userId") Integer userId, @Param("cardId") Integer cardId);
+
+    List<InvoiceVo> selectByKey(@Param("phone") String phone, @Param("startTime") Long startTime,
+                                @Param("endTime") Long endTime, @Param("list") List<Integer> list);
+
+    List<InvoiceVo> selectByKey1(@Param("phone") String phone, @Param("startTime") Long startTime,
+                                 @Param("endTime") Long endTime, @Param("adminId") Integer adminId);
 }

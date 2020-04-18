@@ -99,4 +99,58 @@ where a.card_id = #{cardId}
 and a.user_id = #{userId}
 order by a.created DESC
   </select>
+    <select id="selectByKey" resultType="com.chouchong.service.v3.vo.InvoiceVo">
+        select a.id,
+        a.amount,
+        a.summary,
+        a.store_id,
+        a.created,
+        a.image,
+        s.name as storeName,
+        a.user_id,
+        c.nickname,
+        c.phone
+        from invoice_record a
+        left join store s on a.store_id = s.id
+        left join app_user c on a.user_id = c.id
+        where a.admin_id in
+        <foreach collection="list" open="(" close=")" item="list" separator="," index="index">
+            #{list}
+        </foreach>
+        <if test="phone != null and phone != ''">
+            and c.phone like concat('%',#{phone},'%')
+        </if>
+        <if test="startTime != null and endTime != null">
+            and unix_timestamp(a.created) &gt;= #{startTime}
+            and unix_timestamp(a.created) &lt; #{endTime}
+        </if>
+        order by a.created DESC
+    </select>
+    <select id="selectByKey1" resultType="com.chouchong.service.v3.vo.InvoiceVo">
+        select a.id,
+        a.amount,
+        a.summary,
+        a.store_id,
+        a.created,
+        a.image,
+        s.name as storeName,
+        a.user_id,
+        c.nickname,
+        c.phone
+        from invoice_record a
+        left join store s on a.store_id = s.id
+        left join app_user c on a.user_id = c.id
+        where 1=1
+        <if test="adminId != null ">
+            and a.admin_id = #{adminId}
+        </if>
+        <if test="phone != null and phone != ''">
+            and c.phone like concat('%',#{phone},'%')
+        </if>
+        <if test="startTime != null and endTime != null">
+            and unix_timestamp(a.created) &gt;= #{startTime}
+            and unix_timestamp(a.created) &lt; #{endTime}
+        </if>
+        order by a.created DESC
+    </select>
 </mapper>
