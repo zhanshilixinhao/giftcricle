@@ -827,6 +827,60 @@ http 常用错误码
 }
 ```
 
+
+### 4.7 根据用户电话查询会员卡
+
+- 请求地址：manage/v3/userCard/list_store
+- 服务协议：HTTP/POST
+- 是否需要身份认证：是
+- 作者：linqin
+
+| 参数名称 | 参数类型 | 是否必传 | 默认值 | 参数说明 |
+| :------: | :------: | :------: | :----: | :------: |
+|  token   |  String  |    是    |   无   |      访问令牌   |
+|phone|string|否|无|用户电话|
+|pageNum|int|是|1|分页|
+|pageSize|int|是|14|分页大小|
+
+
+
+- 请求结果示例
+
+```js
+{
+  "errCode": 0,
+  "result": 0,
+  "time": 1587212039948,
+  "data": {
+    "totalMoney": 4547.00,
+    "userCardVos": [
+      {
+        "userCardId": 1034,
+        "cardId": 3,
+        "userId": 7,
+        "balance": 0.00,
+        "phone": "15752400657",
+        "nickname": "路遥\uD83D\uDE34\uD83D\uDE34",
+        "created": "2020-03-02 12:23:18",
+        "storeId": 3,
+        "storeName": "外婆味道南屏店",
+        "cardNo": 7920030212107,
+        "title": "外婆味道储值卡", //标题
+        "gradeId": null,
+        "gradeTitle": null,
+        "type": 10
+      }
+    ]
+  },
+  "total": 2,
+  "pages": 1,
+  "pageNum": 1,
+  "pageSize": 14
+}
+
+
+```
+
 ## 5 图片上传
 
 ### 5.1 图片上传

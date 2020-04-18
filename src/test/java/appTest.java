@@ -312,6 +312,18 @@ public class appTest {
                 "http://localhost:8080/manage/v3/invoice/all_list", params);
         System.out.println(response.body().string());
     }
+    @Test
+    public void dss() throws IOException {
+
+        RequestParams params = new RequestParams();
+        params.put("token", "f65c9e2e-f137-4e3c-ac08-96b0a729fc62");
+        params.put("phone", "15752400657");
+//        params.put("startTime", 1587210021212L);
+//        params.put("endTime", 1587210021212L);
+        Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
+                "http://localhost:8080/manage/v3/userCard/list_store", params);
+        System.out.println(response.body().string());
+    }
 
 
 

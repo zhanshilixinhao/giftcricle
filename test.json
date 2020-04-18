@@ -1,46 +1,45 @@
 {
   "errCode": 0,
   "result": 0,
-  "time": 1587210254396,
-  "data": [
-    {
-      "id": 5,
-      "amount": 4.00,
-      "summary": null,
-      "storeId": 3,
-      "storeName": "外婆味道南屏店",
-      "created": "2020-02-26 10:11:11",
-      "image": "avatar.jpg",
-      "userId": 7,
-      "phone": "15752400657",
-      "nickname": "路遥\uD83D\uDE34\uD83D\uDE34"
-    },
-    {
-      "id": 4,
-      "amount": 10.00,
-      "summary": "",
-      "storeId": 3,
-      "storeName": "外婆味道南屏店",
-      "created": "2020-02-25 12:48:45",
-      "image": null,
-      "userId": 7,
-      "phone": "15752400657",
-      "nickname": "路遥\uD83D\uDE34\uD83D\uDE34"
-    },
-    {
-      "id": 3,
-      "amount": 0.00,
-      "summary": "",
-      "storeId": 3,
-      "storeName": "外婆味道南屏店",
-      "created": "2020-02-25 12:46:54",
-      "image": null,
-      "userId": 7,
-      "phone": "15752400657",
-      "nickname": "路遥\uD83D\uDE34\uD83D\uDE34"
-    }
-  ],
-  "total": 3,
+  "time": 1587212039948,
+  "data": {
+    "totalMoney": 4547.00,
+    "userCardVos": [
+      {
+        "userCardId": 1034,
+        "cardId": 3,
+        "userId": 7,
+        "balance": 0.00,
+        "phone": "15752400657",
+        "nickname": "路遥\uD83D\uDE34\uD83D\uDE34",
+        "created": "2020-03-02 12:23:18",
+        "storeId": 3,
+        "storeName": "外婆味道南屏店",
+        "cardNo": 7920030212107,
+        "title": "外婆味道储值卡",
+        "gradeId": null,
+        "gradeTitle": null,
+        "type": 10
+      },
+      {
+        "userCardId": 7,
+        "cardId": 4,
+        "userId": 7,
+        "balance": 4547.00,
+        "phone": "15752400657",
+        "nickname": "路遥\uD83D\uDE34\uD83D\uDE34",
+        "created": "2019-12-14 20:57:08",
+        "storeId": 3,
+        "storeName": "外婆味道南屏店",
+        "cardNo": 7919121420122,
+        "title": "外婆味道活动卡",
+        "gradeId": null,
+        "gradeTitle": null,
+        "type": 11
+      }
+    ]
+  },
+  "total": 2,
   "pages": 1,
   "pageNum": 1,
   "pageSize": 14
