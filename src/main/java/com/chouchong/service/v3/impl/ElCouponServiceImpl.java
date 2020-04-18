@@ -322,6 +322,7 @@ public class ElCouponServiceImpl implements ElCouponService {
         elCoupon.setLogo(coupon.getLogo());
         elCoupon.setStoreIds(coupon.getStoreIds());
         elCoupon.setDate(coupon.getDate());
+        elCoupon.setStartTime(coupon.getStartTime());
         int i = electronicCouponsMapper.updateByPrimaryKeySelective(elCoupon);
         if (i < 1) {
             return ResponseFactory.err("修改失败");
