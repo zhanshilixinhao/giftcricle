@@ -648,6 +648,8 @@ public class TurnoverServiceImpl implements TurnoverService {
                     if (!userCoupon.getQuantity().equals(memberEvent.getQuantity())) {
                         throw new ServiceException(ErrorCode.ERROR.getCode(), "优惠券已使用过，无法再退");
                     }
+                    // 删除优惠券
+                    elUserCouponMapper.deleteById(Long.parseLong(id));
                 }
             }
             mRedisTemplate.del(key);
