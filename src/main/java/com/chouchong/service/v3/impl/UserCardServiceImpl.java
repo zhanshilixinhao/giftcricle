@@ -8,6 +8,7 @@ import com.chouchong.entity.iwant.appUser.AppUser;
 import com.chouchong.entity.iwant.merchant.Merchant;
 import com.chouchong.entity.v3.*;
 import com.chouchong.exception.ServiceException;
+import com.chouchong.redis.MRedisTemplate;
 import com.chouchong.service.v3.ElCouponService;
 import com.chouchong.service.v3.UserCardService;
 import com.chouchong.service.v3.vo.*;
@@ -17,7 +18,6 @@ import com.chouchong.utils.sms.SendUtil;
 import com.chouchong.utils.sms.SmsSendResult;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.apache.poi.ss.formula.functions.Now;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -26,12 +26,8 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.Max;
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.sql.Time;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -90,6 +86,10 @@ public class UserCardServiceImpl implements UserCardService {
 
     @Autowired
     private ElCouponService elCouponService;
+
+    @Autowired
+    private MRedisTemplate mRedisTemplate;
+
 
 
     /**
@@ -294,8 +294,10 @@ public class UserCardServiceImpl implements UserCardService {
             }
             // 给用户添加优惠券
             if ((memberEvent.getType() == 2 || memberEvent.getType() == 5) && memberEvent.getTargetId() != null) {
-                elCouponService.addCoupon(memberEvent.getTargetId(), memberEvent.getQuantity(),
+                Long id = elCouponService.addCoupon(memberEvent.getTargetId(), memberEvent.getQuantity(),
                         store.getId(), userId, adminId);
+                //添加缓存
+                mRedisTemplate.setString("add_coupon"+userId,id.toString());
             }
         }
         Merchant merchant = merchantMapper.selectByAdminId(webUserInfo.getSysAdmin().getCreateAdminId());

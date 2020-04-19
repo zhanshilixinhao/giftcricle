@@ -136,8 +136,8 @@ public class appTest {
     public void refund1() throws IOException {
 
         RequestParams params = new RequestParams();
-        params.put("token", "2f91090e-8598-4b93-a7f0-6aec406b523b");
-        params.put("orderNo",71020020515106L);
+        params.put("token", "c0f0d2a9-9713-44d3-b1e6-8e672e5155d3");
+        params.put("orderNo",71020041921171L);
         params.put("phone", "15752400657");
         params.put("code", "123456");
         Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
@@ -250,12 +250,12 @@ public class appTest {
     public void charge1() throws IOException {
 
         RequestParams params = new RequestParams();
-        params.put("token", "26131c48-6818-460e-8669-908325e13b15");
-        params.put("phone", "13669776047");
+        params.put("token", "c0f0d2a9-9713-44d3-b1e6-8e672e5155d3");
+        params.put("phone", "15752400657");
         params.put("cardId", 3);
         params.put("recharge", 100);
-        params.put("send", 10);
-        params.put("eventId", 2);
+        params.put("send", 100);
+        params.put("eventId", 43);
         params.put("image", "avatar.jpg");
 
         Response response = OkHttpUtil.post(OkHttpManager.create(null, null),

@@ -377,7 +377,7 @@ public class ElCouponServiceImpl implements ElCouponService {
     }
 
     @Override
-    public void addCoupon(Integer couponId, Integer quantity, Integer storeId,
+    public Long addCoupon(Integer couponId, Integer quantity, Integer storeId,
                           Integer userId, Integer adminId) {
         ElectronicCoupons coupons = electronicCouponsMapper.selectByKey(couponId);
         if (coupons == null) {
@@ -385,7 +385,8 @@ public class ElCouponServiceImpl implements ElCouponService {
         }
         // 给用户添加优惠券
         ElUserCoupon elUserCoupon = new ElUserCoupon();
-        elUserCoupon.setId(orderHelper.genOrderNo(4, 12));
+        Long aLong = orderHelper.genOrderNo(4, 12);
+        elUserCoupon.setId(aLong);
         elUserCoupon.setCouponId(couponId);
         elUserCoupon.setUserId(userId);
         elUserCoupon.setTotalQuantity(quantity);
@@ -398,6 +399,7 @@ public class ElCouponServiceImpl implements ElCouponService {
         if (insert < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "赠送失败");
         }
+        return aLong;
     }
 
     /**

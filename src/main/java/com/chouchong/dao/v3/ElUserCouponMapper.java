@@ -28,4 +28,6 @@ public interface ElUserCouponMapper {
     int updateQuantity(Long num);
 
     int insertUseLog(ElCouponUseLog log);
+
+    ElUserCoupon selectByKey(Long id);
 }

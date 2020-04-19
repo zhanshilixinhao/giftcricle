@@ -213,4 +213,19 @@ where a.status = 1
   and a.id = #{id}
 order by a.created DESC
     </select>
+    <select id="selectByKey" resultType="com.chouchong.entity.v3.ElUserCoupon">
+select id,
+       coupon_id,
+       user_id,
+       total_quantity,
+       quantity,
+       status,
+       code,
+       store_id,
+       admin_id,
+       updated,
+       created
+from el_user_coupon
+where id = #{id}
+    </select>
 </mapper>

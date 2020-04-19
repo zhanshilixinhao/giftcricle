@@ -9,6 +9,7 @@ import com.chouchong.entity.iwant.appUser.AppUser;
 import com.chouchong.entity.iwant.merchant.Merchant;
 import com.chouchong.entity.v3.*;
 import com.chouchong.exception.ServiceException;
+import com.chouchong.redis.MRedisTemplate;
 import com.chouchong.service.v3.TurnoverService;
 import com.chouchong.service.v3.vo.*;
 import com.chouchong.service.webUser.vo.WebUserInfo;
@@ -82,7 +83,13 @@ public class TurnoverServiceImpl implements TurnoverService {
     private VerifyCodeRepository verifyCodeRepository;
 
     @Autowired
-    private AppUserMapper appUserMapper;
+    private MemberEventMapper memberEventMapper;
+
+    @Autowired
+    private MRedisTemplate mRedisTemplate;
+
+    @Autowired
+    private ElUserCouponMapper elUserCouponMapper;
 
     /**
      * 获取营业额统计列表
@@ -582,6 +589,8 @@ public class TurnoverServiceImpl implements TurnoverService {
             if (charge.getStatus() != 1) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "您已消费过无法再退");
             }
+            // 查看是否赠送优惠券
+            check(record);
             storeMemberChargeMapper.selectByKey(charge.getId());
             storeMemberChargeMapper.deleteByPrimaryKey(charge.getId());
         }
@@ -621,6 +630,29 @@ public class TurnoverServiceImpl implements TurnoverService {
         return ResponseFactory.sucMsg("退款成功");
     }
 
+    private void check(MemberChargeRecord record) {
+        if (record.getMemberEventId() != null) {
+            String key = "add_coupon" + record.getUserId();
+            MemberEvent memberEvent = memberEventMapper.selectByPrimaryKey(record.getMemberEventId());
+            if (memberEvent == null) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "会员卡活动出错");
+            }
+            if ((memberEvent.getType() == 2 || memberEvent.getType() == 5) && memberEvent.getTargetId() != null) {
+                // 赠送优惠券
+                String id = mRedisTemplate.getString(key);
+                if (!StringUtils.isBlank(id)) {
+                    ElUserCoupon userCoupon = elUserCouponMapper.selectByKey(Long.parseLong(id));
+                    if (userCoupon == null) {
+                        throw new ServiceException(ErrorCode.ERROR.getCode(), "赠送的优惠券出错");
+                    }
+                    if (!userCoupon.getQuantity().equals(memberEvent.getQuantity())) {
+                        throw new ServiceException(ErrorCode.ERROR.getCode(), "优惠券已使用过，无法再退");
+                    }
+                }
+            }
+            mRedisTemplate.del(key);
+        }
+    }
 
     /**
      * 退回门店金额详情表消费（储值卡）
@@ -657,7 +689,7 @@ public class TurnoverServiceImpl implements TurnoverService {
                     }
                 }
                 // 更新营业额记录状态
-                list.setStatus((byte)-1);
+                list.setStatus((byte) -1);
                 int i = storeTurnoverMapper.updateByPrimaryKeySelective(list);
                 if (i < 1) {
                     throw new ServiceException(ErrorCode.ERROR.getCode(), "删除营业额记录失败");
@@ -712,7 +744,7 @@ public class TurnoverServiceImpl implements TurnoverService {
                     }
                 }
                 // 更新营业额记录状态
-                list.setStatus((byte)-1);
+                list.setStatus((byte) -1);
                 int i = storeTurnoverMapper.updateByPrimaryKeySelective(list);
                 if (i < 1) {
                     throw new ServiceException(ErrorCode.ERROR.getCode(), "删除营业额记录失败");
