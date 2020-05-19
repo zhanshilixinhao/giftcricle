@@ -91,7 +91,6 @@ public class UserCardServiceImpl implements UserCardService {
     private MRedisTemplate mRedisTemplate;
 
 
-
     /**
      * 获取用户会员卡列表
      *
@@ -297,7 +296,7 @@ public class UserCardServiceImpl implements UserCardService {
                 Long id = elCouponService.addCoupon(memberEvent.getTargetId(), memberEvent.getQuantity(),
                         store.getId(), userId, adminId);
                 //添加缓存
-                mRedisTemplate.setString("add_coupon"+userId,id.toString());
+                mRedisTemplate.setString("add_coupon" + userId, id.toString());
             }
         }
         Merchant merchant = merchantMapper.selectByAdminId(webUserInfo.getSysAdmin().getCreateAdminId());
@@ -503,32 +502,34 @@ public class UserCardServiceImpl implements UserCardService {
     private void turnover(Integer userId, Integer cardId, Integer storeMemberId, BigDecimal expense, Integer storeId) {
         //取出之前充值和别人转赠的记录
         List<StoreMemberCharge> charges = storeMemberChargeMapper.selectByUserIdCardId(userId, cardId);
-        if (!CollectionUtils.isEmpty(charges)) {
-            BigDecimal expense1 = expense;
-            for (StoreMemberCharge charge : charges) {
-                //判断此次充值还剩余的余额
-                if (charge.getBalance().compareTo(expense1) == 0) {
-                    // 余额与消费金额相等,更新详细记录，添加消费营业额记录
-                    BigDecimal sub = BigDecimalUtil.sub(charge.getBalance().doubleValue(), expense1.doubleValue());
-                    updateDetailCharge(charge.getId(), sub, (byte) 3);
-                    addStoreTurnover(storeMemberId, expense1, charge.getScale(), storeId, charge.getStoreId(), charge.getMemberEventId(), charge.getId());
-                    break;
-                } else if (charge.getBalance().compareTo(expense1) > 0) {
-                    //余额大于消费金额，更新详细记录，添加消费营业额记录
-                    BigDecimal sub = BigDecimalUtil.sub(charge.getBalance().doubleValue(), expense1.doubleValue());
-                    updateDetailCharge(charge.getId(), sub, (byte) 2);
-                    addStoreTurnover(storeMemberId, expense1, charge.getScale(), storeId, charge.getStoreId(), charge.getMemberEventId(), charge.getId());
-                    break;
-                } else {
-                    //余额小于消费金额
-                    //扣除第一次充值的余额后还不够的钱
-                    BigDecimal sub = BigDecimalUtil.sub(expense1.doubleValue(), charge.getBalance().doubleValue());
-                    updateDetailCharge(charge.getId(), new BigDecimal("0"), (byte) 3);
-                    addStoreTurnover(storeMemberId, charge.getBalance(), charge.getScale(), storeId, charge.getStoreId(), charge.getMemberEventId(), charge.getId());
-                    expense1 = sub;
-                }
+        if (CollectionUtils.isEmpty(charges)) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "会员卡里没有可扣的余额");
+        }
+        BigDecimal expense1 = expense;
+        for (StoreMemberCharge charge : charges) {
+            //判断此次充值还剩余的余额
+            if (charge.getBalance().compareTo(expense1) == 0) {
+                // 余额与消费金额相等,更新详细记录，添加消费营业额记录
+                BigDecimal sub = BigDecimalUtil.sub(charge.getBalance().doubleValue(), expense1.doubleValue());
+                updateDetailCharge(charge.getId(), sub, (byte) 3);
+                addStoreTurnover(storeMemberId, expense1, charge.getScale(), storeId, charge.getStoreId(), charge.getMemberEventId(), charge.getId());
+                break;
+            } else if (charge.getBalance().compareTo(expense1) > 0) {
+                //余额大于消费金额，更新详细记录，添加消费营业额记录
+                BigDecimal sub = BigDecimalUtil.sub(charge.getBalance().doubleValue(), expense1.doubleValue());
+                updateDetailCharge(charge.getId(), sub, (byte) 2);
+                addStoreTurnover(storeMemberId, expense1, charge.getScale(), storeId, charge.getStoreId(), charge.getMemberEventId(), charge.getId());
+                break;
+            } else {
+                //余额小于消费金额
+                //扣除第一次充值的余额后还不够的钱
+                BigDecimal sub = BigDecimalUtil.sub(expense1.doubleValue(), charge.getBalance().doubleValue());
+                updateDetailCharge(charge.getId(), new BigDecimal("0"), (byte) 3);
+                addStoreTurnover(storeMemberId, charge.getBalance(), charge.getScale(), storeId, charge.getStoreId(), charge.getMemberEventId(), charge.getId());
+                expense1 = sub;
             }
         }
+
     }
 
     /**
@@ -885,30 +886,30 @@ public class UserCardServiceImpl implements UserCardService {
         }
         // 总充值
         List<ChargeVo> chargeVos = memberChargeRecordMapper.selectByUserIdCardId(userId, cardId);
-        if (!CollectionUtils.isEmpty(chargeVos)){
+        if (!CollectionUtils.isEmpty(chargeVos)) {
             for (ChargeVo chargeVo : chargeVos) {
-                charge = BigDecimalUtil.add(chargeVo.getRechargeMoney().doubleValue(),charge.doubleValue());
+                charge = BigDecimalUtil.add(chargeVo.getRechargeMoney().doubleValue(), charge.doubleValue());
             }
         }
         // 总消费
         List<ExpenseVo> expenseVos = memberExpenseRecordMapper.selectByUserIdCardId(userId, cardId);
-        if (!CollectionUtils.isEmpty(expenseVos)){
+        if (!CollectionUtils.isEmpty(expenseVos)) {
             for (ExpenseVo expenseVo : expenseVos) {
-                expense = BigDecimalUtil.add(expense.doubleValue(),expenseVo.getExpenseMoney().doubleValue());
+                expense = BigDecimalUtil.add(expense.doubleValue(), expenseVo.getExpenseMoney().doubleValue());
             }
         }
         // 总赠送
-        List<TransferSend> sends = transferSendMapper.selectByUserIdCardId(userId,cardId);
-        if (!CollectionUtils.isEmpty(sends)){
+        List<TransferSend> sends = transferSendMapper.selectByUserIdCardId(userId, cardId);
+        if (!CollectionUtils.isEmpty(sends)) {
             for (TransferSend transferSend : sends) {
-                send = BigDecimalUtil.add(send.doubleValue(),transferSend.getSendMoney().doubleValue());
+                send = BigDecimalUtil.add(send.doubleValue(), transferSend.getSendMoney().doubleValue());
             }
         }
         BigDecimal sub = BigDecimalUtil.sub(charge.doubleValue(), expense.doubleValue());
         BigDecimal sub1 = BigDecimalUtil.sub(sub.doubleValue(), send.doubleValue());
-        if (sub1.compareTo(new BigDecimal("0")) < 0){
+        if (sub1.compareTo(new BigDecimal("0")) < 0) {
             amount = new BigDecimal("0");
-        }else {
+        } else {
             amount = sub1;
         }
         Map<String, Object> map = new HashMap<>();
