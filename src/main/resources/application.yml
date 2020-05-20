@@ -88,11 +88,14 @@ yichen:
     articleDetail: https://43.241.223.169:800/static/article.html?id=
     avatar: /upload/image/180628/45cd175d-2515-4401-88f2-a38dfebb031e.jpg
 
-logging:
-  level:
-    com:
-      chouchong:
-        dao: debug
+#logging:
+#  level:
+#    com:
+#      chouchong:
+#        dao: debug
 server:
   port: 8080
 
+logging:
+  #  path: /home/lin/IdeaProjects/java/liyuquan/GiftCircle_Service/
+  config: classpath:logback-spring.xml

@@ -87,9 +87,9 @@ public class appTest {
     public void ex() throws IOException {
 
         RequestParams params = new RequestParams();
-        params.put("token", "23ee00e3-d09c-4491-af3e-736cace5c045");
-        params.put("cardId", 4);
-        params.put("expense", 3);
+        params.put("token", "6e1e215a-9b8e-430f-84e5-1fbb9423e2e8");
+        params.put("cardId", 3);
+        params.put("expense", 49);
         params.put("phone", "15752400657");
         params.put("password", Utils.toMD5("123456"));
         Response response = OkHttpUtil.post(OkHttpManager.create(null, null),

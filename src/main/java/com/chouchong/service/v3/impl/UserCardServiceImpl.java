@@ -16,8 +16,10 @@ import com.chouchong.service.webUser.vo.WebUserInfo;
 import com.chouchong.utils.BigDecimalUtil;
 import com.chouchong.utils.sms.SendUtil;
 import com.chouchong.utils.sms.SmsSendResult;
+import com.gexin.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -37,6 +39,7 @@ import java.util.*;
  */
 @Service
 @Transactional(rollbackFor = Exception.class, isolation = Isolation.REPEATABLE_READ)
+@Slf4j
 public class UserCardServiceImpl implements UserCardService {
 
     @Autowired
@@ -89,6 +92,7 @@ public class UserCardServiceImpl implements UserCardService {
 
     @Autowired
     private MRedisTemplate mRedisTemplate;
+
 
 
     /**
@@ -296,7 +300,7 @@ public class UserCardServiceImpl implements UserCardService {
                 Long id = elCouponService.addCoupon(memberEvent.getTargetId(), memberEvent.getQuantity(),
                         store.getId(), userId, adminId);
                 //添加缓存
-                mRedisTemplate.setString("add_coupon" + userId, id.toString());
+                mRedisTemplate.setString("add_coupon"+userId,id.toString());
             }
         }
         Merchant merchant = merchantMapper.selectByAdminId(webUserInfo.getSysAdmin().getCreateAdminId());
@@ -398,6 +402,7 @@ public class UserCardServiceImpl implements UserCardService {
     @Override
     public Response expenseCard(Integer userId, String phone, Integer cardId, BigDecimal expense, String explain, String password) throws IOException {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
+        String traceId = (String) httpServletRequest.getAttribute("traceId");
         Integer adminId = webUserInfo.getSysAdmin().getId();
         Store store = storeMapper.selectByAdminId(adminId);
         Integer storeId = null;
@@ -423,8 +428,10 @@ public class UserCardServiceImpl implements UserCardService {
         if (!card1.getPassword().equals(Utils.toMD5(card1.getPhone() + password))) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "密码错误");
         }
+
         // 更新余额
         UserMemberCard card = updateBalance(userId, cardId, (byte) 2, expense, new BigDecimal("0"));
+        log.info("traceId:{},改变后会员卡余额：{}", traceId, JSON.toJSONString(card));
         // 添加消费记录
         MemberExpenseRecord re = new MemberExpenseRecord();
         re.setMembershipCardId(cardId);
@@ -444,6 +451,7 @@ public class UserCardServiceImpl implements UserCardService {
         if (insert < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "失败");
         }
+        log.info("traceId:{},消费记录:{}", traceId, JSON.toJSONString(re));
         String content = "会员卡";
         // 判断是否是活动卡
         // 添加详细记录
@@ -457,6 +465,7 @@ public class UserCardServiceImpl implements UserCardService {
                 }
                 BigDecimal send = BigDecimalUtil.multi(expense.doubleValue(), events.getScale());
                 BigDecimal capital = BigDecimalUtil.sub(expense.doubleValue(), send.doubleValue());
+                log.info("traceId:{},扣款本金:{},扣款赠送:{}", traceId, capital, send);
                 // 添加详细记录
                 StoreMemberEvent ev = new StoreMemberEvent();
                 ev.setUserId(userId);
@@ -500,10 +509,11 @@ public class UserCardServiceImpl implements UserCardService {
      * 普通储蓄卡计算营业额
      */
     private void turnover(Integer userId, Integer cardId, Integer storeMemberId, BigDecimal expense, Integer storeId) {
+        String traceId = (String) httpServletRequest.getAttribute("traceId");
         //取出之前充值和别人转赠的记录
         List<StoreMemberCharge> charges = storeMemberChargeMapper.selectByUserIdCardId(userId, cardId);
         if (CollectionUtils.isEmpty(charges)) {
-            throw new ServiceException(ErrorCode.ERROR.getCode(), "会员卡里没有可扣的余额");
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "充值余额不足!");
         }
         BigDecimal expense1 = expense;
         for (StoreMemberCharge charge : charges) {
@@ -513,12 +523,14 @@ public class UserCardServiceImpl implements UserCardService {
                 BigDecimal sub = BigDecimalUtil.sub(charge.getBalance().doubleValue(), expense1.doubleValue());
                 updateDetailCharge(charge.getId(), sub, (byte) 3);
                 addStoreTurnover(storeMemberId, expense1, charge.getScale(), storeId, charge.getStoreId(), charge.getMemberEventId(), charge.getId());
+                log.info("traceId:{},扣款金额:{},要扣款记录的余额:{}", traceId, expense1, charge.getBalance());
                 break;
             } else if (charge.getBalance().compareTo(expense1) > 0) {
                 //余额大于消费金额，更新详细记录，添加消费营业额记录
                 BigDecimal sub = BigDecimalUtil.sub(charge.getBalance().doubleValue(), expense1.doubleValue());
                 updateDetailCharge(charge.getId(), sub, (byte) 2);
                 addStoreTurnover(storeMemberId, expense1, charge.getScale(), storeId, charge.getStoreId(), charge.getMemberEventId(), charge.getId());
+                log.info("traceId:{},扣款金额:{},要扣款记录的余额:{}", traceId, expense1, charge.getBalance());
                 break;
             } else {
                 //余额小于消费金额
@@ -527,6 +539,7 @@ public class UserCardServiceImpl implements UserCardService {
                 updateDetailCharge(charge.getId(), new BigDecimal("0"), (byte) 3);
                 addStoreTurnover(storeMemberId, charge.getBalance(), charge.getScale(), storeId, charge.getStoreId(), charge.getMemberEventId(), charge.getId());
                 expense1 = sub;
+                log.info("traceId:{},下次需要扣款金额:{},要扣款记录的余额:{}", traceId, expense1, charge.getBalance());
             }
         }
 
@@ -537,11 +550,13 @@ public class UserCardServiceImpl implements UserCardService {
      */
     private void turnoverEventCard(Integer userId, Integer cardId, Integer storeMemberId, BigDecimal capital,
                                    Integer storeId, BigDecimal send) {
+        String traceId = (String) httpServletRequest.getAttribute("traceId");
         //取出之前充值的本金记录
         List<StoreMemberEvent> events = storeMemberEventMapper.selectByUserIdCardId(userId, cardId);
         if (CollectionUtils.isEmpty(events)) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "充值余额不足!");
         }
+        log.info("traceId:{},之前充值的本金记录:{}", traceId, events);
         BigDecimal capital1 = capital;
 //            BigDecimal send1 = send;
         BigDecimal balance = new BigDecimal("0");
@@ -549,6 +564,7 @@ public class UserCardServiceImpl implements UserCardService {
             // 判断充值的余额是否足够
             balance = BigDecimalUtil.add(balance.doubleValue(), event.getCapitalBalance().doubleValue());
         }
+        log.info("traceId:{},消费金额:{},之前充值的余额:{}", traceId, capital1, balance);
         if (balance.compareTo(capital) < 0) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "充值余额不足");
         } else {
@@ -557,6 +573,7 @@ public class UserCardServiceImpl implements UserCardService {
                 if (event.getCapitalBalance().compareTo(capital1) == 0) {
                     updateDetailEvent(event.getId(), new BigDecimal("0"), (byte) 3, event.getSendBalance(), event.getSendStatus());
                     addStoreTurnoverEvent(storeMemberId, capital1, new BigDecimal("0"), storeId, event.getStoreId(), event.getMemberEventId(), event.getId());
+                    log.info("traceId:{},扣款金额:{},要扣款记录的余额:{}", traceId, capital1, event.getCapitalBalance());
                     break;
                 } else if (event.getCapitalBalance().compareTo(capital1) > 0) {
                     //本金余额大于消费本金,
@@ -564,8 +581,8 @@ public class UserCardServiceImpl implements UserCardService {
                     BigDecimal ca = BigDecimalUtil.sub(event.getCapitalBalance().doubleValue(), capital1.doubleValue());
                     updateDetailEvent(event.getId(), ca, (byte) 2, event.getSendBalance(), event.getSendStatus());
                     addStoreTurnoverEvent(storeMemberId, capital1, new BigDecimal("0"), storeId, event.getStoreId(), event.getMemberEventId(), event.getId());
+                    log.info("traceId:{},扣款金额:{},要扣款记录的余额:{}", traceId, capital1, event.getCapitalBalance());
                     break;
-
                 } else {
                     //本金余额小于消费本金,
                     // 更新详细记录，添加消费营业额记录
@@ -574,37 +591,42 @@ public class UserCardServiceImpl implements UserCardService {
                     updateDetailEvent(event.getId(), new BigDecimal("0"), (byte) 3, event.getSendBalance(), event.getSendStatus());
                     addStoreTurnoverEvent(storeMemberId, event.getCapitalBalance(), new BigDecimal("0"), storeId, event.getStoreId(), event.getMemberEventId(), event.getId());
                     capital1 = ca;
+                    log.info("traceId:{},下次需要扣款金额:{},要扣款记录的余额:{}", traceId, capital1, event.getCapitalBalance());
                 }
             }
         }
-
         // 取出之前充值的赠送记录
         List<StoreMemberEvent> sends = storeMemberEventMapper.selectByUserIdCardId1(userId, cardId);
-        if (!CollectionUtils.isEmpty(sends)) {
-            BigDecimal send1 = send;
-            for (StoreMemberEvent store : sends) {
-                if (store.getSendBalance().compareTo(send1) == 0) {
-                    // 赠送金额等于赠送金额剩余
-                    // 更新详细记录，添加消费营业额记录
-                    updateDetailEvent(store.getId(), store.getCapitalBalance(), store.getCapitalStatus(), new BigDecimal("0"), (byte) 3);
-                    addStoreTurnoverEvent(storeMemberId, new BigDecimal("0"), send1, storeId, store.getStoreId(), store.getMemberEventId(), store.getId());
-                    break;
-                } else if (store.getSendBalance().compareTo(send1) > 0) {
-                    // 赠送金额大于赠送金额剩余
-                    // 更新详细记录，添加消费营业额记录
-                    BigDecimal se = BigDecimalUtil.sub(store.getSendBalance().doubleValue(), send1.doubleValue());
-                    updateDetailEvent(store.getId(), store.getCapitalBalance(), store.getCapitalStatus(), se, (byte) 2);
-                    addStoreTurnoverEvent(storeMemberId, new BigDecimal("0"), send1, storeId, store.getStoreId(), store.getMemberEventId(), store.getId());
-                    break;
-                } else {
-                    // 赠送金额小于赠送金额剩余
-                    // 更新详细记录，添加消费营业额记录
-                    //扣除第一次充值的余额后还不够的钱
-                    BigDecimal se = BigDecimalUtil.sub(send1.doubleValue(), store.getSendBalance().doubleValue());
-                    updateDetailEvent(store.getId(), store.getCapitalBalance(), store.getCapitalStatus(), new BigDecimal("0"), (byte) 3);
-                    addStoreTurnoverEvent(storeMemberId, new BigDecimal("0"), store.getSendBalance(), storeId, store.getStoreId(), store.getMemberEventId(), store.getId());
-                    send1 = se;
-                }
+        if (CollectionUtils.isEmpty(sends)) {
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "赠送余额不足!");
+        }
+        log.info("traceId:{},之前充值的本金记录:{}", traceId, events);
+        BigDecimal send1 = send;
+        for (StoreMemberEvent store : sends) {
+            if (store.getSendBalance().compareTo(send1) == 0) {
+                // 赠送金额等于赠送金额剩余
+                // 更新详细记录，添加消费营业额记录
+                updateDetailEvent(store.getId(), store.getCapitalBalance(), store.getCapitalStatus(), new BigDecimal("0"), (byte) 3);
+                addStoreTurnoverEvent(storeMemberId, new BigDecimal("0"), send1, storeId, store.getStoreId(), store.getMemberEventId(), store.getId());
+                log.info("traceId:{},扣款金额:{},要扣款记录的余额:{}", traceId, send1, store.getSendBalance());
+                break;
+            } else if (store.getSendBalance().compareTo(send1) > 0) {
+                // 赠送金额大于赠送金额剩余
+                // 更新详细记录，添加消费营业额记录
+                BigDecimal se = BigDecimalUtil.sub(store.getSendBalance().doubleValue(), send1.doubleValue());
+                updateDetailEvent(store.getId(), store.getCapitalBalance(), store.getCapitalStatus(), se, (byte) 2);
+                addStoreTurnoverEvent(storeMemberId, new BigDecimal("0"), send1, storeId, store.getStoreId(), store.getMemberEventId(), store.getId());
+                log.info("traceId:{},扣款金额:{},要扣款记录的余额:{}", traceId, send1, store.getSendBalance());
+                break;
+            } else {
+                // 赠送金额小于赠送金额剩余
+                // 更新详细记录，添加消费营业额记录
+                //扣除第一次充值的余额后还不够的钱
+                BigDecimal se = BigDecimalUtil.sub(send1.doubleValue(), store.getSendBalance().doubleValue());
+                updateDetailEvent(store.getId(), store.getCapitalBalance(), store.getCapitalStatus(), new BigDecimal("0"), (byte) 3);
+                addStoreTurnoverEvent(storeMemberId, new BigDecimal("0"), store.getSendBalance(), storeId, store.getStoreId(), store.getMemberEventId(), store.getId());
+                send1 = se;
+                log.info("traceId:{},下次需要扣款金额:{},要扣款记录的余额:{}", traceId, send1, store.getSendBalance());
             }
         }
     }
@@ -616,10 +638,12 @@ public class UserCardServiceImpl implements UserCardService {
      * @return
      */
     private UserMemberCard updateBalance(Integer userId, Integer cardId, Byte type, BigDecimal balance, BigDecimal send) {
+        String traceId = (String) httpServletRequest.getAttribute("traceId");
         UserMemberCard card = userMemberCardMapper.selectByUseridcardId(userId, cardId);
         if (card == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "该用户会员卡不存在");
         }
+        log.info("traceId:{},改变前会员卡余额：{}", traceId, JSON.toJSONString(card));
         if (send == null) {
             send = new BigDecimal("0");
         }
@@ -628,6 +652,7 @@ public class UserCardServiceImpl implements UserCardService {
             BigDecimal total = BigDecimalUtil.add(balance.doubleValue(), send.doubleValue());
             card.setBalance(BigDecimalUtil.add(card.getBalance().doubleValue(), total.doubleValue()));
             card.setTotalAmount(BigDecimalUtil.add(card.getTotalAmount().doubleValue(), total.doubleValue()));
+            log.info("traceId:{},balance:{}", traceId, card.getBalance());
         } else {
             // 消费
             if (card.getBalance().compareTo(balance) < 0) {
@@ -635,6 +660,7 @@ public class UserCardServiceImpl implements UserCardService {
             }
             card.setBalance(BigDecimalUtil.sub(card.getBalance().doubleValue(), balance.doubleValue()));
             card.setConsumeAmount(BigDecimalUtil.add(card.getConsumeAmount().doubleValue(), balance.doubleValue()));
+            log.info("traceId:{},balance:{}", traceId, card.getBalance());
         }
         int i = userMemberCardMapper.updateByPrimaryKeySelective(card);
         if (i < 1) {
@@ -650,6 +676,7 @@ public class UserCardServiceImpl implements UserCardService {
      */
     private int detailCharge(Integer userId, Integer merchant, Integer storeId, BigDecimal re, Integer cardId, BigDecimal send, BigDecimal ex,
                              Byte type, String explain, BigDecimal total, Float scale, BigDecimal balance, Byte status, Integer eventId, Long orderNo) {
+        String traceId = (String) httpServletRequest.getAttribute("traceId");
         StoreMemberCharge store = new StoreMemberCharge();
         store.setUserId(userId);
         store.setMerchantId(merchant);
@@ -666,6 +693,7 @@ public class UserCardServiceImpl implements UserCardService {
         store.setStatus(status);
         store.setMemberEventId(eventId);
         store.setOrderNo(orderNo);
+        log.info("traceId:{},普通储值卡消费详细记录:{}", traceId, JSON.toJSONString(store));
         int insert = storeMemberChargeMapper.insert(store);
         if (insert < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "失败");
@@ -679,6 +707,7 @@ public class UserCardServiceImpl implements UserCardService {
      * @return
      */
     private int detailChargeEvent(StoreMemberEvent event) {
+        String traceId = (String) httpServletRequest.getAttribute("traceId");
         StoreMemberEvent ev = new StoreMemberEvent();
         ev.setUserId(event.getUserId());
         ev.setMembershipCardId(event.getMembershipCardId());
@@ -699,6 +728,7 @@ public class UserCardServiceImpl implements UserCardService {
         if (memberEvent != null && memberEvent.getScale() != null) {
             ev.setScale(memberEvent.getScale());
         }
+        log.info("traceId:{},活动卡消费详细记录:{}", traceId, JSON.toJSONString(ev));
         int insert = storeMemberEventMapper.insert(ev);
         if (insert < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "失败");
@@ -715,12 +745,15 @@ public class UserCardServiceImpl implements UserCardService {
      * @param status  状态
      */
     private void updateDetailCharge(Integer id, BigDecimal balance, Byte status) {
+        String traceId = (String) httpServletRequest.getAttribute("traceId");
         StoreMemberCharge store = storeMemberChargeMapper.selectByPrimaryKey(id);
         if (store == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "该记录不存在");
         }
+        log.info("traceId:{},普通卡消费详细记录:{}", traceId, JSON.toJSONString(store));
         store.setBalance(balance);
         store.setStatus(status);
+        log.info("traceId:{},普通卡消费详细记录:{}", traceId, JSON.toJSONString(store));
         int i = storeMemberChargeMapper.updateByPrimaryKeySelective(store);
         if (i < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "失败");
@@ -734,14 +767,17 @@ public class UserCardServiceImpl implements UserCardService {
      */
     private void updateDetailEvent(Integer id, BigDecimal capitalBalance, Byte cStatus,
                                    BigDecimal sendBalance, Byte sendStatus) {
+        String traceId = (String) httpServletRequest.getAttribute("traceId");
         StoreMemberEvent store = storeMemberEventMapper.selectByPrimaryKey(id);
         if (store == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "该记录不存在");
         }
+        log.info("traceId:{},活动卡消费详细记录更新前:{}", traceId, JSON.toJSONString(store));
         store.setCapitalBalance(capitalBalance);
         store.setCapitalStatus(cStatus);
         store.setSendBalance(sendBalance);
         store.setSendStatus(sendStatus);
+        log.info("traceId:{},活动卡消费详细记录更新后:{}", traceId, JSON.toJSONString(store));
         int i = storeMemberEventMapper.updateByPrimaryKeySelective(store);
         if (i < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "失败");
@@ -754,10 +790,11 @@ public class UserCardServiceImpl implements UserCardService {
     private void addStoreTurnover(Integer storeMemberId, BigDecimal ex, Float scale, Integer storeId,
                                   Integer blagStoreId, Integer eventId, Integer storeChargeId) {
         //营业额
-
+        String traceId = (String) httpServletRequest.getAttribute("traceId");
         BigDecimal multi = BigDecimalUtil.multi(ex.doubleValue(), scale);
         // 收入
         BigDecimal sub = BigDecimalUtil.sub(ex.doubleValue(), multi.doubleValue());
+        log.info("traceId:{},实付:{},优惠:{}", traceId, sub, multi);
         StoreTurnover turnover = new StoreTurnover();
         turnover.setStoreMemberId(storeMemberId);
         turnover.setBlagMoney(sub);
@@ -770,6 +807,7 @@ public class UserCardServiceImpl implements UserCardService {
         turnover.setStoreChargeId(storeChargeId);
         turnover.setType((byte) 1);
         turnover.setStatus((byte) 1);
+        log.info("traceId:{},储值卡营业额记录:{}", traceId, JSON.toJSONString(turnover));
         int insert = storeTurnoverMapper.insert(turnover);
         if (insert < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "失败");
@@ -781,6 +819,7 @@ public class UserCardServiceImpl implements UserCardService {
      */
     private void addStoreTurnoverEvent(Integer storeMemberId, BigDecimal blag, BigDecimal turnoverMoney, Integer storeId,
                                        Integer blagStoreId, Integer eventId, Integer storeChargeId) {
+        String traceId = (String) httpServletRequest.getAttribute("traceId");
         StoreTurnover turnover = new StoreTurnover();
         turnover.setStoreMemberId(storeMemberId);
         turnover.setBlagMoney(blag);
@@ -793,6 +832,7 @@ public class UserCardServiceImpl implements UserCardService {
         turnover.setStoreChargeId(storeChargeId);
         turnover.setType((byte) 2);
         turnover.setStatus((byte) 1);
+        log.info("traceId:{},活动卡营业额记录:{}", traceId, JSON.toJSONString(turnover));
         int insert = storeTurnoverMapper.insert(turnover);
         if (insert < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "失败");
@@ -886,30 +926,30 @@ public class UserCardServiceImpl implements UserCardService {
         }
         // 总充值
         List<ChargeVo> chargeVos = memberChargeRecordMapper.selectByUserIdCardId(userId, cardId);
-        if (!CollectionUtils.isEmpty(chargeVos)) {
+        if (!CollectionUtils.isEmpty(chargeVos)){
             for (ChargeVo chargeVo : chargeVos) {
-                charge = BigDecimalUtil.add(chargeVo.getRechargeMoney().doubleValue(), charge.doubleValue());
+                charge = BigDecimalUtil.add(chargeVo.getRechargeMoney().doubleValue(),charge.doubleValue());
             }
         }
         // 总消费
         List<ExpenseVo> expenseVos = memberExpenseRecordMapper.selectByUserIdCardId(userId, cardId);
-        if (!CollectionUtils.isEmpty(expenseVos)) {
+        if (!CollectionUtils.isEmpty(expenseVos)){
             for (ExpenseVo expenseVo : expenseVos) {
-                expense = BigDecimalUtil.add(expense.doubleValue(), expenseVo.getExpenseMoney().doubleValue());
+                expense = BigDecimalUtil.add(expense.doubleValue(),expenseVo.getExpenseMoney().doubleValue());
             }
         }
         // 总赠送
-        List<TransferSend> sends = transferSendMapper.selectByUserIdCardId(userId, cardId);
-        if (!CollectionUtils.isEmpty(sends)) {
+        List<TransferSend> sends = transferSendMapper.selectByUserIdCardId(userId,cardId);
+        if (!CollectionUtils.isEmpty(sends)){
             for (TransferSend transferSend : sends) {
-                send = BigDecimalUtil.add(send.doubleValue(), transferSend.getSendMoney().doubleValue());
+                send = BigDecimalUtil.add(send.doubleValue(),transferSend.getSendMoney().doubleValue());
             }
         }
         BigDecimal sub = BigDecimalUtil.sub(charge.doubleValue(), expense.doubleValue());
         BigDecimal sub1 = BigDecimalUtil.sub(sub.doubleValue(), send.doubleValue());
-        if (sub1.compareTo(new BigDecimal("0")) < 0) {
+        if (sub1.compareTo(new BigDecimal("0")) < 0){
             amount = new BigDecimal("0");
-        } else {
+        }else {
             amount = sub1;
         }
         Map<String, Object> map = new HashMap<>();
