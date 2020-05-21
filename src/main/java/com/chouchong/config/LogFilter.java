@@ -2,10 +2,12 @@ package com.chouchong.config;
 
 import com.chouchong.common.ErrorCode;
 import com.chouchong.exception.ServiceException;
+import com.gexin.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -14,8 +16,7 @@ import javax.servlet.WriteListener;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Enumeration;
 import java.util.UUID;
 
@@ -77,6 +78,7 @@ public class LogFilter extends OncePerRequestFilter {
             copy.write(b);
         }
 
+
         @Override
         public void write(byte[] b) throws IOException {
             // TODO Auto-generated method stub
@@ -116,6 +118,11 @@ public class LogFilter extends OncePerRequestFilter {
 
         private volatile MonitorOutoutStream mos;
 
+        @Override
+        public PrintWriter getWriter() throws IOException {
+            return new ResponsePrintWriter("UTF-8", this);
+        }
+
         public ServletResponseWrapper(HttpServletResponse response) {
             super(response);
             // TODO Auto-generated constructor stub
@@ -140,6 +147,28 @@ public class LogFilter extends OncePerRequestFilter {
             return new String(mos.getWroteInfo());
 
 
+        }
+    }
+
+    private static class ResponsePrintWriter extends PrintWriter {
+
+        public ResponsePrintWriter(String characterEncoding, ServletResponseWrapper responseWrapper) throws IOException {
+            super(new OutputStreamWriter(responseWrapper.getOutputStream()));
+        }
+
+        public void write(char[] buf, int off, int len) {
+            super.write(buf, off, len);
+            super.flush();
+        }
+
+        public void write(String s, int off, int len) {
+            super.write(s, off, len);
+            super.flush();
+        }
+
+        public void write(int c) {
+            super.write(c);
+            super.flush();
         }
     }
 

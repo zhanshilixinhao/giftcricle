@@ -18,6 +18,7 @@ import com.chouchong.utils.TimeUtils;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -35,6 +36,7 @@ import java.util.List;
  * @date 2020/2/11 16:15
  */
 @Service
+@Slf4j
 public class ElCouponServiceImpl implements ElCouponService {
 
     @Autowired
@@ -379,10 +381,12 @@ public class ElCouponServiceImpl implements ElCouponService {
     @Override
     public Long addCoupon(Integer couponId, Integer quantity, Integer storeId,
                           Integer userId, Integer adminId) {
+        String traceId = (String) httpServletRequest.getAttribute("traceId");
         ElectronicCoupons coupons = electronicCouponsMapper.selectByKey(couponId);
         if (coupons == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "该优惠券不存在或已被删除");
         }
+        log.info("traceId:{}, 优惠券:{}", traceId, JSON.toJSONString(coupons));
         // 给用户添加优惠券
         ElUserCoupon elUserCoupon = new ElUserCoupon();
         Long aLong = orderHelper.genOrderNo(4, 12);
@@ -399,6 +403,7 @@ public class ElCouponServiceImpl implements ElCouponService {
         if (insert < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "赠送失败");
         }
+        log.info("traceId:{}, 用户优惠券:{}", traceId, JSON.toJSONString(elUserCoupon));
         return aLong;
     }
 

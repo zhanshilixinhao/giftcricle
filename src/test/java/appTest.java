@@ -24,7 +24,7 @@ public class appTest {
     @Test
     public void login() throws IOException {
         RequestParams params = new RequestParams();
-        params.put("username", "test");
+//        params.put("username", "test");
         params.put("password", "123456");
         Response response = OkHttpUtil.post(new OkHttpClient(),
                 "http://localhost:8080/manage/user/login", params);
@@ -87,9 +87,9 @@ public class appTest {
     public void ex() throws IOException {
 
         RequestParams params = new RequestParams();
-        params.put("token", "6e1e215a-9b8e-430f-84e5-1fbb9423e2e8");
+        params.put("token", "01996ea6-37b5-4e18-92a2-e0f2f91be40b");
         params.put("cardId", 3);
-        params.put("expense", 49);
+        params.put("expense", 100);
         params.put("phone", "15752400657");
         params.put("password", Utils.toMD5("123456"));
         Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
@@ -136,12 +136,25 @@ public class appTest {
     public void refund1() throws IOException {
 
         RequestParams params = new RequestParams();
-        params.put("token", "c0f0d2a9-9713-44d3-b1e6-8e672e5155d3");
-        params.put("orderNo",71020041921171L);
+        params.put("token", "01996ea6-37b5-4e18-92a2-e0f2f91be40b");
+        params.put("orderNo",71020052113119L);
         params.put("phone", "15752400657");
         params.put("code", "123456");
         Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
                 "http://localhost:8080/manage/v3/turnover/refund_charge", params);
+        System.out.println(response.body().string());
+    }
+
+    @Test
+    public void reefund1() throws IOException {
+
+        RequestParams params = new RequestParams();
+        params.put("token", "01996ea6-37b5-4e18-92a2-e0f2f91be40b");
+        params.put("orderNo",71120052111100L);
+//        params.put("phone", "15752400657");
+        params.put("code", "123456");
+        Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
+                "http://localhost:8080/manage/v3/turnover/refund", params);
         System.out.println(response.body().string());
     }
 
@@ -250,7 +263,7 @@ public class appTest {
     public void charge1() throws IOException {
 
         RequestParams params = new RequestParams();
-        params.put("token", "c0f0d2a9-9713-44d3-b1e6-8e672e5155d3");
+        params.put("token", "01996ea6-37b5-4e18-92a2-e0f2f91be40b");
         params.put("phone", "15752400657");
         params.put("cardId", 3);
         params.put("recharge", 100);

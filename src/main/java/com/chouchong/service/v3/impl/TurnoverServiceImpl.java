@@ -17,8 +17,10 @@ import com.chouchong.utils.BigDecimalUtil;
 import com.chouchong.utils.TimeUtils;
 import com.chouchong.utils.sms.VerifyCode;
 import com.chouchong.utils.sms.VerifyCodeRepository;
+import com.gexin.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +40,7 @@ import java.util.List;
  */
 @Service
 @Transactional(rollbackFor = Exception.class, isolation = Isolation.REPEATABLE_READ)
+@Slf4j
 public class TurnoverServiceImpl implements TurnoverService {
 
     @Autowired
@@ -429,6 +432,7 @@ public class TurnoverServiceImpl implements TurnoverService {
     @Override
     public Response refundExpense(Long orderNo, String phone, String code, String explain) {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
+        String traceId = (String) httpServletRequest.getAttribute("traceId");
         Integer adminId = webUserInfo.getSysAdmin().getId();
         Store store = storeMapper.selectByAdminId(webUserInfo.getSysAdmin().getId());
         if (store == null) {
@@ -443,6 +447,7 @@ public class TurnoverServiceImpl implements TurnoverService {
         if (record == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "记录不存在或订单号输入错误");
         }
+        log.info("traceId:{}, 消费记录:{}", traceId, JSON.toJSONString(record));
         // 校验手机号和用户
 //        AppUser appUser = appUserMapper.selectByPhone1(phone);
 //        if (appUser == null || !appUser.getId().equals(record.getUserId())){
@@ -461,12 +466,14 @@ public class TurnoverServiceImpl implements TurnoverService {
         // 退回用户余额
         UserMemberCard user = userMemberCardMapper.selectByUseridcardId(record.getUserId(), record.getMembershipCardId());
         if (user != null) {
+            log.info("traceId:{}, 用户余额退回前:{}", traceId, JSON.toJSONString(user));
             user.setBalance(BigDecimalUtil.add(user.getBalance().doubleValue(), record.getExpenseMoney().doubleValue()));
             user.setConsumeAmount(BigDecimalUtil.add(user.getConsumeAmount().doubleValue(), record.getExpenseMoney().doubleValue()));
             int i1 = userMemberCardMapper.updateByPrimaryKeySelective(user);
             if (i1 < 1) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "退回用户余额失败");
             }
+            log.info("traceId:{}, 用户余额退回后:{}", traceId, JSON.toJSONString(user));
         }
         // 添加退款记录
         CardRebate rebate = new CardRebate();
@@ -484,12 +491,14 @@ public class TurnoverServiceImpl implements TurnoverService {
         rebate.setAdminId(adminId);
         rebate.setType((byte) 2);
         addCardRebate(rebate);
+        log.info("traceId:{},退款记录:{}", traceId, JSON.toJSONString(rebate));
         // 删除消费记录
         memberExpenseRecordMapper.selectByKey(record.getId());
         int i = memberExpenseRecordMapper.deleteByPrimaryKey(record.getId());
         if (i < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "删除消费记录失败");
         }
+        log.info("traceId:{},删除消费记录成功", traceId);
         return ResponseFactory.sucMsg("退款成功");
     }
 
@@ -551,6 +560,7 @@ public class TurnoverServiceImpl implements TurnoverService {
      */
     @Override
     public Response refundCharge(Long orderNo, String phone, String code, String explain) {
+        String traceId = (String) httpServletRequest.getAttribute("traceId");
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         Integer adminId = webUserInfo.getSysAdmin().getId();
         Store store = storeMapper.selectByAdminId(webUserInfo.getSysAdmin().getId());
@@ -566,7 +576,9 @@ public class TurnoverServiceImpl implements TurnoverService {
         if (record == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "充值记录不存在");
         }
+        log.info("traceId:{}, 充值记录:{}", traceId, JSON.toJSONString(record));
         BigDecimal add = BigDecimalUtil.add(record.getRechargeMoney().doubleValue(), record.getSendMoney().doubleValue());
+        log.info("traceId:{}, 总退款:{}", traceId, add);
         // 查询会员卡类型
         Byte type = membershipCardMapper.selectTypeById(record.getMembershipCardId());
         // 退款
@@ -576,16 +588,19 @@ public class TurnoverServiceImpl implements TurnoverService {
             if (event == null) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "金额详情记录不存在1");
             }
+            log.info("traceId:{}, 充值记录详情:{}", traceId, JSON.toJSONString(event));
             if (event.getCapitalStatus() != 1 || event.getSendStatus() != 1) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "您已消费过无法再退1");
             }
             storeMemberEventMapper.selectByKey(event.getId());
             storeMemberEventMapper.deleteByPrimaryKey(event.getId());
+            log.info("traceId:{}, 充值记录详情删除成功", traceId);
         } else {
             StoreMemberCharge charge = storeMemberChargeMapper.selectByUserIdCardIdOrderNo1(record.getMembershipCardId(), record.getUserId(), orderNo);
             if (charge == null) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "金额详情记录不存在2");
             }
+            log.info("traceId:{}, 充值记录详情:{}", traceId, JSON.toJSONString(charge));
             if (charge.getStatus() != 1) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "您已消费过无法再退");
             }
@@ -593,18 +608,21 @@ public class TurnoverServiceImpl implements TurnoverService {
             check(record);
             storeMemberChargeMapper.selectByKey(charge.getId());
             storeMemberChargeMapper.deleteByPrimaryKey(charge.getId());
+            log.info("traceId:{}, 充值记录详情删除成功", traceId);
         }
         // 扣除用户余额
         UserMemberCard user = userMemberCardMapper.selectByUseridcardId(record.getUserId(), record.getMembershipCardId());
         if (user == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "用户余额不存在");
         }
+        log.info("traceId:{}, 扣除前用户余额:{}", traceId, JSON.toJSONString(user));
         user.setBalance(BigDecimalUtil.sub(user.getBalance().doubleValue(), add.doubleValue()));
         user.setTotalAmount(BigDecimalUtil.sub(user.getTotalAmount().doubleValue(), add.doubleValue()));
         int i1 = userMemberCardMapper.updateByPrimaryKeySelective(user);
         if (i1 < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "退回用户余额失败");
         }
+        log.info("traceId:{}, 扣除后用户余额:{}", traceId, JSON.toJSONString(user));
         // 添加退款记录
         CardRebate rebate = new CardRebate();
         rebate.setUserId(record.getUserId());
@@ -621,22 +639,26 @@ public class TurnoverServiceImpl implements TurnoverService {
         rebate.setAdminId(adminId);
         rebate.setType((byte) 1);
         addCardRebate(rebate);
+        log.info("traceId:{}, 退款记录:{}", traceId, JSON.toJSONString(rebate));
         // 删除充值记录
         memberChargeRecordMapper.selectByKey(record.getId());
         int i = memberChargeRecordMapper.deleteByPrimaryKey(record.getId());
         if (i < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "删除记录失败");
         }
+        log.info("traceId:{}, 删除充值记录成功", traceId);
         return ResponseFactory.sucMsg("退款成功");
     }
 
     private void check(MemberChargeRecord record) {
+        String traceId = (String) httpServletRequest.getAttribute("traceId");
         if (record.getMemberEventId() != null) {
             String key = "add_coupon" + record.getUserId();
             MemberEvent memberEvent = memberEventMapper.selectByPrimaryKey(record.getMemberEventId());
             if (memberEvent == null) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "会员卡活动出错");
             }
+            log.info("traceId:{}, 活动:{}", traceId, JSON.toJSONString(memberEvent));
             if ((memberEvent.getType() == 2 || memberEvent.getType() == 5) && memberEvent.getTargetId() != null) {
                 // 赠送优惠券
                 String id = mRedisTemplate.getString(key);
@@ -648,11 +670,14 @@ public class TurnoverServiceImpl implements TurnoverService {
                     if (!userCoupon.getQuantity().equals(memberEvent.getQuantity())) {
                         throw new ServiceException(ErrorCode.ERROR.getCode(), "优惠券已使用过，无法再退");
                     }
+                    log.info("traceId:{}, 赠送优惠券:{}", traceId, JSON.toJSONString(userCoupon));
                     // 删除优惠券
                     elUserCouponMapper.deleteById(Long.parseLong(id));
+                    log.info("traceId:{}, 删除优惠券成功", traceId);
                 }
             }
             mRedisTemplate.del(key);
+            log.info("traceId:{}, 删除优惠券缓存成功", traceId);
         }
     }
 
@@ -664,21 +689,28 @@ public class TurnoverServiceImpl implements TurnoverService {
      * @param orderNo 订单号
      */
     private void rebateStoreMemberCharge(Integer cardId, Integer userId, Long orderNo) {
+        String traceId = (String) httpServletRequest.getAttribute("traceId");
         // 查询消费详情记录
         StoreMemberCharge charge = storeMemberChargeMapper.selectByUserIdCardIdOrderNo(cardId, userId, orderNo);
         if (charge == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "金额详情记录不存在");
         }
+        log.info("traceId:{}, 消费详情记录:{}", traceId, JSON.toJSONString(charge));
         List<StoreTurnover> lists = storeTurnoverMapper.selectByStoreMId(charge.getId(), (byte) 1);
         if (!CollectionUtils.isEmpty(lists)) {
+            log.info("traceId:{}, 营业额记录:{}", traceId, JSON.toJSONString(lists));
             for (StoreTurnover list : lists) {
+                log.info("traceId:{}, 营业额更新前记录:{}", traceId, JSON.toJSONString(list));
                 // 总扣款金额
                 BigDecimal add = BigDecimalUtil.add(list.getBlagMoney().doubleValue(), list.getTurnoverMoney().doubleValue());
+                log.info("traceId:{}, 总扣款金额:{}", traceId, add);
                 // 查询被扣款的记录并更新记录
                 StoreMemberCharge charge1 = storeMemberChargeMapper.selectByPrimaryKey(list.getStoreChargeId());
+                log.info("traceId:{}, 被扣款的记录前:{}", traceId, JSON.toJSONString(charge1));
                 if (charge1 != null) {
                     // 退回余额
                     BigDecimal balance = BigDecimalUtil.add(charge1.getBalance().doubleValue(), add.doubleValue());
+                    log.info("traceId:{}, 退回余额:{}", traceId, balance);
                     charge1.setBalance(balance);
                     if (balance.compareTo(charge1.getTotalMoney()) == 0) {
                         charge1.setStatus((byte) 1);
@@ -689,6 +721,7 @@ public class TurnoverServiceImpl implements TurnoverService {
                     if (i < 1) {
                         throw new ServiceException(ErrorCode.ERROR.getCode(), "更新失败");
                     }
+                    log.info("traceId:{}, 被扣款的记录更新后:{}", traceId, JSON.toJSONString(charge1));
                 }
                 // 更新营业额记录状态
                 list.setStatus((byte) -1);
@@ -696,6 +729,7 @@ public class TurnoverServiceImpl implements TurnoverService {
                 if (i < 1) {
                     throw new ServiceException(ErrorCode.ERROR.getCode(), "删除营业额记录失败");
                 }
+                log.info("traceId:{}, 营业额更新后记录:{}", traceId, JSON.toJSONString(list));
             }
         }
         //删除门店详情扣款记录
@@ -704,6 +738,7 @@ public class TurnoverServiceImpl implements TurnoverService {
         if (i < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "删除门店详情扣款记录失败");
         }
+        log.info("traceId:{}, 删除删除门店详情扣款记录成功", traceId);
     }
 
     /**
@@ -714,20 +749,26 @@ public class TurnoverServiceImpl implements TurnoverService {
      * @param orderNo 订单号
      */
     private void rebateStoreMemberEvent(Integer cardId, Integer userId, Long orderNo) {
+        String traceId = (String) httpServletRequest.getAttribute("traceId");
         // 查询消费详情记录
         StoreMemberEvent event = storeMemberEventMapper.selectByUserIdCardIdOrderNo(cardId, userId, orderNo);
         if (event == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "金额详情记录不存在");
         }
+        log.info("traceId:{}, 消费详情记录:{}", traceId, JSON.toJSONString(event));
         List<StoreTurnover> lists = storeTurnoverMapper.selectByStoreMId(event.getId(), (byte) 2);
         if (!CollectionUtils.isEmpty(lists)) {
+            log.info("traceId:{}, 营业额记录:{}", traceId, JSON.toJSONString(lists));
             for (StoreTurnover list : lists) {
+                log.info("traceId:{}, 营业额更新前记录:{}", traceId, JSON.toJSONString(list));
                 // 查询被扣款的记录并更新记录
                 StoreMemberEvent event1 = storeMemberEventMapper.selectByPrimaryKey(list.getStoreChargeId());
+                log.info("traceId:{}, 被扣款的记录:{}", traceId, JSON.toJSONString(event1));
                 if (event1 != null) {
                     // 退回余额
                     BigDecimal ca = BigDecimalUtil.add(list.getBlagMoney().doubleValue(), event1.getCapitalBalance().doubleValue());
                     BigDecimal se = BigDecimalUtil.add(list.getTurnoverMoney().doubleValue(), event1.getSendBalance().doubleValue());
+                    log.info("traceId:{}, 退回余额本金:{}， 退回余额赠送:{}", traceId, ca, se);
                     event1.setCapitalBalance(ca);
                     event1.setSendBalance(se);
                     if (ca.compareTo(event1.getCapitalMoney()) == 0) {
@@ -744,6 +785,7 @@ public class TurnoverServiceImpl implements TurnoverService {
                     if (i < 1) {
                         throw new ServiceException(ErrorCode.ERROR.getCode(), "更新失败");
                     }
+                    log.info("traceId:{}, 被扣款的记录更新后:{}", traceId, JSON.toJSONString(event1));
                 }
                 // 更新营业额记录状态
                 list.setStatus((byte) -1);
@@ -751,6 +793,7 @@ public class TurnoverServiceImpl implements TurnoverService {
                 if (i < 1) {
                     throw new ServiceException(ErrorCode.ERROR.getCode(), "删除营业额记录失败");
                 }
+                log.info("traceId:{}, 营业额更新后记录:{}", traceId, JSON.toJSONString(list));
             }
         }
         //删除门店详情扣款记录
@@ -759,6 +802,7 @@ public class TurnoverServiceImpl implements TurnoverService {
         if (i < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "删除门店详情扣款记录失败");
         }
+        log.info("traceId:{}, 删除删除门店详情扣款记录成功", traceId);
     }
 
     /**

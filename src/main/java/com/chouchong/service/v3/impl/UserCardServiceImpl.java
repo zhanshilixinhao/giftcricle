@@ -262,6 +262,7 @@ public class UserCardServiceImpl implements UserCardService {
     public Response chargeCard(Integer userId, String phone, Integer cardId, BigDecimal recharge,
                                String explain, BigDecimal send, Integer eventId, String image) throws IOException {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
+        String traceId = (String) httpServletRequest.getAttribute("traceId");
         Integer adminId = webUserInfo.getSysAdmin().getId();
         Store store = storeMapper.selectByAdminId(adminId);
         Integer storeId = null;
@@ -287,6 +288,7 @@ public class UserCardServiceImpl implements UserCardService {
             if (memberEvent == null) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "该活动不存在，请选择其他活动");
             }
+            log.info("traceId:{}, 活动:{}", traceId, JSON.toJSONString(memberEvent));
             if (memberEvent.getRechargeMoney().compareTo(recharge) != 0 || memberEvent.getSendMoney().compareTo(send) != 0) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "充值金额或赠送金额与活动金额不符");
             }
@@ -301,13 +303,16 @@ public class UserCardServiceImpl implements UserCardService {
                         store.getId(), userId, adminId);
                 //添加缓存
                 mRedisTemplate.setString("add_coupon"+userId,id.toString());
+                log.info("traceId:{}, 添加优惠券缓存成功", traceId);
             }
         }
         Merchant merchant = merchantMapper.selectByAdminId(webUserInfo.getSysAdmin().getCreateAdminId());
         // 更新余额
         UserMemberCard card = updateBalance(userId, cardId, (byte) 1, recharge, send);
+        log.info("traceId:{}, 更新后余额:{}", traceId, JSON.toJSONString(card));
         // 添加充值记录
         BigDecimal total = BigDecimalUtil.add(recharge.doubleValue(), send.doubleValue());
+        log.info("traceId:{}, 充值+赠送:{}", traceId, total);
         MemberChargeRecord record = new MemberChargeRecord();
         record.setMembershipCardId(cardId);
         record.setUserId(userId);
@@ -329,6 +334,7 @@ public class UserCardServiceImpl implements UserCardService {
         if (insert < 1) {
             return ResponseFactory.err("充值失败");
         }
+        log.info("traceId:{}, 充值记录:{}", traceId, JSON.toJSONString(record));
         String content = "会员卡";
         // 判断是否是活动卡
         // 添加详细记录
@@ -362,6 +368,7 @@ public class UserCardServiceImpl implements UserCardService {
                 scale = BigDecimalUtil.div(send.doubleValue(), total.doubleValue()).floatValue();
                 detailCharge(userId, merchant.getId(), storeId, recharge, cardId, send, new BigDecimal("0"), (byte) 1, explain,
                         total, scale, total, (byte) 1, eventId, record.getOrderNo());
+                log.info("traceId:{},scale:{}", traceId, scale);
             }
             content = membershipCard.getTitle();
         }
@@ -372,6 +379,7 @@ public class UserCardServiceImpl implements UserCardService {
         if (smsSendResult.getCode() != 0) {
             return ResponseFactory.err(smsSendResult.getMsg());
         }
+        log.info("traceId:{},充值成功", traceId);
         return ResponseFactory.sucMsg("充值成功");
     }
 
@@ -501,6 +509,7 @@ public class UserCardServiceImpl implements UserCardService {
         if (smsSendResult.getCode() != 0) {
             return ResponseFactory.err(smsSendResult.getMsg());
         }
+        log.info("traceId:{},成功", traceId);
         return ResponseFactory.sucMsg("成功");
     }
 
@@ -515,6 +524,7 @@ public class UserCardServiceImpl implements UserCardService {
         if (CollectionUtils.isEmpty(charges)) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "充值余额不足!");
         }
+        log.info("traceId:{},之前充值的本金记录和别人转赠的记录:{}", traceId, JSON.toJSONString(charges));
         BigDecimal expense1 = expense;
         for (StoreMemberCharge charge : charges) {
             //判断此次充值还剩余的余额
@@ -556,7 +566,7 @@ public class UserCardServiceImpl implements UserCardService {
         if (CollectionUtils.isEmpty(events)) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "充值余额不足!");
         }
-        log.info("traceId:{},之前充值的本金记录:{}", traceId, events);
+        log.info("traceId:{},之前充值的本金记录:{}", traceId, JSON.toJSONString(events));
         BigDecimal capital1 = capital;
 //            BigDecimal send1 = send;
         BigDecimal balance = new BigDecimal("0");
@@ -600,7 +610,7 @@ public class UserCardServiceImpl implements UserCardService {
         if (CollectionUtils.isEmpty(sends)) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "赠送余额不足!");
         }
-        log.info("traceId:{},之前充值的本金记录:{}", traceId, events);
+        log.info("traceId:{},之前充值的本金记录:{}", traceId, JSON.toJSONString(sends));
         BigDecimal send1 = send;
         for (StoreMemberEvent store : sends) {
             if (store.getSendBalance().compareTo(send1) == 0) {
@@ -693,11 +703,11 @@ public class UserCardServiceImpl implements UserCardService {
         store.setStatus(status);
         store.setMemberEventId(eventId);
         store.setOrderNo(orderNo);
-        log.info("traceId:{},普通储值卡消费详细记录:{}", traceId, JSON.toJSONString(store));
         int insert = storeMemberChargeMapper.insert(store);
         if (insert < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "失败");
         }
+        log.info("traceId:{},普通储值卡消费详细记录:{}", traceId, JSON.toJSONString(store));
         return store.getId();
     }
 
@@ -728,11 +738,11 @@ public class UserCardServiceImpl implements UserCardService {
         if (memberEvent != null && memberEvent.getScale() != null) {
             ev.setScale(memberEvent.getScale());
         }
-        log.info("traceId:{},活动卡消费详细记录:{}", traceId, JSON.toJSONString(ev));
         int insert = storeMemberEventMapper.insert(ev);
         if (insert < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "失败");
         }
+        log.info("traceId:{},活动卡消费详细记录:{}", traceId, JSON.toJSONString(ev));
         return ev.getId();
     }
 
