@@ -291,7 +291,7 @@
                 store_charge_id = #{storeChargeId,jdbcType=INTEGER},
             </if>
             <if test="status != null">
-                status = #{status,jdbcType=TINYINT},
+                status = #{type,jdbcType=TINYINT},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
