@@ -6,8 +6,8 @@
 	<groupId>com.chouchong</groupId>
 	<artifactId>giftcricle</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
-<!--	<packaging>war</packaging>-->
+<!--	<packaging>jar</packaging>-->
+	<packaging>war</packaging>
 
 	<name>giftcricle</name>
 	<description>Demo project for Spring Boot</description>
@@ -95,21 +95,6 @@
 			<version>2.6.0</version>
 		</dependency>
 
-		<dependency>
-			<groupId>net.logstash.logback</groupId>
-			<artifactId>logstash-logback-encoder</artifactId>
-			<version>4.9</version>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>1.2.3</version>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-			<version>1.2.3</version>
-		</dependency>
 
 		<!--个推-->
 		<!-- https://mvnrepository.com/artifact/com.gexin.platform/gexin-rp-sdk-http -->

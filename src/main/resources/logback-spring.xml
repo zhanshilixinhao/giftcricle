@@ -29,8 +29,8 @@
         <!--滚动输出策略-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--路径-->
-<!--            <fileNamePattern>/home/lin/IdeaProjects/java/liyuquan/GiftCircle_Service/info.%d.log</fileNamePattern>-->
-            <fileNamePattern>/home/log/web/info.%d.log</fileNamePattern>
+            <fileNamePattern>/home/lin/IdeaProjects/java/liyuquan/GiftCircle_Service/info.%d.log</fileNamePattern>
+<!--            <fileNamePattern>/home/log/web/info.%d.log</fileNamePattern>-->
         </rollingPolicy>
     </appender>
 
@@ -49,8 +49,8 @@
         <!--滚动输出策略-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--路径-->
-<!--            <fileNamePattern>/home/lin/IdeaProjects/java/liyuquan/GiftCircle_Service/warn.%d.log</fileNamePattern>-->
-            <fileNamePattern>/home/log/web/warn.%d.log</fileNamePattern>
+            <fileNamePattern>/home/lin/IdeaProjects/java/liyuquan/GiftCircle_Service/warn.%d.log</fileNamePattern>
+<!--            <fileNamePattern>/home/log/web/warn.%d.log</fileNamePattern>-->
         </rollingPolicy>
     </appender>
 
@@ -67,17 +67,17 @@
         <!--滚动输出策略-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--路径-->
-<!--            <fileNamePattern>/home/lin/IdeaProjects/java/liyuquan/GiftCircle_Service/error.%d.log</fileNamePattern>-->
-            <fileNamePattern>/home/log/web/error.%d.log</fileNamePattern>
+            <fileNamePattern>/home/lin/IdeaProjects/java/liyuquan/GiftCircle_Service/error.%d.log</fileNamePattern>
+<!--            <fileNamePattern>/home/log/web/error.%d.log</fileNamePattern>-->
         </rollingPolicy>
     </appender>
 
     <root level="info">
-        <appender-ref ref="logstash" />
         <appender-ref ref="consoleLog"/>
         <appender-ref ref="fileInfoLog"/>
         <appender-ref ref="fileWarnLog"/>
         <appender-ref ref="fileErrorLog"/>
+        <appender-ref ref="logstash" />
     </root>
 
 </configuration>
