@@ -1,13 +1,10 @@
 package com.chouchong.config;
 
-import com.chouchong.common.ErrorCode;
-import com.chouchong.exception.ServiceException;
-import com.gexin.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -16,7 +13,10 @@ import javax.servlet.WriteListener;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.util.UUID;
 
@@ -30,9 +30,18 @@ import java.util.UUID;
 @Slf4j
 public class LogFilter extends OncePerRequestFilter {
 
+    private final static AntPathMatcher matcher = new AntPathMatcher();
+
+    public final static String URL = "/**/order/item/orderCount";
+
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+        if (matcher.match(URL,request.getRequestURI())){
+            filterChain.doFilter(request, response);
+            return;
+        }
         String traceId = UUID.randomUUID().toString();
         request.setAttribute("traceId",traceId);
         // 记录下请求内容

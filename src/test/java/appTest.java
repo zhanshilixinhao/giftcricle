@@ -337,6 +337,18 @@ public class appTest {
                 "http://localhost:8080/manage/v3/userCard/list_store", params);
         System.out.println(response.body().string());
     }
+    @Test
+    public void c() throws IOException {
+
+        RequestParams params = new RequestParams();
+        params.put("token", "c0e95abf-bc84-49db-8083-5502e4dfd4fb");
+//        params.put("phone", "15752400657");
+//        params.put("startTime", 1587210021212L);
+//        params.put("endTime", 1587210021212L);
+        Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
+                "http://localhost:8080/manage/order/item/orderCount", params);
+        System.out.println(response.body().string());
+    }
 
 
 
