@@ -10,7 +10,7 @@ import java.io.IOException;
  * @author yy
  * @date 2018/6/22
  **/
-@Component
+//@Component
 public class CorsFilter implements Filter{
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
