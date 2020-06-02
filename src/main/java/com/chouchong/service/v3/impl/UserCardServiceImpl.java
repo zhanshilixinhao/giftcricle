@@ -94,7 +94,6 @@ public class UserCardServiceImpl implements UserCardService {
     private MRedisTemplate mRedisTemplate;
 
 
-
     /**
      * 获取用户会员卡列表
      *
@@ -302,7 +301,7 @@ public class UserCardServiceImpl implements UserCardService {
                 Long id = elCouponService.addCoupon(memberEvent.getTargetId(), memberEvent.getQuantity(),
                         store.getId(), userId, adminId);
                 //添加缓存
-                mRedisTemplate.setString("add_coupon"+userId,id.toString());
+                mRedisTemplate.setString("add_coupon" + userId, id.toString());
                 log.info("traceId:{}, 添加优惠券缓存成功", traceId);
             }
         }
@@ -524,7 +523,14 @@ public class UserCardServiceImpl implements UserCardService {
         if (CollectionUtils.isEmpty(charges)) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "充值余额不足!");
         }
-        log.info("traceId:{},之前充值的本金记录和别人转赠的记录:{}", traceId, JSON.toJSONString(charges));
+        BigDecimal all = new BigDecimal("0");
+        for (StoreMemberCharge charge : charges) {
+            all = BigDecimalUtil.add(all.doubleValue(),charge.getBalance().doubleValue());
+        }
+        if (expense.compareTo(all) > 0){
+            throw new ServiceException(ErrorCode.ERROR.getCode(), "充值余额不足");
+        }
+        log.info("traceId:{},本金记录和别之前充值的人转赠的记录:{}", traceId, JSON.toJSONString(charges));
         BigDecimal expense1 = expense;
         for (StoreMemberCharge charge : charges) {
             //判断此次充值还剩余的余额
@@ -936,30 +942,30 @@ public class UserCardServiceImpl implements UserCardService {
         }
         // 总充值
         List<ChargeVo> chargeVos = memberChargeRecordMapper.selectByUserIdCardId(userId, cardId);
-        if (!CollectionUtils.isEmpty(chargeVos)){
+        if (!CollectionUtils.isEmpty(chargeVos)) {
             for (ChargeVo chargeVo : chargeVos) {
-                charge = BigDecimalUtil.add(chargeVo.getRechargeMoney().doubleValue(),charge.doubleValue());
+                charge = BigDecimalUtil.add(chargeVo.getRechargeMoney().doubleValue(), charge.doubleValue());
             }
         }
         // 总消费
         List<ExpenseVo> expenseVos = memberExpenseRecordMapper.selectByUserIdCardId(userId, cardId);
-        if (!CollectionUtils.isEmpty(expenseVos)){
+        if (!CollectionUtils.isEmpty(expenseVos)) {
             for (ExpenseVo expenseVo : expenseVos) {
-                expense = BigDecimalUtil.add(expense.doubleValue(),expenseVo.getExpenseMoney().doubleValue());
+                expense = BigDecimalUtil.add(expense.doubleValue(), expenseVo.getExpenseMoney().doubleValue());
             }
         }
         // 总赠送
-        List<TransferSend> sends = transferSendMapper.selectByUserIdCardId(userId,cardId);
-        if (!CollectionUtils.isEmpty(sends)){
+        List<TransferSend> sends = transferSendMapper.selectByUserIdCardId(userId, cardId);
+        if (!CollectionUtils.isEmpty(sends)) {
             for (TransferSend transferSend : sends) {
-                send = BigDecimalUtil.add(send.doubleValue(),transferSend.getSendMoney().doubleValue());
+                send = BigDecimalUtil.add(send.doubleValue(), transferSend.getSendMoney().doubleValue());
             }
         }
         BigDecimal sub = BigDecimalUtil.sub(charge.doubleValue(), expense.doubleValue());
         BigDecimal sub1 = BigDecimalUtil.sub(sub.doubleValue(), send.doubleValue());
-        if (sub1.compareTo(new BigDecimal("0")) < 0){
+        if (sub1.compareTo(new BigDecimal("0")) < 0) {
             amount = new BigDecimal("0");
-        }else {
+        } else {
             amount = sub1;
         }
         Map<String, Object> map = new HashMap<>();
