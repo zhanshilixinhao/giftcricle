@@ -324,14 +324,15 @@ public class TurnoverController {
      *
      * @param orderNo
      * @param phone
+     * @param type  null 是会员卡消费退款， 1 是外卖消费退款
      * @return
      */
     @PostMapping("refund")
-    public Response refundExpense(Long orderNo, String phone, String code, String explain) {
-        if (orderNo == null || StringUtils.isBlank(code)) {
+    public Response refundExpense(Long orderNo, String phone, String code, String explain,Integer type) {
+        if (orderNo == null) {
             return ResponseFactory.errMissingParameter();
         }
-        return turnoverService.refundExpense(orderNo, phone, code, explain);
+        return turnoverService.refundExpense(orderNo, phone, code, explain,type);
     }
 
     /**

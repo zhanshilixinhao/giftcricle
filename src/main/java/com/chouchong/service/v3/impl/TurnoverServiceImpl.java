@@ -430,7 +430,7 @@ public class TurnoverServiceImpl implements TurnoverService {
      * @return
      */
     @Override
-    public Response refundExpense(Long orderNo, String phone, String code, String explain) {
+    public Response refundExpense(Long orderNo, String phone, String code, String explain, Integer type1) {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         String traceId = (String) httpServletRequest.getAttribute("traceId");
         Integer adminId = webUserInfo.getSysAdmin().getId();
@@ -438,11 +438,16 @@ public class TurnoverServiceImpl implements TurnoverService {
         if (store == null) {
             return ResponseFactory.err("校验失败");
         }
-        String s = verifyCodeRepository.get(store.getPhone(), 5);
-        if (StringUtils.isBlank(s) || !StringUtils.equals(s, code)) {
-            return ResponseFactory.err("验证码不存在或已过期");
+        if (type1 == null) {
+            if (StringUtils.isBlank(code)) {
+                throw new ServiceException(ErrorCode.ERROR.getCode(), "请输入验证码");
+            }
+            String s = verifyCodeRepository.get(store.getPhone(), 5);
+            if (StringUtils.isBlank(s) || !StringUtils.equals(s, code)) {
+                return ResponseFactory.err("验证码不存在或已过期");
+            }
+            verifyCodeRepository.remove(store.getPhone(), 5);
         }
-        verifyCodeRepository.remove(store.getPhone(), 5);
         MemberExpenseRecord record = memberExpenseRecordMapper.selectByOrderNo(orderNo);
         if (record == null) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "记录不存在或订单号输入错误");

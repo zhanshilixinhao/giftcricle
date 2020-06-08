@@ -54,7 +54,7 @@ public interface TurnoverService {
      * @param orderNo
      * @return
      */
-    Response refundExpense(Long orderNo, String phone, String code,String explain);
+    Response refundExpense(Long orderNo, String phone, String code,String explain,Integer type);
 //    Response refundExpense(CardRebate rebate, String password);
 
     /**

@@ -149,10 +149,10 @@ public class appTest {
     public void reefund1() throws IOException {
 
         RequestParams params = new RequestParams();
-        params.put("token", "01996ea6-37b5-4e18-92a2-e0f2f91be40b");
+        params.put("token", "6b050702-28c5-4924-87d5-8155b1b3d7cb");
         params.put("orderNo",71120052111100L);
-//        params.put("phone", "15752400657");
-        params.put("code", "123456");
+        params.put("type", 1);
+//        params.put("code", "123456");
         Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
                 "http://localhost:8080/manage/v3/turnover/refund", params);
         System.out.println(response.body().string());
