@@ -16,11 +16,9 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  *
@@ -62,6 +60,14 @@ public class MerchantServiceImpl implements MerchantService{
         map.put("phone",jsonObject.getString("phone"));
         map.put("status",jsonObject.getInteger("status"));
         List<MerchantVo> merchants = merchantMapper.selectBySearch(map);
+        if(!CollectionUtils.isEmpty(merchants)){
+            for (MerchantVo merchant : merchants) {
+                if (merchant.getUserId() == 0){
+                    merchant.setUserNickName("后台申请");
+                    merchant.setUserPhone(merchant.getPhone());
+                }
+            }
+        }
         PageInfo pageInfo = new PageInfo<>(merchants);
         return ResponseFactory.page(merchants, pageInfo.getTotal(),
                 pageInfo.getPages(), pageInfo.getPageNum(), pageInfo.getPageSize());
