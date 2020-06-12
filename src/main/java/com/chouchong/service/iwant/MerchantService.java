@@ -2,6 +2,7 @@ package com.chouchong.service.iwant;
 
 import com.chouchong.common.PageQuery;
 import com.chouchong.common.Response;
+import com.chouchong.service.iwant.vo.MerchantApplyVo;
 
 public interface MerchantService {
     /**
@@ -33,4 +34,14 @@ public interface MerchantService {
      * @Date: 2018/7/20
      */
     Response changeFailStatus(Integer id, Integer status);
+
+    /**
+     * 商家认证申请
+     *
+     * @param: [details 用户认证信息, merchantVo 商家信息]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/20
+     */
+    Response applyMerchant(MerchantApplyVo vo);
 }

@@ -9,6 +9,7 @@ import com.chouchong.dao.webUser.SysAdminMapper;
 import com.chouchong.entity.iwant.merchant.Merchant;
 import com.chouchong.entity.webUser.SysAdmin;
 import com.chouchong.service.iwant.MerchantService;
+import com.chouchong.service.iwant.vo.MerchantApplyVo;
 import com.chouchong.service.iwant.vo.MerchantVo;
 import com.chouchong.utils.properties.ServiceProperties;
 import com.github.pagehelper.PageHelper;
@@ -151,5 +152,62 @@ public class MerchantServiceImpl implements MerchantService{
         return ResponseFactory.err("操作失败!");
     }
 
-
+    /**
+     * 商家认证申请
+     *
+     * @param: [details 用户认证信息, merchantVo 商家信息]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/20
+     */
+    @Override
+    public Response applyMerchant(MerchantApplyVo vo) {
+        Merchant merchant = merchantMapper.selectByPhone(vo.getPhone());
+        if (merchant != null) {
+            if (merchant.getStatus() == Constants.MERCHANT_STATUS.PASS){
+                return ResponseFactory.err("商家认证已提交,并且已通过!");
+            }else if (merchant.getStatus() == Constants.MERCHANT_STATUS.NO_PASS){
+                // 被驳回，重新提交
+                merchant.setUserId(0);
+                merchant.setUpdated(new Date());
+                merchant.setStatus(Constants.MERCHANT_STATUS.IN_REVIEW);
+                merchant.setRegistrationNo(vo.getRegistrationNo());
+                merchant.setPhone(vo.getPhone());
+                if (vo.getOtherPics() != null && vo.getOtherPics().size() > 0) {
+                    merchant.setOtherPics(JSON.toJSONString(vo.getOtherPics()));
+                }
+                merchant.setName(vo.getName());
+                merchant.setLicensePic(vo.getLicensePic());
+                merchant.setLegalPerson(vo.getLegalPerson());
+                merchant.setCreated(new Date());
+                merchant.setAddress(vo.getAddress());
+                int i = merchantMapper.updateByPrimaryKeySelective(merchant);
+                if (i < 1) {
+                    return ResponseFactory.err("申请失败");
+                }
+                return ResponseFactory.sucMsg("重新申请成功");
+            }else {
+                return ResponseFactory.err("商家认证审核中!");
+            }
+        }
+        merchant = new Merchant();
+        merchant.setUserId(0);
+        merchant.setUpdated(new Date());
+        merchant.setStatus(Constants.MERCHANT_STATUS.IN_REVIEW);
+        merchant.setRegistrationNo(vo.getRegistrationNo());
+        merchant.setPhone(vo.getPhone());
+        if (vo.getOtherPics() != null && vo.getOtherPics().size() > 0) {
+            merchant.setOtherPics(JSON.toJSONString(vo.getOtherPics()));
+        }
+        merchant.setName(vo.getName());
+        merchant.setLicensePic(vo.getLicensePic());
+        merchant.setLegalPerson(vo.getLegalPerson());
+        merchant.setCreated(new Date());
+        merchant.setAddress(vo.getAddress());
+        int count = merchantMapper.insert(merchant);
+        if (count == 1) {
+            return ResponseFactory.sucMsg("申请成功");
+        }
+        return ResponseFactory.err("申请失败");
+    }
 }

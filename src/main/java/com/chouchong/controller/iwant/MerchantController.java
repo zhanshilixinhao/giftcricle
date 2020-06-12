@@ -4,6 +4,9 @@ import com.chouchong.common.PageQuery;
 import com.chouchong.common.Response;
 import com.chouchong.common.ResponseFactory;
 import com.chouchong.service.iwant.MerchantService;
+import com.chouchong.service.iwant.vo.MerchantApplyVo;
+import com.chouchong.service.iwant.vo.MerchantVo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,4 +67,22 @@ public class MerchantController {
         }
         return merchantService.changeFailStatus(id, status);
     }
+
+    /**
+     * 商家认证申请
+     *
+     * @param: [details 用户认证信息, merchantVo 商家信息]
+     * @return: com.chouchongkeji.goexplore.common.Response
+     * @author: yy
+     * @Date: 2018/6/20
+     */
+    @PostMapping("apply")
+    public Response applyMerchant(MerchantApplyVo vo) {
+        if (StringUtils.isAnyBlank(vo.getPhone(), vo.getAddress(), vo.getLegalPerson(),
+                vo.getRegistrationNo(), vo.getName(), vo.getLicensePic())) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return merchantService.applyMerchant(vo);
+    }
+
 }

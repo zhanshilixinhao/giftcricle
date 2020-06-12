@@ -226,4 +226,12 @@
     WHERE
     admin_id = #{adminId}
   </select>
+    <select id="selectByPhone" resultType="com.chouchong.entity.iwant.merchant.Merchant">
+      SELECT
+      <include refid="Base_Column_List"></include>
+      FROM
+      merchant
+      WHERE
+      phone = #{phone}
+    </select>
 </mapper>

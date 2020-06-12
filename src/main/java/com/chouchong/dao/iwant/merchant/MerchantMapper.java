@@ -39,4 +39,6 @@ public interface MerchantMapper {
      * @Date: 2018/7/9
      */
     Merchant selectByAdminId(@Param("adminId") Integer adminId);
+
+    Merchant selectByPhone(@Param("phone") String phone);
 }
