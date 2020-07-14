@@ -1,18 +1,13 @@
-import com.chouchong.common.Constants;
 import com.chouchong.common.Utils;
 import com.chouchong.service.order.kdapi.OkHttpManager;
 import com.chouchong.service.order.kdapi.OkHttpUtil;
 import com.chouchong.service.order.kdapi.RequestParams;
 import com.chouchong.utils.AESUtils;
-import com.chouchong.utils.ApiSignUtil;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
 import org.junit.Test;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author linqin
@@ -24,8 +19,8 @@ public class appTest {
     @Test
     public void login() throws IOException {
         RequestParams params = new RequestParams();
-//        params.put("username", "test");
-        params.put("password", "123456");
+        params.put("username", "test");
+        params.put("password", "E10ADC3949BA59ABBE56E057F20F883E");
         Response response = OkHttpUtil.post(new OkHttpClient(),
                 "http://localhost:8080/manage/user/login", params);
         System.out.println(response.body().string());
