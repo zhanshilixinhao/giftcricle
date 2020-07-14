@@ -20,15 +20,11 @@ import com.chouchong.service.webUser.vo.WebUserInfo;
 import com.chouchong.utils.IDUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +36,6 @@ import java.util.Map;
  **/
 
 @Service
-@Transactional(rollbackFor = Exception.class, isolation = Isolation.REPEATABLE_READ)
 public class WebUserServiceImpl implements WebUserService {
     @Autowired
     private SysAdminMapper sysAdminMapper;
@@ -266,6 +261,7 @@ public class WebUserServiceImpl implements WebUserService {
      * @Date: 2018/7/20
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Response addWebUser(SysAdminVo sysAdminVo) {
         SysAdmin admin = sysAdminMapper.selectByUserName(sysAdminVo.getUsername());
         if (admin != null) {
@@ -317,6 +313,7 @@ public class WebUserServiceImpl implements WebUserService {
      * @Date: 2018/7/20
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Response updateSysAdmin(SysAdminVo sysAdminVo) {
         SysAdmin sysAdmin = sysAdminMapper.selectByPrimaryKey(sysAdminVo.getId());
         SysAdminVo sysAdminVo1 = sysAdminMapper.selectByAdminId(sysAdminVo.getId());
@@ -371,6 +368,7 @@ public class WebUserServiceImpl implements WebUserService {
      * @Date: 2018/7/20
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Response changeStatus(Integer id, Integer status, String token) {
         SysAdmin sysAdmin = sysAdminMapper.selectByPrimaryKey(id);
         if (sysAdmin == null) {
@@ -402,6 +400,7 @@ public class WebUserServiceImpl implements WebUserService {
      * @Date: 2018/7/20
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Response delSysAdmin(Integer id) {
         // 删除用户
         int count = sysAdminMapper.deleteByPrimaryKey(id);
