@@ -345,6 +345,19 @@ public class appTest {
         System.out.println(response.body().string());
     }
 
+    @Test
+    public void listex() throws IOException {
+
+        RequestParams params = new RequestParams();
+        params.put("token", "01d679c3-6b07-45e2-9f49-7d410f13774d");
+//        params.put("isExport", "1");
+//        params.put("startTime", 1587210021212L);
+//        params.put("endTime", 1587210021212L);
+        Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
+                "http://localhost:8080/manage/v3/turnover/expense_list", params);
+        System.out.println(response.body().string());
+    }
+
 
 
 }
