@@ -26,8 +26,8 @@ public class PageQuery {
     }
 
     public void setPageSize(Integer pageSize) {
-        if (pageSize == null || pageSize < 1) {
-            pageSize = 14;
+        if (pageSize == null || pageSize < 1 || pageSize > 100) {
+            pageSize = 100;
         }
         this.pageSize = pageSize;
     }
