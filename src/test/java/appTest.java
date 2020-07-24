@@ -82,7 +82,7 @@ public class appTest {
     public void ex() throws IOException {
 
         RequestParams params = new RequestParams();
-        params.put("token", "01996ea6-37b5-4e18-92a2-e0f2f91be40b");
+        params.put("token", "e8159247-150d-44f0-aedb-0661df71e113");
         params.put("cardId", 3);
         params.put("expense", 100);
         params.put("phone", "15752400657");
@@ -300,7 +300,7 @@ public class appTest {
     public void d() throws IOException {
 
         RequestParams params = new RequestParams();
-        params.put("token", "39748313-aaf5-4ff0-bf61-c59f9e102e87");
+        params.put("token", "e8159247-150d-44f0-aedb-0661df71e113");
         params.put("userId", "13");
         params.put("cardId", "10");
         Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
