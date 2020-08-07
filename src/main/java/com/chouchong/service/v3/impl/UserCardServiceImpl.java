@@ -374,7 +374,7 @@ public class UserCardServiceImpl implements UserCardService {
         // 给用户发送短信
         String time = time();
         SmsSendResult smsSendResult = SendUtil.smsSend(card.getPhone(), "【礼遇圈】尊敬的用户，您的" + content + "在" + storeName + "成功存入" + recharge + "元，" +
-                "赠送" + send + "元，余额：" + card.getBalance() + "，时间为" + time + "。如有问题请咨询客服人员。");
+                "赠送" + send + "元，余额：" + card.getBalance() + "元，时间为" + time + "。如有问题请咨询客服人员。");
         if (smsSendResult.getCode() != 0) {
             return ResponseFactory.err(smsSendResult.getMsg());
         }
