@@ -374,7 +374,7 @@ public class UserCardServiceImpl implements UserCardService {
         // 给用户发送短信
         String time = time();
         SmsSendResult smsSendResult = SendUtil.smsSend(card.getPhone(), "【礼遇圈】尊敬的用户，您的会员卡" + content + "在" + storeName + "成功充值" + recharge + "元，" +
-                "赠送" + send + "元，充值时间为" + time + "。如有问题请咨询客服人员。");
+                "赠送" + send + "元，余额：" + card.getBalance() + "元，充值时间为" + time + "。如有问题请咨询客服人员。");
         if (smsSendResult.getCode() != 0) {
             return ResponseFactory.err(smsSendResult.getMsg());
         }
@@ -504,7 +504,7 @@ public class UserCardServiceImpl implements UserCardService {
         // 给用户发送短信
         String time = time();
         SmsSendResult smsSendResult = SendUtil.smsSend(card.getPhone(), "【礼遇圈】尊敬的用户，您的" + content + "在" + storeName + "成功消费" + expense
-                + "元，消费时间为" + time + "。如有问题请咨询客服人员。");
+                + "元，余额：" + card.getBalance() + "元，消费时间为" + time + "。如有问题请咨询客服人员。");
         if (smsSendResult.getCode() != 0) {
             return ResponseFactory.err(smsSendResult.getMsg());
         }
@@ -525,9 +525,9 @@ public class UserCardServiceImpl implements UserCardService {
         }
         BigDecimal all = new BigDecimal("0");
         for (StoreMemberCharge charge : charges) {
-            all = BigDecimalUtil.add(all.doubleValue(),charge.getBalance().doubleValue());
+            all = BigDecimalUtil.add(all.doubleValue(), charge.getBalance().doubleValue());
         }
-        if (expense.compareTo(all) > 0){
+        if (expense.compareTo(all) > 0) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "充值余额不足");
         }
         log.info("traceId:{},本金记录和别之前充值的人转赠的记录:{}", traceId, JSON.toJSONString(charges));
