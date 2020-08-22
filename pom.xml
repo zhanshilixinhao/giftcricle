@@ -95,6 +95,12 @@
 			<version>2.6.0</version>
 		</dependency>
 
+<!--		短信v2-->
+		<dependency>
+			<groupId>com.yunpian.sdk</groupId>
+			<artifactId>yunpian-java-sdk</artifactId>
+			<version>1.2.7</version>
+		</dependency>
 
 		<!--个推-->
 		<!-- https://mvnrepository.com/artifact/com.gexin.platform/gexin-rp-sdk-http -->

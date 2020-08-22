@@ -1,0 +1,49 @@
+package com.chouchong.utils.sms;
+
+import com.yunpian.sdk.YunpianClient;
+import com.yunpian.sdk.model.Result;
+import com.yunpian.sdk.model.SmsSingleSend;
+
+import java.util.Map;
+
+/**
+ * @author linqin
+ * @date 2020/8/22下午1:49
+ **/
+public class SentUtil2 {
+
+    public final static String APIKEY = "df9b064d3963ecfe22d6ab4b195b79ff";
+
+
+
+    /**
+     * 使用SDK发送单条短信,智能匹配短信模板
+     *
+     * @param text   需要使用已审核通过的模板或者默认模板
+     * @param mobile 接收的手机号,仅支持单号码发送
+     */
+    public static SmsSingleSend testSendSms( String mobile, String text) {
+        //初始化client,apikey作为所有请求的默认值(可以为空)
+        YunpianClient clnt = new YunpianClient(APIKEY).init();
+        Map<String, String> param = clnt.newParam(2);
+
+        param.put(YunpianClient.MOBILE, mobile);
+        param.put(YunpianClient.TEXT, text);
+        param.put(YunpianClient.APIKEY, APIKEY);
+        Result<SmsSingleSend> r = clnt.sms().single_send(param);
+        //获取返回结果，返回码:r.getCode(),返回码描述:r.getMsg(),API结果:r.getData(),其他说明:r.getDetail(),调用异常:r.getThrowable()
+        SmsSingleSend data = r.getData();
+        //最后释放client
+        clnt.close();
+        //账户:clnt.user().* 签名:clnt.sign().* 模版:clnt.tpl().* 短信:clnt.sms().* 语音:clnt.voice().* 流量:clnt.flow().* 隐私通话:clnt.call().*
+        return data;
+    }
+
+//    public static void main(String[] args) throws Exception {
+////        smsSend("15752400657", "【礼遇圈】您的验证码是1234");
+////        【礼遇圈】尊敬的用户，您的外婆味道储值卡在木木家文具成功消费122元，余额466.0元，消费时间为2020-08-07 14:39:39。如有问题请咨询客服人员。
+//        testSendSms("15752400657","【礼遇圈】尊敬的用户，您的外婆味道储值卡在木木家文具成功消费122元，余额466.0元，消费时间为2020-08-07 14:39:39。如有问题请咨询客服人员。");
+////                testSendSms("15752400657","【礼遇圈】尊敬的用户，您的外婆味道储值卡在木木家文具成功消费122元，余额：466.0元，消费时间为2020-08-07 14:39:39。如有问题请咨询客服人员。");
+//
+//    }
+}

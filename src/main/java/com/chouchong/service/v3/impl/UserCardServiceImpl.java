@@ -14,12 +14,13 @@ import com.chouchong.service.v3.UserCardService;
 import com.chouchong.service.v3.vo.*;
 import com.chouchong.service.webUser.vo.WebUserInfo;
 import com.chouchong.utils.BigDecimalUtil;
-import com.chouchong.utils.sms.SendUtil;
-import com.chouchong.utils.sms.SmsSendResult;
+import com.chouchong.utils.sms.SentUtil2;
 import com.gexin.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.yunpian.sdk.model.SmsSingleSend;
 import lombok.extern.slf4j.Slf4j;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -238,7 +239,7 @@ public class UserCardServiceImpl implements UserCardService {
         if (membershipCard != null) {
             content = membershipCard.getTitle();
         }
-        SmsSendResult smsSendResult = SendUtil.smsSend(card.getPhone(), "【礼遇圈】尊敬的用户，您已成功开通" + content + "，如有问题请咨询客服人员。");
+        var smsSendResult = SentUtil2.testSendSms(card.getPhone(), "【礼遇圈】尊敬的用户，您已成功开通" + content + "，如有问题请咨询客服人员。");
         if (smsSendResult.getCode() != 0) {
             return ResponseFactory.err(smsSendResult.getMsg());
         }
@@ -371,12 +372,12 @@ public class UserCardServiceImpl implements UserCardService {
             }
             content = membershipCard.getTitle();
         }
-        // 给用户发送短信
+        // 给用户发送短信  【礼遇圈】尊敬的用户，您的#name#在#name##成功存入#name# 元，赠送#name#元，余额#name#元，时间为#hour#。如有问题请咨询客服人员。
         String time = time();
-        SmsSendResult smsSendResult = SendUtil.smsSend(card.getPhone(), "【礼遇圈】尊敬的用户，您的" + content + "在" + storeName + "成功存入" + recharge + "元，" +
-                "赠送" + send + "元，余额：" + card.getBalance() + "元，时间为" + time + "。如有问题请咨询客服人员。");
-        if (smsSendResult.getCode() != 0) {
-            return ResponseFactory.err(smsSendResult.getMsg());
+        SmsSingleSend smsSingleSend = SentUtil2.testSendSms(card.getPhone(), "【礼遇圈】尊敬的用户，您的" + content + "在" + storeName + "成功存入" + recharge + "元，" +
+                "赠送" + send + "元，余额" + card.getBalance() + "元，时间为" + time + "。如有问题请咨询客服人员。");
+        if (smsSingleSend.getCode() != 0) {
+            return ResponseFactory.err(smsSingleSend.getMsg());
         }
         log.info("traceId:{},充值成功", traceId);
         return ResponseFactory.sucMsg("充值成功");
@@ -503,8 +504,8 @@ public class UserCardServiceImpl implements UserCardService {
         }
         // 给用户发送短信
         String time = time();
-        SmsSendResult smsSendResult = SendUtil.smsSend(card.getPhone(), "【礼遇圈】尊敬的用户，您的" + content + "在" + storeName + "成功消费" + expense
-                + "元，余额：" + card.getBalance() + "元，消费时间为" + time + "。如有问题请咨询客服人员。");
+        var smsSendResult = SentUtil2.testSendSms(card.getPhone(), "【礼遇圈】尊敬的用户，您的" + content + "在" + storeName + "成功消费" + expense
+                + "元，余额" + card.getBalance() + "元，消费时间为" + time + "。如有问题请咨询客服人员。");
         if (smsSendResult.getCode() != 0) {
             return ResponseFactory.err(smsSendResult.getMsg());
         }
