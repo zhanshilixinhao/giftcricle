@@ -376,9 +376,9 @@ public class UserCardServiceImpl implements UserCardService {
         String time = time();
         SmsSingleSend smsSingleSend = SentUtil2.testSendSms(card.getPhone(), "【礼遇圈】尊敬的用户，您的" + content + "在" + storeName + "成功存入" + recharge + "元，" +
                 "赠送" + send + "元，余额" + card.getBalance() + "元，时间为" + time + "。如有问题请咨询客服人员。");
-        if (smsSingleSend.getCode() != 0) {
-            return ResponseFactory.err(smsSingleSend.getMsg());
-        }
+//        if (smsSingleSend.getCode() != 0) {
+//            return ResponseFactory.err(smsSingleSend.getMsg());
+//        }
         log.info("traceId:{},充值成功", traceId);
         return ResponseFactory.sucMsg("充值成功");
     }

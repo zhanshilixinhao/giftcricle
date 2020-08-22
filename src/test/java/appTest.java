@@ -259,15 +259,16 @@ public class appTest {
 
         RequestParams params = new RequestParams();
         params.put("token", "75c83d12-fb49-4aed-ab9e-1ab29eb82692");
-        params.put("phone", "15752400657");
+//        params.put("phone", "15752400657");
+        params.put("userId", 7);
         params.put("cardId", 3);
         params.put("recharge", 100);
         params.put("send", 100);
-        params.put("eventId", 43);
-        params.put("image", "avatar.jpg");
+//        params.put("eventId", 43);
+//        params.put("image", "avatar.jpg");
 
         Response response = OkHttpUtil.post(OkHttpManager.create(null, null),
-                "https://liyuquan.cn/web/manage/v3/userCard/charge", params);
+                "http://localhost:8088/manage/v3/userCard/charge", params);
         System.out.println(response.body().string());
     }
 
