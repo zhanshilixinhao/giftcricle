@@ -372,10 +372,10 @@ public class UserCardServiceImpl implements UserCardService {
             }
             content = membershipCard.getTitle();
         }
-        // 给用户发送短信  【礼遇圈】尊敬的用户，您的#name#在#name##成功存入#name# 元，赠送#name#元，余额#name#元，时间为#hour#。如有问题请咨询客服人员。
+        // 给用户发送短信  【礼遇圈】您的#name#在#name##成功充值#name# 元，赠送#name#元，余额#name#元，充值时间为#hour#。
         String time = time();
-        SmsSingleSend smsSingleSend = SentUtil2.testSendSms(card.getPhone(), "【礼遇圈】尊敬的用户，您的" + content + "在" + storeName + "成功存入" + recharge + "元，" +
-                "赠送" + send + "元，余额" + card.getBalance() + "元，时间为" + time + "。如有问题请咨询客服人员。");
+        SmsSingleSend smsSingleSend = SentUtil2.testSendSms(card.getPhone(), "【礼遇圈】您的" + content + "在" + storeName + "成功充值" + recharge + "元，" +
+                "赠送" + send + "元，余额" + card.getBalance() + "元，充值时间为" + time + "。");
 //        if (smsSingleSend.getCode() != 0) {
 //            return ResponseFactory.err(smsSingleSend.getMsg());
 //        }
@@ -503,12 +503,12 @@ public class UserCardServiceImpl implements UserCardService {
             content = membershipCard.getTitle();
         }
         // 给用户发送短信
-        String time = time();
-        var smsSendResult = SentUtil2.testSendSms(card.getPhone(), "【礼遇圈】尊敬的用户，您的" + content + "在" + storeName + "成功消费" + expense
-                + "元，余额" + card.getBalance() + "元，消费时间为" + time + "。如有问题请咨询客服人员。");
-        if (smsSendResult.getCode() != 0) {
-            return ResponseFactory.err(smsSendResult.getMsg());
-        }
+        String time = time(); // 【礼遇圈】您的#name#在#name#成功消费#name#元，余额#name#元，消费时间为#hour#。
+        var smsSendResult = SentUtil2.testSendSms(card.getPhone(), "【礼遇圈】您的" + content + "在" + storeName + "成功消费" + expense
+                + "元，余额" + card.getBalance() + "元，消费时间为" + time + "。");
+//        if (smsSendResult.getCode() != 0) {
+//            return ResponseFactory.err(smsSendResult.getMsg());
+//        }
         log.info("traceId:{},成功", traceId);
         return ResponseFactory.sucMsg("成功");
     }
