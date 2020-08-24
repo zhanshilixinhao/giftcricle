@@ -40,9 +40,7 @@ public class SentUtil2 {
     }
 
     public static void main(String[] args) throws Exception {
-//        testSendSms("15752400657","【礼遇圈】您的" + "content" + "在" + "storeName" + "成功充值" + "recharge" + "元，" +
-//                "赠送" + "send" + "元，余额" + "card.getBalance()" + "元，充值时间为" + "time" + "。");
-                testSendSms("15752400657","【礼遇圈】您的会员卡在外婆味道成功充值0元，赠送0元，余额0元，充值时间为2020-08-07 14:39:39。");
+                testSendSms("15752400657","【礼遇圈】您的验证码是456。如非本人操作，请忽略本短信");
 //
     }
 
