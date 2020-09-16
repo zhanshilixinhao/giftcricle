@@ -199,6 +199,7 @@ public class UserCardServiceImpl implements UserCardService {
      * @param card
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Response addUserCard(UserMemberCard card) throws IOException {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
@@ -259,6 +260,7 @@ public class UserCardServiceImpl implements UserCardService {
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Response chargeCard(Integer userId, String phone, Integer cardId, BigDecimal recharge,
                                String explain, BigDecimal send, Integer eventId, String image) throws IOException {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
@@ -407,6 +409,7 @@ public class UserCardServiceImpl implements UserCardService {
      * @param explain 消费说明
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Response expenseCard(Integer userId, String phone, Integer cardId, BigDecimal expense, String explain, String password) throws IOException {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
@@ -865,6 +868,7 @@ public class UserCardServiceImpl implements UserCardService {
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Response updateCardGrade(Integer userId, Integer cardId, Integer gradeId) {
         UserMemberCard userMemberCard = userMemberCardMapper.selectByUseridcardId(userId, cardId);
         if (userMemberCard == null) {
@@ -986,6 +990,7 @@ public class UserCardServiceImpl implements UserCardService {
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Response backCard(Integer userId, Integer cardId) {
         UserMemberCard user = userMemberCardMapper.selectByUseridcardId(userId, cardId);
         if (user == null) {
