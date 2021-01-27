@@ -112,11 +112,9 @@ public class CardEventController {
      * @return
      */
     @PostMapping("all_event")
-    public Response cardEvent(Integer cardId) {
-        if (cardId == null) {
-            return ResponseFactory.errMissingParameter();
-        }
-        return cardEventService.cardEvent(cardId);
+    public Response cardEvent() {
+
+        return cardEventService.cardEvent();
     }
 
     /**

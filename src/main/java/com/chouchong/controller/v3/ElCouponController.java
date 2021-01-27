@@ -4,6 +4,7 @@ import com.chouchong.common.PageQuery;
 import com.chouchong.common.Response;
 import com.chouchong.common.ResponseFactory;
 import com.chouchong.entity.v3.ElectronicCoupons;
+import com.chouchong.entity.v4.PrivilegeCoupons;
 import com.chouchong.service.v3.ElCouponService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,6 +107,55 @@ public class ElCouponController {
     }
 
     /**
+     * @Description: 添加优惠券
+     * @Author: LxH
+     * @Date: 2020/9/23 16:37
+     */
+    @PostMapping("addPrivilegeCoupons")
+    public Response addPrivilegeCoupons(PrivilegeCoupons privilegeCoupons){
+        if (StringUtils.isAnyBlank(privilegeCoupons.getTitle(), privilegeCoupons.getSummary(), privilegeCoupons.getStoreIds())) {
+            return ResponseFactory.errMissingParameter();
+        }
+
+        if (privilegeCoupons.getDay()!=null&&privilegeCoupons.getDate()!=null&&privilegeCoupons.getStartTime()!=null) {
+            return ResponseFactory.err("有效天数有效日期二选一！！");
+        }
+        return elCouponService.addPrivilegeCoupons(privilegeCoupons);
+    }
+
+    /**
+     * @Description: 修改优惠券
+     * @Author: LxH
+     * @Date: 2020/9/23 16:37
+     */
+    @PostMapping("updatePrivilegeCoupons")
+    public Response updatePrivilegeCoupons(PrivilegeCoupons privilegeCoupons){
+        if (StringUtils.isAnyBlank(privilegeCoupons.getTitle(), privilegeCoupons.getSummary(), privilegeCoupons.getStoreIds())) {
+            return ResponseFactory.errMissingParameter();
+        }
+        if (privilegeCoupons.getDay()!=null&&privilegeCoupons.getDate()!=null&&privilegeCoupons.getStartTime()!=null) {
+            return ResponseFactory.err("有效天数有效日期二选一！！");
+        }
+        return elCouponService.updatePrivilegeCoupons(privilegeCoupons);
+    }
+
+    /**
+     *
+     *
+     *@description: 删除优惠券
+     *@author: LxH
+     *@time: 2020/10/15 0015 下午 2:57
+     *
+     */
+    @PostMapping("deletePrivilegeCoupon")
+    public Response deletePrivilegeCoupon(Integer privilegeCouponId){
+        if (privilegeCouponId==null) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return elCouponService.deletePrivilegeCoupon(privilegeCouponId);
+    }
+
+    /**
      * 修改平台商优惠券
      *
      * @param coupon
@@ -158,6 +208,28 @@ public class ElCouponController {
         return elCouponService.addCouponForUser(phone, couponId, quantity);
     }
 
+    /**
+     * @Description: 批量赠送用户优惠券  例：couponJson="[{couponId:336,quantity:5},{couponId:339,quantity:8},{couponId:337,quantity:10}]"
+     * @Author: LxH
+     * @Date: 2020/9/23 13:11
+     */
+    @PostMapping("giveUserCoupons")
+    public Response giveUserCoupons(String phone,String couponJson){
+        if (StringUtils.isBlank(phone)) {
+            return ResponseFactory.errMissingParameter();
+        }
+        return elCouponService.giveUserCoupons(phone,couponJson);
+    }
+
+    /**
+     * @Description: 可以发送的优惠券
+     * @Author: LxH
+     * @Date: 2020/12/1 10:18
+     */
+    @PostMapping("findCoupons")
+    public Response findCoupons(){
+        return elCouponService.findCoupons();
+    }
 
     /**
      * 商家给用户赠送优惠券记录
@@ -193,4 +265,13 @@ public class ElCouponController {
         return elCouponService.getSendCouponList(page, nickname, title, status, startTime, endTime);
     }
 
+    /**
+     * @Description: 获取非门店赠送的优惠券记录
+     * @Author: LxH
+     * @Date: 2020/10/27 11:25
+     */
+    @PostMapping("findCouponLog")
+    public Response findCouponLog(Integer couponId){
+        return elCouponService.findCouponLog(couponId);
+    }
 }

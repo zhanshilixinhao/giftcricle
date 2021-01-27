@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.v3.MemberCardGradeMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.v3.MemberCardGrade">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="membership_card_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="grade_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, membership_card_id, grade_id, updated, created
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from member_card_grade
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectByCardId" resultType="com.chouchong.entity.v3.CardGrade">
+      select b.id, b.title, b.summary, b.grade, b.admin_id, b.updated, b.created
+from member_card_grade a
+         left join card_grade b on a.grade_id = b.id
+where a.membership_card_id = #{cardId}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from member_card_grade
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByGradeId">
+    delete from member_card_grade
+    where grade_id = #{gradeId}
+  </delete>
+  <insert id="insert" parameterType="com.chouchong.entity.v3.MemberCardGrade">
+    insert into member_card_grade (id, membership_card_id, grade_id,
+      updated, created)
+    values (#{id,jdbcType=INTEGER}, #{membershipCardId,jdbcType=INTEGER}, #{gradeId,jdbcType=INTEGER},
+      now(), now())
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.v3.MemberCardGrade">
+    insert into member_card_grade
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="membershipCardId != null">
+        membership_card_id,
+      </if>
+      <if test="gradeId != null">
+        grade_id,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="membershipCardId != null">
+        #{membershipCardId,jdbcType=INTEGER},
+      </if>
+      <if test="gradeId != null">
+        #{gradeId,jdbcType=INTEGER},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.v3.MemberCardGrade">
+    update member_card_grade
+    <set>
+      <if test="membershipCardId != null">
+        membership_card_id = #{membershipCardId,jdbcType=INTEGER},
+      </if>
+      <if test="gradeId != null">
+        grade_id = #{gradeId,jdbcType=INTEGER},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.v3.MemberCardGrade">
+    update member_card_grade
+    set membership_card_id = #{membershipCardId,jdbcType=INTEGER},
+      grade_id = #{gradeId,jdbcType=INTEGER},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      created = #{created,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

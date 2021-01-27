@@ -4,11 +4,14 @@ import com.chouchong.entity.v3.ElCouponUseLog;
 import com.chouchong.entity.v3.ElCouponVo;
 import com.chouchong.entity.v3.ElUserCoupon;
 import com.chouchong.service.v3.vo.ForUserVo;
+
 import org.apache.ibatis.annotations.Param;
+import tk.mybatis.mapper.common.Mapper;
+import tk.mybatis.mapper.common.MySqlMapper;
 
 import java.util.List;
 
-public interface ElUserCouponMapper {
+public interface ElUserCouponMapper extends Mapper<ElUserCoupon>, MySqlMapper<ElUserCoupon> {
     int insert(ElUserCoupon record);
 
     int insertSelective(ElUserCoupon record);

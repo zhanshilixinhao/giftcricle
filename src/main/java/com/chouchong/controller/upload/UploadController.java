@@ -20,6 +20,7 @@ public class UploadController {
 
     @PostMapping("image")
     public void uploadImage(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        System.out.println(request.getMethod());
         UploadUtils.upload(request, response,1);
     }
 }

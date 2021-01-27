@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.home.FestivalMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.home.Festival">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="festival" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="target_date" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, festival, target_date, created
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from festival
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectByAll" resultType="com.chouchong.entity.home.Festival">
+      select
+      *
+      from festival
+      where UNIX_TIMESTAMP(target_date) &lt;= UNIX_TIMESTAMP(now())
+      limit 5
+    </select>
+  <select id="selectByName" resultType="com.chouchong.entity.home.Festival">
+      select
+      *
+      from festival
+      <where>
+        <trim suffixOverrides="and">
+          <if test="name != null and name != ''">
+            festival LIKE CONCAT(CONCAT('%', #{name}), '%') and
+          </if>
+          <if test="time != null">
+            UNIX_TIMESTAMP(target_date) = #{time} and
+          </if>
+        </trim>
+      </where>
+      order By created DESC
+  </select>
+  <select id="selectAll" resultType="com.chouchong.entity.home.Festival">
+    select
+    <include refid="Base_Column_List" />
+    from festival
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from festival
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchong.entity.home.Festival">
+    insert into festival (id, festival, target_date,
+      created)
+    values (#{id,jdbcType=INTEGER}, #{festival,jdbcType=VARCHAR}, #{targetDate,jdbcType=TIMESTAMP},
+     now())
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.home.Festival">
+    insert into festival
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="festival != null">
+        festival,
+      </if>
+      <if test="targetDate != null">
+        target_date,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="festival != null">
+        #{festival,jdbcType=VARCHAR},
+      </if>
+      <if test="targetDate != null">
+        #{targetDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.home.Festival">
+    update festival
+    <set>
+      <if test="festival != null">
+        festival = #{festival,jdbcType=VARCHAR},
+      </if>
+      <if test="targetDate != null">
+        target_date = #{targetDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.home.Festival">
+    update festival
+    set festival = #{festival,jdbcType=VARCHAR},
+      target_date = #{targetDate,jdbcType=TIMESTAMP},
+      created = #{created,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

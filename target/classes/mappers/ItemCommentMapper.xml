@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.gift.item.ItemCommentMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.gift.item.ItemComment">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="sku_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="item_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="star" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="content" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="pictures" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, sku_id, item_id, order_no, user_id, star, content, pictures, created, updated
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from item_comment
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectBySearch" resultType="com.chouchong.service.order.vo.CommentVo">
+      select
+        a.*,
+        b.title,
+        b.cover,
+        c.phone,
+        c.nickname
+      from item_comment a
+             left join item b on a.item_id = b.id
+             left join app_user c on a.user_id = c.id
+    <where>
+      <trim suffixOverrides="and" >
+        <if test="nickname != null and nickname != '' ">
+          c.nickname like concat('%', #{nickname},'%') and
+        </if>
+        <if test="phone != null and phone != '' ">
+          c.phone = #{phone} and
+        </if>
+        <if test="title != null and title != '' ">
+          b.title like concat('%', #{title},'%') and
+        </if>
+        <if test="orderNo != null and orderNo != '' ">
+          a.order_no = #{orderNo} and
+        </if>
+        <if test="adminId != null">
+          b.admin_id = #{adminId}
+        </if>
+      </trim>
+    </where>
+    order By a.created DESC
+    </select>
+  <select id="selectById" resultType="com.chouchong.service.order.vo.CommentDetail">
+    select
+      id, star,content,pictures
+    from item_comment
+    where id = #{id}
+  </select>
+    <select id="selectUnredCount" resultType="java.lang.Integer">
+      select count(0)
+      from item_comment a
+      left join item_order b on a.order_no = b.order_no
+      <where>
+        <trim suffixOverrides="and">
+          <if test="adminId!=null">
+            b.admin_id = #{adminId} and
+          </if>
+          <if test="start!=null">
+            unix_timestamp(a.created) >= #{start} and
+          </if>
+        </trim>
+
+      </where>
+
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from item_comment
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchong.entity.gift.item.ItemComment">
+    insert into item_comment (id, sku_id, item_id,
+      order_no, user_id, star,
+      content, pictures, created,
+      updated)
+    values (#{id,jdbcType=INTEGER}, #{skuId,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER},
+      #{orderNo,jdbcType=BIGINT}, #{userId,jdbcType=INTEGER}, #{star,jdbcType=INTEGER},
+      #{content,jdbcType=VARCHAR}, #{pictures,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP},
+      #{updated,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.gift.item.ItemComment">
+    insert into item_comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="skuId != null">
+        sku_id,
+      </if>
+      <if test="itemId != null">
+        item_id,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="star != null">
+        star,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="pictures != null">
+        pictures,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="skuId != null">
+        #{skuId,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null">
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="star != null">
+        #{star,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="pictures != null">
+        #{pictures,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.gift.item.ItemComment">
+    update item_comment
+    <set>
+      <if test="skuId != null">
+        sku_id = #{skuId,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null">
+        item_id = #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="star != null">
+        star = #{star,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="pictures != null">
+        pictures = #{pictures,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.gift.item.ItemComment">
+    update item_comment
+    set sku_id = #{skuId,jdbcType=INTEGER},
+      item_id = #{itemId,jdbcType=INTEGER},
+      order_no = #{orderNo,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=INTEGER},
+      star = #{star,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      pictures = #{pictures,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+</mapper>

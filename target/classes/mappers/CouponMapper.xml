@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.gift.coupon.CouponMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.gift.coupon.Coupon">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="merchant_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="partner_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="brand_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="content" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="cover" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="starting" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="ending" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, merchant_id, admin_id, partner_id, title, brand_name, content, cover, status,
+    `starting`, `ending`, updated, created
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from coupon
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from coupon
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchong.entity.gift.coupon.Coupon">
+    insert into coupon (id, merchant_id, admin_id,
+      partner_id, title, brand_name,
+      content, cover, status,
+      `starting`, `ending`, updated,
+      created)
+    values (#{id,jdbcType=INTEGER}, #{merchantId,jdbcType=INTEGER}, #{adminId,jdbcType=INTEGER},
+      #{partnerId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{brandName,jdbcType=VARCHAR},
+      #{content,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT},
+      #{starting,jdbcType=TIMESTAMP}, #{ending,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP},
+      #{created,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.gift.coupon.Coupon">
+    insert into coupon
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="merchantId != null">
+        merchant_id,
+      </if>
+      <if test="adminId != null">
+        admin_id,
+      </if>
+      <if test="partnerId != null">
+        partner_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="brandName != null">
+        brand_name,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="cover != null">
+        cover,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="starting != null">
+        starting,
+      </if>
+      <if test="ending != null">
+        ending,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="merchantId != null">
+        #{merchantId,jdbcType=INTEGER},
+      </if>
+      <if test="adminId != null">
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="partnerId != null">
+        #{partnerId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="brandName != null">
+        #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="cover != null">
+        #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="starting != null">
+        #{starting,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ending != null">
+        #{ending,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.gift.coupon.Coupon">
+    update coupon
+    <set>
+      <if test="merchantId != null">
+        merchant_id = #{merchantId,jdbcType=INTEGER},
+      </if>
+      <if test="adminId != null">
+        admin_id = #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="partnerId != null">
+        partner_id = #{partnerId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="brandName != null">
+        brand_name = #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="cover != null">
+        cover = #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="starting != null">
+        starting = #{starting,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ending != null">
+        ending = #{ending,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.gift.coupon.Coupon">
+    update coupon
+    set merchant_id = #{merchantId,jdbcType=INTEGER},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      partner_id = #{partnerId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      brand_name = #{brandName,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      cover = #{cover,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      `starting` = #{starting,jdbcType=TIMESTAMP},
+      `ending` = #{ending,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      created = #{created,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--根据优惠券名称获得优惠券列表-->
+  <select id="selectByTitle" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    FROM
+    coupon
+    WHERE
+    status != 3 AND merchant_id = #{id}
+    <if test="title != null">
+      AND title LIKE CONCAT(CONCAT('%', #{title}), '%')
+    </if>
+    <if test="brandName != null">
+      AND brand_name LIKE CONCAT(CONCAT('%', #{brandName}), '%')
+    </if>
+    ORDER BY created DESC
+  </select>
+  <select id="selectByTitleAdmin" resultType="com.chouchong.service.home.welfare.vo.ItemListVo">
+select id,
+       title,
+       cover,
+       created,
+       0 as price
+from coupon
+where admin_id = #{adminId}
+    <if test="title != null and title != ''">
+      AND title LIKE CONCAT('%', #{title}, '%')
+    </if>
+    order by  created DESC
+  </select>
+
+</mapper>

@@ -1,9 +1,25 @@
 package com.chouchong.entity.v3;
 
+import com.chouchong.entity.v4.MemberEventCoupon;
+import com.chouchong.service.v3.vo.StoreVo;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
+@Accessors(chain = true)
+@Table(name = "member_event")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class MemberEvent {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String title;
@@ -13,6 +29,8 @@ public class MemberEvent {
     private BigDecimal rechargeMoney;
 
     private BigDecimal sendMoney;
+
+
 
     private Integer targetId;
 
@@ -30,136 +48,20 @@ public class MemberEvent {
 
     private Integer quantity;
 
+    private String storeIds;
+
+    @Transient
     private String couponTitle;
 
-    public MemberEvent(Integer id, String title, String summary, BigDecimal rechargeMoney, BigDecimal sendMoney, Integer targetId, Integer adminId, Byte type, Byte status, Date updated, Date created, Float scale) {
-        this.id = id;
-        this.title = title;
-        this.summary = summary;
-        this.rechargeMoney = rechargeMoney;
-        this.sendMoney = sendMoney;
-        this.targetId = targetId;
-        this.adminId = adminId;
-        this.type = type;
-        this.status = status;
-        this.updated = updated;
-        this.created = created;
-        this.scale = scale;
-    }
+    @Transient
+    private List<MemberEventCoupon> memberEventCouponsList;
 
-    public String getCouponTitle() {
-        return couponTitle;
-    }
+    @Transient
+    private List<StoreVo> storeVos;
 
-    public void setCouponTitle(String couponTitle) {
-        this.couponTitle = couponTitle;
-    }
+    public static final String ADMIN_ID = "adminId";
 
-    public Integer getQuantity() {
-        return quantity;
-    }
+    public static final String TITLE = "title";
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
 
-    public MemberEvent() {
-        super();
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title == null ? null : title.trim();
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary == null ? null : summary.trim();
-    }
-
-    public BigDecimal getRechargeMoney() {
-        return rechargeMoney;
-    }
-
-    public void setRechargeMoney(BigDecimal rechargeMoney) {
-        this.rechargeMoney = rechargeMoney;
-    }
-
-    public BigDecimal getSendMoney() {
-        return sendMoney;
-    }
-
-    public void setSendMoney(BigDecimal sendMoney) {
-        this.sendMoney = sendMoney;
-    }
-
-    public Integer getTargetId() {
-        return targetId;
-    }
-
-    public void setTargetId(Integer targetId) {
-        this.targetId = targetId;
-    }
-
-    public Integer getAdminId() {
-        return adminId;
-    }
-
-    public void setAdminId(Integer adminId) {
-        this.adminId = adminId;
-    }
-
-    public Byte getType() {
-        return type;
-    }
-
-    public void setType(Byte type) {
-        this.type = type;
-    }
-
-    public Byte getStatus() {
-        return status;
-    }
-
-    public void setStatus(Byte status) {
-        this.status = status;
-    }
-
-    public Date getUpdated() {
-        return updated;
-    }
-
-    public void setUpdated(Date updated) {
-        this.updated = updated;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public Float getScale() {
-        return scale;
-    }
-
-    public void setScale(Float scale) {
-        this.scale = scale;
-    }
 }

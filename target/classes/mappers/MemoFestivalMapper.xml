@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.home.memo.MemoFestivalMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.home.memo.MemoFestival">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="target_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="summary" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="cover" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="picture" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="detail" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, target_time, `name`, summary, cover, picture, title, detail, created, updated
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from memo_festival
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAllByName" resultType="com.chouchong.entity.home.memo.MemoFestival">
+    select
+   <include refid="Base_Column_List"/>
+   from memo_festival
+   where
+   1 = 1
+   <if  test="name != null and name!= ''">
+    and  `name` like concat('%',#{name},'%')
+   </if>
+   order by target_time DESC
+  </select>
+  <select id="selectAll" resultType="com.chouchong.entity.home.memo.MemoFestival">
+    select
+    <include refid="Base_Column_List"/>
+    from memo_festival
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from memo_festival
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchong.entity.home.memo.MemoFestival">
+    insert into memo_festival (id, target_time, name,
+      summary, cover, picture,
+      title, detail, created,
+      updated)
+    values (#{id,jdbcType=INTEGER}, #{targetTime,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR},
+      #{summary,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR}, #{picture,jdbcType=VARCHAR},
+      #{title,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, now(),
+     now())
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.home.memo.MemoFestival">
+    insert into memo_festival
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="targetTime != null">
+        target_time,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="summary != null">
+        summary,
+      </if>
+      <if test="cover != null">
+        cover,
+      </if>
+      <if test="picture != null">
+        picture,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="detail != null">
+        detail,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="targetTime != null">
+        #{targetTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null">
+        #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="cover != null">
+        #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="picture != null">
+        #{picture,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null">
+        #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.home.memo.MemoFestival">
+    update memo_festival
+    <set>
+      <if test="targetTime != null">
+        target_time = #{targetTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null">
+        summary = #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="cover != null">
+        cover = #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="picture != null">
+        picture = #{picture,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null">
+        detail = #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = now(),
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.home.memo.MemoFestival">
+    update memo_festival
+    set target_time = #{targetTime,jdbcType=TIMESTAMP},
+      name = #{name,jdbcType=VARCHAR},
+      summary = #{summary,jdbcType=VARCHAR},
+      cover = #{cover,jdbcType=VARCHAR},
+      picture = #{picture,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      detail = #{detail,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

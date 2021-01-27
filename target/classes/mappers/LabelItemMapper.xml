@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.gift.label.LabelItemMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.gift.label.LabelItem">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="item_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="label_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="sort" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, item_id, label_id, sort, status, created, updated
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from label_item
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectBySearch" resultType="com.chouchong.service.gift.label.vo.LabelItemVo">
+      select
+        a.id,
+        a.item_id,
+        a.label_id,
+        a.status,
+        a.sort,
+        a.created,
+        a.updated,
+        b.name as labelName,
+        d.title as name,
+        d.cover
+      from label_item a
+             left join label b on a.label_id = b.id
+             left join item d on a.item_id = d.id
+      <where>
+        <trim suffixOverrides="and">
+          <if test="name != null and name != ''">
+             d.title LIKE CONCAT(CONCAT('%', #{name}), '%') and
+          </if>
+          <if test="status != null">
+             a.status = #{status} and
+          </if>
+          <if test="labelId != null">
+            a.label_id = #{labelId} and
+          </if>
+        </trim>
+      </where>
+      ORDER BY a.sort DESC, a.created DESC
+    </select>
+  <select id="selectByThemeIdAndItemId" resultType="com.chouchong.entity.gift.label.LabelItem">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    FROM
+    label_item
+    WHERE
+    label_id = #{labelId} AND item_id = #{id}
+  </select>
+  <!--<select id="selectByLabelId" resultType="com.chouchongkeji.service.mall.item.vo.ItemListVo">-->
+      <!--SELECT-->
+        <!--b.id as itemId,-->
+        <!--b.cover as cover,-->
+        <!--b.title as title,-->
+        <!--b.price as price-->
+      <!--FROM-->
+        <!--label_item a LEFT JOIN item b ON a.item_id = b.id-->
+      <!--WHERE-->
+        <!--a.label_id = #{id} AND a.status = 1 AND b.status = 1-->
+      <!--ORDER BY a.sort DESC, a.created DESC-->
+    <!--</select>-->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from label_item
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchong.entity.gift.label.LabelItem">
+    insert into label_item (id, item_id, label_id,
+      sort, status, created,
+      updated)
+    values (#{id,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, #{labelId,jdbcType=INTEGER},
+      #{sort,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP},
+      #{updated,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.gift.label.LabelItem">
+    insert into label_item
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="itemId != null">
+        item_id,
+      </if>
+      <if test="labelId != null">
+        label_id,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null">
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="labelId != null">
+        #{labelId,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.gift.label.LabelItem">
+    update label_item
+    <set>
+      <if test="itemId != null">
+        item_id = #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="labelId != null">
+        label_id = #{labelId,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = now(),
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.gift.label.LabelItem">
+    update label_item
+    set item_id = #{itemId,jdbcType=INTEGER},
+      label_id = #{labelId,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

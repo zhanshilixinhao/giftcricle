@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.webUser.SysAdminWalletRecordMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.webUser.SysAdminWalletRecord">
+    <constructor>
+      <arg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="explain" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="amount" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="target_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="type" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <insert id="insert" parameterType="com.chouchong.entity.webUser.SysAdminWalletRecord">
+    insert into sys_admin_wallet_record (id, admin_id, `explain`,
+      amount, target_id, `type`,
+      updated, created)
+    values (#{id,jdbcType=INTEGER}, #{adminId,jdbcType=INTEGER}, #{explain,jdbcType=VARCHAR},
+      #{amount,jdbcType=DECIMAL}, #{targetId,jdbcType=BIGINT}, #{type,jdbcType=TINYINT},
+      now(), now())
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.webUser.SysAdminWalletRecord">
+    insert into sys_admin_wallet_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="adminId != null">
+        admin_id,
+      </if>
+      <if test="explain != null">
+        `explain`,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="targetId != null">
+        target_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="adminId != null">
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="explain != null">
+        #{explain,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="targetId != null">
+        #{targetId,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>

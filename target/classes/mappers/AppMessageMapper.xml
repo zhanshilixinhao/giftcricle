@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.home.message.AppMessageMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.home.message.AppMessage">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="summary" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="content" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="target_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="target_type" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="message_type" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, title, summary, content, target_id, target_type, message_type, created, updated
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from app_message
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from app_message
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchong.entity.home.message.AppMessage" useGeneratedKeys="true" keyProperty="id">
+    insert into app_message (id, title, summary, 
+      content, target_id, target_type, 
+      message_type, created, updated
+      )
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{targetId,jdbcType=INTEGER}, #{targetType,jdbcType=TINYINT}, 
+      #{messageType,jdbcType=TINYINT}, now(), now()
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.home.message.AppMessage">
+    insert into app_message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="summary != null">
+        summary,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="targetId != null">
+        target_id,
+      </if>
+      <if test="targetType != null">
+        target_type,
+      </if>
+      <if test="messageType != null">
+        message_type,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null">
+        #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="targetId != null">
+        #{targetId,jdbcType=INTEGER},
+      </if>
+      <if test="targetType != null">
+        #{targetType,jdbcType=TINYINT},
+      </if>
+      <if test="messageType != null">
+        #{messageType,jdbcType=TINYINT},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.home.message.AppMessage">
+    update app_message
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null">
+        summary = #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="targetId != null">
+        target_id = #{targetId,jdbcType=INTEGER},
+      </if>
+      <if test="targetType != null">
+        target_type = #{targetType,jdbcType=TINYINT},
+      </if>
+      <if test="messageType != null">
+        message_type = #{messageType,jdbcType=TINYINT},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.home.message.AppMessage">
+    update app_message
+    set title = #{title,jdbcType=VARCHAR},
+      summary = #{summary,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      target_id = #{targetId,jdbcType=INTEGER},
+      target_type = #{targetType,jdbcType=TINYINT},
+      message_type = #{messageType,jdbcType=TINYINT},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--根据搜索条件查询后台系统通知列表 /*message_type = 2 代表系统消息 target_type = 22 代表推送消息*/-->
+  <select id="selectBySearch" parameterType="java.util.Map" resultType="com.chouchong.service.home.message.vo.PushMsgVo">
+    SELECT
+    a.id as id, a.title as title, a.summary as summary, a.content as content, a.target_id as targetId, a.target_type as targetType,
+    a.message_type as messageType, a.created, a.updated, b.phone
+    FROM
+    app_message a LEFT JOIN app_user b ON a.target_id = b.id
+    WHERE
+    message_type = 2 AND target_type = 22
+    <if test="title != null and title != ''">
+      AND title LIKE CONCAT(CONCAT('%', #{title}), '%')
+    </if>
+    <if test="summary != null and summary != ''">
+      AND summary LIKE CONCAT(CONCAT('%', #{summary}), '%')
+    </if>
+    ORDER BY created DESC
+  </select>
+</mapper>

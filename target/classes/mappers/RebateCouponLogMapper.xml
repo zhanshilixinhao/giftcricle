@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.v4.RebateCouponLogMapper">
+	<select id="findLogByWeek"  resultType="com.chouchong.service.v4.vo.RebateCouponLogVo">
+		SELECT
+	a.rebate_coupon_id,
+	b.nickname,
+	b.phone as phone,
+	a.rebate,
+	a.created
+FROM
+	rebate_coupon_log AS a
+	LEFT JOIN app_user AS b ON b.id = a.user_id
+	LEFT JOIN rebate_coupon AS c ON a.rebate_coupon_id = c.id
+WHERE
+	YEARWEEK( date_format( a.created, '%Y-%m-%d' ) ) = YEARWEEK( now( ) )
+		<if test="phone != null and phone != ''">
+			AND phone = #{phone}
+	</if>
+		<if test="adminId != null and adminId != ''">
+			AND a.admin_id = #{adminId}
+		</if>
+		<if test="creatAdminId != null and creatAdminId != ''">
+			AND a.creat_admin_id = #{creatAdminId}
+		</if>
+ORDER BY
+	a.created DESC
+	</select>
+
+	<select id="findLogByMonth" parameterType="java.lang.String" resultType="com.chouchong.service.v4.vo.RebateCouponLogVo">
+		SELECT
+		a.rebate_coupon_id,
+		b.nickname,
+		b.phone as phone,
+		a.rebate,
+		a.created
+		FROM
+		rebate_coupon_log AS a
+		LEFT JOIN app_user AS b ON b.id = a.user_id
+		LEFT JOIN rebate_coupon AS c ON a.rebate_coupon_id = c.id
+		WHERE
+		DATE_FORMAT( a.created, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )
+		<if test="phone != null and phone != ''">
+			AND phone = #{phone}
+		</if>
+		<if test="adminId != null and adminId != ''">
+			AND a.admin_id = #{adminId}
+		</if>
+		<if test="creatAdminId != null and creatAdminId != ''">
+			AND a.creat_admin_id = #{creatAdminId}
+		</if>
+		ORDER BY
+		a.created DESC
+	</select>
+
+	<select id="findAllLog" parameterType="java.lang.String" resultType="com.chouchong.service.v4.vo.RebateCouponLogVo">
+		SELECT
+		a.rebate_coupon_id,
+		b.nickname,
+		b.phone as phone,
+		a.rebate,
+		a.created
+		FROM
+		rebate_coupon_log AS a
+		LEFT JOIN app_user AS b ON b.id = a.user_id
+		LEFT JOIN rebate_coupon AS c ON a.rebate_coupon_id = c.id
+		WHERE
+		a.admin_id = #{adminId}
+		<if test="phone != null and phone != ''">
+			AND phone = #{phone}
+		</if>
+		<if test="creatAdminId != null and creatAdminId != ''">
+			AND a.creat_admin_id = #{creatAdminId}
+		</if>
+		ORDER BY
+		a.created DESC
+	</select>
+
+	<select id="findAllLog2" parameterType="java.lang.String" resultType="com.chouchong.service.v4.vo.RebateCouponLogVo">
+		SELECT
+		a.rebate_coupon_id,
+		b.nickname,
+		b.phone as phone,
+		a.rebate,
+		a.created
+		FROM
+		rebate_coupon_log AS a
+		LEFT JOIN app_user AS b ON b.id = a.user_id
+		LEFT JOIN rebate_coupon AS c ON a.rebate_coupon_id = c.id
+		WHERE
+		a.creat_admin_id = #{creatAdminId}
+		<if test="phone != null and phone != ''">
+			AND phone = #{phone}
+		</if>
+		<if test="adminId != null and adminId != ''">
+			AND a.admin_id = #{adminId}
+		</if>
+		ORDER BY
+		a.created DESC
+	</select>
+
+	<select id="findLogByDay" parameterType="java.lang.String" resultType="com.chouchong.service.v4.vo.RebateCouponLogVo">
+		SELECT
+		a.rebate_coupon_id,
+		b.nickname,
+		b.phone as phone,
+		a.rebate,
+		a.created
+		FROM
+		rebate_coupon_log AS a
+		LEFT JOIN app_user AS b ON b.id = a.user_id
+		LEFT JOIN rebate_coupon AS c ON a.rebate_coupon_id = c.id
+		WHERE
+		to_days(a.created) = to_days(now())
+		<if test="phone != null and phone != ''">
+			AND phone = #{phone}
+		</if>
+		<if test="adminId != null and adminId != ''">
+			AND a.admin_id = #{adminId}
+		</if>
+		<if test="creatAdminId != null and creatAdminId != ''">
+			AND a.creat_admin_id = #{creatAdminId}
+		</if>
+		ORDER BY
+		a.created DESC
+	</select>
+</mapper>

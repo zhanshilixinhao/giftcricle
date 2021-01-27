@@ -4,10 +4,14 @@ import com.chouchong.common.PageQuery;
 import com.chouchong.common.Response;
 import com.chouchong.common.ResponseFactory;
 import com.chouchong.dao.v3.*;
+import com.chouchong.dao.v4.ActivityMapper;
+import com.chouchong.dao.v4.PrivilegeCouponsMapper;
 import com.chouchong.dao.webUser.SysAdminRoleMapper;
 import com.chouchong.entity.v3.*;
+import com.chouchong.entity.v4.PrivilegeCoupons;
 import com.chouchong.service.v3.CardEventService;
 import com.chouchong.service.v3.vo.EventVo;
+import com.chouchong.service.v3.vo.StoreVo;
 import com.chouchong.service.v3.vo.UserCardVo;
 import com.chouchong.service.webUser.vo.WebUserInfo;
 import com.github.pagehelper.PageHelper;
@@ -16,10 +20,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+import tk.mybatis.mapper.entity.Example;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -53,8 +60,14 @@ public class CardEventServiceImpl implements CardEventService {
     @Autowired
     private MemberCardMapper memberCardMapper;
 
+    @Resource
+    private ActivityMapper activityMapper;
+
     @Autowired
     private ElectronicCouponsMapper electronicCouponsMapper;
+
+    @Resource
+    private PrivilegeCouponsMapper privilegeCouponsMapper;
 
     /**
      * 获取活动列表
@@ -75,14 +88,79 @@ public class CardEventServiceImpl implements CardEventService {
             if (webUserInfo.getRoleId() == 3) {
                 adminId = webUserInfo.getSysAdmin().getId();
             }
-            List<EventVo> eventVos = memberEventMapper.selectByAll(adminId, title, type);
-            PageInfo pageInfo = new PageInfo<>(eventVos);
-            return ResponseFactory.page(eventVos, pageInfo.getTotal(), pageInfo.getPages(),
+            Example example = new Example(MemberEvent.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("adminId", adminId);
+            if (title!=null||title!="") {
+                criteria.andLike("title", "%"+title+"%");
+            }
+            if (type!=null) {
+                criteria.andEqualTo("type", type);
+            }
+            List<MemberEvent> memberEvents = activityMapper.selectByExample(example);
+            ArrayList<EventVo> list = new ArrayList<>();
+            for (MemberEvent memberEvent : memberEvents) {
+                EventVo eventVo = new EventVo();
+                eventVo.setId(memberEvent.getId());
+                eventVo.setTitle(memberEvent.getTitle());
+                eventVo.setType(memberEvent.getType());
+                eventVo.setAdminId(memberEvent.getAdminId());
+                eventVo.setStatus(memberEvent.getStatus());
+                eventVo.setRechargeMoney(memberEvent.getRechargeMoney());
+                eventVo.setSendMoney(memberEvent.getSendMoney());
+                eventVo.setSummary(memberEvent.getSummary());
+                if (memberEvent.getTargetId()!=null) {
+                    PrivilegeCoupons privilegeCoupons = privilegeCouponsMapper.selectByPrimaryKey(memberEvent.getTargetId());
+                    if (privilegeCoupons!=null) {
+                        eventVo.setTargetId(privilegeCoupons.getId());
+                        eventVo.setTargetName(privilegeCoupons.getTitle());
+                        eventVo.setQuantity(memberEvent.getQuantity());
+                    }
+                }
+                List<StoreVo> stores = new ArrayList<>();
+                if (memberEvent.getStoreIds()!=null) {
+                    String[] split = memberEvent.getStoreIds().split(",");
+                    for (String s : split) {
+                        StoreVo store = storeMapper.selectById(Integer.parseInt(s));
+                        stores.add(store);
+                    }
+                    eventVo.setStores(stores);
+                }
+                list.add(eventVo);
+            }
+
+
+            /*List<EventVo> eventVos = memberEventMapper.selectByAll(adminId, title, type);
+            for (EventVo eventVo : eventVos) {
+                List<StoreVo> stores = new ArrayList<>();
+                if (eventVo.getStoreIds()!=null) {
+                    String[] split = eventVo.getStoreIds().split(",");
+                    for (String s : split) {
+                        StoreVo store = storeMapper.selectById(Integer.parseInt(s));
+                        stores.add(store);
+                    }
+                    eventVo.setStores(stores);
+                }
+            }*/
+            PageInfo pageInfo = new PageInfo<>(list);
+            return ResponseFactory.page(list, pageInfo.getTotal(), pageInfo.getPages(),
                     pageInfo.getPageNum(), pageInfo.getPageSize());
         } else {
             // 礼遇圈（所有礼遇圈添加的可看）
             List<Integer> adminIds = sysAdminRoleMapper.selectIdByRoleId(webUserInfo.getRoleId());
             List<EventVo> eventVos = memberEventMapper.selectAllByAdminIds(adminIds, title, type);
+            for (EventVo eventVo : eventVos) {
+                List<StoreVo> stores = new ArrayList<>();
+                if (eventVo.getStoreIds()!=null) {
+                    String[] split = eventVo.getStoreIds().split(",");
+                    for (String s : split) {
+                        StoreVo store = storeMapper.selectById(Integer.parseInt(s));
+                        stores.add(store);
+                    }
+                    eventVo.setStores(stores);
+                }
+            }
+
             PageInfo pageInfo = new PageInfo<>(eventVos);
             return ResponseFactory.page(eventVos, pageInfo.getTotal(), pageInfo.getPages(),
                     pageInfo.getPageNum(), pageInfo.getPageSize());
@@ -117,11 +195,15 @@ public class CardEventServiceImpl implements CardEventService {
         ev.setType(event.getType());
         ev.setStatus(event.getStatus());
         ev.setQuantity(event.getQuantity());
+        ev.setStoreIds(event.getStoreIds());
+        ev.setCreated(new Date());
+        ev.setUpdated(ev.getCreated());
         if (event.getScale() != null) {
             float num = (float) (Math.round(event.getScale() * 0.01 * 1000)) / 1000;
             ev.setScale(num);
         }
-        int insert = memberEventMapper.insert(ev);
+        //int insert = memberEventMapper.insert(ev);
+        int insert = activityMapper.insertSelective(ev);
         if (insert < 1) {
             return ResponseFactory.err("添加失败！");
         }
@@ -137,7 +219,8 @@ public class CardEventServiceImpl implements CardEventService {
      */
     @Override
     public Response updateCardEvent(MemberEvent event) {
-        MemberEvent ev = memberEventMapper.selectByPrimaryKey(event.getId());
+        //MemberEvent ev = memberEventMapper.selectByPrimaryKey(event.getId());
+        MemberEvent ev = activityMapper.selectByPrimaryKey(event.getId());
         if (ev == null) {
             return ResponseFactory.err("该活动不存在");
         }
@@ -157,7 +240,10 @@ public class CardEventServiceImpl implements CardEventService {
         ev.setCreated(ev.getCreated());
         ev.setScale(ev.getScale());
         ev.setQuantity(event.getQuantity());
-        int i = memberEventMapper.updateByPrimaryKey(ev);
+        ev.setStoreIds(event.getStoreIds());
+        ev.setUpdated(new Date());
+        //int i = memberEventMapper.updateByPrimaryKey(ev);
+        int i = activityMapper.updateByPrimaryKeySelective(ev);
         if (i < 1) {
             return ResponseFactory.err("修改失败！");
         }
@@ -189,7 +275,8 @@ public class CardEventServiceImpl implements CardEventService {
      */
     @Override
     public Response detailCardEvent(Integer eventId) {
-        MemberEvent ev = memberEventMapper.selectByPrimaryKey(eventId);
+        //MemberEvent ev = memberEventMapper.selectByPrimaryKey(eventId);
+        MemberEvent ev = activityMapper.selectByPrimaryKey(eventId);
         if (ev != null ){
             if ((ev.getType() == 2 || ev.getType() == 5) && ev.getTargetId() != null){
                 ElectronicCoupons coupons = electronicCouponsMapper.selectByKey(ev.getTargetId());
@@ -209,9 +296,24 @@ public class CardEventServiceImpl implements CardEventService {
      * @return
      */
     @Override
-    public Response cardEvent(Integer cardId) {
-        List<EventVo> eventVos = memberEventMapper.selectByCardId(cardId);
-        return ResponseFactory.sucData(eventVos);
+    public Response cardEvent() {
+        WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
+        Example example = new Example(MemberEvent.class);
+        example.createCriteria().andEqualTo("adminId", webUserInfo.getSysAdmin().getCreateAdminId());
+        List<MemberEvent> memberEvents = activityMapper.selectByExample(example);
+        Store store = storeMapper.selectByAdminId(webUserInfo.getSysAdmin().getId());
+        ArrayList<MemberEvent> list = new ArrayList<>();
+        for (MemberEvent memberEvent : memberEvents) {
+            if (memberEvent.getStoreIds()!=null) {
+                String[] split = memberEvent.getStoreIds().split(",");
+                for (String s : split) {
+                    if (s.equals(store.getId().toString())) {
+                        list.add(memberEvent);
+                    }
+                }
+            }
+        }
+        return ResponseFactory.sucData(list);
     }
 
     /**
@@ -334,6 +436,4 @@ public class CardEventServiceImpl implements CardEventService {
         }
         return ResponseFactory.sucMsg("删除成功");
     }
-
-
 }

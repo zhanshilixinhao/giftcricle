@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.home.AppVersionMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.home.AppVersion">
+    <constructor>
+      <arg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="version_code" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="version_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="type" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="apk_url" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="upgrade_point" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <insert id="insert" parameterType="com.chouchong.entity.home.AppVersion" keyProperty="id" useGeneratedKeys="true">
+    insert into app_version (id, version_code, version_name,
+      title, type, apk_url,
+      upgrade_point, status, updated,
+      created)
+    values (#{id,jdbcType=INTEGER}, #{versionCode,jdbcType=VARCHAR}, #{versionName,jdbcType=VARCHAR},
+      #{title,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{apkUrl,jdbcType=VARCHAR},
+      #{upgradePoint,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, now(),
+     now())
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.home.AppVersion">
+    insert into app_version
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="versionCode != null">
+        version_code,
+      </if>
+      <if test="versionName != null">
+        version_name,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="apkUrl != null">
+        apk_url,
+      </if>
+      <if test="upgradePoint != null">
+        upgrade_point,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="versionCode != null">
+        #{versionCode,jdbcType=INTEGER},
+      </if>
+      <if test="versionName != null">
+        #{versionName,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="apkUrl != null">
+        #{apkUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="upgradePoint != null">
+        #{upgradePoint,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <!--<delete id="deleteById">-->
+        <!--delete from app_version-->
+        <!--where id =  1-->
+  <!--</delete>-->
+  <delete id="deleteByAll">
+    delete from app_version
+  </delete>
+  <select id="selectAllList" resultType="com.chouchong.entity.home.AppVersion">
+        select
+         *
+        from app_version
+
+    </select>
+  <select id="selectById" resultType="com.chouchong.entity.home.AppVersion">
+        select
+         *
+        from app_version
+        where id != #{id}
+  </select>
+</mapper>

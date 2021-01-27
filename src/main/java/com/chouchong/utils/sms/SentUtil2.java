@@ -31,6 +31,7 @@ public class SentUtil2 {
         param.put(YunpianClient.TEXT, text);
         param.put(YunpianClient.APIKEY, APIKEY);
         Result<SmsSingleSend> r = clnt.sms().single_send(param);
+        System.out.println(r);
         //获取返回结果，返回码:r.getCode(),返回码描述:r.getMsg(),API结果:r.getData(),其他说明:r.getDetail(),调用异常:r.getThrowable()
         SmsSingleSend data = r.getData();
         //最后释放client
@@ -40,7 +41,8 @@ public class SentUtil2 {
     }
 
     public static void main(String[] args) throws Exception {
-                testSendSms("15752400657","【礼遇圈】您的验证码是456。如非本人操作，请忽略本短信");
+        SmsSingleSend smsSingleSend = testSendSms("18208799641", "【礼遇圈】您本次的退款金额是336.22元，如非本人操作，请忽略本短信");
+        System.out.println(smsSingleSend);
 //
     }
 

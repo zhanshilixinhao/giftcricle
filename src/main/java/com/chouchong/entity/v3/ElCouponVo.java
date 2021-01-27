@@ -39,4 +39,6 @@ public class ElCouponVo {
 
     private Byte status;
 
+    private Integer day;
+
 }

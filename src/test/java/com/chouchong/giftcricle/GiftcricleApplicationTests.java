@@ -1,3 +1,4 @@
+/*
 package com.chouchong.giftcricle;
 
 import com.alibaba.fastjson.JSON;
@@ -20,8 +21,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+*/
+/*@RunWith(SpringRunner.class)
+@SpringBootTest*//*
+
 public class GiftcricleApplicationTests {
 
 //	@Autowired
@@ -54,3 +57,4 @@ public class GiftcricleApplicationTests {
 //		System.out.println(receive);
 //	}
 }
+*/

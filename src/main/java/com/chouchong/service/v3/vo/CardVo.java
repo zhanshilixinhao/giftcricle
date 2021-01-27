@@ -1,5 +1,6 @@
 package com.chouchong.service.v3.vo;
 
+import com.chouchong.entity.v4.MemberEventCoupon;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -55,4 +56,6 @@ public class CardVo {
 
     private String nickname;
     private String avatar;
+
+
 }

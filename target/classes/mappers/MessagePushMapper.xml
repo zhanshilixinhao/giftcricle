@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.home.message.MessagePushMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.home.message.MessagePush">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="app_message_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="content" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="type" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="type_value" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="ring" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="vibrate" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="clearable" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="create_admin_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="update_admin_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, app_message_id, title, content, type, type_value, ring, vibrate, clearable, status, 
+    created, create_admin_id, updated, update_admin_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from message_push
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from message_push
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchong.entity.home.message.MessagePush">
+    insert into message_push (id, app_message_id, title, 
+      content, type, type_value, 
+      ring, vibrate, clearable, 
+      status, created, create_admin_id, 
+      updated, update_admin_id)
+    values (#{id,jdbcType=INTEGER}, #{appMessageId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{typeValue,jdbcType=VARCHAR}, 
+      #{ring,jdbcType=TINYINT}, #{vibrate,jdbcType=TINYINT}, #{clearable,jdbcType=TINYINT}, 
+      #{status,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP}, #{createAdminId,jdbcType=INTEGER}, 
+      #{updated,jdbcType=TIMESTAMP}, #{updateAdminId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.home.message.MessagePush">
+    insert into message_push
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="appMessageId != null">
+        app_message_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="typeValue != null">
+        type_value,
+      </if>
+      <if test="ring != null">
+        ring,
+      </if>
+      <if test="vibrate != null">
+        vibrate,
+      </if>
+      <if test="clearable != null">
+        clearable,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="createAdminId != null">
+        create_admin_id,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+      <if test="updateAdminId != null">
+        update_admin_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="appMessageId != null">
+        #{appMessageId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="typeValue != null">
+        #{typeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="ring != null">
+        #{ring,jdbcType=TINYINT},
+      </if>
+      <if test="vibrate != null">
+        #{vibrate,jdbcType=TINYINT},
+      </if>
+      <if test="clearable != null">
+        #{clearable,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createAdminId != null">
+        #{createAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateAdminId != null">
+        #{updateAdminId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.home.message.MessagePush">
+    update message_push
+    <set>
+      <if test="appMessageId != null">
+        app_message_id = #{appMessageId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="typeValue != null">
+        type_value = #{typeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="ring != null">
+        ring = #{ring,jdbcType=TINYINT},
+      </if>
+      <if test="vibrate != null">
+        vibrate = #{vibrate,jdbcType=TINYINT},
+      </if>
+      <if test="clearable != null">
+        clearable = #{clearable,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createAdminId != null">
+        create_admin_id = #{createAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateAdminId != null">
+        update_admin_id = #{updateAdminId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.home.message.MessagePush">
+    update message_push
+    set app_message_id = #{appMessageId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      type_value = #{typeValue,jdbcType=VARCHAR},
+      ring = #{ring,jdbcType=TINYINT},
+      vibrate = #{vibrate,jdbcType=TINYINT},
+      clearable = #{clearable,jdbcType=TINYINT},
+      status = #{status,jdbcType=TINYINT},
+      created = #{created,jdbcType=TIMESTAMP},
+      create_admin_id = #{createAdminId,jdbcType=INTEGER},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      update_admin_id = #{updateAdminId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

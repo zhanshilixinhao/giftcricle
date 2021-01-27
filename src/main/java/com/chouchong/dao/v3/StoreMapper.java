@@ -3,7 +3,9 @@ package com.chouchong.dao.v3;
 
 import com.chouchong.entity.v3.Store;
 import com.chouchong.service.v3.vo.StoreVo;
+import com.chouchong.service.v4.vo.ElVo;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -36,4 +38,7 @@ public interface StoreMapper {
     List<StoreVo> selectByAll(@Param("merchantId") Integer merchantId);
 
     Store selectByAdminId(@Param("adminId") Integer adminId);
+
+    @Select("SELECT id,title FROM electronic_coupons WHERE admin_id = #{adminId}")
+    List<ElVo> findByAdminId(@Param("adminId") Integer adminId);
 }

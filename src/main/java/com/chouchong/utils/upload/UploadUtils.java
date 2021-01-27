@@ -169,6 +169,7 @@ public class UploadUtils {
         String fileName = upload(request, fileTypes, DirectoryName);
         // imageContextPath为图片在服务器地址，如upload/123.jpg,非绝对路径
         String imageContextPath = GetProperties.getImageHost() + fileName;
+        System.out.println("图片地址+++++++++++++++"+imageContextPath);
         PrintWriter out = response.getWriter();
         System.out.println("path = " + imageContextPath);
         out.write(String.format("{\"name\":\"%s\",\"url\":\"%s\",\"error\":\"0\"}", fileName, imageContextPath));

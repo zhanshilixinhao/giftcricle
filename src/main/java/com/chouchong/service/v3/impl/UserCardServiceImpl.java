@@ -4,6 +4,7 @@ import com.chouchong.common.*;
 import com.chouchong.dao.iwant.appUser.AppUserMapper;
 import com.chouchong.dao.iwant.merchant.MerchantMapper;
 import com.chouchong.dao.v3.*;
+import com.chouchong.dao.v4.ActivityMapper;
 import com.chouchong.entity.iwant.appUser.AppUser;
 import com.chouchong.entity.iwant.merchant.Merchant;
 import com.chouchong.entity.v3.*;
@@ -28,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -93,6 +95,9 @@ public class UserCardServiceImpl implements UserCardService {
 
     @Autowired
     private MRedisTemplate mRedisTemplate;
+
+    @Resource
+    private ActivityMapper activityMapper;
 
 
     /**
@@ -286,7 +291,8 @@ public class UserCardServiceImpl implements UserCardService {
         }
         // 判断活动
         if (eventId != null) {
-            MemberEvent memberEvent = memberEventMapper.selectByPrimaryKey(eventId);
+            MemberEvent memberEvent = activityMapper.selectByPrimaryKey(eventId);
+            //memberEventMapper.selectByPrimaryKey(eventId);
             if (memberEvent == null) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "该活动不存在，请选择其他活动");
             }
@@ -295,10 +301,10 @@ public class UserCardServiceImpl implements UserCardService {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "充值金额或赠送金额与活动金额不符");
             }
             // 判断该卡是否有此类活动
-            MemberCard cardEvent = memberCardMapper.selectEventIdByCardId(cardId, eventId);
+           /* MemberCard cardEvent = memberCardMapper.selectEventIdByCardId(cardId, eventId);
             if (cardEvent == null) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "该会员卡没用此类活动");
-            }
+            }*/
             // 给用户添加优惠券
             if ((memberEvent.getType() == 2 || memberEvent.getType() == 5) && memberEvent.getTargetId() != null) {
                 Long id = elCouponService.addCoupon(memberEvent.getTargetId(), memberEvent.getQuantity(),
@@ -744,7 +750,7 @@ public class UserCardServiceImpl implements UserCardService {
         ev.setCapitalStatus(event.getCapitalStatus());
         ev.setSendStatus(event.getSendStatus());
         ev.setMerchantId(event.getMerchantId());
-        MemberEvent memberEvent = memberEventMapper.selectByPrimaryKey(event.getMemberEventId());
+        MemberEvent memberEvent = activityMapper.selectByPrimaryKey(event.getMemberEventId());
         if (memberEvent != null && memberEvent.getScale() != null) {
             ev.setScale(memberEvent.getScale());
         }

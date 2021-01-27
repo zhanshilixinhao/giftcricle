@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.v3.StoreMapper">
+    <resultMap id="BaseResultMap" type="com.chouchong.entity.v3.Store">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="merchant_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="address" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="phone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="area" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="linkman" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="password" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, merchant_id, name, address, phone, created, updated, area, linkman,admin_id,password
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from store
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectBySearch" resultType="com.chouchong.entity.v3.Store">
+        select a.id,
+        a.merchant_id,
+        a.name,
+        a.address,
+        a.phone,
+        a.created,
+        a.updated,
+        a.area,
+        a.linkman,
+        a.admin_id,
+        m.name as merchantName
+        from store a
+        left join merchant m on a.merchant_id = m.id
+        where 1=1
+        <if test="merchantId != null">
+            and a.merchant_id = #{merchantId}
+        </if>
+        <if test="adminId != null">
+            and a.admin_id = #{adminId}
+        </if>
+        <if test="name != null and name != ''">
+            and a.name like concat('%',#{name},'%')
+        </if>
+         <if test="merchant != null and merchant != ''">
+            and m.name like concat('%',#{merchant},'%')
+        </if>
+        <if test="address != null and address != ''">
+            and a.address like concat('%',#{address},'%') or a.area like concat('%',#{address},'%')
+        </if>
+        order by a.merchant_id ASC,a.created DESC
+    </select>
+    <select id="selectById" resultType="com.chouchong.service.v3.vo.StoreVo">
+        select
+        id,
+        name,
+        address,
+        phone,
+        area,
+        linkman
+        from store
+        where id = #{id}
+    </select>
+    <select id="selectByAll" resultType="com.chouchong.service.v3.vo.StoreVo">
+         select
+         id,
+        name,
+        address,
+        phone,
+        area,
+        linkman
+        from store
+        where 1=1
+        <if test="merchantId != null">
+            and merchant_id = #{merchantId}
+        </if>
+        order by created DESC
+    </select>
+    <select id="selectByAdminId" resultType="com.chouchong.entity.v3.Store">
+        select
+        <include refid="Base_Column_List"/>
+        from store
+        where admin_id = #{adminId}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from store
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.chouchong.entity.v3.Store">
+    insert into store (id, merchant_id, name,
+      address, phone, created,
+      updated, area, linkman,admin_id,password
+      )
+    values (#{id,jdbcType=INTEGER}, #{merchantId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+      #{address,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, now(),
+      now(), #{area,jdbcType=VARCHAR}, #{linkman,jdbcType=VARCHAR},#{adminId,jdbcType=INTEGER},#{password,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.chouchong.entity.v3.Store">
+        insert into store
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="merchantId != null">
+                merchant_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+            <if test="updated != null">
+                updated,
+            </if>
+            <if test="area != null">
+                area,
+            </if>
+            <if test="linkman != null">
+                linkman,
+            </if>
+            <if test="adminId != null">
+                admin_id,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="merchantId != null">
+                #{merchantId,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="created != null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updated != null">
+                #{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="area != null">
+                #{area,jdbcType=VARCHAR},
+            </if>
+            <if test="linkman != null">
+                #{linkman,jdbcType=VARCHAR},
+            </if>
+            <if test="adminId != null">
+                #{adminId,jdbcType=INTEGER},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.v3.Store">
+        update store
+        <set>
+            <if test="merchantId != null">
+                merchant_id = #{merchantId,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updated != null">
+                updated = now(),
+            </if>
+            <if test="area != null">
+                area = #{area,jdbcType=VARCHAR},
+            </if>
+            <if test="linkman != null">
+                linkman = #{linkman,jdbcType=VARCHAR},
+            </if>
+            <if test="adminId != null">
+                admin_id = #{adminId,jdbcType=INTEGER},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.v3.Store">
+    update store
+    set merchant_id = #{merchantId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      area = #{area,jdbcType=VARCHAR},
+      linkman = #{linkman,jdbcType=VARCHAR},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      password = #{password,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

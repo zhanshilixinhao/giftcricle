@@ -1,8 +1,20 @@
 package com.chouchong.entity.iwant.appUser;
 
+
+import lombok.ToString;
+
+import javax.persistence.Id;
 import java.util.Date;
 
+
+/**
+ * @Description:
+ * @Author: LxH
+ * @Date: 2020/9/24 15:54
+ */
+@ToString
 public class AppUser {
+    @Id
     private Integer id;
 
     private String account;
@@ -32,6 +44,8 @@ public class AppUser {
     private Date created;
 
     private Date updated;
+
+    //private Byte isHide;
 
     public AppUser(Integer id, String account, String password, String phone, String avatar, String nickname, Integer age, Byte gender, String signature, String district, Byte status, String sentPwd, String wxid, Date created, Date updated) {
         this.id = id;

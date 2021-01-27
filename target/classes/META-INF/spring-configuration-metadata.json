@@ -1,0 +1,56 @@
+{
+  "groups": [
+    {
+      "name": "spring.datasource",
+      "type": "javax.sql.DataSource",
+      "sourceType": "com.chouchong.config.DruidConfig",
+      "sourceMethod": "druid()"
+    },
+    {
+      "name": "yichen.service",
+      "type": "com.chouchong.utils.properties.ServiceProperties",
+      "sourceType": "com.chouchong.utils.properties.ServiceProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "yichen.service.ali-url",
+      "type": "java.lang.String",
+      "sourceType": "com.chouchong.utils.properties.ServiceProperties",
+      "defaultValue": "noauth\/pay\/aliv2"
+    },
+    {
+      "name": "yichen.service.article-detail",
+      "type": "java.lang.String",
+      "sourceType": "com.chouchong.utils.properties.ServiceProperties"
+    },
+    {
+      "name": "yichen.service.avatar",
+      "type": "java.lang.String",
+      "sourceType": "com.chouchong.utils.properties.ServiceProperties"
+    },
+    {
+      "name": "yichen.service.card-detail",
+      "type": "java.lang.String",
+      "sourceType": "com.chouchong.utils.properties.ServiceProperties"
+    },
+    {
+      "name": "yichen.service.host",
+      "type": "java.lang.String",
+      "sourceType": "com.chouchong.utils.properties.ServiceProperties",
+      "defaultValue": "https:\/\/api.goexplore.io"
+    },
+    {
+      "name": "yichen.service.product-detail",
+      "type": "java.lang.String",
+      "sourceType": "com.chouchong.utils.properties.ServiceProperties"
+    },
+    {
+      "name": "yichen.service.wx-url",
+      "type": "java.lang.String",
+      "sourceType": "com.chouchong.utils.properties.ServiceProperties",
+      "defaultValue": "noauth\/pay\/wx"
+    }
+  ],
+  "hints": []
+}

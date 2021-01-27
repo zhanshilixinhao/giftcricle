@@ -1,0 +1,1437 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="d60dfbc4-460b-4781-a93f-da1afc55632b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_classic_1_2_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_core_1_2_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_druid_1_1_9.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_fastjson_1_2_39.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_beust_jcommander_1_72.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_classmate_1_4_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_9_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_9_7.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_9_7.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_datatype_jackson_datatype_jdk8_2_9_7.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_datatype_jackson_datatype_jsr310_2_9_7.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_module_jackson_module_parameter_names_2_9_7.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_jai_imageio_jai_imageio_core_1_3_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_jsqlparser_jsqlparser_1_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_pagehelper_pagehelper_5_1_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_gson_gson_2_8_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_zxing_core_3_3_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_zxing_javase_3_3_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_jayway_jsonpath_json_path_2_4_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_squareup_okhttp3_okhttp_3_8_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_squareup_okio_okio_1_13_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_squareup_retrofit2_retrofit_2_3_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_vaadin_external_google_android_json_0_0_20131108_vaadin1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_yunpian_sdk_yunpian_java_sdk_1_2_7.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_zaxxer_HikariCP_3_2_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_codec_commons_codec_1_11.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_fileupload_commons_fileupload_1_3_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_io_commons_io_1_3_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_logging_commons_logging_1_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_lettuce_lettuce_core_5_1_3_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_buffer_4_1_31_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_codec_4_1_31_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_common_4_1_31_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_handler_4_1_31_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_resolver_4_1_31_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_transport_4_1_31_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_projectreactor_reactor_core_3_2_3_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_activation_javax_activation_api_1_2_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_annotation_javax_annotation_api_1_3_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_persistence_persistence_api_1_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_validation_validation_api_2_0_1_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_xml_bind_jaxb_api_2_3_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__joda_time_joda_time_2_10_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_12.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__log4j_log4j_1_2_17.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__mysql_mysql_connector_java_8_0_13.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_bytebuddy_byte_buddy_1_9_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_bytebuddy_byte_buddy_agent_1_9_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_minidev_accessors_smart_1_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_minidev_json_smart_2_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_lang3_3_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_pool2_2_6_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpasyncclient_4_1_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpasyncclient_cache_4_1_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpclient_4_5_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpclient_cache_4_5_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_4_4_10.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_nio_4_4_10.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpmime_4_5_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_logging_log4j_log4j_api_2_11_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_logging_log4j_log4j_to_slf4j_2_11_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_3_13.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_ooxml_3_13.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_ooxml_schemas_3_13.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_core_9_0_13.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_el_9_0_13.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_websocket_9_0_13.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_xmlbeans_xmlbeans_2_6_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_aspectj_aspectjrt_1_9_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_assertj_assertj_core_3_11_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_library_1_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hibernate_validator_hibernate_validator_6_0_13_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_logging_jboss_logging_3_3_2_Final.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mockito_mockito_core_2_23_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_generator_mybatis_generator_core_1_3_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_mybatis_3_4_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_mybatis_spring_1_3_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_spring_boot_mybatis_spring_boot_autoconfigure_1_3_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_spring_boot_mybatis_spring_boot_starter_1_3_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_objenesis_objenesis_2_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_ow2_asm_asm_5_0_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_projectlombok_lombok_1_18_12.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_reactivestreams_reactive_streams_1_0_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_skyscreamer_jsonassert_1_5_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_jul_to_slf4j_1_7_25.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_25.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_log4j12_1_7_25.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_2_1_1_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_autoconfigure_2_1_1_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_configuration_processor_2_1_1_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_2_1_1_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_data_redis_2_1_1_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_jdbc_2_1_1_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_json_2_1_1_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_logging_2_1_1_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_test_2_1_1_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_tomcat_2_1_1_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_web_2_1_1_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_test_2_1_1_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_test_autoconfigure_2_1_1_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_commons_2_1_3_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_keyvalue_2_1_3_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_redis_2_1_3_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_aop_5_1_3_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_beans_5_1_3_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_context_5_1_3_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_context_support_5_1_3_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_core_5_1_3_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_expression_5_1_3_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_jcl_5_1_3_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_jdbc_5_1_3_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_oxm_5_1_3_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_test_5_1_3_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_tx_5_1_3_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_web_5_1_3_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_webmvc_5_1_3_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_xmlunit_xmlunit_core_2_6_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_yaml_snakeyaml_1_23.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__stax_stax_api_1_0_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__tk_mybatis_mapper_base_1_1_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__tk_mybatis_mapper_core_1_1_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__tk_mybatis_mapper_extra_1_1_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__tk_mybatis_mapper_spring_1_1_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__tk_mybatis_mapper_spring_boot_autoconfigure_2_1_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__tk_mybatis_mapper_spring_boot_starter_2_1_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__tk_mybatis_mapper_weekend_1_1_4_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/giftcricle.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hs_err_pid30436.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/replay_pid30436.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/controller/v4/ActivityController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/controller/v4/PartyPackController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/controller/v4/RebateCouponController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/controller/v4/RebateCouponManageController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/controller/v4/ShareCouponController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/dao/v4/ActivityMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/dao/v4/CoMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/dao/v4/ElCouponListCouponMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/dao/v4/ElCouponListMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/dao/v4/ElUserCouponListMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/dao/v4/MemberEventCouponMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/dao/v4/PrivilegeCouponsMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/dao/v4/RebateCouponBeInvitedMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/dao/v4/RebateCouponLogMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/dao/v4/RebateCouponManageMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/dao/v4/RebateCouponMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/dao/v4/ShareCouponMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/dao/v4/ShareCouponUserLogMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/dao/v4/ShareCouponUserMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/dao/v4/UserMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/dao/v4/V4StroeMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/delayed/DelayedSmsSend.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/entity/v4/ElCouponList.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/entity/v4/ElCouponListCoupon.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/entity/v4/ElUserCouponList.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/entity/v4/MemberEventCoupon.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/entity/v4/PrivilegeCoupons.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/entity/v4/RebateCoupon.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/entity/v4/RebateCouponBeInvited.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/entity/v4/RebateCouponLog.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/entity/v4/RebateCouponManage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/entity/v4/ShareCoupon.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/entity/v4/ShareCouponUser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/entity/v4/ShareCouponUserLog.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/entity/v4/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/vo/SpecialVo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v4/ActivityService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v4/PartyPackService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v4/RebateCouponManageService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v4/RebateCouponService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v4/ShareCouponService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v4/impl/ActivityServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v4/impl/PartyPackServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v4/impl/RebateCouponManageServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v4/impl/RebateCouponServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v4/impl/ShareCouponServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v4/vo/Cascader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v4/vo/CascaderVo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v4/vo/ElVo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v4/vo/PartyPackJsonVo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v4/vo/RebateCouponLogVo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/utils/QrCodeUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/mappers/RebateCouponLogMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/spring-configuration-metadata.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/GiftcricleApplication.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/common/Constants$MERCHANT_STATUS.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/common/Constants.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/common/CorsFilter.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/common/ErrCodeException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/common/ErrorCode.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/common/MyBeanSerializerModifier.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/common/MyNullArrayJsonSerializer.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/common/MyNullStringJsonSerializer.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/common/OrderHelper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/common/PageQuery.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/common/PageResponse.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/common/Response.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/common/ResponseFactory.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/common/ResponseImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/common/Utils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/common/v3/ExcelUtils$Header.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/common/v3/ExcelUtils$Me.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/common/v3/ExcelUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/config/DruidConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/config/LogFilter$MonitorOutoutStream.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/config/LogFilter$ResponsePrintWriter.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/config/LogFilter$ServletResponseWrapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/config/LogFilter.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/config/MybatisGenText.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/config/WebConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/gift/article/ArLabelController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/gift/article/ArfestivalController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/gift/article/ArticleController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/gift/coupon/CouponController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/gift/coupon/SysWalletController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/gift/discount/DiscountController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/gift/discount/WxDiscountController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/gift/item/BrandController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/gift/item/ItemCateController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/gift/item/ItemController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/gift/item/ItemFeatureController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/gift/item/ItemSKUController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/gift/item/RecommendController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/gift/label/LabelController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/gift/label/LabelItemController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/gift/themeItem/ThemeController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/gift/themeItem/ThemeItemController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/gift/virItem/VirItemBrandController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/gift/virItem/VirItemCateController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/gift/virItem/VirItemController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/home/banner/BannerController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/home/festival/FestivalController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/home/festival/MemoController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/home/message/AppMessageController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/home/welfare/WelfareController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/iwant/AppUserController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/iwant/EventController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/iwant/GiftPreDictController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/iwant/MerchantController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/iwant/SuggestionController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/iwant/UserTagDictController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/iwant/WithdrawController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/order/ChargeOrderController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/order/ConItemOrderController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/order/ItemOrderController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/order/ReItemOrderController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/order/VirItemOrderController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/order/commentController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/statistics/OrderStatisticsController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/statistics/UserStatisticsController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/upload/AppVersionController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/upload/UploadController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/v3/CardController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/v3/CardEventController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/v3/ElCouponController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/v3/ElCouponUseLogController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/v3/InvoiceController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/v3/QrcodeController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/v3/SmsCodeController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/v3/StoreController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/v3/TurnoverController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/v3/UserCardController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/v4/ActivityController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/v4/PartyPackController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/v4/RebateCouponController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/v4/RebateCouponManageController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/v4/ShareCouponController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/webUser/WebPermissionController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/controller/webUser/WebUserController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/gift/article/ArticleFestivalMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/gift/article/ArticleItemMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/gift/article/ArticleLabelMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/gift/article/ArticleMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/gift/article/ArticleSceneMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/gift/bpItem/BpItemMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/gift/coupon/CouponMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/gift/coupon/CouponSendRecordMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/gift/coupon/CouponUseRecordMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/gift/discount/DiscountingMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/gift/item/BrandMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/gift/item/ItemCategoryMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/gift/item/ItemCommentMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/gift/item/ItemFeatureMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/gift/item/ItemMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/gift/item/ItemSkuMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/gift/item/ItemSkuValueMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/gift/item/ItemValueMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/gift/item/RecommendedTodayMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/gift/label/LabelItemMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/gift/label/LabelMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/gift/themeItem/ThemeItemMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/gift/themeItem/ThemeMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/gift/virItem/VirtualItemBrandMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/gift/virItem/VirtualItemCateMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/gift/virItem/VirtualItemMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/home/AppVersionMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/home/FestivalMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/home/WelfareMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/home/WelfareRecordMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/home/WxDiscountMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/home/banner/BannerMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/home/memo/MemoAffairMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/home/memo/MemoFestivalItemMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/home/memo/MemoFestivalMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/home/message/AppMessageMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/home/message/AppMessageUserMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/home/message/MessagePushMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/iwant/appUser/AppUserMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/iwant/appUser/EventMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/iwant/appUser/GiftPreDictMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/iwant/appUser/SuggestionMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/iwant/appUser/UserTagDictMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/iwant/merchant/MerchantMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/iwant/withdraw/BankDictMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/iwant/withdraw/DistrictMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/iwant/withdraw/UserBankCardMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/iwant/withdraw/UserWithdrawMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/iwant/withdraw/WalletMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/iwant/withdraw/WalletRecordMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/order/ConsignmentOrderMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/order/ItemOrderDetailMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/order/ItemOrderMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/order/ReceiveItemOrderMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/order/VirtualItemOrderMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v3/CardGradeMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v3/CardRebateMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v3/ElCouponSendMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v3/ElCouponUseLogMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v3/ElSendDetailMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v3/ElUserCouponMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v3/ElectronicCouponsMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v3/InvoiceRecordMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v3/MemberCardGradeMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v3/MemberCardMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v3/MemberChargeOrderMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v3/MemberChargeRecordMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v3/MemberEventMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v3/MemberExpenseRecordMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v3/MembershipCardMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v3/StoreMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v3/StoreMemberChargeMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v3/StoreMemberEventMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v3/StoreTurnoverMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v3/TransferSendDetailMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v3/TransferSendMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v3/UserMemberCardMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v4/ActivityMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v4/CoMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v4/ElCouponListCouponMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v4/ElCouponListMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v4/ElUserCouponListMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v4/MemberEventCouponMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v4/PrivilegeCouponsMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v4/RebateCouponBeInvitedMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v4/RebateCouponLogMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v4/RebateCouponManageMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v4/RebateCouponMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v4/ShareCouponMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v4/ShareCouponUserLogMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v4/ShareCouponUserMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v4/UserMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/v4/V4StroeMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/webUser/ChargeOrderMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/webUser/SysAdminMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/webUser/SysAdminRoleMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/webUser/SysAdminWalletMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/webUser/SysAdminWalletRecordMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/webUser/SysAdminWithdrawMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/webUser/SysFunctionPermissionMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/webUser/SysMenuMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/webUser/SysRoleFunctionPermissionMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/webUser/SysRoleMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/dao/webUser/SysRoleMenuMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/delayed/DelayedSmsSend.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/SkuListVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/SkuValueVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/gift/article/Article.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/gift/article/ArticleFestival.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/gift/article/ArticleItem.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/gift/article/ArticleLabel.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/gift/article/ArticleScene.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/gift/bpItem/BpItem.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/gift/coupon/Coupon.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/gift/coupon/CouponSendRecord.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/gift/coupon/CouponUseRecord.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/gift/item/Brand.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/gift/item/Item.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/gift/item/ItemCategory.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/gift/item/ItemComment.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/gift/item/ItemFeature.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/gift/item/ItemSku.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/gift/item/ItemSkuValue.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/gift/item/ItemValue.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/gift/item/RecommendedToday.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/gift/label/Label.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/gift/label/LabelItem.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/gift/themeItem/Theme.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/gift/themeItem/ThemeItem.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/gift/virItem/VirtualItem.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/gift/virItem/VirtualItemBrand.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/gift/virItem/VirtualItemCate.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/home/AppVersion.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/home/Festival.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/home/Welfare.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/home/WelfareRecord.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/home/WxDiscount.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/home/banner/Banner.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/home/memo/MemoAffair.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/home/memo/MemoFestival.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/home/memo/MemoFestivalItem.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/home/message/AppMessage.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/home/message/AppMessageUser.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/home/message/MessagePush.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/iwant/appUser/AppUser.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/iwant/appUser/Event.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/iwant/appUser/GiftPreDict.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/iwant/appUser/Suggestion.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/iwant/appUser/UserTagDict.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/iwant/merchant/Merchant.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/iwant/withdraw/BankDict.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/iwant/withdraw/District.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/iwant/withdraw/UserBankCard.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/iwant/withdraw/UserWithdraw.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/iwant/withdraw/Wallet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/iwant/withdraw/WalletRecord.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v3/CardGrade.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v3/CardRebate.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v3/ElCouponSend.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v3/ElCouponUseLog.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v3/ElCouponVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v3/ElSendDetail.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v3/ElUserCoupon.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v3/ElectronicCoupons.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v3/InvoiceRecord.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v3/MemberCard.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v3/MemberCardGrade.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v3/MemberChargeOrder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v3/MemberChargeRecord.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v3/MemberEvent.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v3/MemberExpenseRecord.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v3/MembershipCard.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v3/Store.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v3/StoreMemberCharge.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v3/StoreMemberEvent.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v3/StoreTurnover.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v3/TransferSend.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v3/TransferSendDetail.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v3/UserMemberCard.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v4/ElCouponList.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v4/ElCouponListCoupon.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v4/ElUserCouponList.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v4/MemberEventCoupon.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v4/PrivilegeCoupons.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v4/RebateCoupon.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v4/RebateCouponBeInvited.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v4/RebateCouponLog.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v4/RebateCouponManage.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v4/ShareCoupon.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v4/ShareCouponUser.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v4/ShareCouponUserLog.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/v4/User.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/webUser/ChargeOrder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/webUser/ConsignmentOrder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/webUser/Discounting.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/webUser/ItemOrder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/webUser/ItemOrderDetail.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/webUser/ReceiveItemOrder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/webUser/SysAdmin.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/webUser/SysAdminRole.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/webUser/SysAdminRoleKey.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/webUser/SysAdminWallet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/webUser/SysAdminWalletRecord.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/webUser/SysAdminWithdraw.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/webUser/SysFunctionPermission.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/webUser/SysMenu.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/webUser/SysRole.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/webUser/SysRoleFunctionPermission.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/webUser/SysRoleFunctionPermissionKey.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/webUser/SysRoleMenu.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/webUser/SysRoleMenuKey.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/entity/webUser/VirtualItemOrder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/exception/ControllerExceptionHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/exception/ServiceException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/interceptor/ManageInterceptor$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/interceptor/ManageInterceptor.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/interceptor/RepeatInterceptor.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/redis/CacheCallback.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/redis/MRedisTemplate.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/amap/AMapApi.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/amap/AMapApiImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/amap/AMapConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/amap/AMapResponse.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/amap/AMapVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/amap/AroundResponse$DatasBean.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/amap/AroundResponse.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/amap/BaseResponse.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/amap/DistrictResponse$District.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/amap/DistrictResponse.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/amap/LogInterceptor.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/article/ArFestivalService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/article/ArLabelService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/article/ArticleService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/article/ArticleVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/article/impl/ArFestivalServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/article/impl/ArLabelServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/article/impl/ArticleServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/coupon/CouponService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/coupon/SysWalletService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/coupon/impl/CouponServiceImpl$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/coupon/impl/CouponServiceImpl$2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/coupon/impl/CouponServiceImpl$3.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/coupon/impl/CouponServiceImpl$4.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/coupon/impl/CouponServiceImpl$5.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/coupon/impl/CouponServiceImpl$6.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/coupon/impl/CouponServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/coupon/impl/SysWalletServiceImpl$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/coupon/impl/SysWalletServiceImpl$2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/coupon/impl/SysWalletServiceImpl$3.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/coupon/impl/SysWalletServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/coupon/vo/CouponVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/coupon/vo/SysWalletVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/coupon/vo/SysWithdrawVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/discount/DiscountService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/discount/WxDiscountService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/discount/impl/DiscountServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/discount/impl/WxDiscountServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/discount/vo/DiscountVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/discount/vo/WxDiscountVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/item/BrandService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/item/ItemCateService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/item/ItemFeatureService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/item/ItemSKUService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/item/ItemService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/item/RecommendService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/item/impl/BrandServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/item/impl/ItemCateServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/item/impl/ItemFeatureServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/item/impl/ItemSKUServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/item/impl/ItemServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/item/impl/RecommendServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/item/vo/FeatureValue.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/item/vo/FeatureVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/item/vo/ItemCategoryVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/item/vo/ItemSkuVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/item/vo/ItemValueVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/item/vo/ItemVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/item/vo/RecommendVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/item/vo/SkuContent.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/label/LabelItemService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/label/LabelService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/label/impl/LabelItemServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/label/impl/LabelServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/label/vo/LabelItemVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/themeItem/ThemeItemService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/themeItem/ThemeService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/themeItem/impl/ThemeItemServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/themeItem/impl/ThemeServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/themeItem/vo/ThemeItemVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/virItem/VirItemBrandService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/virItem/VirItemCateService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/virItem/VirItemService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/virItem/impl/VirItemBrandServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/virItem/impl/VirItemCateServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/gift/virItem/impl/VirItemServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/home/banner/BannerService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/home/banner/impl/BannerServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/home/festival/FestivalService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/home/festival/MemoService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/home/festival/impl/FestivalServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/home/festival/impl/MemoServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/home/message/AppMessageService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/home/message/impl/AppMessageServiceImpl$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/home/message/impl/AppMessageServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/home/message/vo/PushMsgVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/home/welfare/WelfareService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/home/welfare/impl/WelfareServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/home/welfare/vo/ItemListVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/home/welfare/vo/WelfareVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/iwant/AppUserService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/iwant/EventService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/iwant/GiftPreDictService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/iwant/MerchantService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/iwant/SuggestionService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/iwant/UserTagDictService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/iwant/WithdrawService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/iwant/impl/AppUserServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/iwant/impl/EventServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/iwant/impl/GiftPreDictServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/iwant/impl/MerchantServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/iwant/impl/SuggestionServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/iwant/impl/UserTagDictServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/iwant/impl/WithdrawServiceImpl$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/iwant/impl/WithdrawServiceImpl$2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/iwant/impl/WithdrawServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/iwant/vo/EventVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/iwant/vo/MerchantApplyVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/iwant/vo/MerchantVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/iwant/vo/SuggestionVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/iwant/vo/UserWithdrawVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/ChargeOrderService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/CommentService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/ConItemOrderService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/ItemOrderService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/ReItemOrderService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/VirItemOrderService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/impl/ChargeOrderServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/impl/CommentServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/impl/ConItemOrderServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/impl/ItemOrderServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/impl/ReItemOrderSerivceImpl$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/impl/ReItemOrderSerivceImpl$2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/impl/ReItemOrderSerivceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/impl/VirItemOrderServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/kdapi/ExpressApi.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/kdapi/ExpressApi2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/kdapi/KdResult$DataBean.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/kdapi/KdResult.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/kdapi/KdResult2$DataBean.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/kdapi/KdResult2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/kdapi/MD5Utils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/kdapi/OkHttpManager$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/kdapi/OkHttpManager$TrustAllCerts.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/kdapi/OkHttpManager.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/kdapi/OkHttpUtil.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/kdapi/RequestParams.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/vo/CommentDetail.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/vo/CommentVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/vo/ItemOrderVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/vo/LogisticsInfoVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/vo/OrderCountVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/order/vo/Shipping.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/statistics/OrderStatisticsService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/statistics/UserStatisticsService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/statistics/impl/OrderStatisticsServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/statistics/impl/UserStatisticsServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/CardEventService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/CardService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/ElCouponService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/ElCouponUseLogService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/ElCouponUseLogServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/InvoiceService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/SmsCodeService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/StoreService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/TurnoverService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/UserCardService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/impl/CardEventServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/impl/CardServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/impl/ElCouponServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/impl/InvoiceServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/impl/SmsCodeServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/impl/StoreServiceImpl$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/impl/StoreServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/impl/TurnoverServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/impl/UserCardServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/vo/CardVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/vo/CardVo1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/vo/ChargeReVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/vo/ChargeReVos.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/vo/ChargeVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/vo/DistrictVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/vo/EventCardVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/vo/EventVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/vo/ExpenseReVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/vo/ExpenseReVos.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/vo/ExpenseVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/vo/ForUserVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/vo/InvoiceVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/vo/InvoiceVo1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/vo/RecordVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/vo/RefundVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/vo/SendFriendVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/vo/SpecialVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/vo/StoreVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/vo/TransferVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/vo/TurnoverMoney.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/vo/TurnoverVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/vo/TurnoverVos.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/vo/UserCardVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/vo/UserCardVo1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/vo/UserCardVo2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v3/vo/UserCardVos.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v4/ActivityService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v4/PartyPackService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v4/RebateCouponManageService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v4/RebateCouponService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v4/ShareCouponService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v4/impl/ActivityServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v4/impl/PartyPackServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v4/impl/RebateCouponManageServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v4/impl/RebateCouponServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v4/impl/ShareCouponServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v4/vo/Cascader.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v4/vo/CascaderVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v4/vo/ElVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v4/vo/PartyPackJsonVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/v4/vo/RebateCouponLogVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/version/AppVersionService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/version/impl/AppVersionServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/webUser/WebPermissionService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/webUser/WebUserService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/webUser/impl/WebPermissionServiceImpl$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/webUser/impl/WebPermissionServiceImpl$2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/webUser/impl/WebPermissionServiceImpl$3.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/webUser/impl/WebPermissionServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/webUser/impl/WebUserServiceImpl$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/webUser/impl/WebUserServiceImpl$2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/webUser/impl/WebUserServiceImpl$3.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/webUser/impl/WebUserServiceImpl$4.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/webUser/impl/WebUserServiceImpl$5.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/webUser/impl/WebUserServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/webUser/vo/FunctionVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/webUser/vo/MenuSon.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/webUser/vo/MenuVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/webUser/vo/RoleDetail.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/webUser/vo/RoleVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/webUser/vo/SysAdminVo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/service/webUser/vo/WebUserInfo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/test/pushTest/AliasPush.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/test/pushTest/BatchPush.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/test/pushTest/PushList.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/test/pushTest/PushMsgTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/test/pushTest/xxx.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/test/test.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/utils/AESUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/utils/ApiSignUtil.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/utils/BigDecimalUtil.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/utils/DateUtil.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/utils/IDUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/utils/PushUtil.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/utils/QrCodeUtil.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/utils/TimeUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/utils/properties/GetProperties.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/utils/properties/ServiceProperties.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/utils/sms/K.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/utils/sms/SendUtil.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/utils/sms/SentUtil2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/utils/sms/SmsSendResult.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/utils/sms/VerifyCode.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/utils/sms/VerifyCodeRepository.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/utils/sms/impl/VerifyCodeRepositoryImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/utils/upload/ImageUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/chouchong/utils/upload/UploadUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/datasource.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/file.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/generatorConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/logback-spring.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/AppMessageMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/AppMessageUserMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/AppUserMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/AppVersionMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/ArticleFestivalMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/ArticleItemMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/ArticleLabelMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/ArticleMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/ArticleSceneMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/BankDictMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/BannerMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/BpItemMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/BrandMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/CardGradeMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/CardRebateMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/ChargeOrderMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/ConsignmentOrderMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/CouponMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/CouponSendRecordMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/CouponUseRecordMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/DiscountingMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/DistrictMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/ElCouponSendMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/ElCouponUseLogMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/ElSendDetailMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/ElUserCouponMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/ElectronicCouponsMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/EventMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/FestivalMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/GiftPreDictMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/InvoiceRecordMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/ItemCategoryMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/ItemCommentMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/ItemFeatureMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/ItemMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/ItemOrderDetailMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/ItemOrderMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/ItemSkuMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/ItemSkuValueMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/ItemValueMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/LabelItemMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/LabelMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/MemberCardGradeMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/MemberCardMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/MemberChargeOrderMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/MemberChargeRecordMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/MemberEventMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/MemberExpenseRecordMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/MembershipCardMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/MemoAffairMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/MemoFestivalItemMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/MemoFestivalMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/MerchantMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/MessagePushMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/RebateCouponLogMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/ReceiveItemOrderMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/RecommendedTodayMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/StoreMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/StoreMemberChargeMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/StoreMemberEventMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/StoreTurnoverMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/SuggestionMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/SysAdminMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/SysAdminRoleMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/SysAdminWalletMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/SysAdminWalletRecordMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/SysAdminWithdrawMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/SysFunctionPermissionMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/SysMenuMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/SysRoleFunctionPermissionMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/SysRoleMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/SysRoleMenuMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/ThemeItemMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/ThemeMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/TransferSendDetailMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/TransferSendMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/UserBankCardMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/UserMemberCardMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/UserTagDictMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/UserWithdrawMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/VirtualItemBrandMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/VirtualItemCateMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/VirtualItemMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/VirtualItemOrderMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/WalletMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/WalletRecordMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/WelfareMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/WelfareRecordMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mappers/WxDiscountMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mybatis-config.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/static/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/giftcricle-0.0.1-SNAPSHOT.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/giftcricle-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/appTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/GiftcricleApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/GiftcricleApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/common/CorsFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/common/CorsFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/common/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/common/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/config/LogFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/config/LogFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/controller/upload/UploadController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/controller/upload/UploadController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/controller/v3/CardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/controller/v3/CardController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/controller/v3/CardEventController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/controller/v3/CardEventController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/controller/v3/ElCouponController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/controller/v3/ElCouponController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/controller/v3/QrcodeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/controller/v3/QrcodeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/controller/v3/SmsCodeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/controller/v3/SmsCodeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/dao/iwant/appUser/AppUserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/dao/iwant/appUser/AppUserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/dao/v3/ElUserCouponMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/dao/v3/ElUserCouponMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/dao/v3/MemberEventMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/dao/v3/MemberEventMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/dao/v3/StoreMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/dao/v3/StoreMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/entity/iwant/appUser/AppUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/entity/iwant/appUser/AppUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/entity/v3/ElCouponVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/entity/v3/ElCouponVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/entity/v3/ElUserCoupon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/entity/v3/ElUserCoupon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/entity/v3/ElectronicCoupons.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/entity/v3/ElectronicCoupons.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/entity/v3/MemberEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/entity/v3/MemberEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/entity/v3/Store.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/entity/v3/Store.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/interceptor/ManageInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/interceptor/ManageInterceptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/CardEventService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/CardEventService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/ElCouponService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/ElCouponService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/SmsCodeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/SmsCodeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/impl/CardEventServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/impl/CardEventServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/impl/CardServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/impl/CardServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/impl/ElCouponServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/impl/ElCouponServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/impl/SmsCodeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/impl/SmsCodeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/impl/TurnoverServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/impl/TurnoverServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/impl/UserCardServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/impl/UserCardServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/vo/CardVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/vo/CardVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/vo/EventVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/vo/EventVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/service/webUser/impl/WebUserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/service/webUser/impl/WebUserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/test/test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/test/test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/utils/sms/SentUtil2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/utils/sms/SentUtil2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/chouchong/utils/upload/UploadUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/chouchong/utils/upload/UploadUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mappers/ElUserCouponMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mappers/ElUserCouponMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mappers/ElectronicCouponsMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mappers/ElectronicCouponsMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mappers/MemberEventMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mappers/MemberEventMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/appTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/appTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/chouchong/giftcricle/DistrictTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/chouchong/giftcricle/DistrictTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/chouchong/giftcricle/GiftcricleApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/chouchong/giftcricle/GiftcricleApplicationTests.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="D:\repository" />
+        <option name="mavenHome" value="D:/maven/apache-maven-3.6.3" />
+        <option name="userSettingsFile" value="D:\maven\apache-maven-3.6.3\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1hfeC1FqPjcPpWROIjtrqvUBK5H" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="extract.method.default.visibility" value="private" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="project.structure.last.edited" value="Problems" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.build" />
+  </component>
+  <component name="RebelAgentSelection">
+    <selection>jxr</selection>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.chouchong.dao.v4" />
+      <recent name="com.chouchong.entity.v4" />
+      <recent name="com.chouchong.service.v4.vo" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Desktop\aaa\giftcricle-web-server2\src\main\resources\mappers" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Spring Boot.GiftcricleApplication">
+    <configuration name="QrCodeUtil" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.chouchong.utils.QrCodeUtil" />
+      <module name="giftcricle" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.chouchong.utils.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DistrictTest.lxhTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="giftcricle" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.chouchong.giftcricle.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.chouchong.giftcricle" />
+      <option name="MAIN_CLASS_NAME" value="com.chouchong.giftcricle.DistrictTest" />
+      <option name="METHOD_NAME" value="lxhTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="appTest.login" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="giftcricle" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="appTest" />
+      <option name="METHOD_NAME" value="login" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="appTest.lxhTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="giftcricle" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="appTest" />
+      <option name="METHOD_NAME" value="lxhTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="appTest.user" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="giftcricle" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="appTest" />
+      <option name="METHOD_NAME" value="user" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GiftcricleApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="giftcricle" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.chouchong.GiftcricleApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.appTest.login" />
+        <item itemvalue="JUnit.appTest.user" />
+        <item itemvalue="JUnit.DistrictTest.lxhTest" />
+        <item itemvalue="JUnit.appTest.lxhTest" />
+        <item itemvalue="Application.QrCodeUtil" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d60dfbc4-460b-4781-a93f-da1afc55632b" name="Default Changelist" comment="" />
+      <created>1600406442574</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1600406442574</updated>
+      <workItem from="1600406446061" duration="449000" />
+      <workItem from="1600407064918" duration="12113000" />
+      <workItem from="1600738171996" duration="133187000" />
+      <workItem from="1601965466884" duration="7204000" />
+      <workItem from="1602664689347" duration="2216000" />
+      <workItem from="1602667738776" duration="1787000" />
+      <workItem from="1602723340537" duration="52468000" />
+      <workItem from="1603070533513" duration="1263000" />
+      <workItem from="1603186341164" duration="13717000" />
+      <workItem from="1603329747659" duration="13540000" />
+      <workItem from="1603347059455" duration="25295000" />
+      <workItem from="1603677519561" duration="25836000" />
+      <workItem from="1603848543304" duration="15934000" />
+      <workItem from="1603876966745" duration="9149000" />
+      <workItem from="1603957315395" duration="318000" />
+      <workItem from="1604036539603" duration="3159000" />
+      <workItem from="1604281392200" duration="3966000" />
+      <workItem from="1604371185278" duration="86000" />
+      <workItem from="1604371300499" duration="80000" />
+      <workItem from="1604371557454" duration="70000" />
+      <workItem from="1604371822266" duration="45000" />
+      <workItem from="1604371894453" duration="199000" />
+      <workItem from="1604372722231" duration="49000" />
+      <workItem from="1604372853726" duration="51000" />
+      <workItem from="1604372991813" duration="107000" />
+      <workItem from="1604373255703" duration="4000" />
+      <workItem from="1604374416882" duration="41000" />
+      <workItem from="1604374610026" duration="130000" />
+      <workItem from="1604374761871" duration="12000" />
+      <workItem from="1604374879305" duration="26000" />
+      <workItem from="1604375506040" duration="19000" />
+      <workItem from="1604375562015" duration="5000" />
+      <workItem from="1604375961826" duration="1259000" />
+      <workItem from="1604377306577" duration="1028000" />
+      <workItem from="1604383364900" duration="445000" />
+      <workItem from="1604383992505" duration="325000" />
+      <workItem from="1604384465417" duration="499000" />
+      <workItem from="1604385008114" duration="422000" />
+      <workItem from="1604544647905" duration="9139000" />
+      <workItem from="1604631346833" duration="974000" />
+      <workItem from="1604642067511" duration="595000" />
+      <workItem from="1605257808958" duration="2482000" />
+      <workItem from="1605506651534" duration="4297000" />
+      <workItem from="1605848478031" duration="3037000" />
+      <workItem from="1606094614118" duration="7076000" />
+      <workItem from="1606439965546" duration="31216000" />
+      <workItem from="1606958934059" duration="28990000" />
+      <workItem from="1608017731154" duration="3978000" />
+      <workItem from="1608187877913" duration="20777000" />
+      <workItem from="1609006089183" duration="425000" />
+      <workItem from="1609251040785" duration="26631000" />
+      <workItem from="1610183980866" duration="1548000" />
+      <workItem from="1610413988311" duration="177000" />
+      <workItem from="1610519045405" duration="26757000" />
+      <workItem from="1610934449873" duration="75000" />
+      <workItem from="1610936924058" duration="32923000" />
+      <workItem from="1611124387732" duration="899000" />
+      <workItem from="1611215794687" duration="3341000" />
+      <workItem from="1611276541400" duration="18020000" />
+      <workItem from="1611309492806" duration="9802000" />
+      <workItem from="1611649745699" duration="8302000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="574" y="116" key="#com.intellij.ide.util.MemberChooser" timestamp="1609295730514">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="2638" y="146" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1606789188597" />
+    <state x="574" y="116" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1609295730514" />
+    <state x="718" y="146" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1603771710115" />
+    <state x="362" y="329" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1608355548275">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="362" y="329" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1536.824@0.0.1536.824" timestamp="1608355548275" />
+    <state x="734" y="360" width="451" height="320" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1603781871485">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="734" y="360" width="451" height="320" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1920.1040@0.0.1920.1040" timestamp="1603781871485" />
+    <state x="549" y="168" key="FileChooserDialogImpl" timestamp="1611734065757">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="549" y="168" key="FileChooserDialogImpl/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1605257847243" />
+    <state x="2606" y="212" key="FileChooserDialogImpl/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1606094639560" />
+    <state x="549" y="168" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1611734065757" />
+    <state x="686" y="212" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1603867377120" />
+    <state x="642" y="303" width="276" height="217" key="Github.ShareDialog" timestamp="1611734093871">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="642" y="303" width="276" height="217" key="Github.ShareDialog/0.0.1536.824@0.0.1536.824" timestamp="1611734093871" />
+    <state width="1493" height="161" key="GridCell.Tab.0.bottom" timestamp="1611734019306">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="198" key="GridCell.Tab.0.bottom/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1607412220252" />
+    <state width="1877" height="254" key="GridCell.Tab.0.bottom/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1607314102555" />
+    <state width="1493" height="161" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1611734019306" />
+    <state width="1877" height="175" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1603957260499" />
+    <state width="1493" height="161" key="GridCell.Tab.0.center" timestamp="1611734019306">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="198" key="GridCell.Tab.0.center/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1607412220252" />
+    <state width="1877" height="254" key="GridCell.Tab.0.center/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1607314102555" />
+    <state width="1493" height="161" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1611734019306" />
+    <state width="1877" height="175" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1603957260499" />
+    <state width="1493" height="161" key="GridCell.Tab.0.left" timestamp="1611734019305">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="198" key="GridCell.Tab.0.left/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1607412220252" />
+    <state width="1877" height="254" key="GridCell.Tab.0.left/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1607314102555" />
+    <state width="1493" height="161" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1611734019305" />
+    <state width="1877" height="175" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1603957260499" />
+    <state width="1493" height="161" key="GridCell.Tab.0.right" timestamp="1611734019306">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="198" key="GridCell.Tab.0.right/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1607412220252" />
+    <state width="1877" height="254" key="GridCell.Tab.0.right/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1607314102555" />
+    <state width="1493" height="161" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1611734019306" />
+    <state width="1877" height="175" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1603957260499" />
+    <state width="1493" height="161" key="GridCell.Tab.1.bottom" timestamp="1611734019306">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="198" key="GridCell.Tab.1.bottom/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1607412220253" />
+    <state width="1877" height="254" key="GridCell.Tab.1.bottom/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1607314102556" />
+    <state width="1493" height="161" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1611734019306" />
+    <state width="1877" height="175" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1603953034392" />
+    <state width="1493" height="161" key="GridCell.Tab.1.center" timestamp="1611734019306">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="198" key="GridCell.Tab.1.center/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1607412220253" />
+    <state width="1877" height="254" key="GridCell.Tab.1.center/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1607314102555" />
+    <state width="1493" height="161" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1611734019306" />
+    <state width="1877" height="175" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1603953034392" />
+    <state width="1493" height="161" key="GridCell.Tab.1.left" timestamp="1611734019306">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="198" key="GridCell.Tab.1.left/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1607412220253" />
+    <state width="1877" height="254" key="GridCell.Tab.1.left/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1607314102555" />
+    <state width="1493" height="161" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1611734019306" />
+    <state width="1877" height="175" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1603953034392" />
+    <state width="1493" height="161" key="GridCell.Tab.1.right" timestamp="1611734019306">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="198" key="GridCell.Tab.1.right/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1607412220253" />
+    <state width="1877" height="254" key="GridCell.Tab.1.right/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1607314102555" />
+    <state width="1493" height="161" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1611734019306" />
+    <state width="1877" height="175" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1603953034392" />
+    <state width="1493" height="194" key="GridCell.Tab.2.bottom" timestamp="1611567113918">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="194" key="GridCell.Tab.2.bottom/0.0.1536.824@0.0.1536.824" timestamp="1611567113918" />
+    <state width="1877" height="352" key="GridCell.Tab.2.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1603863447040" />
+    <state width="1493" height="194" key="GridCell.Tab.2.center" timestamp="1611567113918">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="194" key="GridCell.Tab.2.center/0.0.1536.824@0.0.1536.824" timestamp="1611567113918" />
+    <state width="1877" height="352" key="GridCell.Tab.2.center/0.0.1920.1040@0.0.1920.1040" timestamp="1603863447040" />
+    <state width="1493" height="194" key="GridCell.Tab.2.left" timestamp="1611567113918">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="194" key="GridCell.Tab.2.left/0.0.1536.824@0.0.1536.824" timestamp="1611567113918" />
+    <state width="1877" height="352" key="GridCell.Tab.2.left/0.0.1920.1040@0.0.1920.1040" timestamp="1603863447040" />
+    <state width="1493" height="194" key="GridCell.Tab.2.right" timestamp="1611567113918">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="194" key="GridCell.Tab.2.right/0.0.1536.824@0.0.1536.824" timestamp="1611567113918" />
+    <state width="1877" height="352" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1603863447040" />
+    <state x="349" y="68" key="Registry" timestamp="1604383472166">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="349" y="68" key="Registry/0.0.1536.824@0.0.1536.824" timestamp="1604383472166" />
+    <state x="270" y="0" key="SettingsEditor" timestamp="1604383440403">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="270" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1604383440403" />
+    <state x="391" y="224" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1604371619044" />
+    <state x="430" y="237" key="com.intellij.ide.util.TipDialog" timestamp="1611276542382">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="2458" y="299" key="com.intellij.ide.util.TipDialog/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1606958934226" />
+    <state x="430" y="237" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1611276542382" />
+    <state x="538" y="299" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1604372991576" />
+    <state x="2012" y="92" width="1736" height="856" key="dock-window-1" timestamp="1606983156119">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2012" y="92" width="1736" height="856" key="dock-window-1/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1606983156119" />
+    <state x="616" y="240" key="run.anything.popup" timestamp="1603189688521">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1603189688521" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1611310075729">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="2459" y="183" width="840" height="856" key="search.everywhere.popup/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1606897995976" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1611310075729" />
+    <state x="539" y="183" width="840" height="856" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1604369530393" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/chouchong/service/webUser/impl/WebPermissionServiceImpl.java</url>
+          <line>90</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/chouchong/utils/sms/SentUtil2.java</url>
+          <line>25</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/impl/ElCouponServiceImpl.java</url>
+          <line>341</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/chouchong/service/v4/impl/ActivityServiceImpl.java</url>
+          <line>170</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/chouchong/service/v4/impl/RebateCouponServiceImpl.java</url>
+          <line>88</line>
+          <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/chouchong/service/v4/impl/ActivityServiceImpl.java</url>
+          <line>227</line>
+          <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/chouchong/service/v4/impl/ActivityServiceImpl.java</url>
+          <line>153</line>
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/chouchong/service/v4/impl/ShareCouponServiceImpl.java</url>
+          <line>258</line>
+          <option name="timeStamp" value="31" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/impl/ElCouponServiceImpl.java</url>
+          <line>604</line>
+          <option name="timeStamp" value="37" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/chouchong/controller/v3/ElCouponController.java</url>
+          <line>217</line>
+          <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/chouchong/utils/upload/UploadUtils.java</url>
+          <line>228</line>
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/chouchong/service/v4/impl/RebateCouponManageServiceImpl.java</url>
+          <line>50</line>
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/impl/CardEventServiceImpl.java</url>
+          <line>178</line>
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/impl/CardEventServiceImpl.java</url>
+          <line>222</line>
+          <option name="timeStamp" value="45" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/impl/ElCouponServiceImpl.java</url>
+          <line>325</line>
+          <option name="timeStamp" value="48" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/chouchong/controller/v3/ElCouponController.java</url>
+          <line>115</line>
+          <option name="timeStamp" value="49" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/chouchong/service/v4/impl/ShareCouponServiceImpl.java</url>
+          <line>102</line>
+          <option name="timeStamp" value="50" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/chouchong/utils/upload/UploadUtils.java</url>
+          <line>168</line>
+          <option name="timeStamp" value="51" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/chouchong/utils/upload/UploadUtils.java</url>
+          <line>113</line>
+          <option name="timeStamp" value="52" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/chouchong/controller/upload/UploadController.java</url>
+          <line>23</line>
+          <option name="timeStamp" value="53" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/chouchong/controller/upload/UploadController.java</url>
+          <line>22</line>
+          <option name="timeStamp" value="55" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/impl/UserCardServiceImpl.java</url>
+          <line>270</line>
+          <option name="timeStamp" value="56" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/impl/CardServiceImpl.java</url>
+          <line>288</line>
+          <option name="timeStamp" value="57" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/chouchong/controller/v3/CardController.java</url>
+          <line>71</line>
+          <option name="timeStamp" value="58" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/chouchong/controller/v3/CardEventController.java</url>
+          <line>47</line>
+          <option name="timeStamp" value="59" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/chouchong/controller/v3/TurnoverController.java</url>
+          <line>347</line>
+          <option name="timeStamp" value="61" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/impl/TurnoverServiceImpl.java</url>
+          <line>677</line>
+          <option name="timeStamp" value="63" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/chouchong/service/v3/impl/ElCouponServiceImpl.java</url>
+          <line>371</line>
+          <option name="timeStamp" value="64" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="SpringBootApplicationConfigurationType">
+        <watch expression="privilegeCoupons" />
+      </configuration>
+    </watches-manager>
+  </component>
+</project>

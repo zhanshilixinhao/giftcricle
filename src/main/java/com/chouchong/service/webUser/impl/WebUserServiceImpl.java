@@ -69,6 +69,7 @@ public class WebUserServiceImpl implements WebUserService {
     @Override
     public Response login(String username, String password, Integer client) {
         password = Utils.toMD5(password + Constants.ADMINPWD);
+        //password = "149ABFAC83C72B88C1538833655102F3";
         SysAdmin sysAdmin = sysAdminMapper.selectByUsernameAndPwd(username, password);
         if (sysAdmin == null) {
             return ResponseFactory.err("用户名或密码错误!");

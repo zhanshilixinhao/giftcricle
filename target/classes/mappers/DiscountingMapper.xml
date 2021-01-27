@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.gift.discount.DiscountingMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.webUser.Discounting">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="bp_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="item_price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="discount_price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="explain" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="type" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, bp_id, item_price, discount_price, `explain`, `status`, `type`, created, updated
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from `discounting`
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultType="java.util.Map">
+      SELECT
+	a.*,
+	c.nickname,
+	c.phone,
+	b.title,
+	b.cover
+FROM
+	`discounting` a
+	LEFT JOIN v_bp b on a.bp_id = b.id
+	LEFT JOIN app_user c on a.user_id = c.id
+	<where>
+      <trim prefixOverrides="and">
+        and a.status &gt;-1
+        <if test="nickname!=null">
+          and c.nickname like concat('%',#{nickname},'%')
+        </if>
+        <if test="title!=null">
+          and b.title like concat('%',#{title},'%')
+        </if>
+        <if test="status!=null">
+          and a.status = #{status}
+        </if>
+        <if test="type!=null">
+          and a.type = #{type}
+        </if>
+      </trim>
+    </where>
+      order by a.id DESC
+    </select>
+  <select id="selectById" resultType="com.chouchong.service.gift.discount.vo.DiscountVo">
+   SELECT
+	a.id,
+	a.user_id,
+	a.bp_id,
+	a.discount_price,
+	a.item_price,
+	a.`explain`,
+	a.type,
+	a.`status`,
+	a.created,
+	a.updated,
+  b.title
+  FROM
+	discounting a
+	LEFT JOIN v_bp b on a.bp_id = b.id
+	WHERE a.id = #{id}
+	and a.`status` = 1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from discounting
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchong.entity.webUser.Discounting">
+    insert into discounting (id, user_id, bp_id,
+      item_price, discount_price, explain,
+      status, type, created,
+      updated)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{bpId,jdbcType=BIGINT},
+      #{itemPrice,jdbcType=DECIMAL}, #{discountPrice,jdbcType=DECIMAL}, #{explain,jdbcType=VARCHAR},
+      #{status,jdbcType=TINYINT}, #{type,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP},
+      #{updated,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.webUser.Discounting">
+    insert into discounting
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="bpId != null">
+        bp_id,
+      </if>
+      <if test="itemPrice != null">
+        item_price,
+      </if>
+      <if test="discountPrice != null">
+        discount_price,
+      </if>
+      <if test="explain != null">
+        explain,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="bpId != null">
+        #{bpId,jdbcType=BIGINT},
+      </if>
+      <if test="itemPrice != null">
+        #{itemPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="discountPrice != null">
+        #{discountPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="explain != null">
+        #{explain,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.webUser.Discounting">
+    update discounting
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="bpId != null">
+        bp_id = #{bpId,jdbcType=BIGINT},
+      </if>
+      <if test="itemPrice != null">
+        item_price = #{itemPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="discountPrice != null">
+        discount_price = #{discountPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="explain != null">
+        `explain` = #{explain,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+
+        updated = now(),
+
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.webUser.Discounting">
+    update discounting
+    set user_id = #{userId,jdbcType=INTEGER},
+      bp_id = #{bpId,jdbcType=BIGINT},
+      item_price = #{itemPrice,jdbcType=DECIMAL},
+      discount_price = #{discountPrice,jdbcType=DECIMAL},
+      explain = #{explain,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      type = #{type,jdbcType=TINYINT},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="updateStatusById">
+      update discounting
+      set status = -1
+      where id = #{id}
+      and status &gt; -1
+    </update>
+</mapper>

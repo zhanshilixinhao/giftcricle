@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.webUser.SysAdminWithdrawMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.webUser.SysAdminWithdraw">
+    <constructor>
+      <arg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="amount" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="bank_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="deposit_bank" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="card_holder" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="card_no" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="describe" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <insert id="insert" parameterType="com.chouchong.entity.webUser.SysAdminWithdraw" useGeneratedKeys="true" keyProperty="id">
+    insert into sys_admin_withdraw (id, admin_id, amount,
+      bank_name, deposit_bank, card_holder,
+      card_no, status, `describe`,
+      created, updated)
+    values (#{id,jdbcType=INTEGER}, #{adminId,jdbcType=INTEGER}, #{amount,jdbcType=DECIMAL},
+      #{bankName,jdbcType=VARCHAR}, #{depositBank,jdbcType=VARCHAR}, #{cardHolder,jdbcType=VARCHAR},
+      #{cardNo,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{describe,jdbcType=VARCHAR},
+      now(), now())
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.webUser.SysAdminWithdraw">
+    insert into sys_admin_withdraw
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="adminId != null">
+        admin_id,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="bankName != null">
+        bank_name,
+      </if>
+      <if test="depositBank != null">
+        deposit_bank,
+      </if>
+      <if test="cardHolder != null">
+        card_holder,
+      </if>
+      <if test="cardNo != null">
+        card_no,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="describe != null">
+        `describe`,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="adminId != null">
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="bankName != null">
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="depositBank != null">
+        #{depositBank,jdbcType=VARCHAR},
+      </if>
+      <if test="cardHolder != null">
+        #{cardHolder,jdbcType=VARCHAR},
+      </if>
+      <if test="cardNo != null">
+        #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="describe != null">
+        #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+    <select id="selectByAdminId" resultType="com.chouchong.entity.webUser.SysAdminWithdraw">
+       select *
+from sys_admin_withdraw
+where admin_id = #{adminId}
+order By created DESC
+    </select>
+  <select id="selectBySearch" resultType="com.chouchong.service.gift.coupon.vo.SysWithdrawVo">
+select a.*,
+       b.username,
+       b.phone
+from sys_admin_withdraw a
+         left join sys_admin b on a.admin_id = b.id
+where
+    1=1
+    <if test="username != null and username != ''">
+      AND b.username LIKE CONCAT('%', #{username}, '%')
+    </if>
+    <if test="status != null">
+      and a.status = #{status}
+    </if>
+    order by a.created DESC
+  </select>
+  <select id="selectById" resultType="com.chouchong.entity.webUser.SysAdminWithdraw">
+    select *
+from sys_admin_withdraw
+where id = #{id}
+  </select>
+
+
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.webUser.SysAdminWithdraw">
+    update sys_admin_withdraw
+    <set>
+      <if test="adminId != null">
+        admin_id = #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="bankName != null">
+        bank_name = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="depositBank != null">
+        deposit_bank = #{depositBank,jdbcType=VARCHAR},
+      </if>
+      <if test="cardHolder != null">
+        card_holder = #{cardHolder,jdbcType=VARCHAR},
+      </if>
+      <if test="cardNo != null">
+        card_no = #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="describe != null">
+        `describe` = #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = now(),
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

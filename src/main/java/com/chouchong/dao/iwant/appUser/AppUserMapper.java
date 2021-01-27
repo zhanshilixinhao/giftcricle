@@ -2,11 +2,13 @@ package com.chouchong.dao.iwant.appUser;
 
 import com.chouchong.entity.iwant.appUser.AppUser;
 import org.apache.ibatis.annotations.Param;
+import tk.mybatis.mapper.common.Mapper;
+import tk.mybatis.mapper.common.MySqlMapper;
 
 import java.util.List;
 import java.util.Map;
 
-public interface AppUserMapper {
+public interface AppUserMapper  {
     int deleteByPrimaryKey(Integer id);
 
     int insert(AppUser record);

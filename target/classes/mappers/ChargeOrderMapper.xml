@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.webUser.ChargeOrderMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.webUser.ChargeOrder">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="amount" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="pay_way" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, amount, order_no, status, pay_way, created, updated
+  </sql>
+  <select id="selectList" resultType="java.util.Map">
+    select
+    a.id,
+    a.order_no as orderNo,
+    a.amount,
+    a.status,
+    a.pay_way as payWay,
+    b.nickname,
+    b.phone,
+    a.created,
+    a.updated
+    from charge_order a
+    left join app_user b on a.user_id = b.id
+    <where>
+      <trim prefixOverrides="and">
+        and a.status &lt; 3
+        <if test="nickname!=null">
+         and b.nickname like concat('%',#{nickname},'%')
+        </if>
+        <if test="phone!=null">
+          and b.phone = #{phone}
+        </if>
+        <if test="orderNo!=null">
+          and a.order_no = #{orderNo}
+        </if>
+        <if test="status!=null">
+         and a.status = #{status}
+        </if>
+        <if test="payWay!=null">
+          and a.pay_way = #{payWay}
+        </if>
+      </trim>
+    </where>
+    order by a.id DESC
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from charge_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from charge_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteById">
+    UPDATE
+    charge_order
+    SET
+    status = 3
+    WHERE
+    id = #{id}
+  </delete>
+  <insert id="insert" parameterType="com.chouchong.entity.webUser.ChargeOrder">
+    insert into charge_order (id, user_id, amount,
+      order_no, status, pay_way,
+      created, updated)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{amount,jdbcType=DECIMAL},
+      #{orderNo,jdbcType=BIGINT}, #{status,jdbcType=TINYINT}, #{payWay,jdbcType=TINYINT},
+      #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.webUser.ChargeOrder">
+    insert into charge_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="payWay != null">
+        pay_way,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="payWay != null">
+        #{payWay,jdbcType=TINYINT},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.webUser.ChargeOrder">
+    update charge_order
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="payWay != null">
+        pay_way = #{payWay,jdbcType=TINYINT},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.webUser.ChargeOrder">
+    update charge_order
+    set user_id = #{userId,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=DECIMAL},
+      order_no = #{orderNo,jdbcType=BIGINT},
+      status = #{status,jdbcType=TINYINT},
+      pay_way = #{payWay,jdbcType=TINYINT},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--统计商品订单-->
+  <select id="getOrderStatistics" parameterType="java.util.Map" resultType="java.lang.Integer">
+    SELECT
+    COUNT(0)
+    FROM
+    charge_order
+    WHERE
+    status = 1
+    <if test="startTime != '' and endTime != ''">
+      AND
+      created &gt;=#{startTime}
+      AND
+      created &lt;=#{endTime}
+    </if>
+
+    UNION ALL
+
+    SELECT
+    COUNT(0)
+    FROM
+    charge_order
+    WHERE
+    status = 2
+    <if test="startTime != '' and endTime != ''">
+      AND
+      created &gt;=#{startTime}
+      AND
+      created &lt;=#{endTime}
+    </if>
+  </select>
+  <select id="selectUnredCount" resultType="java.lang.Integer">
+
+    select count(0)
+    from charge_order
+    <where>
+      <trim suffixOverrides="and">
+        1= 1 and
+        <if test="start!=null">
+          unix_timestamp(created) >= #{start} and
+        </if>
+      </trim>
+
+    </where>
+  </select>
+
+</mapper>

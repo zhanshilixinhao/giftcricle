@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.gift.item.ItemMapper">
+    <resultMap id="BaseResultMap" type="com.chouchong.entity.gift.item.Item">
+        <!--<constructor>-->
+        <!--<idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+        <!--<arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />-->
+        <!--<arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />-->
+        <!--<arg column="sales" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+        <!--<arg column="stock" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+        <!--<arg column="description" javaType="java.lang.String" jdbcType="VARCHAR" />-->
+        <!--<arg column="re_gender" javaType="java.lang.Byte" jdbcType="TINYINT" />-->
+        <!--<arg column="re_max_age" javaType="java.lang.Byte" jdbcType="TINYINT" />-->
+        <!--<arg column="re_age_min" javaType="java.lang.Byte" jdbcType="TINYINT" />-->
+        <!--<arg column="store_id" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+        <!--<arg column="category_id" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+        <!--<arg column="cover" javaType="java.lang.String" jdbcType="VARCHAR" />-->
+        <!--<arg column="pictures" javaType="java.lang.String" jdbcType="VARCHAR" />-->
+        <!--<arg column="choiceness" javaType="java.lang.Byte" jdbcType="TINYINT" />-->
+        <!--<arg column="hot" javaType="java.lang.Byte" jdbcType="TINYINT" />-->
+        <!--<arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />-->
+        <!--<arg column="is_audit" javaType="java.lang.Byte" jdbcType="TINYINT" />-->
+        <!--<arg column="brand_id" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+        <!--<arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />-->
+        <!--<arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />-->
+        <!--</constructor>-->
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, title, price, sales, stock, description, re_gender, re_max_age, re_age_min, store_id,
+    category_id, cover, pictures, choiceness, hot, status, is_audit, brand_id, created,
+    updated, admin_id,wx_cover,sort
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from item
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from item
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.chouchong.entity.gift.item.Item" useGeneratedKeys="true" keyProperty="id">
+    insert into item (id, title, price,
+      sales, stock, description,
+      re_gender, re_max_age, re_age_min,
+      store_id, category_id, cover,
+      pictures, choiceness, hot,
+      status, is_audit, brand_id,
+      created, updated,admin_id,wx_cover,sort)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL},
+      #{sales,jdbcType=INTEGER}, #{stock,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR},
+      #{reGender,jdbcType=TINYINT}, #{reMaxAge,jdbcType=TINYINT}, #{reAgeMin,jdbcType=TINYINT},
+      #{storeId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{cover,jdbcType=VARCHAR},
+      #{pictures,jdbcType=VARCHAR}, #{choiceness,jdbcType=TINYINT}, #{hot,jdbcType=TINYINT},
+      #{status,jdbcType=TINYINT}, #{isAudit,jdbcType=TINYINT}, #{brandId,jdbcType=INTEGER},
+      #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}, #{adminId,jdbcType=INTEGER},#{wxCover,jdbcType=VARCHAR},#{sort,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" parameterType="com.chouchong.entity.gift.item.Item">
+        insert into item
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="sales != null">
+                sales,
+            </if>
+            <if test="stock != null">
+                stock,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="reGender != null">
+                re_gender,
+            </if>
+            <if test="reMaxAge != null">
+                re_max_age,
+            </if>
+            <if test="reAgeMin != null">
+                re_age_min,
+            </if>
+            <if test="storeId != null">
+                store_id,
+            </if>
+            <if test="categoryId != null">
+                category_id,
+            </if>
+            <if test="cover != null">
+                cover,
+            </if>
+            <if test="pictures != null">
+                pictures,
+            </if>
+            <if test="choiceness != null">
+                choiceness,
+            </if>
+            <if test="hot != null">
+                hot,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="isAudit != null">
+                is_audit,
+            </if>
+            <if test="brandId != null">
+                brand_id,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+            <if test="updated != null">
+                updated,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=DECIMAL},
+            </if>
+            <if test="sales != null">
+                #{sales,jdbcType=INTEGER},
+            </if>
+            <if test="stock != null">
+                #{stock,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="reGender != null">
+                #{reGender,jdbcType=TINYINT},
+            </if>
+            <if test="reMaxAge != null">
+                #{reMaxAge,jdbcType=TINYINT},
+            </if>
+            <if test="reAgeMin != null">
+                #{reAgeMin,jdbcType=TINYINT},
+            </if>
+            <if test="storeId != null">
+                #{storeId,jdbcType=INTEGER},
+            </if>
+            <if test="categoryId != null">
+                #{categoryId,jdbcType=INTEGER},
+            </if>
+            <if test="cover != null">
+                #{cover,jdbcType=VARCHAR},
+            </if>
+            <if test="pictures != null">
+                #{pictures,jdbcType=VARCHAR},
+            </if>
+            <if test="choiceness != null">
+                #{choiceness,jdbcType=TINYINT},
+            </if>
+            <if test="hot != null">
+                #{hot,jdbcType=TINYINT},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="isAudit != null">
+                #{isAudit,jdbcType=TINYINT},
+            </if>
+            <if test="brandId != null">
+                #{brandId,jdbcType=INTEGER},
+            </if>
+            <if test="created != null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updated != null">
+                #{updated,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.gift.item.Item">
+        update item
+        <set>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=DECIMAL},
+            </if>
+            <if test="sales != null">
+                sales = #{sales,jdbcType=INTEGER},
+            </if>
+            <if test="stock != null">
+                stock = #{stock,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="reGender != null">
+                re_gender = #{reGender,jdbcType=TINYINT},
+            </if>
+            <if test="reMaxAge != null">
+                re_max_age = #{reMaxAge,jdbcType=TINYINT},
+            </if>
+            <if test="reAgeMin != null">
+                re_age_min = #{reAgeMin,jdbcType=TINYINT},
+            </if>
+            <if test="storeId != null">
+                store_id = #{storeId,jdbcType=INTEGER},
+            </if>
+            <if test="categoryId != null">
+                category_id = #{categoryId,jdbcType=INTEGER},
+            </if>
+            <if test="cover != null">
+                cover = #{cover,jdbcType=VARCHAR},
+            </if>
+            <if test="pictures != null">
+                pictures = #{pictures,jdbcType=VARCHAR},
+            </if>
+            <if test="choiceness != null">
+                choiceness = #{choiceness,jdbcType=TINYINT},
+            </if>
+            <if test="hot != null">
+                hot = #{hot,jdbcType=TINYINT},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="isAudit != null">
+                is_audit = #{isAudit,jdbcType=TINYINT},
+            </if>
+            <if test="brandId != null">
+                brand_id = #{brandId,jdbcType=INTEGER},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updated != null">
+                updated = #{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="wxCover != null">
+                wx_cover = #{wxCover,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.gift.item.Item">
+    update item
+    set title = #{title,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      sales = #{sales,jdbcType=INTEGER},
+      stock = #{stock,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR},
+      re_gender = #{reGender,jdbcType=TINYINT},
+      re_max_age = #{reMaxAge,jdbcType=TINYINT},
+      re_age_min = #{reAgeMin,jdbcType=TINYINT},
+      store_id = #{storeId,jdbcType=INTEGER},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      cover = #{cover,jdbcType=VARCHAR},
+      pictures = #{pictures,jdbcType=VARCHAR},
+      choiceness = #{choiceness,jdbcType=TINYINT},
+      hot = #{hot,jdbcType=TINYINT},
+      status = #{status,jdbcType=TINYINT},
+      is_audit = #{isAudit,jdbcType=TINYINT},
+      brand_id = #{brandId,jdbcType=INTEGER},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP},
+            wx_cover = #{wxCover,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <!--根据搜索条件查询商品列表-->
+    <select id="selectBySearch" parameterType="java.util.Map" resultType="com.chouchong.service.gift.item.vo.ItemVo">
+        select distinct f.*
+        from (
+        SELECT a.id,
+        a.title,
+        a.price,
+        a.sales,
+        a.stock,
+        a.description,
+        a.re_gender as reGender,
+        a.re_max_age as reMaxAge,
+        a.re_age_min as reAgemin,
+        a.category_id as categoryId,
+        c.name as categoryName,
+        a.cover,
+        a.pictures,
+        a.choiceness,
+        a.hot,
+        a.status,
+        a.is_audit as isAudit,
+        a.brand_id as brandId,
+        a.admin_id,
+        b.username,
+        a.created,
+        a.updated,
+        a.sort,
+        (SELECT count(0) FROM item_sku WHERE item_id = a.id) as isGroup,
+        store_id as storeId
+        FROM item a
+        left join sys_admin b on a.admin_id = b.id
+        left join item_category c on a.category_id = c.id
+        where 1=1
+        <if test="category != null">
+            AND c.id = #{category}
+        </if>
+        union all
+        SELECT a.id,
+        a.title,
+        a.price,
+        a.sales,
+        a.stock,
+        a.description,
+        a.re_gender as reGender,
+        a.re_max_age as reMaxAge,
+        a.re_age_min as reAgemin,
+        a.category_id as categoryId,
+        c.name as categoryName,
+        a.cover,
+        a.pictures,
+        a.choiceness,
+        a.hot,
+        a.status,
+        a.is_audit as isAudit,
+        a.brand_id as brandId,
+        a.admin_id,
+        b.username,
+        a.created,
+        a.updated,
+        a.sort,
+        (SELECT count(0) FROM item_sku WHERE item_id = a.id) as isGroup,
+        store_id as storeId
+        FROM item a
+        left join sys_admin b on a.admin_id = b.id
+        left join item_category c on a.category_id = c.id
+        where 1=1
+        <if test="category != null">
+            AND c.pid = #{category}
+        </if>
+        ) f
+        where f.status != 3
+        <if test="title != null and title != ''">
+            AND f.title LIKE CONCAT(CONCAT('%', #{title}), '%')
+        </if>
+        <if test="status != null">
+            AND f.status = #{status}
+        </if>
+        <if test="hot != null">
+            AND f.hot = #{hot}
+        </if>
+        <if test="choiceness != null">
+            AND f.choiceness = #{choiceness}
+        </if>
+        <if test="brand != null">
+            AND f.brandId = #{brand}
+        </if>
+        <if test="adminId != null">
+            and f.admin_id = #{adminId}
+        </if>
+        <if test="sales != null and sales != '' || sales == 0">
+            <if test="sales == 0">
+                ORDER BY f.sales DESC
+            </if>
+            <if test="sales == 1">
+                ORDER BY f.sales ASC
+            </if>
+        </if>
+        <if test="price != null and price != '' || price == 0">
+            <if test="price == 0">
+                ORDER BY f.price DESC
+            </if>
+            <if test="price == 1">
+                ORDER BY f.price ASC
+            </if>
+        </if>
+        <if test="date != null and date != '' || date == 0">
+            <if test="date == 0">
+                ORDER BY f.created DESC
+            </if>
+            <if test="date == 1">
+                ORDER BY f.created ASC
+            </if>
+        </if>
+        <if test="date == null and price == null and sales == null">
+            ORDER BY f.sort DESC, f.created DESC
+        </if>
+    </select>
+
+
+    <!--  <select id="selectBySearch" parameterType="java.util.Map" resultType="com.chouchong.service.gift.item.vo.ItemVo">-->
+    <!--    SELECT a.id,-->
+    <!--    a.title,-->
+    <!--    a.price,-->
+    <!--    a.sales,-->
+    <!--    a.stock,-->
+    <!--    a.description,-->
+    <!--    a.re_gender                                               as reGender,-->
+    <!--    a.re_max_age                                              as reMaxAge,-->
+    <!--    a.re_age_min                                              as reAgemin,-->
+    <!--    a.category_id                                             as categoryId,-->
+    <!--    c.name                                            as categoryName,-->
+    <!--    a.cover,-->
+    <!--    a.pictures,-->
+    <!--    a.choiceness,-->
+    <!--    a.hot,-->
+    <!--    a.status,-->
+    <!--    a.is_audit                                                as isAudit,-->
+    <!--    a.brand_id                                                as brandId,-->
+    <!--    a.admin_id,-->
+    <!--    b.username,-->
+    <!--    a.created,-->
+    <!--    a.updated,-->
+    <!--    (SELECT count(0) FROM item_sku WHERE item_id = a.id) as isGroup,-->
+    <!--    store_id                                                as storeId-->
+    <!--    FROM item a-->
+    <!--    left join sys_admin b on a.admin_id = b.id-->
+    <!--    left join item_category c on a.category_id = c.id-->
+    <!--    WHERE a.status != 3-->
+    <!--    <if test="title != null and title != ''">-->
+    <!--      AND a.title LIKE CONCAT(CONCAT('%', #{title}), '%')-->
+    <!--    </if>-->
+    <!--    <if test="status != null">-->
+    <!--      AND a.status = #{status}-->
+    <!--    </if>-->
+    <!--    <if test="hot != null">-->
+    <!--      AND a.hot = #{hot}-->
+    <!--    </if>-->
+    <!--    <if test="choiceness != null">-->
+    <!--      AND a.choiceness = #{choiceness}-->
+    <!--    </if>-->
+    <!--    <if test="brand != null">-->
+    <!--      AND a.brand_id = #{brand}-->
+    <!--    </if>-->
+    <!--    <if test="category != null">-->
+    <!--      AND a.category_id = #{category}-->
+    <!--    </if>-->
+    <!--    <if test="adminId != null">-->
+    <!--      and a.admin_id = #{adminId}-->
+    <!--    </if>-->
+    <!--    <if test="sales != null and sales != '' || sales == 0">-->
+    <!--      <if test="sales == 0">-->
+    <!--        ORDER BY a.sales DESC-->
+    <!--      </if>-->
+    <!--      <if test="sales == 1">-->
+    <!--        ORDER BY a.sales ASC-->
+    <!--      </if>-->
+    <!--    </if>-->
+    <!--    <if test="price != null and price != '' || price == 0">-->
+    <!--      <if test="price == 0">-->
+    <!--        ORDER BY a.price DESC-->
+    <!--      </if>-->
+    <!--      <if test="price == 1">-->
+    <!--        ORDER BY a.price ASC-->
+    <!--      </if>-->
+    <!--    </if>-->
+    <!--    <if test="date != null and date != '' || date == 0">-->
+    <!--      <if test="date == 0">-->
+    <!--        ORDER BY a.created DESC-->
+    <!--      </if>-->
+    <!--      <if test="date == 1">-->
+    <!--        ORDER BY a.created ASC-->
+    <!--      </if>-->
+    <!--    </if>-->
+    <!--    <if test="date == null and price == null and sales == null">-->
+    <!--      ORDER BY a.created DESC-->
+    <!--    </if>-->
+    <!--  </select>-->
+
+
+    <!--插入商品详情-->
+    <insert id="insertItemDetail">
+    insert into
+    item_detail (
+    item_id,
+    detail
+    )
+    values (
+    #{id},
+    #{detail}
+    )
+  </insert>
+    <!--获得商品详情-->
+    <select id="selectDetailByItemId" resultType="java.lang.String">
+    SELECT
+    detail
+    FROM
+    item_detail
+    WHERE
+    item_id = #{id}
+  </select>
+    <select id="selectByTitle" resultType="com.chouchong.service.home.welfare.vo.ItemListVo">
+        select id,
+        title,
+        price,
+        cover,
+        created
+        from item
+        where
+        1=1
+        <if test="title != null and title != ''">
+            AND title LIKE CONCAT('%', #{title}, '%')
+        </if>
+        order by created DESC
+    </select>
+    <select id="selectPidByItemId" resultType="java.lang.Integer">
+select
+b.pid
+from item a
+left join item_category b on a.category_id = b.id
+where a.id = #{id}
+  </select>
+    <!--修改商品详情富文本-->
+    <update id="updateItemDetail">
+    UPDATE
+    item_detail
+    SET
+    detail = #{detail}
+    WHERE
+    item_id = #{id}
+  </update>
+    <!--删除商品-->
+    <update id="deleteByItemId">
+    UPDATE
+    item
+    SET
+    status = 3
+    WHERE
+    id = #{id}
+  </update>
+</mapper>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.webUser.SysRoleFunctionPermissionMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.webUser.SysRoleFunctionPermission">
+    <constructor>
+      <idArg column="role_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <idArg column="sys_function_permission_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="role_permission_note" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    role_id, sys_function_permission_id, role_permission_note, created
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="com.chouchong.entity.webUser.SysRoleFunctionPermissionKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_role_function_permission
+    where role_id = #{roleId,jdbcType=INTEGER}
+      and sys_function_permission_id = #{sysFunctionPermissionId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.chouchong.entity.webUser.SysRoleFunctionPermissionKey">
+    delete from sys_role_function_permission
+    where role_id = #{roleId,jdbcType=INTEGER}
+      and sys_function_permission_id = #{sysFunctionPermissionId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchong.entity.webUser.SysRoleFunctionPermission">
+    insert into sys_role_function_permission (role_id, sys_function_permission_id, 
+      role_permission_note, created)
+    values (#{roleId,jdbcType=INTEGER}, #{sysFunctionPermissionId,jdbcType=INTEGER}, 
+      #{rolePermissionNote,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.webUser.SysRoleFunctionPermission">
+    insert into sys_role_function_permission
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="sysFunctionPermissionId != null">
+        sys_function_permission_id,
+      </if>
+      <if test="rolePermissionNote != null">
+        role_permission_note,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="sysFunctionPermissionId != null">
+        #{sysFunctionPermissionId,jdbcType=INTEGER},
+      </if>
+      <if test="rolePermissionNote != null">
+        #{rolePermissionNote,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.webUser.SysRoleFunctionPermission">
+    update sys_role_function_permission
+    <set>
+      <if test="rolePermissionNote != null">
+        role_permission_note = #{rolePermissionNote,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where role_id = #{roleId,jdbcType=INTEGER}
+      and sys_function_permission_id = #{sysFunctionPermissionId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.webUser.SysRoleFunctionPermission">
+    update sys_role_function_permission
+    set role_permission_note = #{rolePermissionNote,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP}
+    where role_id = #{roleId,jdbcType=INTEGER}
+      and sys_function_permission_id = #{sysFunctionPermissionId,jdbcType=INTEGER}
+  </update>
+
+  <!--批量插入方法权限集合-->
+  <insert id="insertList">
+    insert into sys_role_function_permission (role_id, sys_function_permission_id,
+    role_permission_note, created)
+    values
+    <foreach collection ="permissions" item="permission" separator =",">
+      (#{permission.roleId}, #{permission.sysFunctionPermissionId},
+      #{permission.rolePermissionNote}, #{permission.created})
+    </foreach >
+  </insert>
+
+  <!--通过角色id获得角色方法权限-->
+  <select id="selectByRoleId" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    FROM
+    sys_role_function_permission
+    WHERE
+    role_id = #{id}
+  </select>
+
+  <!--通过角色id删除角色权限-->
+  <delete id="deleteByRoleId">
+    delete from sys_role_function_permission
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </delete>
+</mapper>

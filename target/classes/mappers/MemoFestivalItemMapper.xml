@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.home.memo.MemoFestivalItemMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.home.memo.MemoFestivalItem">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="memo_festival_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="item_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, memo_festival_id, item_id, created, updated
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from memo_festival_item
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectByMemoFestivalId" resultType="com.chouchong.service.gift.article.ArticleVo">
+select a.id,
+       a.memo_festival_id as articleId,
+       a.item_id,
+       b.name,
+       d.title ,
+       d.cover,
+       d.price
+from memo_festival_item a
+       left join memo_festival b on a.memo_festival_id = b.id
+       left join item d on a.item_id = d.id
+where a.memo_festival_id = #{id}
+    </select>
+  <select id="selectByFestivalIdAndItemId" resultType="com.chouchong.entity.home.memo.MemoFestivalItem">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM
+    memo_festival_item
+    WHERE
+    memo_festival_id = #{festivalId} AND item_id = #{id}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from memo_festival_item
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchong.entity.home.memo.MemoFestivalItem">
+    insert into memo_festival_item (id, memo_festival_id, item_id,
+      created, updated)
+    values (#{id,jdbcType=INTEGER}, #{memoFestivalId,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER},
+      #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.home.memo.MemoFestivalItem">
+    insert into memo_festival_item
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="memoFestivalId != null">
+        memo_festival_id,
+      </if>
+      <if test="itemId != null">
+        item_id,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="memoFestivalId != null">
+        #{memoFestivalId,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null">
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.home.memo.MemoFestivalItem">
+    update memo_festival_item
+    <set>
+      <if test="memoFestivalId != null">
+        memo_festival_id = #{memoFestivalId,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null">
+        item_id = #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.home.memo.MemoFestivalItem">
+    update memo_festival_item
+    set memo_festival_id = #{memoFestivalId,jdbcType=INTEGER},
+      item_id = #{itemId,jdbcType=INTEGER},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

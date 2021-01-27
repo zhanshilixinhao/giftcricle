@@ -1,28 +1,131 @@
+import com.alibaba.fastjson.JSONObject;
+import com.chouchong.GiftcricleApplication;
+import com.chouchong.common.Constants;
 import com.chouchong.common.Utils;
+import com.chouchong.dao.iwant.appUser.AppUserMapper;
+import com.chouchong.dao.v3.ElUserCouponMapper;
+import com.chouchong.dao.v3.ElectronicCouponsMapper;
+import com.chouchong.dao.v3.MemberEventMapper;
+import com.chouchong.dao.v3.StoreMapper;
+import com.chouchong.dao.v4.*;
+import com.chouchong.entity.v3.ElCouponVo;
+import com.chouchong.entity.v3.ElUserCoupon;
+import com.chouchong.entity.v3.ElectronicCoupons;
+import com.chouchong.entity.v3.Store;
 import com.chouchong.service.order.kdapi.OkHttpManager;
 import com.chouchong.service.order.kdapi.OkHttpUtil;
 import com.chouchong.service.order.kdapi.RequestParams;
+import com.chouchong.service.v3.vo.SpecialVo;
+import com.chouchong.service.v4.vo.CascaderVo;
+import com.chouchong.service.v4.vo.ElVo;
+import com.chouchong.service.v4.vo.RebateCouponLogVo;
 import com.chouchong.utils.AESUtils;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import tk.mybatis.mapper.entity.Example;
 
+import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.*;
 
-/**
- * @author linqin
- * @date 2018/12/10 14:36
- */
+import static com.chouchong.entity.v3.ElUserCoupon.ELUSERCOUPON_STATUS;
+
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = GiftcricleApplication.class)
+
 
 public class appTest {
+
+
+    @Resource
+    private AppUserMapper appUserMapper;
+
+    @Resource
+    private ElUserCouponMapper elUserCouponMapper;
+
+    @Resource
+    private ElectronicCouponsMapper electronicCouponsMapper;
+
+    @Resource
+    private PrivilegeCouponsMapper privilegeCouponsMapper;
+
+    @Resource
+    private UserMapper userMapper;
+
+    @Resource
+    private MemberEventCouponMapper memberEventCouponMapper;
+    @Resource
+    private CoMapper coMapper;
+
+    @Resource
+    private V4StroeMapper v4StroeMapper;
+    @Resource
+    private ActivityMapper activityMapper;
+
+    @Resource
+    private MemberEventMapper memberEventMapper;
+    @Resource
+    private ElCouponListCouponMapper elCouponListCouponMapper;
+    @Resource
+    private ShareCouponMapper shareCouponMapper;
+    @Resource
+    private ShareCouponUserMapper shareCouponUserMapper;
+    @Resource
+    private RebateCouponLogMapper rebateCouponLogMapper;
+
+    @Resource
+    private StoreMapper storeMapper;
+
+
+
+    @Test
+    public void user(){
+
+        String aa = "11,22,33,69";
+        boolean contains = aa.contains("3");
+        System.out.println(contains);
+    }
+
+    @Test
+    public void lxhTest(){
+ElUserCoupon elUserCoupon = elUserCouponMapper.selectByPrimaryKey(1);
+        System.out.println(elUserCoupon.getCreated());
+        Calendar instance = Calendar.getInstance();
+        instance.setTime(elUserCoupon.getCreated());
+        instance.add(instance.DATE,3);
+        Date time = instance.getTime();
+        int year = instance.get(Calendar.YEAR);
+        int month = instance.get(Calendar.MONTH)+1;
+        int day = instance.get(Calendar.DATE);
+        System.out.println("输出"+""+year+month+day);
+        System.out.println(time);
+        elUserCoupon.setUpdated(time);
+        elUserCouponMapper.updateByPrimaryKeySelective(elUserCoupon);
+
+        boolean before = time.after(elUserCoupon.getCreated());
+        System.out.println(before);
+
+        String s = Utils.toMD5("123456");
+        //E10ADC3949BA59ABBE56E057F20F883E
+        System.out.println(s);
+        String password = Utils.toMD5(s + Constants.ADMINPWD);
+        System.out.println(password);
+
+
+    }
 
     @Test
     public void login() throws IOException {
         RequestParams params = new RequestParams();
-        params.put("username", "test");
+        params.put("username", "waipowu");
         params.put("password", "E10ADC3949BA59ABBE56E057F20F883E");
         Response response = OkHttpUtil.post(new OkHttpClient(),
-                "http://localhost:8080/manage/user/login", params);
+                "http://localhost:9002/manage/user/login", params);
         System.out.println(response.body().string());
     }
 
@@ -297,7 +400,7 @@ public class appTest {
                 "http://localhost:8080/manage/v3/invoice/add", params);
         System.out.println(response.body().string());
     }
-  @Test
+    @Test
     public void d() throws IOException {
 
         RequestParams params = new RequestParams();

@@ -1,12 +1,17 @@
 package com.chouchong.service.v3.impl;
+import	java.util.ArrayList;
 
 import com.chouchong.common.*;
 import com.chouchong.dao.iwant.appUser.AppUserMapper;
 import com.chouchong.dao.iwant.merchant.MerchantMapper;
 import com.chouchong.dao.v3.*;
+import com.chouchong.dao.v4.ActivityMapper;
+import com.chouchong.dao.v4.CoMapper;
+import com.chouchong.dao.v4.MemberEventCouponMapper;
 import com.chouchong.dao.webUser.SysAdminRoleMapper;
 import com.chouchong.entity.iwant.merchant.Merchant;
 import com.chouchong.entity.v3.*;
+import com.chouchong.entity.v4.MemberEventCoupon;
 import com.chouchong.exception.ServiceException;
 import com.chouchong.service.v3.CardService;
 import com.chouchong.service.v3.InvoiceService;
@@ -19,13 +24,17 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+import tk.mybatis.mapper.entity.Example;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author linqin
@@ -73,6 +82,15 @@ public class CardServiceImpl implements CardService {
     @Autowired
     private InvoiceService invoiceService;
 
+    @Resource
+    private ActivityMapper activityMapper;
+
+    @Resource
+    private MemberEventCouponMapper memberEventCouponMapper;
+    @Resource
+    private CoMapper coMapper;
+
+
     /**
      * 获取会员卡列表
      *
@@ -108,6 +126,20 @@ public class CardServiceImpl implements CardService {
                 cardVo.setStoreVos(stores);
                 // 会员卡活动
                 List<EventVo> eventVos = memberEventMapper.selectByCardId(cardVo.getId());
+                for (EventVo eventVo : eventVos) {
+                    ArrayList<MemberEventCoupon> coupons = new ArrayList<>();
+                    Example example = new Example(MemberEventCoupon.class);
+                    example.createCriteria().andEqualTo("eventId",eventVo.getId());
+                    List<MemberEventCoupon> memberEventCoupons = memberEventCouponMapper.selectByExample(example);
+                    if (memberEventCoupons!=null) {
+                        for (MemberEventCoupon memberEventCoupon : memberEventCoupons) {
+                            ElectronicCoupons electronicCoupons = coMapper.selectByPrimaryKey(memberEventCoupon.getCouponId());
+                            memberEventCoupon.setCouponName(electronicCoupons.getTitle());
+                            coupons.add(memberEventCoupon);
+                        }
+                    }
+                    eventVo.setMemberEventCouponList(coupons);
+                }
                 cardVo.setEventVos(eventVos);
             }
         }
@@ -170,6 +202,21 @@ public class CardServiceImpl implements CardService {
                 cardVo.setStoreVos(stores);
                 // 会员卡活动
                 List<EventVo> eventVos = memberEventMapper.selectByCardId(cardVo.getId());
+                for (EventVo eventVo : eventVos) {
+                    ArrayList<MemberEventCoupon> coupons = new ArrayList<>();
+                    Example example = new Example(MemberEventCoupon.class);
+                    example.createCriteria().andEqualTo("eventId",eventVo.getId());
+                    List<MemberEventCoupon> memberEventCoupons = memberEventCouponMapper.selectByExample(example);
+                    if (memberEventCoupons!=null) {
+                        for (MemberEventCoupon memberEventCoupon : memberEventCoupons) {
+                            ElectronicCoupons electronicCoupons = coMapper.selectByPrimaryKey(memberEventCoupon.getCouponId());
+
+                            memberEventCoupon.setCouponName(electronicCoupons.getTitle());
+                            coupons.add(memberEventCoupon);
+                        }
+                    }
+                    eventVo.setMemberEventCouponList(coupons);
+                }
                 cardVo.setEventVos(eventVos);
             }
         }
@@ -237,6 +284,7 @@ public class CardServiceImpl implements CardService {
      * @return
      */
     @Override
+    @Transactional
     public Response addCard(MembershipCard card, String eventIds) {
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         MembershipCard ca = new MembershipCard();
@@ -253,15 +301,34 @@ public class CardServiceImpl implements CardService {
         if (insert < 1) {
             return ResponseFactory.err("添加失败");
         }
-        // 添加会员卡活动
-        String[] split = eventIds.split(",");
-        for (String s : split) {
-            MemberCard card1 = new MemberCard();
-            card1.setMembersEventId(Integer.parseInt(s));
-            card1.setMembershipCardId(ca.getId());
-            int insert1 = memberCardMapper.insert(card1);
-            if (insert1 < 1) {
-                return ResponseFactory.err("失败！");
+       /* String storeIds = ca.getStoreIds();
+        String[] strings = storeIds.split(",");
+        Example example = new Example(MemberEvent.class);
+        Integer id = webUserInfo.getSysAdmin().getId();
+        example.createCriteria().andEqualTo("adminId",id);
+        List<MemberEvent> memberEvents = activityMapper.selectByExample(example);
+        ArrayList<Integer> eventIdList = new ArrayList<>();
+        for (MemberEvent memberEvent : memberEvents) {
+            for (String string : strings) {
+                if (memberEvent.getStoreIds().contains(string)) {
+                    eventIdList.add(memberEvent.getId());
+                }
+            }
+        }
+        if (eventIds==null) {
+            eventIds = eventIdList.stream().distinct().collect(Collectors.toList()).toString();
+        }*/
+        if (eventIds!=null&& !"".equals(eventIds)) {
+            // 添加会员卡活动
+            String[] split = eventIds.split(",");
+            for (String s : split) {
+                MemberCard card1 = new MemberCard();
+                card1.setMembersEventId(Integer.parseInt(s));
+                card1.setMembershipCardId(ca.getId());
+                int insert1 = memberCardMapper.insert(card1);
+                if (insert1 < 1) {
+                    return ResponseFactory.err("失败！");
+                }
             }
         }
         return ResponseFactory.sucMsg("添加成功");
@@ -276,6 +343,7 @@ public class CardServiceImpl implements CardService {
      */
     @Override
     public Response updateCard(MembershipCard card, String eventIds) {
+        WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         MembershipCard ca = membershipCardMapper.selectByPrimaryKey(card.getId());
         if (ca == null) {
             return ResponseFactory.err("该会员卡不存在");
@@ -304,7 +372,24 @@ public class CardServiceImpl implements CardService {
         if (i < 1) {
             return ResponseFactory.err("修改失败");
         }
-        if (ca.getType() != 11) {
+        /*String storeIds = ca.getStoreIds();
+        String[] strings = storeIds.split(",");
+        Example example = new Example(MemberEvent.class);
+        Integer id = webUserInfo.getSysAdmin().getId();
+        example.createCriteria().andEqualTo("adminId",id);
+        List<MemberEvent> memberEvents = activityMapper.selectByExample(example);
+        ArrayList<Integer> eventIdList = new ArrayList<>();
+        for (MemberEvent memberEvent : memberEvents) {
+            for (String string : strings) {
+                if (memberEvent.getStoreIds().contains(string)) {
+                    eventIdList.add(memberEvent.getId());
+                }
+            }
+        }
+        if (eventIds==null) {
+            eventIds = eventIdList.stream().distinct().collect(Collectors.toList()).toString();
+        }*/
+        if (ca.getType() != 11 && eventIds!=null && !"".equals(eventIds)) {
             // 添加会员卡活动
             memberCardMapper.deleteByCardId(card.getId());
             String[] split = eventIds.split(",");

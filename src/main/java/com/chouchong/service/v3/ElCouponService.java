@@ -3,6 +3,7 @@ package com.chouchong.service.v3;
 import com.chouchong.common.PageQuery;
 import com.chouchong.common.Response;
 import com.chouchong.entity.v3.ElectronicCoupons;
+import com.chouchong.entity.v4.PrivilegeCoupons;
 
 import java.text.ParseException;
 
@@ -95,4 +96,49 @@ public interface ElCouponService {
      * @return
      */
     Response getElCouponListXcx();
+
+    /**
+     * @Description: 批量赠送优惠券
+     * @Author: LxH
+     * @Date: 2020/9/23 13:13
+     */
+    Response giveUserCoupons(String phone, String couponJson);
+
+    /**
+     * @Description: 添加优惠券
+     * @Author: LxH
+     * @Date: 2020/9/23 16:37
+     */
+    Response addPrivilegeCoupons(PrivilegeCoupons privilegeCoupons);
+
+    /**
+     * @Description: 修改优惠券
+     * @Author: LxH
+     * @Date: 2020/9/23 16:37
+     */
+    Response updatePrivilegeCoupons(PrivilegeCoupons privilegeCoupons);
+
+    /**
+     *
+     *
+     *@description: 删除优惠券
+     *@author: LxH
+     *@time: 2020/10/15 0015 下午 2:57
+     *
+     */
+    Response deletePrivilegeCoupon(Integer privilegeCouponId);
+
+    /**
+     * @Description: 获取非门店赠送的优惠券记录
+     * @Author: LxH
+     * @Date: 2020/10/27 11:25
+     */
+    Response findCouponLog(Integer couponId);
+
+    /**
+     * @Description: 可以发送的优惠券
+     * @Author: LxH
+     * @Date: 2020/12/1 10:18
+     */
+    Response findCoupons();
 }

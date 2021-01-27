@@ -4,10 +4,12 @@ package com.chouchong.dao.v3;
 import com.chouchong.entity.v3.MemberEvent;
 import com.chouchong.service.v3.vo.EventVo;
 import org.apache.ibatis.annotations.Param;
+import tk.mybatis.mapper.common.Mapper;
+import tk.mybatis.mapper.common.MySqlMapper;
 
 import java.util.List;
 
-public interface MemberEventMapper {
+public interface MemberEventMapper  {
     int deleteByPrimaryKey(Integer id);
 
     int insert(MemberEvent record);

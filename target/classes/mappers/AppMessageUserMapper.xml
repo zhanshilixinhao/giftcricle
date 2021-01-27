@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.home.message.AppMessageUserMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.home.message.AppMessageUser">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="app_message_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="is_read" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, app_message_id, is_read, created, updated
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from app_message_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from app_message_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchong.entity.home.message.AppMessageUser">
+    insert into app_message_user (id, user_id, app_message_id,
+      is_read, created, updated
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{appMessageId,jdbcType=INTEGER},
+      #{isRead,jdbcType=TINYINT}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.home.message.AppMessageUser">
+    insert into app_message_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="appMessageId != null">
+        app_message_id,
+      </if>
+      <if test="isRead != null">
+        is_read,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="appMessageId != null">
+        #{appMessageId,jdbcType=INTEGER},
+      </if>
+      <if test="isRead != null">
+        #{isRead,jdbcType=TINYINT},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.home.message.AppMessageUser">
+    update app_message_user
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="appMessageId != null">
+        app_message_id = #{appMessageId,jdbcType=INTEGER},
+      </if>
+      <if test="isRead != null">
+        is_read = #{isRead,jdbcType=TINYINT},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.home.message.AppMessageUser">
+    update app_message_user
+    set user_id = #{userId,jdbcType=INTEGER},
+      app_message_id = #{appMessageId,jdbcType=INTEGER},
+      is_read = #{isRead,jdbcType=TINYINT},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--批量插入用户系统通知集合-->
+  <insert id="insertList" useGeneratedKeys="true" keyProperty="id">
+    insert into app_message_user (user_id, app_message_id, is_read, created, updated)
+    values
+    <foreach collection ="appMessageUsers" item="appMessageUser" separator =",">
+      (#{appMessageUser.userId}, #{appMessageUser.appMessageId},
+      #{appMessageUser.isRead}, #{appMessageUser.created}, #{appMessageUser.updated})
+    </foreach >
+  </insert>
+    <insert id="insertBatch">
+        insert into app_message_user (id, user_id, app_message_id,
+        is_read, created, updated
+        )
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+          (#{item.id,jdbcType=INTEGER}, #{item.userId,jdbcType=INTEGER}, #{item.appMessageId,jdbcType=INTEGER},
+          #{item.isRead,jdbcType=TINYINT}, now(), now()
+          )
+        </foreach>
+      </insert>
+
+    <!--删除用户系统通知-->
+  <delete id="deleteByMessageId">
+    delete from app_message_user
+    where app_message_id = #{id,jdbcType=INTEGER}
+  </delete>
+</mapper>

@@ -1,13 +1,17 @@
 package com.chouchong.service.v3.vo;
 
+import com.chouchong.entity.v4.MemberEventCoupon;
+import lombok.Data;
+
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author linqin
  * @date 2019/11/7
  */
-
+@Data
 public class EventVo {
 
     private Integer id;
@@ -34,99 +38,12 @@ public class EventVo {
 
     private Integer quantity;
 
-    public Integer getQuantity() {
-        return quantity;
-    }
+    private String storeIds;
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
+    private List<StoreVo> stores;
 
-    public Byte getStatus() {
-        return status;
-    }
+    //优惠券
+    private List<MemberEventCoupon> memberEventCouponList;
 
-    public void setStatus(Byte status) {
-        this.status = status;
-    }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
-    public BigDecimal getRechargeMoney() {
-        return rechargeMoney;
-    }
-
-    public void setRechargeMoney(BigDecimal rechargeMoney) {
-        this.rechargeMoney = rechargeMoney;
-    }
-
-    public BigDecimal getSendMoney() {
-        return sendMoney;
-    }
-
-    public void setSendMoney(BigDecimal sendMoney) {
-        this.sendMoney = sendMoney;
-    }
-
-    public Integer getTargetId() {
-        return targetId;
-    }
-
-    public void setTargetId(Integer targetId) {
-        this.targetId = targetId;
-    }
-
-    public Integer getAdminId() {
-        return adminId;
-    }
-
-    public void setAdminId(Integer adminId) {
-        this.adminId = adminId;
-    }
-
-    public Byte getType() {
-        return type;
-    }
-
-    public void setType(Byte type) {
-        this.type = type;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public String getTargetName() {
-        return targetName;
-    }
-
-    public void setTargetName(String targetName) {
-        this.targetName = targetName;
-    }
 }

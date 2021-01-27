@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.v3.MemberCardMapper">
+    <resultMap id="BaseResultMap" type="com.chouchong.entity.v3.MemberCard">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="membership_card_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="members_event_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, membership_card_id, members_event_id, updated, created
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from member_card
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByCardIds" resultType="com.chouchong.entity.v3.MemberEvent">
+        select b.id,
+        b.title,
+        b.summary,
+        b.recharge_money,
+        b.send_money,
+        b.target_id,
+        b.admin_id,
+        b.type,
+        b.status,
+        b.updated,
+        b.created
+        from member_card a
+        left join member_event b on a.members_event_id = b.id
+        where b.status = 1
+        and a.membership_card_id in
+        <foreach collection="list" index="index" separator="," item="list" open="(" close=")">
+            #{list}
+        </foreach>
+        order by b.created desc
+    </select>
+
+    <select id="selectByCardId" resultType="com.chouchong.entity.v3.MemberEvent">
+        select b.id,
+       b.title,
+       b.summary,
+       b.recharge_money,
+       b.send_money,
+       b.target_id,
+       b.admin_id,
+       b.type,
+       b.status,
+       b.updated,
+       b.created
+from member_card a
+         left join member_event b on a.members_event_id = b.id
+         where  b.status = 1
+         order by b.created desc
+    </select>
+    <select id="selectEventByCardId" resultType="com.chouchong.entity.v3.MemberEvent">
+         select b.id,
+       b.title,
+       b.summary,
+       b.recharge_money,
+       b.send_money,
+       b.target_id,
+       b.admin_id,
+       b.type,
+       b.status,
+       b.updated,
+       b.created,
+       b.scale
+from member_card a
+         left join member_event b on a.members_event_id = b.id
+where b.status = 10
+and a.membership_card_id = #{cardId}
+
+    </select>
+    <select id="selectEventIdByCardId" resultType="com.chouchong.entity.v3.MemberCard">
+        select
+        <include refid="Base_Column_List"/>
+        from member_card
+        where membership_card_id = #{cardId}
+        and members_event_id = #{eventId}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from member_card
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByCardId">
+    delete from member_card
+    where membership_card_id = #{cardId}
+  </delete>
+    <insert id="insert" parameterType="com.chouchong.entity.v3.MemberCard">
+    insert into member_card (id, membership_card_id, members_event_id,
+      updated, created)
+    values (#{id,jdbcType=INTEGER}, #{membershipCardId,jdbcType=INTEGER}, #{membersEventId,jdbcType=INTEGER},
+     now(), now())
+  </insert>
+    <insert id="insertSelective" parameterType="com.chouchong.entity.v3.MemberCard">
+        insert into member_card
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="membershipCardId != null">
+                membership_card_id,
+            </if>
+            <if test="membersEventId != null">
+                members_event_id,
+            </if>
+            <if test="updated != null">
+                updated,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="membershipCardId != null">
+                #{membershipCardId,jdbcType=INTEGER},
+            </if>
+            <if test="membersEventId != null">
+                #{membersEventId,jdbcType=INTEGER},
+            </if>
+            <if test="updated != null">
+                #{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="created != null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.v3.MemberCard">
+        update member_card
+        <set>
+            <if test="membershipCardId != null">
+                membership_card_id = #{membershipCardId,jdbcType=INTEGER},
+            </if>
+            <if test="membersEventId != null">
+                members_event_id = #{membersEventId,jdbcType=INTEGER},
+            </if>
+            <if test="updated != null">
+                updated = #{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.v3.MemberCard">
+    update member_card
+    set membership_card_id = #{membershipCardId,jdbcType=INTEGER},
+      members_event_id = #{membersEventId,jdbcType=INTEGER},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      created = #{created,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -3,6 +3,7 @@ package com.chouchong.service.v3;
 import com.chouchong.common.Response;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 /**
  * @author linqin
@@ -15,4 +16,5 @@ public interface SmsCodeService {
      * @return
      */
     Response sendSmsCode() throws IOException;
+
 }

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.v3.MemberChargeOrderMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.v3.MemberChargeOrder">
+    <constructor>
+      <idArg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="membership_card_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="recharge_money" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="send_money" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="pay_way" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    order_no, membership_card_id, user_id, recharge_money, send_money, status, pay_way,
+    updated, created
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from member_charge_order
+    where order_no = #{orderNo,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from member_charge_order
+    where order_no = #{orderNo,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.chouchong.entity.v3.MemberChargeOrder">
+    insert into member_charge_order (order_no, membership_card_id, user_id,
+      recharge_money, send_money, status,
+      pay_way, updated, created
+      )
+    values (#{orderNo,jdbcType=BIGINT}, #{membershipCardId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
+      #{rechargeMoney,jdbcType=DECIMAL}, #{sendMoney,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT},
+      #{payWay,jdbcType=TINYINT}, now(), now()
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.v3.MemberChargeOrder">
+    insert into member_charge_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="membershipCardId != null">
+        membership_card_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="rechargeMoney != null">
+        recharge_money,
+      </if>
+      <if test="sendMoney != null">
+        send_money,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="payWay != null">
+        pay_way,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=BIGINT},
+      </if>
+      <if test="membershipCardId != null">
+        #{membershipCardId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="rechargeMoney != null">
+        #{rechargeMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="sendMoney != null">
+        #{sendMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="payWay != null">
+        #{payWay,jdbcType=TINYINT},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.v3.MemberChargeOrder">
+    update member_charge_order
+    <set>
+      <if test="membershipCardId != null">
+        membership_card_id = #{membershipCardId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="rechargeMoney != null">
+        recharge_money = #{rechargeMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="sendMoney != null">
+        send_money = #{sendMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="payWay != null">
+        pay_way = #{payWay,jdbcType=TINYINT},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where order_no = #{orderNo,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.v3.MemberChargeOrder">
+    update member_charge_order
+    set membership_card_id = #{membershipCardId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      recharge_money = #{rechargeMoney,jdbcType=DECIMAL},
+      send_money = #{sendMoney,jdbcType=DECIMAL},
+      status = #{status,jdbcType=TINYINT},
+      pay_way = #{payWay,jdbcType=TINYINT},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      created = #{created,jdbcType=TIMESTAMP}
+    where order_no = #{orderNo,jdbcType=BIGINT}
+  </update>
+</mapper>

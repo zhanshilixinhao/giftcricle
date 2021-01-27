@@ -69,7 +69,7 @@ public class CardController {
      */
     @PostMapping("add")
     public Response addCard(MembershipCard card, String eventIds) {
-        if (StringUtils.isAnyBlank(card.getTitle(), card.getColour(), card.getLogo(), card.getStoreIds(), eventIds)) {
+        if (StringUtils.isAnyBlank(card.getTitle(), card.getColour()/*, card.getLogo()*/)) {
             return ResponseFactory.errMissingParameter();
         }
         if (card.getSummary() == null || card.getType() == null) {
@@ -87,7 +87,7 @@ public class CardController {
      */
     @PostMapping("update")
     public Response updateCard(MembershipCard card, String eventIds) {
-        if (StringUtils.isAnyBlank(card.getTitle(), card.getColour(), card.getLogo(), card.getStoreIds(), eventIds)) {
+        if (StringUtils.isAnyBlank(card.getTitle(), card.getColour(), /*card.getLogo(),*/ card.getStoreIds())) {
             return ResponseFactory.errMissingParameter();
         }
         if (card.getSummary() == null || card.getId() == null) {

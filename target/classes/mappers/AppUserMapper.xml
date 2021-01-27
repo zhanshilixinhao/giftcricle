@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.iwant.appUser.AppUserMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.iwant.appUser.AppUser">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="account" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="password" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="phone" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="avatar" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="nickname" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="age" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="gender" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="signature" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="district" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="sent_pwd" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="wxid" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, account, password, phone, avatar, nickname, age, gender, signature, district,
+    status, sent_pwd, wxid, created, updated
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from app_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from app_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchong.entity.iwant.appUser.AppUser">
+    insert into app_user (id, account, password,
+      phone, avatar, nickname,
+      age, gender, signature,
+      district, status, sent_pwd,
+      wxid, created, updated
+      )
+    values (#{id,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+      #{phone,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR},
+      #{age,jdbcType=INTEGER}, #{gender,jdbcType=TINYINT}, #{signature,jdbcType=VARCHAR},
+      #{district,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{sentPwd,jdbcType=VARCHAR},
+      #{wxid,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.iwant.appUser.AppUser">
+    insert into app_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="account != null">
+        account,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="avatar != null">
+        avatar,
+      </if>
+      <if test="nickname != null">
+        nickname,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="signature != null">
+        signature,
+      </if>
+      <if test="district != null">
+        district,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="sentPwd != null">
+        sent_pwd,
+      </if>
+      <if test="wxid != null">
+        wxid,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null">
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="signature != null">
+        #{signature,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null">
+        #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="sentPwd != null">
+        #{sentPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="wxid != null">
+        #{wxid,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.iwant.appUser.AppUser">
+    update app_user
+    <set>
+      <if test="account != null">
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null">
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="signature != null">
+        signature = #{signature,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null">
+        district = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="sentPwd != null">
+        sent_pwd = #{sentPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="wxid != null">
+        wxid = #{wxid,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.iwant.appUser.AppUser">
+    update app_user
+    set account = #{account,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      gender = #{gender,jdbcType=TINYINT},
+      signature = #{signature,jdbcType=VARCHAR},
+      district = #{district,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      sent_pwd = #{sentPwd,jdbcType=VARCHAR},
+      wxid = #{wxid,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--通过电话号码获得用户信息-->
+  <select id="selectByPhone" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    FROM
+    app_user
+    WHERE
+    phone = #{phone}
+  </select>
+
+  <!--根据搜索条件查询用户列表-->
+  <select id="selectBySearch" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    FROM
+    app_user
+    WHERE
+    1 = 1
+    <if test="nickname != null and nickname != ''">
+      AND nickname LIKE CONCAT(CONCAT('%', #{nickname}), '%')
+    </if>
+    <if test="phone != null and phone != ''">
+      AND phone LIKE CONCAT(CONCAT('%', #{phone}), '%')
+    </if>
+    <if test="district != null and district != ''">
+      AND district LIKE CONCAT(CONCAT('%', #{district}), '%')
+    </if>
+    <if test="status != null">
+      AND status = #{status}
+    </if>
+    <if test="age != null">
+      AND age = #{age}
+    </if>
+    <if test="gender != null">
+      AND gender = #{gender}
+    </if>
+      ORDER BY created DESC
+  </select>
+    <select id="selectByCreated" resultType="java.util.Map">
+      SELECT
+      DATE_FORMAT( created, '%Y%m%d' ) days,
+      count( id ) AS count
+      FROM
+      app_user
+      <where>
+        <trim prefixOverrides="and">
+          <if test="startTime!=null and startTime!=''">
+            and DATE_FORMAT( created, '%Y%m%d' ) &gt; DATE_FORMAT( #{startTime}, '%Y%m%d' )
+          </if>
+          <if test="endTime!=null and endTime!=''">
+            and DATE_FORMAT( created, '%Y%m%d' ) &lt;  DATE_FORMAT( #{endTime}, '%Y%m%d' )
+          </if>
+        </trim>
+      </where>
+      GROUP BY
+      days;
+    </select>
+  <select id="selectByCreatedMonth" resultType="java.util.Map">
+    SELECT
+    DATE_FORMAT( created, '%Y%m' ) month,
+    count( id ) AS count
+    FROM
+    app_user
+    <where>
+      <trim prefixOverrides="and">
+        <choose>
+          <when test="startMonth !=null and startMonth!='' ">
+            and DATE_FORMAT( created, '%Y%m' ) &gt;= DATE_FORMAT( #{startMonth}, '%Y%m' )
+          </when>
+            <when test="endMonth!=null and startMonth!=''">
+                and DATE_FORMAT( created, '%Y%m' ) &lt;= DATE_FORMAT( #{endMonth}, '%Y%m' )
+            </when>
+        </choose>
+      </trim>
+    </where>
+    GROUP BY
+    month
+  </select>
+  <select id="selectAllByCreated" resultType="java.util.Map">
+    SELECT
+	count( a.id ) as countAll,
+	b.*
+FROM
+	app_user a,
+	( SELECT `status`, count( id ) AS count FROM app_user GROUP BY `status` ) b
+	GROUP BY
+	`status`
+  </select>
+  <select id="selectByPhone1" resultType="com.chouchong.entity.iwant.appUser.AppUser">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    FROM
+    app_user
+    WHERE
+    phone = #{phone}
+  </select>
+</mapper>

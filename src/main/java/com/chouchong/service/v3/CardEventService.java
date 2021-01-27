@@ -56,7 +56,7 @@ public interface CardEventService {
      * @param cardId 会员卡id
      * @return
      */
-    Response cardEvent(Integer cardId);
+    Response cardEvent();
 
     //****************************************会员卡等级***********************************************************/
 

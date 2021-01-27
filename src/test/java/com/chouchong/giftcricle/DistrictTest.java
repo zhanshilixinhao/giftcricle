@@ -1,3 +1,4 @@
+/*
 package com.chouchong.giftcricle;
 
 import com.alibaba.fastjson.JSON;
@@ -5,11 +6,13 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.chouchong.GiftcricleApplication;
 import com.chouchong.dao.gift.item.ItemSkuMapper;
+import com.chouchong.dao.iwant.appUser.AppUserMapper;
 import com.chouchong.dao.iwant.withdraw.DistrictMapper;
 import com.chouchong.dao.webUser.SysFunctionPermissionMapper;
 import com.chouchong.entity.SkuListVo;
 import com.chouchong.entity.SkuValueVo;
 import com.chouchong.entity.gift.item.ItemSku;
+import com.chouchong.entity.iwant.appUser.AppUser;
 import com.chouchong.entity.iwant.withdraw.District;
 import com.chouchong.entity.webUser.SysFunctionPermission;
 import com.chouchong.service.amap.AMapApiImpl;
@@ -17,19 +20,27 @@ import com.chouchong.service.amap.DistrictResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ansi.AnsiOutput;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.CollectionUtils;
 
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-@RunWith(SpringRunner.class)
+*/
+/*@RunWith(SpringRunner.class)
 @SpringBootTest(classes = GiftcricleApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@EnableAutoConfiguration
+@EnableAutoConfiguration*//*
+
+*/
+/*@RunWith(SpringRunner.class)
+@SpringBootTest(classes = GiftcricleApplication.class)*//*
+
 public class DistrictTest {
 
     @Autowired
@@ -41,7 +52,14 @@ public class DistrictTest {
     @Autowired
     private ItemSkuMapper itemSkuMapper;
 
+    @Resource
+    private AppUserMapper appUserMapper;
 
+    @Test
+    public void lxhTest(){
+        AppUser appUser = appUserMapper.selectByPhone1("18208799641");
+        System.out.println(appUser.toString());
+    }
     @Test
     public void amapTest() throws IOException {
         DistrictResponse response = AMapApiImpl.createWebApi().getDistricts("100000", 3);
@@ -63,9 +81,11 @@ public class DistrictTest {
         }
     }
 
-    /**
+    */
+/**
      * 建立那啥
-     */
+     *//*
+
     @Test
     public void sku() {
         List<ItemSku> list = itemSkuMapper.selectAll();
@@ -1012,3 +1032,4 @@ public class DistrictTest {
 
 
 }
+*/

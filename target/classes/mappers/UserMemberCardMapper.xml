@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.v3.UserMemberCardMapper">
+    <resultMap id="BaseResultMap" type="com.chouchong.entity.v3.UserMemberCard">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="membership_card_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="balance" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+            <arg column="total_amount" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+            <arg column="consume_amount" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+            <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT"/>
+            <arg column="store_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="phone" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="grade_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="card_no" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, membership_card_id, user_id, balance, total_amount, consume_amount, updated,
+    created, status, store_id,phone,admin_id,grade_id,card_no,password
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_member_card
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectBySearch" resultType="com.chouchong.service.v3.vo.UserCardVo">
+        select a.id as userCardId,
+        a.user_id,
+        a.membership_card_id as cardId,
+        a.balance,
+        a.created,
+        a.store_id,
+        a.phone,
+        a.card_no,
+        b.title,
+        b.type,
+        c.nickname,
+        s.name as storeName,
+        f.title as gradeTitle,
+        f.id as gradeId
+        from user_member_card a
+        left join membership_card b on a.membership_card_id = b.id
+        left join app_user c on c.id = a.user_id
+        left join store s on a.store_id = s.id
+        left join card_grade f on a.grade_id = f.id
+        where b.status = 1
+        and a.status = 1
+        <if test="adminId != null">
+            and b.admin_id = #{adminId}
+        </if>
+        <if test="type != null">
+            and b.type = #{type}
+        </if>
+        <if test="phone != null and phone != ''">
+            and a.phone like concat('%',#{phone},'%')
+        </if>
+        <if test="title != null and title != ''">
+            and b.title like concat('%',#{title},'%')
+        </if>
+        <if test="cardNo != null and cardNo != ''">
+            and a.card_no like concat('%',#{cardNo},'%')
+        </if>
+        <if test="storeName != null and storeName != ''">
+            and s.name like concat('%',#{storeName},'%')
+        </if>
+        order by a.user_id DESC ,a.created DESC
+    </select>
+    <select id="selectBySearch1" resultType="com.chouchong.service.v3.vo.UserCardVo">
+        select a.id as userCardId,
+        a.user_id,
+        a.membership_card_id as cardId,
+        a.balance,
+        a.created,
+        a.store_id,
+        a.phone,
+        a.card_no,
+        b.title,
+        b.type,
+        c.nickname,
+        s.name as storeName,
+        f.title as gradeTitle,
+        f.id as gradeId
+        from user_member_card a
+        left join membership_card b on a.membership_card_id = b.id
+        left join app_user c on c.id = a.user_id
+        left join store s on a.store_id = s.id
+        left join card_grade f on a.grade_id = f.id
+        where b.status = 1
+        and a.status = 1
+        and a.membership_card_id in
+        <foreach collection="list" index="index" separator="," item="list" open="(" close=")">
+            #{list}
+        </foreach>
+        <if test="phone != null and phone != ''">
+            and a.phone like concat('%',#{phone},'%')
+        </if>
+        <if test="cardNo != null and cardNo != ''">
+            and a.card_no like concat('%',#{cardNo},'%')
+        </if>
+        <if test="title != null and title != ''">
+            and b.title like concat('%',#{title},'%')
+        </if>
+        <if test="storeName != null and storeName != ''">
+            and s.name like concat('%',#{storeName},'%')
+        </if>
+        order by a.user_id DESC ,a.created DESC
+    </select>
+    <select id="selectByUseridcardId" resultType="com.chouchong.entity.v3.UserMemberCard">
+        select
+        <include refid="Base_Column_List"/>
+        from user_member_card
+        where user_id = #{userId}
+        and membership_card_id = #{cardId}
+        and status = 1
+    </select>
+
+    <select id="selectUserCard" resultType="com.chouchong.service.v3.vo.UserCardVo1">
+        select a.user_id,
+        a.phone,
+        c.avatar,
+        c.nickname
+        from user_member_card a
+        left join app_user c on c.id = a.user_id
+        where a.status = 1
+        and a.membership_card_id in
+        <foreach collection="list" index="index" separator="," item="list" open="(" close=")">
+            #{list}
+        </foreach>
+        <if test="phone != null and phone != ''">
+            and a.phone like concat('%',#{phone},'%')
+        </if>
+        group by a.user_id
+    </select>
+    <select id="selectByUserId" resultType="com.chouchong.service.v3.vo.UserCardVo2">
+        select a.user_id,
+        a.membership_card_id as cardId,
+        a.phone,
+        a.balance,
+        a.created,
+        b.avatar,
+        b.nickname,
+        a.card_no,
+        c.title,
+        c.type
+        from user_member_card a
+        left join app_user b on b.id = a.user_id
+        left join membership_card c on a.membership_card_id = c.id
+        where a.status = 1
+        and b.status = 1
+        and a.user_id = #{userId}
+        and a.membership_card_id in
+        <foreach collection="list" index="index" separator="," item="list" open="(" close=")">
+            #{list}
+        </foreach>
+    </select>
+    <select id="selectBySearchs" resultType="com.chouchong.service.v3.vo.UserCardVos">
+        select sum(a.balance) as totalMoney
+        from user_member_card a
+        left join membership_card b on a.membership_card_id = b.id
+        left join app_user c on c.id = a.user_id
+        left join store s on a.store_id = s.id
+        left join card_grade f on a.grade_id = f.id
+        where b.status = 1
+        and a.status = 1
+        and a.membership_card_id in
+        <foreach collection="list" index="index" separator="," item="list" open="(" close=")">
+            #{list}
+        </foreach>
+        <if test="phone != null and phone != ''">
+            and a.phone like concat('%',#{phone},'%')
+        </if>
+        <if test="cardNo != null and cardNo != ''">
+            and a.card_no like concat('%',#{cardNo},'%')
+        </if>
+        <if test="title != null and title != ''">
+            and b.title like concat('%',#{title},'%')
+        </if>
+        <if test="storeName != null and storeName != ''">
+            and s.name like concat('%',#{storeName},'%')
+        </if>
+        order by a.user_id DESC ,a.created DESC
+    </select>
+    <select id="selectBySearchs1" resultType="com.chouchong.service.v3.vo.UserCardVos">
+        select sum(a.balance) as totalMoney
+        from user_member_card a
+        left join membership_card b on a.membership_card_id = b.id
+        left join app_user c on c.id = a.user_id
+        left join store s on a.store_id = s.id
+        left join card_grade f on a.grade_id = f.id
+        where b.status = 1
+        and a.status = 1
+        <if test="adminId != null">
+            and b.admin_id = #{adminId}
+        </if>
+        <if test="type != null">
+            and b.type = #{type}
+        </if>
+        <if test="phone != null and phone != ''">
+            and a.phone like concat('%',#{phone},'%')
+        </if>
+        <if test="title != null and title != ''">
+            and b.title like concat('%',#{title},'%')
+        </if>
+        <if test="cardNo != null and cardNo != ''">
+            and a.card_no like concat('%',#{cardNo},'%')
+        </if>
+        <if test="storeName != null and storeName != ''">
+            and s.name like concat('%',#{storeName},'%')
+        </if>
+        order by a.user_id DESC ,a.created DESC
+    </select>
+    <select id="selectByKey" resultType="com.chouchong.service.v3.vo.CardVo1">
+      select a.id,
+       a.membership_card_id,
+       a.user_id,
+       a.phone,
+       a.balance,
+       a.created,
+       a.card_no,
+       b.title,
+       b.summary,
+       b.colour,
+       b.logo,
+       b.store_ids,
+       b.type,
+       c.title as grade,
+       c.summary as summaryGrade,
+       u.nickname,
+       u.avatar
+from user_member_card a
+         left join membership_card b on a.membership_card_id = b.id
+         left join card_grade c on a.grade_id = c.id
+         left join app_user u on u.id = a.user_id
+where a.id = #{id}
+and a.status = 1
+    </select>
+    <select id="selectDetailByUserIdcardId" resultType="com.chouchong.service.v3.vo.CardVo1">
+        select a.id,
+       a.membership_card_id,
+       a.user_id,
+       a.phone,
+       a.created,
+       a.card_no,
+       b.title,
+       b.summary,
+       b.colour,
+       b.logo,
+       b.store_ids,
+       b.type,
+       c.name as storeName,
+       u.nickname,
+       u.avatar
+from user_member_card a
+         left join membership_card b on a.membership_card_id = b.id
+         left join app_user u on u.id = a.user_id
+         left join store c on c.id = a.store_id
+where a.membership_card_id = #{cardId}
+and user_id = #{userId}
+and a.status = 1
+    </select>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_member_card
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.chouchong.entity.v3.UserMemberCard">
+    insert into user_member_card (id, membership_card_id, user_id,
+      balance, total_amount, consume_amount,
+      updated, created, status,
+      store_id,phone,admin_id,grade_id,card_no,password)
+    values (#{id,jdbcType=INTEGER}, #{membershipCardId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
+      #{balance,jdbcType=DECIMAL}, #{totalAmount,jdbcType=DECIMAL}, #{consumeAmount,jdbcType=DECIMAL},
+      now(), now(), #{status,jdbcType=TINYINT},
+      #{storeId,jdbcType=INTEGER},#{phone,jdbcType=VARCHAR},#{adminId,jdbcType=INTEGER},#{gradeId,jdbcType=INTEGER},
+      #{cardNo,jdbcType=BIGINT},#{password,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.chouchong.entity.v3.UserMemberCard">
+        insert into user_member_card
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="membershipCardId != null">
+                membership_card_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="balance != null">
+                balance,
+            </if>
+            <if test="totalAmount != null">
+                total_amount,
+            </if>
+            <if test="consumeAmount != null">
+                consume_amount,
+            </if>
+            <if test="updated != null">
+                updated,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="storeId != null">
+                store_id,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="adminId != null">
+                admin_id,
+            </if>
+            <if test="gradeId != null">
+                grade_id,
+            </if>
+            <if test="cardNo != null">
+                card_no,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="membershipCardId != null">
+                #{membershipCardId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="balance != null">
+                #{balance,jdbcType=DECIMAL},
+            </if>
+            <if test="totalAmount != null">
+                #{totalAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="consumeAmount != null">
+                #{consumeAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="updated != null">
+                #{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="created != null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="storeId != null">
+                #{storeId,jdbcType=INTEGER},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="adminId != null">
+                #{adminId,jdbcType=INTEGER},
+            </if>
+            <if test="gradeId != null">
+                #{gradeId,jdbcType=INTEGER},
+            </if>
+            <if test="cardNo != null">
+                #{cardNo,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.v3.UserMemberCard">
+        update user_member_card
+        <set>
+            <if test="membershipCardId != null">
+                membership_card_id = #{membershipCardId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="balance != null">
+                balance = #{balance,jdbcType=DECIMAL},
+            </if>
+            <if test="totalAmount != null">
+                total_amount = #{totalAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="consumeAmount != null">
+                consume_amount = #{consumeAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="updated != null">
+                updated = now(),
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="storeId != null">
+                store_id = #{storeId,jdbcType=INTEGER},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="adminId != null">
+                admin_id = #{adminId,jdbcType=INTEGER},
+            </if>
+            <if test="gradeId != null">
+                grade_id = #{gradeId,jdbcType=INTEGER},
+            </if>
+            <if test="cardNo != null">
+                card_no = #{cardNo,jdbcType=BIGINT},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.v3.UserMemberCard">
+    update user_member_card
+    set membership_card_id = #{membershipCardId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      balance = #{balance,jdbcType=DECIMAL},
+      total_amount = #{totalAmount,jdbcType=DECIMAL},
+      consume_amount = #{consumeAmount,jdbcType=DECIMAL},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      created = #{created,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=TINYINT},
+      store_id = #{storeId,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      grade_id = #{gradeId,jdbcType=INTEGER},
+      card_no = #{cardNo,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

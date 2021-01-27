@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.gift.coupon.CouponUseRecordMapper">
+    <resultMap id="BaseResultMap" type="com.chouchong.entity.gift.coupon.CouponUseRecord">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="merchant_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="coupon_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="cover" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="bp_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, merchant_id, admin_id, coupon_id, user_id, title, cover, bp_id, updated, created
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from coupon_use_record
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByTitle" resultType="com.chouchong.service.gift.coupon.vo.CouponVo">
+        select a.*,
+        b.nickname,
+        b.phone
+        from coupon_use_record a
+        left join app_user b on a.user_id = b.id
+        where a.merchant_id = #{id}
+        <if test="title != null">
+            AND a.title LIKE CONCAT(CONCAT('%', #{title}), '%')
+        </if>
+        ORDER BY a.created DESC
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from coupon_use_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.chouchong.entity.gift.coupon.CouponUseRecord">
+    insert into coupon_use_record (id, merchant_id, admin_id,
+      coupon_id, user_id, title,
+      cover, bp_id, updated,
+      created)
+    values (#{id,jdbcType=INTEGER}, #{merchantId,jdbcType=INTEGER}, #{adminId,jdbcType=INTEGER},
+      #{couponId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
+      #{cover,jdbcType=VARCHAR}, #{bpId,jdbcType=BIGINT}, now(),
+      now())
+  </insert>
+    <insert id="insertSelective" parameterType="com.chouchong.entity.gift.coupon.CouponUseRecord">
+        insert into coupon_use_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="merchantId != null">
+                merchant_id,
+            </if>
+            <if test="adminId != null">
+                admin_id,
+            </if>
+            <if test="couponId != null">
+                coupon_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="cover != null">
+                cover,
+            </if>
+            <if test="bpId != null">
+                bp_id,
+            </if>
+            <if test="updated != null">
+                updated,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="merchantId != null">
+                #{merchantId,jdbcType=INTEGER},
+            </if>
+            <if test="adminId != null">
+                #{adminId,jdbcType=INTEGER},
+            </if>
+            <if test="couponId != null">
+                #{couponId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="cover != null">
+                #{cover,jdbcType=VARCHAR},
+            </if>
+            <if test="bpId != null">
+                #{bpId,jdbcType=BIGINT},
+            </if>
+            <if test="updated != null">
+                #{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="created != null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.gift.coupon.CouponUseRecord">
+        update coupon_use_record
+        <set>
+            <if test="merchantId != null">
+                merchant_id = #{merchantId,jdbcType=INTEGER},
+            </if>
+            <if test="adminId != null">
+                admin_id = #{adminId,jdbcType=INTEGER},
+            </if>
+            <if test="couponId != null">
+                coupon_id = #{couponId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="cover != null">
+                cover = #{cover,jdbcType=VARCHAR},
+            </if>
+            <if test="bpId != null">
+                bp_id = #{bpId,jdbcType=BIGINT},
+            </if>
+            <if test="updated != null">
+                updated = #{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.gift.coupon.CouponUseRecord">
+    update coupon_use_record
+    set merchant_id = #{merchantId,jdbcType=INTEGER},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      coupon_id = #{couponId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      cover = #{cover,jdbcType=VARCHAR},
+      bp_id = #{bpId,jdbcType=BIGINT},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      created = #{created,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

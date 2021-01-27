@@ -4,6 +4,7 @@ import com.chouchong.common.*;
 import com.chouchong.dao.iwant.appUser.AppUserMapper;
 import com.chouchong.dao.iwant.merchant.MerchantMapper;
 import com.chouchong.dao.v3.*;
+import com.chouchong.dao.v4.ActivityMapper;
 import com.chouchong.dao.webUser.SysAdminMapper;
 import com.chouchong.entity.iwant.appUser.AppUser;
 import com.chouchong.entity.iwant.merchant.Merchant;
@@ -15,11 +16,13 @@ import com.chouchong.service.v3.vo.*;
 import com.chouchong.service.webUser.vo.WebUserInfo;
 import com.chouchong.utils.BigDecimalUtil;
 import com.chouchong.utils.TimeUtils;
+import com.chouchong.utils.sms.SentUtil2;
 import com.chouchong.utils.sms.VerifyCode;
 import com.chouchong.utils.sms.VerifyCodeRepository;
 import com.gexin.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.yunpian.sdk.model.SmsSingleSend;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -93,6 +97,12 @@ public class TurnoverServiceImpl implements TurnoverService {
 
     @Autowired
     private ElUserCouponMapper elUserCouponMapper;
+
+    @Resource
+    private ActivityMapper activityMapper;
+
+    @Resource
+    private AppUserMapper appUserMapper;
 
     /**
      * 获取营业额统计列表
@@ -496,10 +506,14 @@ public class TurnoverServiceImpl implements TurnoverService {
         rebate.setAdminId(adminId);
         rebate.setType((byte) 2);
         addCardRebate(rebate);
+        AppUser appUser = appUserMapper.selectByPrimaryKey(rebate.getUserId());
+        SmsSingleSend smsSingleSend = SentUtil2.testSendSms(appUser.getPhone(), "【礼遇圈】您本次的退款金额是" + record.getExpenseMoney()+ "元，如有疑问，请联系门店收银人员。");
+        System.out.println(smsSingleSend.toString());
+        log.info("traceId:{}, 消费退款记录短信发送成功", traceId);
         log.info("traceId:{},退款记录:{}", traceId, JSON.toJSONString(rebate));
         // 删除消费记录
-        memberExpenseRecordMapper.selectByKey(record.getId());
         int i = memberExpenseRecordMapper.deleteByPrimaryKey(record.getId());
+        memberExpenseRecordMapper.selectByKey(record.getId());
         if (i < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "删除消费记录失败");
         }
@@ -651,6 +665,11 @@ public class TurnoverServiceImpl implements TurnoverService {
         if (i < 1) {
             throw new ServiceException(ErrorCode.ERROR.getCode(), "删除记录失败");
         }
+
+        AppUser appUser = appUserMapper.selectByPrimaryKey(rebate.getUserId());
+        SmsSingleSend smsSingleSend = SentUtil2.testSendSms(appUser.getPhone(), "【礼遇圈】您本次的退款金额是" + add + "元，如有疑问，请联系门店收银人员。");
+        System.out.println(smsSingleSend.toString());
+        log.info("traceId:{}, 充值退款记录短信发送成功", traceId);
         log.info("traceId:{}, 删除充值记录成功", traceId);
         return ResponseFactory.sucMsg("退款成功");
     }
@@ -659,7 +678,8 @@ public class TurnoverServiceImpl implements TurnoverService {
         String traceId = (String) httpServletRequest.getAttribute("traceId");
         if (record.getMemberEventId() != null) {
             String key = "add_coupon" + record.getUserId();
-            MemberEvent memberEvent = memberEventMapper.selectByPrimaryKey(record.getMemberEventId());
+            MemberEvent memberEvent = activityMapper.selectByPrimaryKey(record.getMemberEventId());
+           // MemberEvent memberEvent = memberEventMapper.selectByPrimaryKey(record.getMemberEventId());
             if (memberEvent == null) {
                 throw new ServiceException(ErrorCode.ERROR.getCode(), "会员卡活动出错");
             }

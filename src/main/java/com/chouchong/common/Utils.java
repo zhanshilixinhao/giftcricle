@@ -3,6 +3,8 @@ package com.chouchong.common;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @author yichenshanren
@@ -70,5 +72,13 @@ public class Utils {
         double d = -1;
         d  = Double.parseDouble(amount);
         return 0;
+    }
+
+    public static String getNowtime() {
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date curDate = new Date(System.currentTimeMillis());
+        String str = formatter.format(curDate);
+        return str;
     }
 }

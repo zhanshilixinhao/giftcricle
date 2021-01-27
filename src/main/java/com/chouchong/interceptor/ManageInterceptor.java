@@ -47,6 +47,7 @@ public class ManageInterceptor extends OncePerRequestFilter {
         /*hashSet.add("/manage/item/detail");*/
         // 不拦截图片上传，会不会有问题？
         hashSet.add("/manage/upload/image");
+        //hashSet.add("/manage/itemSku/isGroup");
 
     }
 

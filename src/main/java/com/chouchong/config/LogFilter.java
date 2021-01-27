@@ -165,6 +165,7 @@ public class LogFilter extends OncePerRequestFilter {
             super(new OutputStreamWriter(responseWrapper.getOutputStream()));
         }
 
+        @Override
         public void write(char[] buf, int off, int len) {
             super.write(buf, off, len);
             super.flush();

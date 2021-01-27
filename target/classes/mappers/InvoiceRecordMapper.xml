@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.v3.InvoiceRecordMapper">
+    <resultMap id="BaseResultMap" type="com.chouchong.entity.v3.InvoiceRecord">
+        <constructor>
+            <arg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="card_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="amount" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+            <arg column="summary" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="store_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        </constructor>
+    </resultMap>
+    <insert id="insert" parameterType="com.chouchong.entity.v3.InvoiceRecord">
+    insert into invoice_record (id, card_id, user_id,
+      amount, summary, admin_id,
+      store_id, updated, created,image
+      )
+    values (#{id,jdbcType=INTEGER}, #{cardId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
+      #{amount,jdbcType=DECIMAL}, #{summary,jdbcType=VARCHAR}, #{adminId,jdbcType=INTEGER},
+      #{storeId,jdbcType=INTEGER}, now(),now(), #{image,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.chouchong.entity.v3.InvoiceRecord">
+        insert into invoice_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="card_id != null">
+                card_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="amount != null">
+                amount,
+            </if>
+            <if test="summary != null">
+                summary,
+            </if>
+            <if test="adminId != null">
+                admin_id,
+            </if>
+            <if test="storeId != null">
+                store_id,
+            </if>
+            <if test="updated != null">
+                updated,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="cardId != null">
+                #{cardId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="amount != null">
+                #{amount,jdbcType=DECIMAL},
+            </if>
+            <if test="summary != null">
+                #{summary,jdbcType=VARCHAR},
+            </if>
+            <if test="adminId != null">
+                #{adminId,jdbcType=INTEGER},
+            </if>
+            <if test="storeId != null">
+                #{storeId,jdbcType=INTEGER},
+            </if>
+            <if test="updated != null">
+                #{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="created != null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="selectByUserIdCardId" resultType="com.chouchong.service.v3.vo.InvoiceVo">
+        select a.id,
+       a.amount,
+       a.summary,
+       a.store_id,
+       a.created,
+       a.image,
+       s.name as storeName
+from invoice_record a
+left join store s on a.store_id = s.id
+where a.card_id = #{cardId}
+and a.user_id = #{userId}
+order by a.created DESC
+  </select>
+    <select id="selectByKey" resultType="com.chouchong.service.v3.vo.InvoiceVo">
+        select a.id,
+        a.amount,
+        a.summary,
+        a.store_id,
+        a.created,
+        a.image,
+        s.name as storeName,
+        a.user_id,
+        c.nickname,
+        c.phone
+        from invoice_record a
+        left join store s on a.store_id = s.id
+        left join app_user c on a.user_id = c.id
+        where a.admin_id in
+        <foreach collection="list" open="(" close=")" item="list" separator="," index="index">
+            #{list}
+        </foreach>
+        <if test="phone != null and phone != ''">
+            and c.phone like concat('%',#{phone},'%')
+        </if>
+        <if test="startTime != null and endTime != null">
+            and unix_timestamp(a.created) &gt;= #{startTime}
+            and unix_timestamp(a.created) &lt; #{endTime}
+        </if>
+        order by a.created DESC
+    </select>
+    <select id="selectByKey1" resultType="com.chouchong.service.v3.vo.InvoiceVo">
+        select a.id,
+        a.amount,
+        a.summary,
+        a.store_id,
+        a.created,
+        a.image,
+        s.name as storeName,
+        a.user_id,
+        c.nickname,
+        c.phone
+        from invoice_record a
+        left join store s on a.store_id = s.id
+        left join app_user c on a.user_id = c.id
+        where 1=1
+        <if test="adminId != null ">
+            and a.admin_id = #{adminId}
+        </if>
+        <if test="phone != null and phone != ''">
+            and c.phone like concat('%',#{phone},'%')
+        </if>
+        <if test="startTime != null and endTime != null">
+            and unix_timestamp(a.created) &gt;= #{startTime}
+            and unix_timestamp(a.created) &lt; #{endTime}
+        </if>
+        order by a.created DESC
+    </select>
+</mapper>

@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chouchong.dao.home.WelfareMapper">
+  <resultMap id="BaseResultMap" type="com.chouchong.entity.home.Welfare">
+<!--    <constructor>-->
+<!--      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+<!--      <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />-->
+<!--      <arg column="cover" javaType="java.lang.String" jdbcType="VARCHAR" />-->
+<!--      <arg column="type" javaType="java.lang.Byte" jdbcType="TINYINT" />-->
+<!--      <arg column="target_id" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+<!--      <arg column="quantity" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+<!--      <arg column="admin_id" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+<!--      <arg column="target_date" javaType="java.util.Date" jdbcType="TIMESTAMP" />-->
+<!--      <arg column="created" javaType="java.util.Date" jdbcType="TIMESTAMP" />-->
+<!--      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />-->
+<!--      <arg column="start_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />-->
+<!--      <arg column="end_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />-->
+<!--      <arg column="count" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+<!--      <arg column="is_code" javaType="java.lang.Byte" jdbcType="TINYINT" />-->
+<!--      <arg column="code" javaType="java.lang.String" jdbcType="VARCHAR" />-->
+<!--    </constructor>-->
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, title, cover, `type`, target_id, quantity, admin_id, target_date, created, updated,
+    start_time, end_time, `count`, `is_code`, `code`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from welfare
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAllByTime" resultType="com.chouchong.entity.home.Welfare">
+    select a.*
+    from (
+    select
+    a.*,
+    b.price
+    from welfare a
+    left join item_sku b on a.target_id = b.id
+    where a.type = 1
+    union all
+    select
+    a.*,
+    b.price
+    from welfare a
+    left join virtual_item b on a.target_id = b.id
+    where a.type = 2
+    union all
+    select
+    a.*,
+    0 as price
+    from welfare a
+    where a.type = 3
+    ) a
+    where now()>= start_time
+    and now() &lt; end_time
+
+  </select>
+  <select id="selectAllBySearch" resultType="com.chouchong.service.home.welfare.vo.WelfareVo">
+    select a.*
+    from (
+    select
+    a.id ,
+    a.type,
+    a.title,
+    a.target_id,
+    a.quantity,
+    a.target_date,
+    a.start_time,
+    a.end_time,
+    a.count,
+    a.created,
+    a.is_code,
+    a.code,
+    b.cover,
+    b.title as itemTitle,
+    d.name as brand
+    from welfare a
+    left join item_sku b on a.target_id = b.id
+    left join item c on b.item_id = c.id
+    left join brand d on d.id = c.brand_id
+    where a.type = 1
+    union
+    select
+    a.id ,
+    a.type,
+    a.title,
+    a.target_id,
+    a.quantity,
+    a.target_date,
+    a.start_time,
+    a.end_time,
+    a.count,
+    a.created,
+    a.is_code,
+    a.code,
+    b.cover,
+    b.name as itemTitle,
+    c.name as brand
+    from welfare a
+    left join virtual_item b on a.target_id = b.id
+    left join virtual_item_brand c on b.brand_id = c.id
+    where a.type = 2
+    union
+    select
+    a.id ,
+    a.type,
+    a.title,
+    a.target_id,
+    a.quantity,
+    a.target_date,
+    a.start_time,
+    a.end_time,
+    a.count,
+    a.created,
+    a.is_code,
+    a.code,
+    b.cover,
+    b.title as itemTitle,
+    b.brand_name as brand
+    from welfare a
+    left join coupon b on a.target_id = b.id
+    where a.type = 3
+    ) a
+    <where>
+      <trim suffixOverrides="and">
+        <if test="title != null and title != ''">
+          a.title LIKE CONCAT('%', #{title}, '%') and
+        </if>
+        <if test="type != null">
+          a.type = #{type} and
+        </if>
+      </trim>
+    </where>
+    order by a.created DESC
+  </select>
+  <select id="selectAll" resultType="com.chouchong.entity.home.Welfare">
+    select
+    *
+    from welfare
+    where is_code = 1
+  </select>
+  <select id="selectAllById" resultType="com.chouchong.entity.home.Welfare">
+    select
+    *
+    from welfare
+    where is_code = 1
+    and id != #{id}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from welfare
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chouchong.entity.home.Welfare">
+    insert into welfare (id, title, cover,
+      type, target_id, quantity,
+      admin_id, target_date, created,
+      updated, start_time, end_time,
+      count, is_code,code)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR},
+      #{type,jdbcType=TINYINT}, #{targetId,jdbcType=INTEGER}, #{quantity,jdbcType=INTEGER},
+      #{adminId,jdbcType=INTEGER}, #{targetDate,jdbcType=TIMESTAMP}, now(),
+      now(), #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP},
+      #{count,jdbcType=INTEGER},#{isCode,jdbcType=TINYINT},#{code,jdbcType=VARCHAR} )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chouchong.entity.home.Welfare">
+    insert into welfare
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="cover != null">
+        cover,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="targetId != null">
+        target_id,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="adminId != null">
+        admin_id,
+      </if>
+      <if test="targetDate != null">
+        target_date,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="count != null">
+        count,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="cover != null">
+        #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="targetId != null">
+        #{targetId,jdbcType=INTEGER},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="adminId != null">
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="targetDate != null">
+        #{targetDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="count != null">
+        #{count,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chouchong.entity.home.Welfare">
+    update welfare
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="cover != null">
+        cover = #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="targetId != null">
+        target_id = #{targetId,jdbcType=INTEGER},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="adminId != null">
+        admin_id = #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="targetDate != null">
+        target_date = #{targetDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = now(),
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="count != null">
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="isCode != null">
+        is_code = #{isCode,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chouchong.entity.home.Welfare">
+    update welfare
+    set title = #{title,jdbcType=VARCHAR},
+      cover = #{cover,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      target_id = #{targetId,jdbcType=INTEGER},
+      quantity = #{quantity,jdbcType=INTEGER},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      target_date = #{targetDate,jdbcType=TIMESTAMP},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      count = #{count,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
