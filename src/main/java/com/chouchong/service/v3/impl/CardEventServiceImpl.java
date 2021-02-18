@@ -79,7 +79,6 @@ public class CardEventServiceImpl implements CardEventService {
      */
     @Override
     public Response getCardEventList(String title, Byte type, PageQuery page) {
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
         WebUserInfo webUserInfo = (WebUserInfo) httpServletRequest.getAttribute("user");
         // 平台商登录
         Integer adminId = null;
@@ -88,10 +87,11 @@ public class CardEventServiceImpl implements CardEventService {
             if (webUserInfo.getRoleId() == 3) {
                 adminId = webUserInfo.getSysAdmin().getId();
             }
+            PageHelper.startPage(page.getPageNum(), page.getPageSize());
             Example example = new Example(MemberEvent.class);
             Example.Criteria criteria = example.createCriteria();
             criteria.andEqualTo("adminId", adminId);
-            if (title!=null||title!="") {
+            if (title!=null&&title!="") {
                 criteria.andLike("title", "%"+title+"%");
             }
             if (type!=null) {
@@ -142,10 +142,12 @@ public class CardEventServiceImpl implements CardEventService {
                     eventVo.setStores(stores);
                 }
             }*/
+            int i = activityMapper.selectCountByExample(example);
             PageInfo pageInfo = new PageInfo<>(list);
-            return ResponseFactory.page(list, pageInfo.getTotal(), pageInfo.getPages(),
+            return ResponseFactory.page(list, i, pageInfo.getPages(),
                     pageInfo.getPageNum(), pageInfo.getPageSize());
         } else {
+            PageHelper.startPage(page.getPageNum(), page.getPageSize());
             // 礼遇圈（所有礼遇圈添加的可看）
             List<Integer> adminIds = sysAdminRoleMapper.selectIdByRoleId(webUserInfo.getRoleId());
             List<EventVo> eventVos = memberEventMapper.selectAllByAdminIds(adminIds, title, type);

@@ -89,7 +89,7 @@ public class ElCouponController {
     /**
      * 添加平台商优惠券
      *
-     * @param coupon
+     * @param： coupon
      * @return
      */
     @PostMapping("add")
@@ -128,7 +128,6 @@ public class ElCouponController {
      * @Author: LxH
      * @Date: 2020/9/23 16:37
      */
-    @PostMapping("updatePrivilegeCoupons")
     public Response updatePrivilegeCoupons(PrivilegeCoupons privilegeCoupons){
         if (StringUtils.isAnyBlank(privilegeCoupons.getTitle(), privilegeCoupons.getSummary(), privilegeCoupons.getStoreIds())) {
             return ResponseFactory.errMissingParameter();

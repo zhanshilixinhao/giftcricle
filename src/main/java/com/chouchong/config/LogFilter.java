@@ -171,11 +171,13 @@ public class LogFilter extends OncePerRequestFilter {
             super.flush();
         }
 
+        @Override
         public void write(String s, int off, int len) {
             super.write(s, off, len);
             super.flush();
         }
 
+        @Override
         public void write(int c) {
             super.write(c);
             super.flush();
