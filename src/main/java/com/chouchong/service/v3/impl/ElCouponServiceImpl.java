@@ -381,8 +381,10 @@ public class ElCouponServiceImpl implements ElCouponService {
 
         }else {}*/
         privilegeCoupons1.setDay(privilegeCoupons.getDay());
-        privilegeCoupons1.setDate(privilegeCoupons.getDate());
-        privilegeCoupons1.setStartTime(privilegeCoupons.getStartTime());
+        if (privilegeCoupons.getDate()!=null&&privilegeCoupons.getStartTime()!=null) {
+            privilegeCoupons1.setDate(privilegeCoupons.getDate());
+            privilegeCoupons1.setStartTime(privilegeCoupons.getStartTime());
+        }
         /*if (privilegeCoupons.getStartTime()!=null) {
 
         } else {

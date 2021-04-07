@@ -4,8 +4,8 @@ spring:
     username: root
     password: 1MhJK1tH9n60g1&L9Lqm
     #password: root
-    url: jdbc:mysql://45.40.206.174:3306/testV4?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
-    #url: jdbc:mysql://localhost:3306/mpmalluser?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    #url: jdbc:mysql://45.40.206.174:3306/testV4?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://45.40.206.174:3306/mpmalluser?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
     driver-class-name:
 # 指定自定义的数据库连接池替换默认的
     type: com.alibaba.druid.pool.DruidDataSource
@@ -97,7 +97,7 @@ yichen:
 #      chouchong:
 #        dao: debug
 server:
-  port: 9002
+  port: 8080
 
 logging:
   #  path: /home/lin/IdeaProjects/java/liyuquan/GiftCircle_Service/

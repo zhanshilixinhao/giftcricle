@@ -72,7 +72,8 @@ public class RebateCouponServiceImpl implements RebateCouponService {
             return ResponseFactory.err("折扣卷不存在！！");
         }
         Store store = storeMapper.selectByPrimaryKey(rebateCoupon.getStoreId());
-        rebateCoupon.setStoreName(store.getName()).setStoreAddress(store.getArea()+store.getAddress());
+        rebateCoupon.setQrcodeType(4).
+        setTitle("折扣："+rebateCoupon.getRebate()+";"+"适用店铺："+store.getName()).setStoreAddress(store.getArea()+store.getAddress());
         return ResponseFactory.sucData(rebateCoupon);
     }
 

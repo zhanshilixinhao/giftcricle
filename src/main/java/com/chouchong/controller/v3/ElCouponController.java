@@ -128,6 +128,7 @@ public class ElCouponController {
      * @Author: LxH
      * @Date: 2020/9/23 16:37
      */
+    @PostMapping("updatePrivilegeCoupons")
     public Response updatePrivilegeCoupons(PrivilegeCoupons privilegeCoupons){
         if (StringUtils.isAnyBlank(privilegeCoupons.getTitle(), privilegeCoupons.getSummary(), privilegeCoupons.getStoreIds())) {
             return ResponseFactory.errMissingParameter();

@@ -56,7 +56,13 @@ public class RebateCoupon {
     private String storeAddress;
 
     @Transient
+    private String title;
+
+    @Transient
     private List<RebateCouponBeInvited> rebateCouponBeInvitedList;
+
+    @Transient
+    private Integer qrcodeType;
 
 
     public static final String USER_ID = "userId";

@@ -122,7 +122,7 @@ ElUserCoupon elUserCoupon = elUserCouponMapper.selectByPrimaryKey(1);
     @Test
     public void login() throws IOException {
         RequestParams params = new RequestParams();
-        params.put("username", "waipowu");
+        params.put("username", "waipo");
         params.put("password", "E10ADC3949BA59ABBE56E057F20F883E");
         Response response = OkHttpUtil.post(new OkHttpClient(),
                 "http://localhost:9002/manage/user/login", params);

@@ -269,6 +269,9 @@ public class ShareCouponServiceImpl implements ShareCouponService {
             }
             shareCouponUser.setStoreName(titles.delete(titles.length()-1,titles.length()).toString()).
                     setLogo(shareCoupon.getLogo()).setQrcodeType(3);
+            shareCouponUser.setTitle("分享券标题："+shareCouponUser.getTitle()+";"+"有效期至："+shareCouponUser.getEndTime()+";"+
+                    "适用店铺："+titles.delete(titles.length()-1,titles.length()).toString()+";"+
+                    "适用规则"+shareCoupon.getRule());
             return ResponseFactory.sucData(shareCouponUser);
         }
         return ResponseFactory.sucMsg("分享劵不存在");
